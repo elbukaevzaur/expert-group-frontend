@@ -218,6 +218,30 @@ a {
   margin: 0 0 0 6px;
 }
 
+.navigator__wrapper{
+  display: flex;
+  width: 1214px;
+  margin: 20px auto 0;
+}
+
+.navigator__back{
+  display: flex;
+  margin-right: 15px;
+}
+
+.navigator__back_button{
+  all: unset;
+  cursor: pointer;
+}
+
+.navigator__back_text{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  margin: 0 0 0 7px;
+  cursor: pointer;
+}
+
 /**FOOTER**/
 
 .footer {
@@ -378,27 +402,7 @@ a {
   margin: 20px auto 0;
 }
 
-.products__wrapper{
-  display: flex;
-}
 
-.products__back{
-  display: flex;
-  margin-right: 15px;
-}
-
-.products__back_button{
-  all: unset;
-  cursor: pointer;
-}
-
-.products__back_text{
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 20px;
-  margin: 0 0 0 7px;
-  cursor: pointer;
-}
 
 .products__info_wrapper{
   display: flex;
@@ -496,6 +500,11 @@ a {
   display: flex;
 }
 
+.item__like {
+  all: unset;
+  cursor: pointer;
+}
+
 .item__basket{
   width: 115px;
   height: 41px;
@@ -556,15 +565,19 @@ a {
   cursor: pointer;
 }
 
-.items__button_number.first {
+.items__button_number_first {
   border-top-left-radius: 8px;
   border-bottom-left-radius: 8px;
 }
 
-.items__button_number.last {
+.items__button_number_last {
   border-right: 2px solid #A9A9A9;
   border-top-right-radius: 8px;
   border-bottom-right-radius: 8px;
+}
+
+.items__button_number_active {
+  border: 3px solid #21a038;
 }
 
 .items__button_number_text{
@@ -574,8 +587,296 @@ a {
   line-height: 20px;
 }
 
+.items__button_number_text_active {
+  color: #21a038;
+}
+
 .items__button_right {
   all: unset;
   cursor: pointer;
   margin-left: 15px;
+}
+
+/** DETALIS **/
+
+.detalis {
+  width: 1214px;
+  margin: 45px auto 0;
+}
+
+.detalis__title {
+  margin: 0;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 400;
+}
+
+.detalis__info {
+  margin-top: 45px;
+  display: flex;
+}
+
+.detalis__container {
+  width: 532px;
+}
+
+.detalis__image {
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  border-radius: 20px;
+  background-color: #21a038;
+}
+
+.detalis__wrraper {
+  display: flex;
+  margin-top: 18px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detalis__button_show {
+  all: unset;
+  cursor: pointer;
+  display: flex;
+}
+
+.detalis__button_show_text {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 25px;
+  color: #209C36;
+  margin-left: 10px;
+}
+
+.detalis__button_like {
+  display: flex;
+  background-color: #209C36;
+  border-radius: 10px;
+  width: 156px;
+  height: 43px;
+  align-items: center;  
+  justify-content: center;
+}
+
+.detalis__button_like_text {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15px;
+  color: #ffffff;
+  margin-left: 15px;
+}
+
+.detalis__description {
+  margin: 20px 0 0 52px;
+}
+
+.detalis__description_text {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 24px;
+  width: 227px;
+}
+
+.detalis__description_margin {
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.detalis__description_image {
+  margin: 10px 0 0 -15px;
+}
+
+.detalis__price {
+  margin-left: 8px;
+  width: 397px;
+  height: 394px;
+}
+
+.detalis__price_buy {
+  height: 244px;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  border-radius: 15px;
+  padding: 38px 30px 26px;
+  box-sizing: border-box;
+}
+
+.detalis__price_buy_wrraper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.detalis__price_buy_title {
+  font-size: 37px;
+  font-weight: 700;
+  line-height: 43px;
+}
+
+.detalis__price_buy_width{
+  width: 93px;
+}
+
+.detalis__price_buy_margin {
+  margin-top: 11px;
+}
+
+.detalis__price_buy_like {
+  all: unset;
+  cursor: pointer;
+}
+
+.detalis__price_buy_text {
+  font-size: 23px;
+  font-weight: 500;
+  line-height: 27px;
+}
+
+.detalis__price_buy_subtitle{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  color: #21a038;
+}
+
+.detalis__price_button {
+  width: 100%;
+  height: 41px;
+  background-color: #21a038;
+  border-radius: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 13px;
+}
+
+.detalis__price_button_color{
+  background-color: #ffffff;
+  border: 1px solid #21a038;
+}
+
+.detalis__price_button_text{
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15px;
+  color: #ffffff;
+  margin: 0 0 0 9px;
+}
+
+.detalis__price_button_text_color {
+  color: #21a038;
+}
+
+.detalis__price_info {
+  width: 397px;
+  height: 160px;
+  margin-top: -10px;
+  border: 2px solid #21a038;
+  border-radius: 0 0 15px 15px;
+  border-top: 0;
+}
+
+.detalis__price_info{
+  padding: 30px 0 25px 30px;
+}
+
+.detalis__price_info_text{
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 15px;
+  margin: 0 0 10px 0;
+}
+
+.detalis__price_info_text:last-of-type {
+  margin-bottom: 0;
+}
+
+.detalis__price_info_text_weight {
+  font-weight: 700;
+}
+
+.detalis__navigator{
+  margin: 80px auto 0;
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 130px);
+}
+
+.detalis__navigator_button {
+  width: 135px;
+  height: 57px;
+  border: 1px solid #21a038;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.detalis__navigator_button_width {
+  width: 200px;
+}
+
+.detalis__navigator_button_active {
+  background-color: #21a038;
+}
+
+.detalis__navigator_text {
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 17;
+  color: #1D1D1B;
+}
+
+.detalis__navigator_text_active {
+  color: #ffffff;
+}
+
+.detalis__show{
+  margin: 55px 0 0 0;
+  position: relative;
+}
+
+.detalis__show_button_left{
+  position: absolute;
+  top: 250px;
+  left: 0;
+  width: 56px;
+  height: 86px;
+  background-color: rgba(33, 160, 56, 0.49);
+  border-radius: 0 8px 8px 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.detalis__show_button_right{
+  position: absolute;
+  top: 250px;
+  right: 0;
+  width: 56px;
+  height: 86px;
+  background-color: rgba(33, 160, 56, 0.49);
+  border-radius: 8px 0 0 8px;
+  border: 0;
+  cursor: pointer;
+}
+
+.detalis__swipe {
+  width: 222px;
+  height: 22px;
+  margin: 35px auto 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.detalis__swipe_circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #D9D9D9;
+}
+
+.detalis__swipe_circle_active {
+  background-color: #21a038;
 }

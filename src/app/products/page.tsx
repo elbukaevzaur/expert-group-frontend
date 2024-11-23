@@ -7,15 +7,6 @@ export default function Products() {
     const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
         <div className="products">
-            <div className="products__wrapper">
-                <div className="products__back">
-                    <button className="products__back_button">
-                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14}/>
-                    </button>
-                    <u className="products__back_text">Назад</u>
-                </div>
-                <h3 className="products__back_text">Главная / Карнизы потолочные</h3>
-            </div>
             <div className="products__info_wrapper">
                 <h1 className="products__title">КАРНИЗЫ ПОТОЛОЧНЫЕ</h1>
                 <div className="products__info">
@@ -37,11 +28,11 @@ export default function Products() {
                 <button className="items__button_left">
                     <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17}/>
                 </button>
-                <button className="items__button_number first">
+                <button className="items__button_number items__button_number_first">
                     <h3 className="items__button_number_text">1</h3>
                 </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">2</h3>
+                <button className="items__button_number items__button_number_active">
+                    <h3 className="items__button_number_text items__button_number_text_active">2</h3>
                 </button>
                 <button className="items__button_number">
                     <h3 className="items__button_number_text">3</h3>
@@ -52,7 +43,7 @@ export default function Products() {
                 <button className="items__button_number">
                     <h3 className="items__button_number_text">...</h3>
                 </button>
-                <button className="items__button_number last">
+                <button className="items__button_number items__button_number_last">
                     <h3 className="items__button_number_text">20</h3>
                 </button>
                 <button className="items__button_right">

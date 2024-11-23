@@ -1,13 +1,14 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation"
 
 export default function Dashboard(){
-
+    const router = useRouter()
     return (
         <header className="header">
         <div className="dashboar">
             <Link href='/'><Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true}/></Link>
-            {/* <Link href='/products'>Products</Link> */}
             <div className="location">
                 <Image src={'/images/Location.png'} alt="Локация" width={14} height={18}/>
                 <h3 className="location__text">Москва</h3>
@@ -63,6 +64,15 @@ export default function Dashboard(){
                 <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8}/>
             </div>
         </div>
+        <div className="navigator__wrapper">
+                <div className="navigator__back" onClick={router.back}>
+                    <button className="navigator__back_button">
+                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14}/>
+                    </button>
+                    <u className="navigator__back_text">Назад</u>
+                </div>
+                <h3 className="navigator__back_text">Главная / Карнизы потолочные</h3>
+            </div>
         </header>
     )
 }

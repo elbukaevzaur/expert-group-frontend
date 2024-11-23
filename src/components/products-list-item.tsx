@@ -17,7 +17,7 @@ export default function ProductsListItem() {
                         <h2 className="item__price">515 &#8381;</h2>
                     </div>
                     <div className="item__action">
-                        <button className="products__back_button">
+                        <button className="item__like">
                             <Image src={'/images/Like.png'} alt="Лайк" width={28} height={24}/>
                         </button>
                         <button className="item__basket">
