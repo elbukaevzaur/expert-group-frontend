@@ -1,10 +1,13 @@
+'use client'
+
 import ProductsFilter from "@/components/products-filter";
-import ProductsListItem from "@/components/products-list-item";
-import Link from "next/link";
 import Image from "next/image";
+import { useAppSelector } from "@/lib/hooks";
+import { ProductsListItem } from "@/components/products-list-item";
 
 export default function Products() {
-    const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const { list } = useAppSelector((state) => state.products);
+
     return (
         <div className="products">
             <div className="products__info_wrapper">
@@ -16,8 +19,8 @@ export default function Products() {
             <ProductsFilter />
             <div className="items">
             {
-                products.map((m, index) => {
-                    return <ProductsListItem key={index}/>
+                list.map((item, index) => {
+                    return <ProductsListItem key={index} product={item}/>
                 })
             }
             </div>
