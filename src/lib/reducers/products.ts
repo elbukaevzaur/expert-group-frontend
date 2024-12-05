@@ -1,47 +1,42 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { PageResponse } from '../models/pageResponse';
+
+interface ProductsState {
+    allProducts: PageResponse;
+    pageable: {
+        page: number,
+        perPage: number
+    }
+}
+
+const initialState: ProductsState = {
+    allProducts: {
+        totalPages: 0,
+        currentPage: 0,
+        perPage: 0,
+        content: []
+    },
+    pageable: {
+        page: 0,
+        perPage: 0
+    }
+};
 
 const products = createSlice({
     name: 'profile',
-    initialState: {
-        list: [{
-            id: 1,
-            name: 'Test 1',
-            price: 200,
-            currentQuantity: 0
-        },{
-            id: 2,
-            name: 'Test 2',
-            price: 200,
-            currentQuantity: 300
-        },{
-            id: 3,
-            name: 'Test 3',
-            price: 200,
-            currentQuantity: 300
-        },{
-            id: 4,
-            name: 'Test 4',
-            price: 200,
-            currentQuantity: 300
-        },{
-            id: 5,
-            name: 'Test 5',
-            price: 200,
-            currentQuantity: 300
-        },]
-    },
+    initialState,
     reducers: {
-        SET_NAME: (state, action) => {
-            // state.name = action.payload;
-        },
         PRODUCTS_FETCH_REQUESTED: (state) => {
-
         },
         PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
-
+            state.allProducts = action.payload;
+            state.pageable = {
+                page: action.payload.currentPage,
+                perPage: action.payload.perPage
+            }
         }
     }
 });
 
-export const { SET_NAME, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_RESPONSE_SUCCESS } = products.actions;
+export const { PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_RESPONSE_SUCCESS } = products.actions;
 export default products.reducer;

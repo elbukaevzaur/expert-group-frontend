@@ -14,7 +14,7 @@ export const store = () => {
             getDefaultMiddleware().concat(sagaMiddleware),
     });
 
-    sagaMiddleware.run(productsSaga); // Запустите вашу сагу
+    sagaMiddleware.run(productsSaga);
 
     return store;
 };

@@ -8,7 +8,7 @@ import { PRODUCTS_FETCH_REQUESTED } from "@/lib/reducers/products";
 import { useEffect } from "react";
 
 export default function Products() {
-    const { list } = useAppSelector((state) => state.products);
+    const { allProducts, pageable } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -30,7 +30,7 @@ export default function Products() {
             <ProductsFilter />
             <div className="items">
                 {
-                    list.map((item, index) => {
+                    allProducts.content.map((item, index) => {
                         return <ProductsListItem key={index} product={item} />
                     })
                 }
@@ -42,24 +42,25 @@ export default function Products() {
                 <button className="items__button_left">
                     <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
                 </button>
-                <button className="items__button_number items__button_number_first">
-                    <h3 className="items__button_number_text">1</h3>
-                </button>
-                <button className="items__button_number items__button_number_active">
-                    <h3 className="items__button_number_text items__button_number_text_active">2</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">3</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">4</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">...</h3>
-                </button>
-                <button className="items__button_number items__button_number_last">
-                    <h3 className="items__button_number_text">20</h3>
-                </button>
+                {
+                    Array.from({ length: allProducts.totalPages }, (v, i) => {
+                        i++;
+                        var buttonClass = 'items__button_number';
+                        var textClass = 'items__button_number_text'
+                        if (i == 1) {
+                            buttonClass += ' items__button_number_first';
+                        } else if (i == allProducts.totalPages) {
+                            buttonClass += ' items__button_number_last';
+                        }
+                        if (i == allProducts.currentPage) {
+                            buttonClass += ' items__button_number_active';
+                            textClass += ' items__button_number_text_active';
+                        }
+                        return <button className={buttonClass} key={i}>
+                            <h3 className={textClass}>{i}</h3>
+                        </button>
+                    })
+                }
                 <button className="items__button_right">
                     <Image src={'/images/Vector_right.png'} alt="Лево" width={9} height={17} />
                 </button>
