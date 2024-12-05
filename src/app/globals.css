@@ -638,6 +638,12 @@ a {
   all: unset;
   cursor: pointer;
   display: flex;
+  width: 190px;
+  background-image: url(/images/Show_3D.png);
+  background-position: left;
+  background-repeat: no-repeat;
+  background-size: contain;
+  justify-content: end;
 }
 
 .detalis__button_show_text {
@@ -656,6 +662,12 @@ a {
   height: 43px;
   align-items: center;  
   justify-content: center;
+  border: none;
+  background-image: url(/images/Like_white.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  background-size: 24px;
+  cursor: pointer;
 }
 
 .detalis__button_like_text {
@@ -743,6 +755,7 @@ a {
   height: 41px;
   background-color: #21a038;
   border-radius: 9px;
+  border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -750,8 +763,13 @@ a {
   margin-top: 13px;
 }
 
+.detalis__price_button:hover {
+  background-color: transparent;
+  border: 1px solid #21a038;
+}
+
 .detalis__price_button_color{
-  background-color: #ffffff;
+  background-color: transparent;
   border: 1px solid #21a038;
 }
 
@@ -827,6 +845,11 @@ a {
   font-weight: 700;
   line-height: 17;
   color: #1D1D1B;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .detalis__navigator_text_active {
@@ -1048,18 +1071,42 @@ a {
   margin: 45px 0 0;
 }
 
+.basket__buy_button:hover {
+  border: 2px solid #21a038;
+  background-color: transparent;
+  color: #21a038;
+}
+
 .basket__buy_button_white {
   border: 2px solid #21a038;
   margin-top: 11px;
   background-color: transparent;
 }
 
+.basket__buy_button_white:hover {  
+  background-color: #21a038;
+  border: none;
+}
+
 .basket__buy_text {
   font-size: 14px;
   font-weight: 500;
   line-height: 16px;
+  color: #ffffff;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.basket__buy_text:hover {
+  color: #21a038;
 }
 
 .basket__buy_text_green {
   color: #21a038;
+}
+
+.basket__buy_text_green:hover {
+  color: #fff;
 }
