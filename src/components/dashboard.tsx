@@ -26,13 +26,15 @@ export default function Dashboard(){
                 <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
                 <h2 className="user__text">Вход</h2>
             </div>
-            <div className="basket">
+            <Link href='/basket'>
+            <div className="dashboar__basket">
                 <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
-                <div className="basket__container">
-                    <h2 className="bascet__text">Корзина</h2>
-                    <h3 className="bascet__info">пусто</h3>
+                <div className="dashboar__basket_container">
+                    <h2 className="dashboar__bascet_text">Корзина</h2>
+                    <h3 className="dashboar__bascet_info">пусто</h3>
                 </div>
             </div>
+            </Link>
         </div>
         <div className="navigator">
             <div className="navigator__container navigator__container_white">

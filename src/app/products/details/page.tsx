@@ -8,12 +8,9 @@ export default function ProductDetails(){
                 <div className="detalis__container">
                 <Image className="detalis__image" src={'/images/image_detalis.png'} alt="Карниз" width={532} height={394}/>
                 <div className="detalis__wrraper">
-                    <button className="detalis__button_show">
-                        <Image src={'/images/Show_3D.png'} alt="Посмотреть в 3D" width={23} height={25}/>
-                        <h3 className="detalis__button_show_text">Посмотреть в 3D</h3>
+                    <button className="detalis__button_show">                        <h3 className="detalis__button_show_text">Посмотреть в 3D</h3>
                     </button>
                     <button className="detalis__button_like">
-                    <Image src={'/images/Like_white.png'} alt="Лайк" width={24} height={22}/>
                     <h3 className="detalis__button_like_text">В ИЗБРАННОЕ</h3>
                     </button>
                 </div>
