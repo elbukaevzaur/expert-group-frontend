@@ -33,9 +33,15 @@ const products = createSlice({
     reducers: {
         SET_NAME: (state, action) => {
             // state.name = action.payload;
+        },
+        PRODUCTS_FETCH_REQUESTED: (state) => {
+
+        },
+        PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
+
         }
     }
 });
 
-export const { SET_NAME } = products.actions;
+export const { SET_NAME, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_RESPONSE_SUCCESS } = products.actions;
 export default products.reducer;
