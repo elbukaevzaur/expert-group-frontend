@@ -26,10 +26,23 @@ const products = createSlice({
     name: 'profile',
     initialState,
     reducers: {
-        PRODUCTS_FETCH_REQUESTED: (state) => {
+        PRODUCTS_FETCH_REQUESTED: (state, action) => {
         },
         PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.allProducts = action.payload;
+            state.pageable = {
+                page: action.payload.currentPage,
+                perPage: action.payload.perPage
+            }
+        },
+        PRODUCTS_SHOW_MORE_FETCH_REQUESTED: (state, action) => {
+
+        },
+        PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS: (state, action) => {
+            state.allProducts.currentPage = action.payload.currentPage;
+            state.allProducts.perPage = action.payload.perPage;
+            state.allProducts.totalPages = action.payload.totalPages;
+            state.allProducts.content = [...state.allProducts.content, ...action.payload.content]
             state.pageable = {
                 page: action.payload.currentPage,
                 perPage: action.payload.perPage
@@ -38,5 +51,8 @@ const products = createSlice({
     }
 });
 
-export const { PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_RESPONSE_SUCCESS } = products.actions;
+export const { PRODUCTS_FETCH_REQUESTED,
+    PRODUCTS_FETCH_RESPONSE_SUCCESS,
+    PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
+    PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS } = products.actions;
 export default products.reducer;

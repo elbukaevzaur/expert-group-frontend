@@ -4,7 +4,7 @@ import ProductsFilter from "@/components/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
-import { PRODUCTS_FETCH_REQUESTED } from "@/lib/reducers/products";
+import { PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
 import { useEffect } from "react";
 
 export default function Products() {
@@ -12,11 +12,43 @@ export default function Products() {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        loadProducts();
+        loadProducts({});
     }, [])
 
-    const loadProducts = () => {
-        dispatch(PRODUCTS_FETCH_REQUESTED());
+    const loadProducts = (filterData: any) => {
+        dispatch(PRODUCTS_FETCH_REQUESTED(filterData));
+    }
+
+    const nextPage = () => {
+        const page = {
+            page: (pageable.page + 1),
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const prevPage = () => {
+        const page = {
+            page: (pageable.page - 1),
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const selectPage = (selectPage: number) => {
+        const page = {
+            page: selectPage,
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const showMore = () => {
+        const page = {
+            page: (pageable.page + 1),
+            perPage: pageable.perPage
+        }
+        dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
     return (
@@ -35,11 +67,15 @@ export default function Products() {
                     })
                 }
             </div>
-            <button className="items__more">
-                <h2 className="items__more_text">Показать еще</h2>
-            </button>
+            {
+                pageable.page < allProducts.totalPages &&
+                <button className="items__more" onClick={showMore}>
+                    <h2 className="items__more_text">Показать еще</h2>
+                </button>
+            }
+
             <div className="items__buttons">
-                <button className="items__button_left">
+                <button className="items__button_left" onClick={prevPage}>
                     <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
                 </button>
                 {
@@ -56,13 +92,13 @@ export default function Products() {
                             buttonClass += ' items__button_number_active';
                             textClass += ' items__button_number_text_active';
                         }
-                        return <button className={buttonClass} key={i}>
+                        return <button className={buttonClass} key={i} onClick={() => selectPage(i)}>
                             <h3 className={textClass}>{i}</h3>
                         </button>
                     })
                 }
-                <button className="items__button_right">
-                    <Image src={'/images/Vector_right.png'} alt="Лево" width={9} height={17} />
+                <button className="items__button_right" onClick={nextPage}>
+                    <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17} />
                 </button>
             </div>
         </div>
