@@ -1,53 +1,104 @@
+'use client'
+
 import ProductsFilter from "@/components/products-filter";
-import ProductsListItem from "@/components/products-list-item";
-import Link from "next/link";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { ProductsListItem } from "@/components/products-list-item";
+import { PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
+import { useEffect } from "react";
 
 export default function Products() {
-    const products = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const { allProducts, pageable } = useAppSelector((state) => state.products);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        loadProducts({});
+    }, [])
+
+    const loadProducts = (filterData: any) => {
+        dispatch(PRODUCTS_FETCH_REQUESTED(filterData));
+    }
+
+    const nextPage = () => {
+        const page = {
+            page: (pageable.page + 1),
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const prevPage = () => {
+        const page = {
+            page: (pageable.page - 1),
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const selectPage = (selectPage: number) => {
+        const page = {
+            page: selectPage,
+            perPage: pageable.perPage
+        }
+        loadProducts(page)
+    }
+
+    const showMore = () => {
+        const page = {
+            page: (pageable.page + 1),
+            perPage: pageable.perPage
+        }
+        dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
+    }
+
     return (
         <div className="products">
             <div className="products__info_wrapper">
                 <h1 className="products__title">КАРНИЗЫ ПОТОЛОЧНЫЕ</h1>
                 <div className="products__info">
                     <h3 className="products__info_text">910</h3>
-                    </div>
-            </div>            
+                </div>
+            </div>
             <ProductsFilter />
             <div className="items">
-            {
-                products.map((m, index) => {
-                    return <ProductsListItem key={index}/>
-                })
-            }
+                {
+                    allProducts.content.map((item, index) => {
+                        return <ProductsListItem key={index} product={item} />
+                    })
+                }
             </div>
-            <button className="items__more">
-                <h2 className="items__more_text">Показать еще</h2>
-            </button>
+            {
+                pageable.page < allProducts.totalPages &&
+                <button className="items__more" onClick={showMore}>
+                    <h2 className="items__more_text">Показать еще</h2>
+                </button>
+            }
+
             <div className="items__buttons">
-                <button className="items__button_left">
-                    <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17}/>
+                <button className="items__button_left" onClick={prevPage}>
+                    <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
                 </button>
-                <button className="items__button_number items__button_number_first">
-                    <h3 className="items__button_number_text">1</h3>
-                </button>
-                <button className="items__button_number items__button_number_active">
-                    <h3 className="items__button_number_text items__button_number_text_active">2</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">3</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">4</h3>
-                </button>
-                <button className="items__button_number">
-                    <h3 className="items__button_number_text">...</h3>
-                </button>
-                <button className="items__button_number items__button_number_last">
-                    <h3 className="items__button_number_text">20</h3>
-                </button>
-                <button className="items__button_right">
-                    <Image src={'/images/Vector_right.png'} alt="Лево" width={9} height={17}/>
+                {
+                    Array.from({ length: allProducts.totalPages }, (v, i) => {
+                        i++;
+                        var buttonClass = 'items__button_number';
+                        var textClass = 'items__button_number_text'
+                        if (i == 1) {
+                            buttonClass += ' items__button_number_first';
+                        } else if (i == allProducts.totalPages) {
+                            buttonClass += ' items__button_number_last';
+                        }
+                        if (i == allProducts.currentPage) {
+                            buttonClass += ' items__button_number_active';
+                            textClass += ' items__button_number_text_active';
+                        }
+                        return <button className={buttonClass} key={i} onClick={() => selectPage(i)}>
+                            <h3 className={textClass}>{i}</h3>
+                        </button>
+                    })
+                }
+                <button className="items__button_right" onClick={nextPage}>
+                    <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17} />
                 </button>
             </div>
         </div>
