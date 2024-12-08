@@ -23,7 +23,7 @@ export const CatalogModal = () => {
     return <div style={{ flexDirection: 'column' }}>
         {
             allCategories.map((value, index) => {
-                return <div key={index}><button onClick={() => changeCategory(value.id)} key={index}>{value.name} / {value.productCount}</button></div>
+                return <div key={index}><button className="dropdown-catalog" onClick={() => changeCategory(value.id)} key={index}>{value.name} / {value.productCount}</button></div>
             })
         }
     </div>
