@@ -1,10 +1,12 @@
 "use client"
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
+import { CatalogModal } from './catalogModal';
 
-export default function Dashboard(){
+export default function Dashboard() {
     const router = useRouter()
+
     return (
         <header className="header">
         <div className="dashboar">
@@ -42,6 +44,9 @@ export default function Dashboard(){
             <div className="navigator__container navigator__container_white">
                 <Image src={'/images/Catalog_green.png'} alt="Каталог" width={17} height={10}/>
                 <h3 className="navigator__text navigator__text_white">Каталог</h3>
+                <div className="dropdown-catalog-content">
+                    <CatalogModal />
+                </div>
             </div>
             <div className="navigator__container">
                 <h3 className="navigator__text">О Компании</h3>
@@ -71,7 +76,7 @@ export default function Dashboard(){
         <div className="navigator__wrapper">
                 <div className="navigator__back" onClick={router.back}>
                     <button className="navigator__back_button">
-                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14}/>
+                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14} />
                     </button>
                     <u className="navigator__back_text">Назад</u>
                 </div>
