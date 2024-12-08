@@ -11,11 +11,15 @@ export default function Registration() {
                 <input className="registration__input" type="text" placeholder="E-mail"/>
                 <input className="registration__input" type="text" placeholder="Телефон"/>
             </div>
-                <input type="checkbox" />
+            <div className="registration__wrapper">
+            <input id="registration__checkbox" className="registration__checkbox" type="checkbox" />
+            <label htmlFor="registration__checkbox">Я даю согласие на обработку персональных данных</label>
+            </div>
             <div className="registration__info">
                 <input className="registration__input" type="text" placeholder="Придумайте пароль"/>
                 <input className="registration__input" type="text" placeholder="Повторите пароль"/>
             </div>
+            <button className="registration__button">Зарегистрироваться</button>
 
         </div>
     )
