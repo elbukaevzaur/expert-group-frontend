@@ -1110,3 +1110,17 @@ a {
 .basket__buy_text_green:hover {
   color: #fff;
 }
+
+/* Каталог */
+.dropdown-catalog-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+  border: 1px solid #0a0a0a;
+}
+.dropdown__catalog:hover .dropdown-catalog-content {display: block;}

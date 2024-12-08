@@ -1,12 +1,35 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { PageResponse } from '../models/pageResponse';
+
+interface FilterProperty {
+    field: string;
+    value: string[];
+}
+
+interface OrderedPageRequest {
+    columnName: string;
+    orderDirection: string;
+}
+
+export interface Pageable {
+    page?: number;
+    perPage?: number;
+}
+
+interface PageRequest extends Pageable {
+
+    filters: FilterProperty[];
+    orderedColumns?: OrderedPageRequest;
+}
+
 
 interface ProductsState {
     allProducts: PageResponse;
     pageable: {
         page: number,
         perPage: number
-    }
+    },
+    pageRequest: PageRequest;
 }
 
 const initialState: ProductsState = {
@@ -19,14 +42,16 @@ const initialState: ProductsState = {
     pageable: {
         page: 0,
         perPage: 0
-    }
+    },
+    pageRequest: { filters: [] }
 };
 
 const products = createSlice({
-    name: 'profile',
+    name: 'products',
     initialState,
     reducers: {
-        PRODUCTS_FETCH_REQUESTED: (state, action) => {
+        PRODUCTS_FETCH_REQUESTED: (state, action: PayloadAction<Pageable>) => {
+            state.pageRequest = { ...state.pageRequest, page: action.payload.page, perPage: action.payload.perPage }
         },
         PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.allProducts = action.payload;
@@ -35,24 +60,37 @@ const products = createSlice({
                 perPage: action.payload.perPage
             }
         },
-        PRODUCTS_SHOW_MORE_FETCH_REQUESTED: (state, action) => {
-
+        PRODUCTS_SHOW_MORE_FETCH_REQUESTED: (state, action: PayloadAction<Pageable>) => {
+            state.pageRequest = { ...state.pageRequest, page: action.payload.page, perPage: action.payload.perPage }
         },
         PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.allProducts.currentPage = action.payload.currentPage;
             state.allProducts.perPage = action.payload.perPage;
             state.allProducts.totalPages = action.payload.totalPages;
-            state.allProducts.content = [...state.allProducts.content, ...action.payload.content]
+            state.allProducts.content = [...state?.allProducts.content, ...action.payload.content]
             state.pageable = {
                 page: action.payload.currentPage,
                 perPage: action.payload.perPage
             }
-        }
+        },
+        ADD_FILTER: (state, action: PayloadAction<FilterProperty>) => {
+            if (!Array.isArray(state.pageRequest.filters)) {
+                state.pageRequest.filters = [];
+                state.pageRequest.filters.push(action.payload);
+            } else {
+                const index = state.pageRequest.filters.map(m => m.field).indexOf(action.payload.field);
+                if (index !== -1)
+                    state.pageRequest.filters[index].value = action.payload.value;
+                else
+                    state.pageRequest.filters.push(action.payload);
+            }
+        },
     }
 });
 
 export const { PRODUCTS_FETCH_REQUESTED,
     PRODUCTS_FETCH_RESPONSE_SUCCESS,
     PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
-    PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS } = products.actions;
+    PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS,
+    ADD_FILTER } = products.actions;
 export default products.reducer;

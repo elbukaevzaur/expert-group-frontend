@@ -4,8 +4,9 @@ import ProductsFilter from "@/components/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
-import { PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
+import { Pageable, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
 import { useEffect } from "react";
+import { CATEGORIES_FETCH_REQUESTED } from "@/lib/reducers/categories";
 
 export default function Products() {
     const { allProducts, pageable } = useAppSelector((state) => state.products);
@@ -15,12 +16,12 @@ export default function Products() {
         loadProducts({});
     }, [])
 
-    const loadProducts = (filterData: any) => {
-        dispatch(PRODUCTS_FETCH_REQUESTED(filterData));
+    const loadProducts = (pageable: Pageable) => {
+        dispatch(PRODUCTS_FETCH_REQUESTED(pageable));
     }
 
     const nextPage = () => {
-        const page = {
+        const page: Pageable = {
             page: (pageable.page + 1),
             perPage: pageable.perPage
         }
@@ -28,7 +29,7 @@ export default function Products() {
     }
 
     const prevPage = () => {
-        const page = {
+        const page: Pageable = {
             page: (pageable.page - 1),
             perPage: pageable.perPage
         }
@@ -36,7 +37,7 @@ export default function Products() {
     }
 
     const selectPage = (selectPage: number) => {
-        const page = {
+        const page: Pageable = {
             page: selectPage,
             perPage: pageable.perPage
         }
@@ -44,7 +45,7 @@ export default function Products() {
     }
 
     const showMore = () => {
-        const page = {
+        const page: Pageable = {
             page: (pageable.page + 1),
             perPage: pageable.perPage
         }
