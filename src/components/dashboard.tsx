@@ -27,10 +27,12 @@ export default function Dashboard() {
                     <input type="search" className="search_input" placeholder="Поиск" />
                     <button className="search__button">Найти</button>
                 </div>
-                <div className="user">
-                    <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26} />
-                    <h2 className="user__text">Вход</h2>
-                </div>
+                <Link href='/registration'>
+                    <div className="user">
+                        <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26} />
+                        <h2 className="user__text">Вход</h2>
+                    </div>
+                </Link>
                 <Link href='/basket'>
                     <div className="dashboar__basket">
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26} />
