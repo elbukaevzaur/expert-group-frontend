@@ -1,14 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
+import { Product } from "@/lib/models/pageResponse";
 
 interface ProductsProps {
     key: number;
-    product: {
-        id: number,
-        name: string;
-        price: number;
-        currentQuantity: number;
-    }
+    product: Product
 }
 
 export const ProductsListItem = (props: ProductsProps) => {
@@ -24,7 +20,7 @@ export const ProductsListItem = (props: ProductsProps) => {
                 <h3 className="item__name">{product.name}</h3>
                 <div className="item__wrraper">
                     <div className="item__conteiner">
-                        <h3 className="item__text">{product.currentQuantity > 0? 'В наличии' : 'Нет в наличии'}</h3>
+                        <h3 className="item__text">{product.currentQuantity > 0 ? 'В наличии' : 'Нет в наличии'}</h3>
                         <h2 className="item__price">{product.price} &#8381;</h2>
                     </div>
                     <div className="item__action">
