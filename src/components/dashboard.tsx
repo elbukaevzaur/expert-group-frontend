@@ -1,11 +1,14 @@
 "use client"
+
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CatalogModal } from './catalogModal';
+import { useAppSelector } from "@/lib/hooks";
 
 export default function Dashboard() {
     const router = useRouter()
+    const { allItems } = useAppSelector((state) => state.basket);
 
     return (
         <header className="header">
@@ -33,7 +36,7 @@ export default function Dashboard() {
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26} />
                         <div className="dashboar__basket_container">
                             <h2 className="dashboar__bascet_text">Корзина</h2>
-                            <h3 className="dashboar__bascet_info">пусто</h3>
+                            <h3 className="dashboar__bascet_info">{allItems.length > 0 ? allItems.length : 'пусто'}</h3>
                         </div>
                     </div>
                 </Link>

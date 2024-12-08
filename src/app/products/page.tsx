@@ -4,9 +4,9 @@ import ProductsFilter from "@/components/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
-import { Pageable, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
+import { ADD_SAVE, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers";
 import { useEffect } from "react";
-import { CATEGORIES_FETCH_REQUESTED } from "@/lib/reducers/categories";
+import { Pageable, Product } from "@/lib/models";
 
 export default function Products() {
     const { allProducts, pageable } = useAppSelector((state) => state.products);
@@ -52,6 +52,10 @@ export default function Products() {
         dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
+    const addToBasket = (item: Product) => {
+        dispatch(ADD_SAVE(item))
+    }
+
     return (
         <div className="products">
             <div className="products__info_wrapper">
@@ -64,7 +68,7 @@ export default function Products() {
             <div className="items">
                 {
                     allProducts.content.map((item, index) => {
-                        return <ProductsListItem key={index} product={item} />
+                        return <ProductsListItem key={index} product={item} addToBasket={() => addToBasket(item)} />
                     })
                 }
             </div>
