@@ -1,5 +1,10 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { CATEGORIES_FETCH_REQUESTED, ADD_FILTER, PRODUCTS_FETCH_REQUESTED } from "@/lib/reducers";
+import {
+    CATEGORIES_FETCH_REQUESTED,
+    ADD_FILTER,
+    PRODUCTS_FETCH_REQUESTED,
+    FILTERS_FETCH_REQUESTED
+} from "@/lib/reducers";
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from "react";
 
@@ -17,6 +22,11 @@ export const CatalogModal = () => {
         if (pathname !== '/products')
             router.push('/products')
         dispatch(ADD_FILTER({ field: 'categoryId', value: [categoryId] }));
+        loadFiltersData(categoryId);
+    }
+
+    const loadFiltersData = (categoryId) => {
+        dispatch(FILTERS_FETCH_REQUESTED(categoryId));
     }
 
     return <div style={{ flexDirection: 'column' }}>

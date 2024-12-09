@@ -4,9 +4,15 @@ import ProductsFilter from "@/components/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
-import {ADD_SAVE, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED, REMOVE_COUNT} from "@/lib/reducers";
+import {
+    ADD_FILTER,
+    ADD_SAVE, FILTERS_FETCH_REQUESTED,
+    PRODUCTS_FETCH_REQUESTED,
+    PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
+    REMOVE_COUNT
+} from "@/lib/reducers";
 import { useEffect } from "react";
-import {BasketItem, Pageable, Product} from "@/lib/models";
+import {BasketItem, Pageable, Products} from "@/lib/models";
 
 export default function Products() {
     const { allProducts, pageable } = useAppSelector((state) => state.products);
@@ -16,6 +22,9 @@ export default function Products() {
 
     useEffect(() => {
         loadProducts({});
+        // УБРАТЬ ПОТОМ
+        dispatch(FILTERS_FETCH_REQUESTED(1));
+        dispatch(ADD_FILTER({ field: 'categoryId', value: ['1'] }));
     }, [])
 
     const loadProducts = (pageable: Pageable) => {
@@ -54,11 +63,11 @@ export default function Products() {
         dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
-    const addToBasket = (item: Product) => {
+    const addToBasket = (item: Products) => {
         dispatch(ADD_SAVE(item))
     }
 
-    const handleRemoveFromBasket = (item: Product) => {
+    const handleRemoveFromBasket = (item: Products) => {
         dispatch(REMOVE_COUNT(item))
     }
 

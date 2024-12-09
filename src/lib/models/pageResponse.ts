@@ -1,13 +1,6 @@
-export interface Product {
-    id: number,
-    name: string
-    price: number;
-    currentQuantity: number;
-}
-
-export interface PageResponse {
+export interface PageResponse<T> {
     totalPages: number,
     currentPage: number,
     perPage: number,
-    content: Product[]
+    content: T[]
 }

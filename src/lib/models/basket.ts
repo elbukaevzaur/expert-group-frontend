@@ -1,5 +1,5 @@
-import {Product} from "@/lib/models";
+import {Products} from "@/lib/models";
 
-export interface BasketItem extends Product {
+export interface BasketItem extends Products {
     count: number
 }

@@ -1264,3 +1264,15 @@ a {
   border-radius: 5px;
   margin-top: 70px;
 }
+
+.sorted-container{
+  display: none;
+  position: absolute;
+}
+
+
+.products__sorted:hover{
+  .sorted-container{
+    display: block;
+  }
+}
