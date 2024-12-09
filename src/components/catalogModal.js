@@ -1,6 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { CATEGORIES_FETCH_REQUESTED } from "@/lib/reducers/categories";
-import { ADD_FILTER, PRODUCTS_FETCH_REQUESTED } from "@/lib/reducers/products";
+import { CATEGORIES_FETCH_REQUESTED, ADD_FILTER, PRODUCTS_FETCH_REQUESTED } from "@/lib/reducers";
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect } from "react";
 

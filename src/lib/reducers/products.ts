@@ -1,27 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PageResponse } from '../models/pageResponse';
-
-interface FilterProperty {
-    field: string;
-    value: string[];
-}
-
-interface OrderedPageRequest {
-    columnName: string;
-    orderDirection: string;
-}
-
-export interface Pageable {
-    page?: number;
-    perPage?: number;
-}
-
-interface PageRequest extends Pageable {
-
-    filters: FilterProperty[];
-    orderedColumns?: OrderedPageRequest;
-}
-
+import { PageResponse, PageRequest, Pageable, FilterProperty } from '@/lib/models';
 
 interface ProductsState {
     allProducts: PageResponse;

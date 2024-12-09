@@ -1,16 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-interface Category {
-    id: number,
-    name: string,
-    productCount: number
-}
+import { Category } from '@/lib/models';
 
 interface CategoriesState {
     allCategories: Category[];
 }
 
-// Инициализируем начальное состояние
 const initialState: CategoriesState = {
     allCategories: []
 };

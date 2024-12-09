@@ -1,14 +1,17 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Product } from "@/lib/models/pageResponse";
+import {BasketItem, Product} from "@/lib/models";
+import { ChangeEvent, EventHandler } from "react";
 
 interface ProductsProps {
     key: number;
-    product: Product
+    product: Product,
+    basketItem: BasketItem | null,
+    addToBasket: EventHandler<any>,
+    removeFromBasket: EventHandler<any>
 }
 
 export const ProductsListItem = (props: ProductsProps) => {
-
     const { product } = props;
 
     return (
@@ -27,10 +30,19 @@ export const ProductsListItem = (props: ProductsProps) => {
                         <button className="item__like">
                             <Image src={'/images/Like.png'} alt="Лайк" width={28} height={24} />
                         </button>
-                        <button className="item__basket">
-                            <Image src={'/images/Basket_white.png'} alt="Лайк" width={28} height={26} />
-                            <h3 className="item__basket_text">В корзину</h3>
-                        </button>
+                        {
+                            props.basketItem == null ?
+                                <button className="item__basket" onClick={props.addToBasket}>
+                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/>
+                                    <h3 className="item__basket_text">В корзину</h3>
+                                </button>
+                                :
+                                <div className="item__basket">
+                                    <button onClick={props.removeFromBasket}>-</button>
+                                    <h3 className="item__basket_text">{props.basketItem.count}</h3>
+                                    <button onClick={props.addToBasket}>+</button>
+                                </div>
+                        }
                     </div>
                 </div>
             </div>

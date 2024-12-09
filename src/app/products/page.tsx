@@ -4,12 +4,14 @@ import ProductsFilter from "@/components/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
-import { Pageable, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers/products";
+import {ADD_SAVE, PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED, REMOVE_COUNT} from "@/lib/reducers";
 import { useEffect } from "react";
-import { CATEGORIES_FETCH_REQUESTED } from "@/lib/reducers/categories";
+import {BasketItem, Pageable, Product} from "@/lib/models";
 
 export default function Products() {
     const { allProducts, pageable } = useAppSelector((state) => state.products);
+    const { allItems } = useAppSelector((state) => state.basket);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -52,6 +54,22 @@ export default function Products() {
         dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
+    const addToBasket = (item: Product) => {
+        dispatch(ADD_SAVE(item))
+    }
+
+    const handleRemoveFromBasket = (item: Product) => {
+        dispatch(REMOVE_COUNT(item))
+    }
+
+    function findBasketItemByProductId(productId: number): BasketItem | null{
+        const index = allItems.map(m => m.id).indexOf(productId);
+        if (index === -1){
+            return null;
+        }
+        return allItems[index]
+    }
+
     return (
         <div className="products">
             <div className="products__info_wrapper">
@@ -63,8 +81,14 @@ export default function Products() {
             <ProductsFilter />
             <div className="items">
                 {
-                    allProducts.content.map((item, index) => {
-                        return <ProductsListItem key={index} product={item} />
+                    allProducts.content.map((value, index) => {
+                        return <ProductsListItem
+                            key={index}
+                            product={value}
+                            basketItem={findBasketItemByProductId(value.id)}
+                            addToBasket={() => addToBasket(value)}
+                            removeFromBasket={() => handleRemoveFromBasket(value)}
+                        />
                     })
                 }
             </div>
@@ -82,8 +106,8 @@ export default function Products() {
                 {
                     Array.from({ length: allProducts.totalPages }, (v, i) => {
                         i++;
-                        var buttonClass = 'items__button_number';
-                        var textClass = 'items__button_number_text'
+                        let buttonClass = 'items__button_number';
+                        let textClass = 'items__button_number_text';
                         if (i == 1) {
                             buttonClass += ' items__button_number_first';
                         } else if (i == allProducts.totalPages) {
