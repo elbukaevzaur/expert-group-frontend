@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Product } from '@/lib/models';
+import {BasketItem} from '@/lib/models';
 
 interface BasketState {
-    allItems: Product[];
+    allItems: BasketItem[];
 }
 
 const initialState: BasketState = {
@@ -17,7 +17,24 @@ const basket = createSlice({
 
         },
         ADD_SAVED: (state, action) => {
-            state.allItems.push(action.payload);
+            const index = state.allItems.map(m => m.id).indexOf(action.payload.id);
+            const basketItem: BasketItem = {
+                ...action.payload,
+                count: 1
+            }
+            if (index == -1)
+                state.allItems.push(basketItem);
+            else
+                basketItem.count = (state.allItems[index].count + 1);
+                state.allItems[index] = basketItem;
+        },
+        REMOVE_COUNT: (state, action) => {
+            const index = state.allItems.map(m => m.id).indexOf(action.payload.id);
+            console.log(111)
+            if (state.allItems[index].count > 1)
+                state.allItems[index].count--;
+            else
+                state.allItems.splice(index, 1);
         },
         REMOVE: (state, action) => {
             const index = state.allItems.map(m => m.id).indexOf(action.payload);
@@ -35,6 +52,7 @@ const basket = createSlice({
 export const {
     ADD_SAVE,
     ADD_SAVED,
+    REMOVE_COUNT,
     REMOVE,
     REMOVE_ALL
 } = basket.actions;

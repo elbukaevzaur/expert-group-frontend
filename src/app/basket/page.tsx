@@ -1,8 +1,8 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import { Product } from "@/lib/models";
-import { REMOVE, REMOVE_ALL } from "@/lib/reducers";
+import {BasketItem, Product} from "@/lib/models";
+import {ADD_SAVE, REMOVE, REMOVE_ALL, REMOVE_COUNT} from "@/lib/reducers";
 import Image from "next/image"
 
 export default function Basket() {
@@ -15,6 +15,23 @@ export default function Basket() {
 
     const removeAllFromBasket = () => {
         dispatch(REMOVE_ALL());
+    }
+
+    const handleAddToBasket = (item: Product) => {
+        dispatch(ADD_SAVE(item))
+    }
+
+    const handleRemoveFromBasket = (item: Product) => {
+        dispatch(REMOVE_COUNT(item))
+    }
+
+    const getTotalPrice = (): string => {
+        let totalSum: number = 0;
+        if (allItems.length > 0)
+            allItems.forEach((value) => {
+                totalSum += Number((value.count * value.price).toFixed(2));
+            })
+        return totalSum.toFixed(2);
     }
 
     return (
@@ -39,17 +56,17 @@ export default function Basket() {
                                 <h3 className="basket__item_text">{value.name}</h3>
                                 <div className="basket__item_wrapper">
                                     <div className="basket__item_quantity">
-                                        <button className="basket__item_button">
-                                            <Image src={'/images/Minus.png'} alt="Минус" width={20} height={20} />
+                                        <button onClick={() => handleRemoveFromBasket(value)} className="basket__item_button">
+                                            <Image src={'/images/Minus.png'} alt="Minus" width={20} height={20} />
                                         </button>
-                                        <h4 className="basket__item_quantity_text">2</h4>
-                                        <button className="basket__item_button">
-                                            <Image src={'/images/Plus.png'} alt="Минус" width={20} height={20} />
+                                        <h4 className="basket__item_quantity_text">{value.count}</h4>
+                                        <button onClick={() => handleAddToBasket(value)} className="basket__item_button">
+                                            <Image src={'/images/Plus.png'} alt="Plus" width={20} height={20} />
                                         </button>
                                     </div>
                                     <h4 className="basket__item_quantity_sum">{value.price} &#8381; /шт</h4>
                                 </div>
-                                <h3 className="basket__item_price">{value.price} &#8381;</h3>
+                                <h3 className="basket__item_price">{(value.count * value.price).toFixed(2)} &#8381;</h3>
                                 <button className="basket__item_delete" onClick={() => removeFromBasket(value)}>
                                     <Image src={'/images/Clear_button.png'} alt="Удалить" width={6} height={6} />
                                 </button>
@@ -60,7 +77,7 @@ export default function Basket() {
                 <div className="basket__buy">
                     <div className="basket__buy_total">
                         <h2 className="basket__buy_title">Итого:</h2>
-                        <h2 className="basket__buy_sum">3.892 &#8381;/шт</h2>
+                        <h2 className="basket__buy_sum">{getTotalPrice()} &#8381;/шт</h2>
                     </div>
                     <button className="basket__buy_button">
                         <h3 className="basket__buy_text">Перейти к оформлению</h3>
