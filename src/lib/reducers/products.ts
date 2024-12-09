@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { PageResponse, PageRequest, Pageable, FilterProperty } from '@/lib/models';
+import {PageResponse, PageRequest, Pageable, FilterProperty, Products, FiltersResponse} from '@/lib/models';
 
 interface ProductsState {
-    allProducts: PageResponse;
+    allProducts: PageResponse<Products>;
     pageable: {
         page: number,
         perPage: number
     },
-    pageRequest: PageRequest;
+    pageRequest: PageRequest,
+    filters: FiltersResponse[]
 }
 
 const initialState: ProductsState = {
@@ -21,7 +22,8 @@ const initialState: ProductsState = {
         page: 0,
         perPage: 0
     },
-    pageRequest: { filters: [] }
+    pageRequest: { filters: [] },
+    filters: []
 };
 
 const products = createSlice({
@@ -63,6 +65,11 @@ const products = createSlice({
                     state.pageRequest.filters.push(action.payload);
             }
         },
+        FILTERS_FETCH_REQUESTED: (state, action) => {
+        },
+        FILTERS_FETCH_RESPONSE_SUCCESS: (state, action) => {
+            state.filters = action.payload
+        }
     }
 });
 
@@ -70,5 +77,8 @@ export const { PRODUCTS_FETCH_REQUESTED,
     PRODUCTS_FETCH_RESPONSE_SUCCESS,
     PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
     PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS,
-    ADD_FILTER } = products.actions;
+    ADD_FILTER,
+    FILTERS_FETCH_REQUESTED,
+    FILTERS_FETCH_RESPONSE_SUCCESS
+} = products.actions;
 export default products.reducer;

@@ -1,37 +1,51 @@
 import Image from "next/image";
-import {useState} from "react";
-import {useAppDispatch} from "@/lib/hooks";
+import {useEffect, useState} from "react";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {ADD_FILTER} from "@/lib/reducers";
 
 export default function ProductsFilter(){
+    const { filters } = useAppSelector((state) => state.products);
+
+
+    const getTitleByField = (field: string): string => {
+        let title = '';
+        switch (field){
+            case 'price':
+                title = 'Цена';
+                break
+            case 'width':
+                title = 'Ширина';
+                break
+            case 'height':
+                title = 'Высота';
+                break
+            case 'length':
+                title = 'Длина';
+                break
+            case 'thickness':
+                title = 'Толщина';
+                break
+            case 'outerDiameter':
+                title = 'Внешний диаметр';
+                break
+        }
+        return title;
+    }
+
     return(
         <div className="filter">
             <div className="filter__container">
                 <div className="filter__container_wrraper">
-                    <FilterComponent
-                        title='Цена'
-                        fieldName="price"
-                    />
-                    <FilterComponent
-                        title='Производитель'
-                        fieldName="price"
-                    />
-                    <FilterComponent
-                        title='Высота'
-                        fieldName="price"
-                    />
-                    <FilterComponent
-                        title='Ширина'
-                        fieldName="price"
-                    />
-                    <FilterComponent
-                        title='Материал'
-                        fieldName="price"
-                    />
-                    <FilterComponent
-                        title='Стиль'
-                        fieldName="price"
-                    />
+                    {
+                        filters.map((value, index) => {
+                            return <FilterComponent
+                                key={index}
+                                title={getTitleByField(value.fieldName)}
+                                fieldName={value.fieldName}
+                                value={value.value}
+                            />
+                        })
+                    }
                 </div>
                 <div className="filter__wrraper">
                         <h3 className="filter__text">Больше фильтров</h3>
@@ -65,14 +79,15 @@ export default function ProductsFilter(){
 }
 
 interface FilterProps {
-    title: string
-    fieldName: string
+    title: string,
+    fieldName: string,
+    value: number[],
 }
 
 const FilterComponent = (props: FilterProps) => {
     const [isShow, setIsShow] = useState(false);
-    const [valueFrom, setValueFrom] = useState("");
-    const [valueTo, setValueTo] = useState("");
+    const [valueFrom, setValueFrom] = useState('');
+    const [valueTo, setValueTo] = useState('');
     const dispatch = useAppDispatch();
 
     const handleFilterHover = () => {
@@ -81,6 +96,17 @@ const FilterComponent = (props: FilterProps) => {
 
     const handleApplyFilter = () => {
         dispatch(ADD_FILTER({ field: props.fieldName, value: [valueFrom, valueTo] }));
+    }
+
+    useEffect(() => {
+        setValueFrom(props.value[0]?.toString())
+        setValueTo(props.value[1]?.toString())
+    }, [props.value]);
+
+    const onChangeValueFrom = (val: string) => {
+        // if (Number(val) >= props.value[0] && Number(val) <= props.value[1]) {
+            setValueFrom(val);
+        // }
     }
 
     return (
@@ -102,10 +128,10 @@ const FilterComponent = (props: FilterProps) => {
                 }}
             >
                 <div>
-                    <input value={valueFrom} onChange={(val) => setValueFrom(val.target.value)} title="От"/>
+                    <input min={props.value[0]} max={props.value[1]} value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)} title="От"/>
                 </div>
                 <div>
-                    <input value={valueTo} onChange={(val) => setValueTo(val.target.value)} title="До"/>
+                    <input min={props.value[0]} max={props.value[1]} value={valueTo} onChange={(val) => setValueTo(val.target.value)} title="До"/>
                 </div>
                 <div>
                     <button onClick={handleApplyFilter}>Применить</button>
