@@ -14,7 +14,7 @@ import {
 import { useEffect } from "react";
 import {BasketItem, Pageable, Products} from "@/lib/models";
 
-export default function Products() {
+export default function ProductsPage() {
     const { allProducts, pageable } = useAppSelector((state) => state.products);
     const { allItems } = useAppSelector((state) => state.basket);
 

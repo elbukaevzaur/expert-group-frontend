@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import {BasketItem, Product} from "@/lib/models";
-import { ChangeEvent, EventHandler } from "react";
+import {BasketItem, Products} from "@/lib/models";
+import { EventHandler } from "react";
 
 interface ProductsProps {
     key: number;
-    product: Product,
+    product: Products,
     basketItem: BasketItem | null,
     addToBasket: EventHandler<any>,
     removeFromBasket: EventHandler<any>
@@ -16,7 +16,7 @@ export const ProductsListItem = (props: ProductsProps) => {
 
     return (
         <div className="item">
-            <Link href='/products/details'>
+            <Link href={`/products/details/${product.id}`}>
                 <Image className="item__image" src={'/images/image.png'} alt="Карниз" width={295} height={149} />
             </Link>
             <div className="item__info">

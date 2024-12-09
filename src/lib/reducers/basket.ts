@@ -30,7 +30,6 @@ const basket = createSlice({
         },
         REMOVE_COUNT: (state, action) => {
             const index = state.allItems.map(m => m.id).indexOf(action.payload.id);
-            console.log(111)
             if (state.allItems[index].count > 1)
                 state.allItems[index].count--;
             else
@@ -38,7 +37,6 @@ const basket = createSlice({
         },
         REMOVE: (state, action) => {
             const index = state.allItems.map(m => m.id).indexOf(action.payload);
-            console.log(index)
             if (index !== -1) {
                 state.allItems.splice(index, 1);
             }
