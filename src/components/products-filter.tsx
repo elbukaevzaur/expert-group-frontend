@@ -1,11 +1,12 @@
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {ADD_FILTER} from "@/lib/reducers";
+import {ADD_FILTER, SORTED} from "@/lib/reducers";
+import {OrderedPageRequest} from "@/lib/models";
 
 export default function ProductsFilter(){
     const { filters } = useAppSelector((state) => state.products);
-
+    const dispatch = useAppDispatch();
 
     const getTitleByField = (field: string): string => {
         let title = '';
@@ -32,6 +33,10 @@ export default function ProductsFilter(){
         return title;
     }
 
+    const handleApplySorted = (sort: OrderedPageRequest) => {
+        dispatch(SORTED(sort));
+    }
+
     return(
         <div className="filter">
             <div className="filter__container">
@@ -53,11 +58,25 @@ export default function ProductsFilter(){
                         <Image src={'/images/Vector_green.png'} alt="Стрелка" width={12} height={7}/>
                         </button>
                     </div>
-                    <div className="filter__wrraper">
+                    <div className="filter__wrraper products__sorted">
                         <h3 className="filter__text">Сортировка</h3>
                         <button className="filter_button">
                         <Image src={'/images/Vector_green.png'} alt="Стрелка" width={12} height={7}/>
                         </button>
+                        <div className="sorted-container">
+                            <button onClick={() => handleApplySorted(
+                                {
+                                    columnName: 'price',
+                                    orderDirection: 'ASC'
+                                }
+                            )}>По возрастанию цены</button>
+                            <button onClick={() => handleApplySorted(
+                                {
+                                    columnName: 'price',
+                                    orderDirection: 'DESC'
+                                }
+                            )}>По убыванию цены</button>
+                        </div>
                     </div>
             </div>
             <div className="filter__info_wrraper">

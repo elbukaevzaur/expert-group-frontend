@@ -16,5 +16,5 @@ export interface Pageable {
 export interface PageRequest extends Pageable {
 
     filters: FilterProperty[];
-    orderedColumns?: OrderedPageRequest;
+    orderedColumns?: OrderedPageRequest[];
 }

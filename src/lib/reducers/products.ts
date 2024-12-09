@@ -22,7 +22,7 @@ const initialState: ProductsState = {
         page: 0,
         perPage: 0
     },
-    pageRequest: { filters: [] },
+    pageRequest: { filters: [], orderedColumns: [] },
     filters: []
 };
 
@@ -69,6 +69,9 @@ const products = createSlice({
         },
         FILTERS_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.filters = action.payload
+        },
+        SORTED: (state, action) => {
+            state.pageRequest.orderedColumns = [action.payload];
         }
     }
 });
@@ -79,6 +82,7 @@ export const { PRODUCTS_FETCH_REQUESTED,
     PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS,
     ADD_FILTER,
     FILTERS_FETCH_REQUESTED,
-    FILTERS_FETCH_RESPONSE_SUCCESS
+    FILTERS_FETCH_RESPONSE_SUCCESS,
+    SORTED
 } = products.actions;
 export default products.reducer;
