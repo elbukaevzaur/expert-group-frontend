@@ -103,9 +103,7 @@ export default function ProductsPage() {
             }
 
             <div className="items__buttons">
-                <button className="items__button_left" onClick={prevPage}>
-                    <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
-                </button>
+                <button className={`items__button_left ${pageable.page === 1 ? 'items__button_left_disabled' : ''}`} onClick={prevPage} disabled={pageable.page === 1}></button>
                 {
                     Array.from({ length: allProducts.totalPages }, (v, i) => {
                         i++;
@@ -125,9 +123,7 @@ export default function ProductsPage() {
                         </button>
                     })
                 }
-                <button className="items__button_right" onClick={nextPage}>
-                    <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17} />
-                </button>
+                <button className={`items__button_right ${pageable.page === allProducts.totalPages ? 'items__button_right_disabled' : ''}`}  onClick={nextPage} disabled={pageable.page === allProducts.totalPages} ></button>
             </div>
         </div>
     )

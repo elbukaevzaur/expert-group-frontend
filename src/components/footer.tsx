@@ -29,7 +29,7 @@ export default function Footer() {
                         <h3 className="footer__info_text">Сертификаты</h3>
                         <h3 className="footer__info_text">Отзывы</h3>
                         <h3 className="footer__info_text">Политика</h3>
-                        <h3 className="footer__info_text">Реквезиты</h3>
+                        <h3 className="footer__info_text">Реквизиты</h3>
                     </div>
                 </div>
                 <div className="footer__info">
