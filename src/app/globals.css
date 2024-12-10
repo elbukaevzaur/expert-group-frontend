@@ -64,6 +64,7 @@ a {
   font-size: 16px;
   font-weight: 400;
   line-height: 20px;
+  font-family: 'Roboto';
 }
 
 .number {
@@ -77,6 +78,7 @@ a {
   font-weight: 400;
   line-height: 20px;
   margin: 0 12px 0 0;
+  font-family: 'Roboto';
 }
 
 .search {
@@ -96,6 +98,7 @@ a {
   font-weight: 400;
   line-height: 18px;
   color: #0a0a0a;
+  font-family: 'Roboto';
 }
 
 .search_input:focus {
@@ -109,6 +112,7 @@ a {
   font-size: 15px;
   font-weight: 400;
   line-height: 18px;
+  font-family: 'Roboto';
 }
 
 .search__button {
@@ -125,6 +129,7 @@ a {
   font-size: 15px;
   font-weight: 500;
   line-height: 18px;
+  font-family: 'Roboto';
 }
 
 .search__button:hover {
@@ -144,6 +149,7 @@ a {
   font-size: 17px;
   font-weight: 500;
   line-height: 20px;
+  font-family: 'Roboto';
 }
 
 .dashboar__basket {
@@ -162,6 +168,7 @@ a {
   font-size: 17px;
   font-weight: 500;
   line-height: 20px;
+  font-family: 'Roboto';
 }
 
 .dashboar__bascet_info {
@@ -170,6 +177,7 @@ a {
   font-weight: 500;
   line-height: 15px;
   margin: 0;
+  font-family: 'Roboto';
 }
 
 .navigator{
@@ -219,6 +227,7 @@ a {
   line-height: 22px;
   color: #ffffff;
   margin: 0 8px 0 0;
+  font-family: 'Roboto';
 }
 
 .navigator__text_white{
@@ -248,6 +257,7 @@ a {
   line-height: 20px;
   margin: 0 0 0 7px;
   cursor: pointer;
+  font-family: 'Roboto';
 }
 
 /**FOOTER**/
@@ -279,6 +289,7 @@ a {
   font-weight: 500;
   line-height: 25px;
   width: 342px;
+  font-family: 'Roboto';
 }
 
 .footer__contact_text:last-child{
@@ -301,6 +312,7 @@ a {
   width: 221px;
   font-size: 19px;
   font-weight: 400;
+  font-family: 'Roboto';
 }
 
 .footer__wrraper{
@@ -315,6 +327,7 @@ a {
   font-size: 23px;
   font-weight: 700;
   line-height: 26px;
+  font-family: 'Roboto';
 }
 
 .footer__info_wrraper{
@@ -326,6 +339,7 @@ a {
   font-size: 18px;
   font-weight: 500;
   line-height: 22px;
+  font-family: 'Roboto';
 }
 
 .footer__info_text:last-of-type{
@@ -366,6 +380,7 @@ a {
   font-size: 17px;
   font-weight: 500;
   line-height: 20px;
+  font-family: 'Roboto';
 }
 
 .filter__info_wrraper {
@@ -390,6 +405,7 @@ a {
   line-height: 16px;
   color: #ffffff;
   margin: 0 8px 0 0;
+  font-family: 'Roboto';
 }
 
 .filter_button{
@@ -423,16 +439,18 @@ a {
   line-height: 38px;
   font-weight: 700;
   margin: 0 10px 0 0;
+  font-family: 'Roboto';
 }
 
 .products__info{
   border: 1px solid #7C7C7C;
   border-radius: 3px;
-  width: 30px;
+  min-width: 30px;
   height: 18px;
   display: flex;
   align-items: center;
-  padding: 3px 6px;
+  justify-content: center;
+  padding: 0 3px;
   box-sizing: border-box;
 }
 
@@ -441,6 +459,7 @@ a {
   font-weight: 400;
   line-height: 12px;
   margin: 0;
+  font-family: 'Roboto';
 }
 
 /** ITEMS **/
@@ -479,6 +498,7 @@ a {
   font-size: 14px;
   font-weight: 400;
   line-height: 17px;
+  font-family: 'Roboto';
 }
 
 .item__wrraper {
@@ -487,7 +507,7 @@ a {
 }
 
 .item__conteiner{
-  margin-right: 20px;
+  /* margin-right: 5px; */
 }
 
 .item__text{
@@ -495,6 +515,7 @@ a {
   font-weight: 400;
   line-height: 23px;
   color: #21a038;
+  font-family: 'Inter';
 }
 
 .item__price{
@@ -502,6 +523,7 @@ a {
   font-weight: 700;
   line-height: 27px;
   color: #21a038;
+  font-family: 'Inter';
 }
 
 .item__action {
@@ -532,6 +554,7 @@ a {
   line-height: 15px;
   color: #ffffff;
   margin: 0 0 0 8px;
+  font-family: 'Roboto';
 }
 
 .items__more {
@@ -549,6 +572,7 @@ a {
   font-weight: 500;
   line-height: 24px;
   color: #21a038;
+  font-family: 'Roboto';
 }
 
 .items__buttons{
@@ -594,6 +618,7 @@ a {
   font-size: 17px;
   font-weight: 700;
   line-height: 20px;
+  font-family: 'Roboto';
 }
 
 .items__button_number_text_active {
@@ -618,6 +643,7 @@ a {
   font-size: 32px;
   line-height: 38px;
   font-weight: 400;
+  font-family: 'Roboto';
 }
 
 .detalis__info {
@@ -660,6 +686,7 @@ a {
   line-height: 25px;
   color: #209C36;
   margin-left: 10px;
+  font-family: 'Futura';
 }
 
 .detalis__button_like {
@@ -684,6 +711,7 @@ a {
   line-height: 15px;
   color: #ffffff;
   margin-left: 15px;
+  font-family: 'Roboto';
 }
 
 .detalis__description {
@@ -695,6 +723,7 @@ a {
   font-weight: 400;
   line-height: 24px;
   width: 227px;
+  font-family: 'Roboto';
 }
 
 .detalis__description_margin {
@@ -730,6 +759,7 @@ a {
   font-size: 37px;
   font-weight: 700;
   line-height: 43px;
+  font-family: 'Inter';
 }
 
 .detalis__price_buy_width{
@@ -756,6 +786,7 @@ a {
   font-weight: 500;
   line-height: 17px;
   color: #21a038;
+  font-family: 'Roboto';
 }
 
 .detalis__price_button {
@@ -787,6 +818,7 @@ a {
   line-height: 15px;
   color: #ffffff;
   margin: 0 0 0 9px;
+  font-family: 'Roboto';
 }
 
 .detalis__price_button_text_color {
@@ -811,6 +843,7 @@ a {
   font-weight: 400;
   line-height: 15px;
   margin: 0 0 10px 0;
+  font-family: 'Inter';
 }
 
 .detalis__price_info_text:last-of-type {
@@ -858,6 +891,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Roboto';
 }
 
 .detalis__navigator_text_active {
@@ -932,6 +966,7 @@ a {
   font-size: 32px;
   font-weight: 700;
   line-height: 38px;
+  font-family: 'Roboto';
 }
 
 .basket__title_quantity {
@@ -940,6 +975,7 @@ a {
   line-height: 25px;
   color: #21a038;
   margin-left: 6px;
+  font-family: 'Roboto';
 }
 
 .basket__content {
@@ -962,6 +998,7 @@ a {
   font-size: 18px;
   font-weight: 500;
   line-height: 21px;
+  font-family: 'Roboto';
 }
 
 .basket__items_clear {
@@ -976,6 +1013,7 @@ a {
   font-weight: 500;
   line-height: 14px;
   margin-right: 10px;
+  font-family: 'Roboto';
 }
 
 .basket__item {
@@ -994,6 +1032,7 @@ a {
   line-height: 22px;
   width: 293px;
   margin: 20px 0 0 22px;
+  font-family: 'Roboto';
 }
 
 .basket__item_quantity {
@@ -1012,6 +1051,7 @@ a {
   font-size: 20px;
   font-weight: 500;
   line-height: 23px;
+  font-family: 'Roboto';
 }
 
 .basket__item_quantity_sum {
@@ -1022,6 +1062,7 @@ a {
   color: #727272;
   display: flex;
   justify-content: center;
+  font-family: 'Roboto';
 }
 
 .basket__item_price {
@@ -1030,6 +1071,7 @@ a {
   line-height: 25px;
   color: #21a038;
   margin: 22px 0 0 0;
+  font-family: 'Inter';
 }
 
 .basket__item_delete {
@@ -1060,6 +1102,7 @@ a {
   font-size: 26px;
   font-weight: 700;
   line-height: 38px;
+  font-family: 'Inter';
 }
 
 .basket__buy_sum {
@@ -1067,6 +1110,7 @@ a {
   font-weight: 700;
   line-height: 38px;
   color: #21a038;
+  font-family: 'Inter';
 }
 
 .basket__buy_button {
@@ -1105,6 +1149,7 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Roboto';
 }
 
 .basket__buy_text:hover {
@@ -1148,6 +1193,7 @@ a {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-family: 'Inter';
 }
 
 .dropdown-catalog:hover {
@@ -1168,6 +1214,7 @@ a {
   display: flex;
   justify-content: center;
   margin-bottom: 60px;
+  font-family: 'Roboto';
 }
 
 .registration__info {
@@ -1187,6 +1234,7 @@ a {
   font-weight: 400;
   line-height: 1px;
   color: #000;
+  font-family: 'Roboto';
 }
 
 .registration__input::placeholder {
@@ -1194,6 +1242,7 @@ a {
   font-weight: 400;
   line-height: 1px;
   color: #000;
+  font-family: 'Roboto';
 }
 
 .registration__input_margin {
@@ -1215,6 +1264,7 @@ a {
   cursor: pointer;
   font-size: 14px;
   font-weight: 400;
+  font-family: 'Roboto';
 }
 
 .registration__checkbox + label::before {
@@ -1257,6 +1307,7 @@ a {
   font-size: 18px;
   font-weight: 400;
   line-height: 22px;
+  font-family: 'Roboto';
   color: #fff;
   display: flex;
   justify-content: center;
@@ -1275,4 +1326,52 @@ a {
   .sorted-container{
     display: block;
   }
+}
+
+/** Суб-каталог **/
+
+.subcatalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  margin: 27px 0 0;
+  column-gap: 24px;
+  row-gap: 30px;
+
+}
+
+.subcatalog__item {
+  background-color: #21a038;
+  width: 176px;
+  height: 147px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.subcatalog__info {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 2;
+}
+
+.subcatalog__title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15px;
+  font-family: 'Roboto';
+  color: #fff;
+}
+
+.subcatalog__subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 11px;
+  font-family: 'Roboto';
+  color: #fff;
+  margin: 10px 0 0;
+}
+
+.subcatalog__image {
+  width: 100%;
+  height: auto;
 }
