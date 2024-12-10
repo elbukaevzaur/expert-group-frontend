@@ -1,11 +1,11 @@
 import Image from "next/image";
 import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {ADD_FILTER, SORTED} from "@/lib/reducers";
-import {OrderedPageRequest} from "@/lib/models";
+import {ADD_FILTER, REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED} from "@/lib/reducers";
+import {FilterProperty, OrderedPageRequest} from "@/lib/models";
 
 export default function ProductsFilter(){
-    const { filters } = useAppSelector((state) => state.products);
+    const { filters, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
 
     const getTitleByField = (field: string): string => {
@@ -35,6 +35,14 @@ export default function ProductsFilter(){
 
     const handleApplySorted = (sort: OrderedPageRequest) => {
         dispatch(SORTED(sort));
+    }
+
+    const handleRemoveFilter = (filter: FilterProperty) => {
+        dispatch(REMOVE_FILTER(filter))
+    }
+
+    const handleRemoveAllFilter = () => {
+        dispatch(REMOVE_ALL_FILTER())
     }
 
     return(
@@ -137,20 +145,29 @@ export default function ProductsFilter(){
                         </div>
                     </div>
             </div>
-            <div className="filter__info_wrraper">
-            <div className="filter__info">
-                <div className="filter__info_text">Цена: От 100 до 1000</div> 
-                <button className="filter_button">
-                <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
-                </button>
-            </div>
-            <div className="filter__info filter__info_delete">
-                <div className="filter__info_text">Очистить всё</div> 
-                <button className="filter_button">
-                <Image src={'/images/Delete_button_grey.png'} alt="Удалить" width={16} height={16}/>
-                </button>
-            </div>
-            </div>
+            {
+                pageRequest.filters.length > 0 &&
+                <div className="filter__info_wrraper">
+                    {
+                        pageRequest.filters.map((value, index) => {
+                            return <div key={index} className="filter__info">
+                                <div className="filter__info_text">{value.field}: {
+                                    value.value.length > 1 ? `От ${value.value[0]} до ${value.value[1]}` : value.value[0]
+                                }</div>
+                                <button onClick={() => handleRemoveFilter(value)} className="filter_button">
+                                    <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
+                                </button>
+                            </div>
+                        })
+                    }
+                    <div className="filter__info filter__info_delete">
+                        <div className="filter__info_text">Очистить всё</div>
+                        <button onClick={handleRemoveAllFilter} className="filter_button">
+                            <Image src={'/images/Delete_button_grey.png'} alt="Удалить" width={16} height={16}/>
+                        </button>
+                    </div>
+                </div>
+            }
         </div>
         </div>
     )
@@ -173,17 +190,17 @@ const FilterComponent = (props: FilterProps) => {
     }
 
     const handleApplyFilter = () => {
-        dispatch(ADD_FILTER({ field: props.fieldName, value: [valueFrom, valueTo] }));
+        dispatch(ADD_FILTER({field: props.fieldName, value: [valueFrom, valueTo]}));
     }
 
     useEffect(() => {
-        setValueFrom(props.value[0]?.toString())
-        setValueTo(props.value[1]?.toString())
+        // setValueFrom(props.value[0]?.toString())
+        // setValueTo(props.value[1]?.toString())
     }, [props.value]);
 
     const onChangeValueFrom = (val: string) => {
         // if (Number(val) >= props.value[0] && Number(val) <= props.value[1]) {
-            setValueFrom(val);
+        setValueFrom(val);
         // }
     }
 
@@ -206,10 +223,10 @@ const FilterComponent = (props: FilterProps) => {
                 }}
             >
                 <div>
-                    <input min={props.value[0]} max={props.value[1]} value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)} title="От"/>
+                    <input min={props.value[0]} max={props.value[1]} placeholder={props.value[0]?.toString()} value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)} title="От"/>
                 </div>
                 <div>
-                    <input min={props.value[0]} max={props.value[1]} value={valueTo} onChange={(val) => setValueTo(val.target.value)} title="До"/>
+                    <input min={props.value[0]} max={props.value[1]} placeholder={props.value[1]?.toString()} value={valueTo} onChange={(val) => setValueTo(val.target.value)} title="До"/>
                 </div>
                 <div>
                     <button onClick={handleApplyFilter}>Применить</button>

@@ -5,7 +5,7 @@ import {
   PRODUCTS_FETCH_REQUESTED,
   PRODUCTS_FETCH_RESPONSE_SUCCESS,
   PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
-  PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS, SORTED
+  PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS, REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED
 } from '@/lib/reducers/products'
 import {getAll, getDetails} from '@/lib/http/productsRequest';
 import {getAllFilters} from "@/lib/http/filtersRequest";
@@ -49,6 +49,8 @@ export default function* productsSaga() {
     yield takeEvery(PRODUCTS_FETCH_REQUESTED, fetchAll),
     yield takeEvery(PRODUCTS_SHOW_MORE_FETCH_REQUESTED, fetchShowMoreProducts),
     yield takeEvery(ADD_FILTER, fetchAll),
+    yield takeEvery(REMOVE_FILTER, fetchAll),
+    yield takeEvery(REMOVE_ALL_FILTER, fetchAll),
     yield takeEvery(SORTED, fetchAll),
     yield takeEvery(FILTERS_FETCH_REQUESTED, fetchAllFiltersData),
     yield takeEvery(DETAILS_FETCH_REQUESTED, fetchDetails)
