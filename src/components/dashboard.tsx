@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { CatalogModal } from './catalogModal';
 import { useAppSelector } from "@/lib/hooks";
+import NavigationHistory from "@/components/navigation-history";
 
 export default function Dashboard() {
     const router = useRouter()
@@ -76,15 +77,7 @@ export default function Dashboard() {
                     <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
                 </div>
             </div>
-            <div className="navigator__wrapper">
-                <div className="navigator__back" onClick={router.back}>
-                    <button className="navigator__back_button">
-                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14} />
-                    </button>
-                    <u className="navigator__back_text">Назад</u>
-                </div>
-                <h3 className="navigator__back_text">Главная / Карнизы потолочные</h3>
-            </div>
+            <NavigationHistory/>
         </header>
     )
 }
