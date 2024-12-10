@@ -38,6 +38,64 @@ export default function ProductsFilter(){
     }
 
     return(
+        <div>
+        <div className="products__info_wrapper">
+                <h1 className="products__title">ЛЕПНОЙ ДЕКОР</h1>
+                <div className="products__info">
+                    <h3 className="products__info_text">1064</h3>
+                </div>
+            </div>
+            <div className="subcatalog">
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+                <div className="subcatalog__item">
+                    <div className="subcatalog__info">
+                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
+                        <h4 className="subcatalog__subtitle">267 товара</h4>
+                    </div>
+                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
+                </div>
+            </div>
         <div className="filter">
             <div className="filter__container">
                 <div className="filter__container_wrraper">
@@ -93,6 +151,7 @@ export default function ProductsFilter(){
                 </button>
             </div>
             </div>
+        </div>
         </div>
     )
 }

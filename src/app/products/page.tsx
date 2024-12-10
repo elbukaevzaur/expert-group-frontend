@@ -81,12 +81,6 @@ export default function ProductsPage() {
 
     return (
         <div className="products">
-            <div className="products__info_wrapper">
-                <h1 className="products__title">КАРНИЗЫ ПОТОЛОЧНЫЕ</h1>
-                <div className="products__info">
-                    <h3 className="products__info_text">910</h3>
-                </div>
-            </div>
             <ProductsFilter />
             <div className="items">
                 {
