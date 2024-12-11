@@ -46,10 +46,12 @@ export default function Dashboard() {
             </div>
             <div className="navigator">
                 <div className="navigator__container navigator__container_white dropdown__catalog">
-                    <Image src={'/images/Catalog_green.png'} alt="Каталог" width={17} height={10} />
-                    <h3 className="navigator__text navigator__text_white">Каталог</h3>
+                    <Image src={'/images/Catalog_green.png'} alt="Каталог" width={17} height={10}/>
+                    <Link href='/catalog'>
+                        <h3 className="navigator__text navigator__text_white">Каталог</h3>
+                    </Link>
                     <div className="dropdown-catalog-content">
-                        <CatalogModal />
+                    <CatalogModal/>
                     </div>
                 </div>
                 <div className="navigator__container">

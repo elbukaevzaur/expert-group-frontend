@@ -14,13 +14,13 @@ export default function NavigationHistory() {
         return false;
     }
     const history = (): { path: string; title: string }[] => {
-        let parts = pathname.split("/").filter(Boolean);
+        const parts = pathname.split("/").filter(Boolean);
         if (parts.length !== 0 && parts[0].length > 1){
             parts.unshift('')
         }
         return parts.reduce((acc, value, index) => {
-            const path = `/${value}`;
             let title = value;
+            let isAdd = true;
             switch (value) {
                 case '':
                     title = 'Главная';
@@ -31,9 +31,19 @@ export default function NavigationHistory() {
                 case 'products':
                     title = 'Каталог';
                     break;
+                default:
+                    isAdd = false
+                    break;
             }
-            const fullPath = parts.slice(0, index + 1).join("/");
-            acc.push({ path: `/${fullPath}`, title });
+            if (isAdd){
+                if (parts.length > 1 && index === 0){
+                    console.log(parts)
+                    acc.push({ path: `/`, title });
+                }else {
+                    const fullPath = parts.slice(0, index + 1).join("/");
+                    acc.push({ path: `${fullPath}`, title });
+                }
+            }
             return acc;
         }, [] as { path: string; title: string }[]);
     };

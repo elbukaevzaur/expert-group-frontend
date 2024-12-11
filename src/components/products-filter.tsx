@@ -3,10 +3,12 @@ import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {ADD_FILTER, REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED} from "@/lib/reducers";
 import {FilterProperty, OrderedPageRequest} from "@/lib/models";
+import Link from "next/link";
 
 export default function ProductsFilter(){
     const { filters, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
+    const { subCategories } = useAppSelector((state) => state.categories);
 
     const getTitleByField = (field: string): string => {
         let title = '';
@@ -47,77 +49,36 @@ export default function ProductsFilter(){
 
     return(
         <div>
-        <div className="products__info_wrapper">
-                <h1 className="products__title">ЛЕПНОЙ ДЕКОР</h1>
-                <div className="products__info">
-                    <h3 className="products__info_text">1064</h3>
-                </div>
-            </div>
-            <div className="subcatalog">
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-                <div className="subcatalog__item">
-                    <div className="subcatalog__info">
-                        <h3 className="subcatalog__title">Карнизы потолочные</h3>
-                        <h4 className="subcatalog__subtitle">267 товара</h4>
-                    </div>
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'} alt="Карнизы потолочные" layout="fill" objectFit="contain" />
-                </div>
-            </div>
-        <div className="filter">
-            <div className="filter__container">
-                <div className="filter__container_wrraper">
+            {
+                subCategories.length > 0 && <div className="subcatalog">
                     {
-                        filters.map((value, index) => {
-                            return <FilterComponent
-                                key={index}
-                                title={getTitleByField(value.fieldName)}
-                                fieldName={value.fieldName}
-                                value={value.value}
-                            />
+                        subCategories.map((value, index) => {
+                            return <Link href={`/catalog/${value.id}`} key={index} className="subcatalog__item">
+                                <div className="subcatalog__info">
+                                    <h3 className="subcatalog__title">{value.name}</h3>
+                                    <h4 className="subcatalog__subtitle">{value.productCount} товара</h4>
+                                </div>
+                                <Image className="subcatalog__image" src={'/images/subcatalog__2.png'}
+                                       alt="Карнизы потолочные" layout="fill" objectFit="contain"/>
+                            </Link>
                         })
                     }
                 </div>
+            }
+            <div className="filter">
+                <div className="filter__container">
+                    <div className="filter__container_wrraper">
+                        {
+                            filters.map((value, index) => {
+                                return <FilterComponent
+                                    key={index}
+                                    title={getTitleByField(value.fieldName)}
+                                    fieldName={value.fieldName}
+                                    value={value.value}
+                                />
+                            })
+                        }
+                    </div>
                     <div className="filter__wrraper products__sorted">
                         <h3 className="filter__text">Сортировка</h3>
                         <button className="filter_button">
@@ -139,10 +100,10 @@ export default function ProductsFilter(){
                     </div>
             </div>
             {
-                pageRequest.filters.length > 0 &&
+                pageRequest.filters.filter(f => f.field !== 'categoryId').length > 0 &&
                 <div className="filter__info_wrraper">
                     {
-                        pageRequest.filters.map((value, index) => {
+                        pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
                             return <div key={index} className="filter__info">
                                 <div className="filter__info_text">{value.field}: {
                                     value.value.length > 1 ? `От ${value.value[0]} до ${value.value[1]}` : value.value[0]

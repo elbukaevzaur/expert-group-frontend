@@ -2,15 +2,13 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
     CATEGORIES_FETCH_REQUESTED,
     ADD_FILTER,
-    PRODUCTS_FETCH_REQUESTED,
     FILTERS_FETCH_REQUESTED
 } from "@/lib/reducers";
-import { usePathname, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useEffect } from "react";
 
 export const CatalogModal = () => {
     const { allCategories } = useAppSelector((state) => state.categories);
-    const pathname = usePathname();
     const router = useRouter();
     const dispatch = useAppDispatch();
 
@@ -19,8 +17,7 @@ export const CatalogModal = () => {
     }, [])
 
     const changeCategory = (categoryId) => {
-        if (pathname !== '/products')
-            router.push('/products')
+        router.push(`/catalog/${categoryId}`)
         dispatch(ADD_FILTER({ field: 'categoryId', value: [categoryId] }));
         loadFiltersData(categoryId);
     }
