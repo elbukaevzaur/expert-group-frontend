@@ -214,9 +214,9 @@ const FilterComponent = (props: FilterProps) => {
                     flexDirection: 'column'
                 }}
             >
-                <div className="filter_button_dropdown_range">
-                    <input className="filter_button_dropdown_range_input" type="range" />
-                </div>
+                {/*<div className="filter_button_dropdown_range">*/}
+                {/*    <input className="filter_button_dropdown_range_input" type="range" />*/}
+                {/*</div>*/}
                 <div className="filter_button_dropdown_container">
                     <div className="filter_button_dropdown_wrapper">
                         <h3 className="filter_button_dropdown_text">Мин. цена</h3>
