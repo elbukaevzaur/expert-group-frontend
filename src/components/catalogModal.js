@@ -32,7 +32,12 @@ export const CatalogModal = () => {
     return <div style={{ flexDirection: 'column' }}>
         {
             allCategories.map((value, index) => {
-                return <div key={index}><button className="dropdown-catalog" onClick={() => changeCategory(value.id)} key={index}>{value.name} / {value.productCount}</button></div>
+                return <div className="dropdown-catalog_wrapper" key={index}>
+                    <button className="dropdown-catalog" onClick={() => changeCategory(value.id)} key={index}>{value.name}</button>
+                    <div className="dropdown-catalog_quantity">
+                        <h4 className="dropdown-catalog_quantity_text">{value.productCount}</h4>
+                    </div>
+                    </div>
             })
         }
     </div>

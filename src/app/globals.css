@@ -172,7 +172,7 @@ a {
 }
 
 .dashboar__bascet_info {
-  color: #a5a5a5;
+  color: #21a038;
   font-size: 13px;
   font-weight: 500;
   line-height: 15px;
@@ -504,11 +504,12 @@ a {
 .item__wrraper {
   display: flex;
   margin: 7px 0 0 0;
+  justify-content: space-between;
 }
 
-.item__conteiner{
-  /* margin-right: 5px; */
-}
+/* .item__conteiner{
+  margin-right: 5px;
+} */
 
 .item__text{
   font-size: 14px;
@@ -542,7 +543,7 @@ a {
   display: flex;
   align-items: center;
   padding: 7px 8px;
-  margin-left: 25px;
+  margin-left: 15px;
   background: #21a038;
   cursor: pointer;
   border: #21a038;
@@ -581,12 +582,19 @@ a {
   height: 40px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .items__button_left {
   all: unset;
   cursor: pointer;
   margin-right: 15px;
+  width: 9px;
+  height: 17px;
+  background-image: url(/images/Vector_left.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }
 
 .items__button_number{
@@ -629,6 +637,21 @@ a {
   all: unset;
   cursor: pointer;
   margin-left: 15px;
+  width: 9px;
+  height: 17px;
+  background-image: url(/images/Vector_right.png);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.items__button_left_disabled {
+  background-image: url(/images/Vector_left_disabled.png);
+  cursor: default;
+}
+.items__button_right_disabled {
+  background-image: url(/images/Vector_right_disabled.png);
+  cursor: default;
 }
 
 /** DETALIS **/
@@ -736,17 +759,24 @@ a {
 }
 
 .detalis__price {
+  position: relative;
   margin-left: 8px;
   width: 397px;
   height: 394px;
 }
 
 .detalis__price_buy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 244px;
-  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+  box-shadow: 0px 0px 8px 2px rgba(34, 60, 80, 0.5);
   border-radius: 15px;
   padding: 38px 30px 26px;
   box-sizing: border-box;
+  background-color: #fff;
+  z-index: 10;
 }
 
 .detalis__price_buy_wrraper {
@@ -802,11 +832,6 @@ a {
   margin-top: 13px;
 }
 
-.detalis__price_button:hover {
-  background-color: transparent;
-  border: 1px solid #21a038;
-}
-
 .detalis__price_button_color{
   background-color: transparent;
   border: 1px solid #21a038;
@@ -826,16 +851,16 @@ a {
 }
 
 .detalis__price_info {
-  width: 397px;
-  height: 160px;
-  margin-top: -10px;
+  width: 395px;
+  height: 165px;
   border: 2px solid #21a038;
   border-radius: 0 0 15px 15px;
   border-top: 0;
-}
-
-.detalis__price_info{
   padding: 30px 0 25px 30px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
 }
 
 .detalis__price_info_text{
@@ -1172,10 +1197,11 @@ a {
   min-width: 160px;
   box-shadow: inset 0px -4px 2px 2px rgba(0, 0, 0, 0.2);
   z-index: 1;
-  padding: 10px 10px 10px 10px;
+  padding: 18px 18px 18px 22px;
   border-radius: 0 10px 10px 10px;
   top: 50px;
   left: 0;
+  z-index: 12;
 }
 .dropdown__catalog:hover .dropdown-catalog-content {
   display: block;
@@ -1183,7 +1209,7 @@ a {
 
 .dropdown-catalog {
   all: unset;
-  width: 260px;
+  width: 230px;
   height: 55px;
   margin: 0;
   color: #21a038;
@@ -1200,6 +1226,31 @@ a {
   font-size: 18px;
 }
 
+.dropdown-catalog_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dropdown-catalog_quantity {
+  min-width: 30px;
+  height: 18px;
+  border: 1px solid #7C7C7C;
+  margin-left: 5px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dropdown-catalog_quantity_text {
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 12px;
+  color: #818181;
+  font-family: 'Roboto';
+}
+
 /** Registration **/
 
 .registration {
@@ -1211,10 +1262,10 @@ a {
   font-size: 32px;
   font-weight: 700;
   line-height: 38px;
+  font-family: 'Roboto';
   display: flex;
   justify-content: center;
   margin-bottom: 60px;
-  font-family: 'Roboto';
 }
 
 .registration__info {

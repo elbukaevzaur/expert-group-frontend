@@ -76,6 +76,13 @@ const products = createSlice({
                     state.pageRequest.filters.push(action.payload);
             }
         },
+        REMOVE_FILTER: (state, action: PayloadAction<FilterProperty>) => {
+            const index = state.pageRequest.filters.map(m => m.field).indexOf(action.payload.field);
+            state.pageRequest.filters.splice(index, 1);
+        },
+        REMOVE_ALL_FILTER: (state) => {
+            state.pageRequest.filters = [];
+        },
         FILTERS_FETCH_REQUESTED: (state, action) => {
         },
         FILTERS_FETCH_RESPONSE_SUCCESS: (state, action) => {
@@ -97,6 +104,8 @@ export const { PRODUCTS_FETCH_REQUESTED,
     PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
     PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS,
     ADD_FILTER,
+    REMOVE_FILTER,
+    REMOVE_ALL_FILTER,
     FILTERS_FETCH_REQUESTED,
     FILTERS_FETCH_RESPONSE_SUCCESS,
     SORTED,
