@@ -5,8 +5,6 @@ import {useEffect, useState} from "react";
 import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {ADD_SAVE, DETAILS_FETCH_REQUESTED, REMOVE_COUNT} from "@/lib/reducers";
-import {Products} from "@/lib/models";
-import {any} from "prop-types";
 
 export default function ProductDetails() {
     const params = useParams();
