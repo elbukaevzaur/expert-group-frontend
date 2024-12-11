@@ -206,7 +206,7 @@ const FilterComponent = (props: FilterProps) => {
             <h3 className="filter__text">{props.title}</h3>
             <button className="filter_button">
             </button>
-            <div className="filter_button_dropdown"
+            <div className="filter_button_dropdown filter_button_dropdown_srollbar"
                 style={{
                     position: 'absolute',
                     zIndex: 999,
@@ -217,19 +217,28 @@ const FilterComponent = (props: FilterProps) => {
                 {/*<div className="filter_button_dropdown_range">*/}
                 {/*    <input className="filter_button_dropdown_range_input" type="range" />*/}
                 {/*</div>*/}
-                <div className="filter_button_dropdown_container">
-                    <div className="filter_button_dropdown_wrapper">
+
+                {/* <div className="filter_button_dropdown_container">
+                    <div >
                         <h3 className="filter_button_dropdown_text">Мин. цена</h3>
                         <input className="filter_button_dropdown_input" min={props.value[0]} max={props.value[1]} placeholder={props.value[0]?.toString()} value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)} title="От"/>
                     </div>
                     <div className="filter_button_dropdown_line"></div>
-                    <div className="filter_button_dropdown_wrapper">
+                    <div>
                         <h3 className="filter_button_dropdown_text">Макс. цена</h3>
                         <input className="filter_button_dropdown_input" min={props.value[0]} max={props.value[1]} placeholder={props.value[1]?.toString()} value={valueTo} onChange={(val) => setValueTo(val.target.value)} title="До"/>
                     </div>
                 </div>
                 <div>
                     <button className="filter_button_dropdown_botton" onClick={handleApplyFilter}>Применить</button>
+                </div> */}
+                <div className="filter_button_dropdown_content">
+                    <div className="filter_button_dropdown_wrapper">
+                        <input className="filter_button_dropdown_checkbox" type="checkbox" name="" id="checkbox3" />
+                        <label htmlFor="checkbox3" className="custom-checkbox"></label>
+                    </div>
+                    <h3 className="filter_button_dropdown_checkbox_text">Cosca(Россия)</h3>
+                    <h4 className="filter_button_dropdown_checkbox_quantity">61</h4>
                 </div>
             </div>
         </div>
