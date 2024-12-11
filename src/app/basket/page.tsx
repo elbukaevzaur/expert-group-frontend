@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import {BasketItem, Product} from "@/lib/models";
+import {BasketItem, Products} from "@/lib/models";
 import {ADD_SAVE, REMOVE, REMOVE_ALL, REMOVE_COUNT} from "@/lib/reducers";
 import Image from "next/image"
 
@@ -9,7 +9,7 @@ export default function Basket() {
     const { allItems } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
 
-    const removeFromBasket = (item: Product) => {
+    const removeFromBasket = (item: Products) => {
         dispatch(REMOVE(item.id));
     }
 
@@ -17,11 +17,11 @@ export default function Basket() {
         dispatch(REMOVE_ALL());
     }
 
-    const handleAddToBasket = (item: Product) => {
+    const handleAddToBasket = (item: Products) => {
         dispatch(ADD_SAVE(item))
     }
 
-    const handleRemoveFromBasket = (item: Product) => {
+    const handleRemoveFromBasket = (item: Products) => {
         dispatch(REMOVE_COUNT(item))
     }
 
@@ -38,21 +38,24 @@ export default function Basket() {
         <div className="basket">
             <div className="basket__title">
                 <h1 className="basket__title_text">Корзина</h1>
-                <p className="basket__title_quantity">/ 3 шт.</p>
+                <p className="basket__title_quantity">/ {allItems.length} шт.</p>
             </div>
             <div className="basket__content">
                 <div className="basket__items_content">
                     <div className="basket__items_wrapper">
-                        <h2 className="basket__items_title">Товары в корзине</h2>
-                        <button className="basket__items_clear" onClick={removeAllFromBasket}>
-                            <h3 className="basket__items_clear_text">ОЧИСТИТЬ</h3>
-                            <Image src={'/images/Clear_button.png'} alt="Очистить" width={6.5} height={6.5} />
-                        </button>
+                        <h2 className="basket__items_title">{allItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
+                        {
+                            allItems.length > 0 &&
+                            <button className="basket__items_clear" onClick={removeAllFromBasket}>
+                                <h3 className="basket__items_clear_text">ОЧИСТИТЬ</h3>
+                                <Image src={'/images/Clear_button.png'} alt="Очистить" width={6.5} height={6.5}/>
+                            </button>
+                        }
                     </div>
                     {
                         allItems.map((value, index) => {
                             return <div key={index} className="basket__item">
-                                <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130} />
+                                <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
                                 <h3 className="basket__item_text">{value.name}</h3>
                                 <div className="basket__item_wrapper">
                                     <div className="basket__item_quantity">
@@ -74,18 +77,21 @@ export default function Basket() {
                         })
                     }
                 </div>
-                <div className="basket__buy">
-                    <div className="basket__buy_total">
-                        <h2 className="basket__buy_title">Итого:</h2>
-                        <h2 className="basket__buy_sum">{getTotalPrice()} &#8381;/шт</h2>
+                {
+                    allItems.length > 0 &&
+                    <div className="basket__buy">
+                        <div className="basket__buy_total">
+                            <h2 className="basket__buy_title">Итого:</h2>
+                            <h2 className="basket__buy_sum">{getTotalPrice()} &#8381;/шт</h2>
+                        </div>
+                        <button className="basket__buy_button">
+                            <h3 className="basket__buy_text">Перейти к оформлению</h3>
+                        </button>
+                        <button className="basket__buy_button basket__buy_button_white">
+                            <h3 className="basket__buy_text basket__buy_text_green">Купить в 1 клик</h3>
+                        </button>
                     </div>
-                    <button className="basket__buy_button">
-                        <h3 className="basket__buy_text">Перейти к оформлению</h3>
-                    </button>
-                    <button className="basket__buy_button basket__buy_button_white">
-                        <h3 className="basket__buy_text basket__buy_text_green">Купить в 1 клик</h3>
-                    </button>
-                </div>
+                }
             </div>
         </div>
     )

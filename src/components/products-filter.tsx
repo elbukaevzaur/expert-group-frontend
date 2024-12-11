@@ -179,7 +179,7 @@ const FilterComponent = (props: FilterProps) => {
                 {/*    <input className="filter_button_dropdown_range_input" type="range" />*/}
                 {/*</div>*/}
 
-                {/* <div className="filter_button_dropdown_container">
+                <div className="filter_button_dropdown_container">
                     <div >
                         <h3 className="filter_button_dropdown_text">Мин. цена</h3>
                         <input className="filter_button_dropdown_input" min={props.value[0]} max={props.value[1]} placeholder={props.value[0]?.toString()} value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)} title="От"/>
@@ -192,15 +192,15 @@ const FilterComponent = (props: FilterProps) => {
                 </div>
                 <div>
                     <button className="filter_button_dropdown_botton" onClick={handleApplyFilter}>Применить</button>
-                </div> */}
-                <div className="filter_button_dropdown_content">
+                </div>
+{/*                <div className="filter_button_dropdown_content">
                     <div className="filter_button_dropdown_wrapper">
                         <input className="filter_button_dropdown_checkbox" type="checkbox" name="" id="checkbox3" />
                         <label htmlFor="checkbox3" className="custom-checkbox"></label>
                     </div>
                     <h3 className="filter_button_dropdown_checkbox_text">Cosca(Россия)</h3>
                     <h4 className="filter_button_dropdown_checkbox_quantity">61</h4>
-                </div>
+                </div>*/}
             </div>
         </div>
     )
