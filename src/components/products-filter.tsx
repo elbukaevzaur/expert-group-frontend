@@ -80,6 +80,7 @@ export default function ProductsFilter(){
                                     value={value.value}
                                     list={value.value}
                                     operator={value.filter}
+                                    applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
                                 />
                             })
                         }
@@ -111,7 +112,7 @@ export default function ProductsFilter(){
                         pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
                             return <div key={index} className="filter__info">
                                 <div className="filter__info_text">{value.field}: {
-                                    value.value.length > 1 ? `От ${value.value[0]} до ${value.value[1]}` : value.value[0]
+                                    value.operator == 'LESS_GREATER' ? `От ${value.value[0]} до ${value.value[1]}` : value.value.join(', ')
                                 }</div>
                                 <button onClick={() => handleRemoveFilter(value)} className="filter_button_list">
                                     <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
@@ -137,7 +138,8 @@ interface FilterProps {
     fieldName: string,
     value: number[],
     list: {id: number, name: string}[],
-    operator: string
+    operator: string,
+    applyFilterValues: string[]
 }
 
 const FilterComponent = (props: FilterProps) => {
@@ -151,7 +153,18 @@ const FilterComponent = (props: FilterProps) => {
     }
 
     const handleApplyFilter = () => {
-        dispatch(ADD_FILTER({field: props.fieldName, value: [valueFrom, valueTo]}));
+        dispatch(ADD_FILTER({field: props.fieldName, value: [valueFrom, valueTo], operator: props.operator}));
+    }
+
+    const handleApplyInFilter = (val: number) => {
+        if (props.applyFilterValues === undefined){
+            dispatch(ADD_FILTER({field: props.fieldName, value: [val.toString()], operator: props.operator}));
+        }else if (props.applyFilterValues.indexOf(val.toString()) == -1){
+            const fil = [...props.applyFilterValues, val.toString()]
+            dispatch(ADD_FILTER({field: props.fieldName, value: fil, operator: props.operator}));
+        }else {
+            dispatch(ADD_FILTER({field: props.fieldName, value: props.applyFilterValues.filter(f => f !== val.toString()), operator: props.operator}));
+        }
     }
 
     useEffect(() => {
@@ -207,14 +220,14 @@ const FilterComponent = (props: FilterProps) => {
                                 </button>
                             </div>
                         </> :
-                        props.list.map((value, index) => {
-                            return <div key={index} className="filter_button_dropdown_content">
+                        props.list.map((item) => {
+                            return <div key={item.id} className="filter_button_dropdown_content">
                                 <div className="filter_button_dropdown_wrapper">
-                                    <input className="filter_button_dropdown_checkbox" type="checkbox" name=""
-                                           id="checkbox3"/>
-                                    <label htmlFor="checkbox3" className="custom-checkbox"></label>
+                                    <input checked={props.applyFilterValues !== undefined && props.applyFilterValues?.indexOf(item.id.toString()) !== -1} onChange={() => handleApplyInFilter(item.id)} className="filter_button_dropdown_checkbox" type="checkbox" name=""
+                                           id={`checkbox-${item.id}`}/>
+                                    <label htmlFor={`checkbox-${item.id}`} className="custom-checkbox"></label>
                                 </div>
-                                <h3 className="filter_button_dropdown_checkbox_text">{value.name}</h3>
+                                <h3 className="filter_button_dropdown_checkbox_text">{item.name}</h3>
                                 <h4 className="filter_button_dropdown_checkbox_quantity">61</h4>
                             </div>
                         })

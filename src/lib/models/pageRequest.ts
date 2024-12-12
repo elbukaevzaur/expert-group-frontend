@@ -1,6 +1,7 @@
 export interface FilterProperty {
     field: string;
     value: string[];
+    operator: string
 }
 
 export interface OrderedPageRequest {
