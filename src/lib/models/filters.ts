@@ -1,5 +1,5 @@
 export interface FiltersResponse{
     fieldName: string,
-    value: number[],
+    value: number[] | {id: number, name: string}[],
     filter: string
 }
