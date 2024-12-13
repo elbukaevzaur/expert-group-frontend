@@ -37,7 +37,6 @@ export default function NavigationHistory() {
             }
             if (isAdd){
                 if (parts.length > 1 && index === 0){
-                    console.log(parts)
                     acc.push({ path: `/`, title });
                 }else {
                     const fullPath = parts.slice(0, index + 1).join("/");

@@ -1628,3 +1628,7 @@ a {
   width: 100%;
   height: auto;
 }
+
+.filter_button_dropdown.validate_error{
+  border: 1px solid red;
+}

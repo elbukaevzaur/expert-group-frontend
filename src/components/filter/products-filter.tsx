@@ -1,9 +1,9 @@
 import Image from "next/image";
-import {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {ADD_FILTER, REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED} from "@/lib/reducers";
+import {REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED} from "@/lib/reducers";
 import {FilterProperty, OrderedPageRequest} from "@/lib/models";
 import Link from "next/link";
+import {FilterComponent} from "@/components/filter/filter-item-component";
 
 export default function ProductsFilter(){
     const { filters, pageRequest } = useAppSelector((state) => state.products);
@@ -76,10 +76,7 @@ export default function ProductsFilter(){
                                 return <FilterComponent
                                     key={index}
                                     title={getTitleByField(value.fieldName)}
-                                    fieldName={value.fieldName}
-                                    value={value.value}
-                                    list={value.value}
-                                    operator={value.filter}
+                                    filter={value}
                                     applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
                                 />
                             })
@@ -129,110 +126,6 @@ export default function ProductsFilter(){
                 </div>
             }
         </div>
-        </div>
-    )
-}
-
-interface FilterProps {
-    title: string,
-    fieldName: string,
-    value: number[],
-    list: {id: number, name: string}[],
-    operator: string,
-    applyFilterValues: string[]
-}
-
-const FilterComponent = (props: FilterProps) => {
-    const [isShow, setIsShow] = useState(false);
-    const [valueFrom, setValueFrom] = useState('');
-    const [valueTo, setValueTo] = useState('');
-    const dispatch = useAppDispatch();
-
-    const handleFilterHover = () => {
-        setIsShow(!isShow);
-    }
-
-    const handleApplyFilter = () => {
-        dispatch(ADD_FILTER({field: props.fieldName, value: [valueFrom, valueTo], operator: props.operator}));
-    }
-
-    const handleApplyInFilter = (val: number) => {
-        if (props.applyFilterValues === undefined){
-            dispatch(ADD_FILTER({field: props.fieldName, value: [val.toString()], operator: props.operator}));
-        }else if (props.applyFilterValues.indexOf(val.toString()) == -1){
-            const fil = [...props.applyFilterValues, val.toString()]
-            dispatch(ADD_FILTER({field: props.fieldName, value: fil, operator: props.operator}));
-        }else {
-            dispatch(ADD_FILTER({field: props.fieldName, value: props.applyFilterValues.filter(f => f !== val.toString()), operator: props.operator}));
-        }
-    }
-
-    useEffect(() => {
-    }, [props.value]);
-
-    const onChangeValueFrom = (val: string) => {
-        setValueFrom(val);
-    }
-
-    return (
-        <div style={{position:'relative'}}
-            onMouseEnter={handleFilterHover}
-            onMouseLeave={handleFilterHover}
-            className="filter__wrraper"
-        >
-            <h3 className="filter__text">{props.title}</h3>
-            <button className="filter_button">
-            </button>
-            <div className="filter_button_dropdown filter_button_dropdown_srollbar"
-                style={{
-                    position: 'absolute',
-                    zIndex: 999,
-                    display: isShow ? 'block' : 'none',
-                    flexDirection: 'column'
-                }}
-            >
-                {/*<div className="filter_button_dropdown_range">*/}
-                {/*    <input className="filter_button_dropdown_range_input" type="range" />*/}
-                {/*</div>*/}
-
-                {
-                    props.operator === 'LESS_GREATER' ?
-                        <>
-                            <div className="filter_button_dropdown_container">
-                                <div>
-                                    <h3 className="filter_button_dropdown_text">Мин. цена</h3>
-                                    <input className="filter_button_dropdown_input" min={props.value[0]}
-                                           max={props.value[1]} placeholder={props.value[0]?.toString()}
-                                           value={valueFrom} onChange={(val) => onChangeValueFrom(val.target.value)}
-                                           title="От"/>
-                                </div>
-                                <div className="filter_button_dropdown_line"></div>
-                                <div>
-                                    <h3 className="filter_button_dropdown_text">Макс. цена</h3>
-                                    <input className="filter_button_dropdown_input" min={props.value[0]}
-                                           max={props.value[1]} placeholder={props.value[1]?.toString()} value={valueTo}
-                                           onChange={(val) => setValueTo(val.target.value)} title="До"/>
-                                </div>
-                            </div>
-                            <div>
-                                <button className="filter_button_dropdown_botton"
-                                        onClick={handleApplyFilter}>Применить
-                                </button>
-                            </div>
-                        </> :
-                        props.list.map((item) => {
-                            return <div key={item.id} className="filter_button_dropdown_content">
-                                <div className="filter_button_dropdown_wrapper">
-                                    <input checked={props.applyFilterValues !== undefined && props.applyFilterValues?.indexOf(item.id.toString()) !== -1} onChange={() => handleApplyInFilter(item.id)} className="filter_button_dropdown_checkbox" type="checkbox" name=""
-                                           id={`checkbox-${item.id}`}/>
-                                    <label htmlFor={`checkbox-${item.id}`} className="custom-checkbox"></label>
-                                </div>
-                                <h3 className="filter_button_dropdown_checkbox_text">{item.name}</h3>
-                                <h4 className="filter_button_dropdown_checkbox_quantity">61</h4>
-                            </div>
-                        })
-                }
-            </div>
         </div>
     )
 }
