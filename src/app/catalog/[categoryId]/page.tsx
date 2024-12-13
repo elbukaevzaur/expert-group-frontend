@@ -1,6 +1,6 @@
 'use client'
 
-import ProductsFilter from "@/components/products-filter";
+import ProductsFilter from "@/components/filter/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
@@ -29,7 +29,6 @@ export default function ProductsPage() {
 
     const fetchData = async () => {
         let catalog = allCategories.find(f => f.id.toString() === params.categoryId);
-        console.log('catalog', catalog)
         if (catalog == undefined){
             catalog = subCategories.find(f => f.id.toString() === params.categoryId);
         }else {

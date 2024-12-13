@@ -70,9 +70,18 @@ const products = createSlice({
                 state.pageRequest.filters.push(action.payload);
             } else {
                 const index = state.pageRequest.filters.map(m => m.field).indexOf(action.payload.field);
-                if (index !== -1)
-                    state.pageRequest.filters[index].value = action.payload.value;
-                else
+                if (index !== -1){
+                    if (action.payload.operator === 'IN'){
+                        if (state.pageRequest.filters[index].value.length == 1 && state.pageRequest.filters[index].value
+                            .filter(f => action.payload.value.indexOf(f) !== -1).length === 0){
+                            state.pageRequest.filters = state.pageRequest.filters.filter(f => f.field !== action.payload.field);
+                        }else {
+                            state.pageRequest.filters[index].value = action.payload.value;
+                        }
+                    }else {
+                        state.pageRequest.filters[index].value = action.payload.value;
+                    }
+                } else
                     state.pageRequest.filters.push(action.payload);
             }
         },

@@ -1,6 +1,6 @@
 'use client'
 
-import ProductsFilter from "@/components/products-filter";
+import ProductsFilter from "@/components/filter/products-filter";
 import Image from "next/image";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItem } from "@/components/products-list-item";
