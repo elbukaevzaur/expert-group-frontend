@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import {BasketItem, Products} from "@/lib/models";
 import {ADD_SAVE, REMOVE, REMOVE_ALL, REMOVE_COUNT} from "@/lib/reducers";
 import Image from "next/image"
+import Link from "next/link";
 
 export default function Basket() {
     const { allItems } = useAppSelector((state) => state.basket);
@@ -56,7 +57,9 @@ export default function Basket() {
                         allItems.map((value, index) => {
                             return <div key={index} className="basket__item">
                                 <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
-                                <h3 className="basket__item_text">{value.name}</h3>
+                                <Link href={`/catalog/${value.parentCategoryId}/${value.categoryId}/details/${value.id}`}>
+                                    <h3 className="basket__item_text">{value.name}</h3>
+                                </Link>
                                 <div className="basket__item_wrapper">
                                     <div className="basket__item_quantity">
                                         <button onClick={() => handleRemoveFromBasket(value)} className="basket__item_button">

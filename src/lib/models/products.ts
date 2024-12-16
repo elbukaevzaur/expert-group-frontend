@@ -3,7 +3,8 @@ export interface Products {
     name: string,
     price: number,
     currentQuantity: number,
-    categoryId: number
+    categoryId: number,
+    parentCategoryId: number
 }
 
 interface Materials {
