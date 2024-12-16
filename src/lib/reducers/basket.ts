@@ -44,6 +44,12 @@ const basket = createSlice({
         REMOVE_ALL: (state) => {
             state.allItems = [];
         },
+        INITIAL_BASKET: (state) => {
+
+        },
+        INITIAL_BASKET_SUCCESS: (state, action) => {
+            state.allItems = action.payload
+        }
     }
 });
 
@@ -52,6 +58,8 @@ export const {
     ADD_SAVED,
     REMOVE_COUNT,
     REMOVE,
-    REMOVE_ALL
+    REMOVE_ALL,
+    INITIAL_BASKET,
+    INITIAL_BASKET_SUCCESS
 } = basket.actions;
 export default basket.reducer;
