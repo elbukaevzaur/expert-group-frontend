@@ -1632,3 +1632,15 @@ a {
 .filter_button_dropdown.validate_error{
   border: 1px solid red;
 }
+
+.not_active_history_link{
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  cursor: pointer;
+  font-family: 'Roboto';
+}
+
+.active_history_link{
+  all: unset;
+}

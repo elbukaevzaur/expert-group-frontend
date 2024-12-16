@@ -2,21 +2,35 @@ import Link from "next/link";
 import Image from "next/image";
 import {BasketItem, Products} from "@/lib/models";
 import { EventHandler } from "react";
+import {useParams, usePathname} from "next/navigation";
 
 interface ProductsProps {
     key: number;
     product: Products,
     basketItem: BasketItem | null,
     addToBasket: EventHandler<any>,
-    removeFromBasket: EventHandler<any>
+    removeFromBasket: EventHandler<any>,
+    categoryId: string | string[] | undefined,
 }
 
-export const ProductsListItem = (props: ProductsProps) => {
+export const ProductsListItemComponent = (props: ProductsProps) => {
     const { product } = props;
+    const pathname = usePathname();
+    const params = useParams();
 
+    const getCustomLink = () => {
+        let path = pathname;
+        if (params.subCategoryId === undefined){
+            if (params.categoryId !== product.categoryId.toString()){
+                path += `/${product.categoryId}`
+            }
+        }
+        path += `/details/${product.id}`
+        return path;
+    }
     return (
         <div className="item">
-            <Link href={`/products/details/${product.id}`}>
+            <Link href={`${getCustomLink()}`}>
                 <Image className="item__image" src={'/images/image.png'} alt="Карниз" width={295} height={149} />
             </Link>
             <div className="item__info">

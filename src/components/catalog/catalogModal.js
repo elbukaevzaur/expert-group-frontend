@@ -1,3 +1,5 @@
+"use client"
+
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import {
     CATEGORIES_FETCH_REQUESTED,

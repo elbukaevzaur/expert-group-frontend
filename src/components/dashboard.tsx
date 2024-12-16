@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { CatalogModal } from './catalogModal';
+import { CatalogModal } from './catalog/catalogModal';
 import { useAppSelector } from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 
