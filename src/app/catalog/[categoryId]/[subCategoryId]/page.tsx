@@ -7,6 +7,6 @@ export default function CategoriesPage() {
     const params = useParams();
 
     return (
-        <ProductsListComponent categoryId={params.categoryId} />
+        <ProductsListComponent categoryId={params.subCategoryId} />
     )
 }

@@ -1,42 +1,34 @@
 import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED} from "@/lib/reducers";
+import {REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED, SUB_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
 import {FilterProperty, OrderedPageRequest} from "@/lib/models";
 import Link from "next/link";
 import {FilterComponent} from "@/components/filter/filter-item-component";
+import {getTitleByField} from "@/lib/consts";
+import {useParams, usePathname} from "next/navigation";
+import {useEffect, useState} from "react";
 
 export default function ProductsFilter(){
     const { filters, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
     const { subCategories } = useAppSelector((state) => state.categories);
+    const pathname = usePathname();
+    const params = useParams();
+    const [isShowSubCategories, setIsShowSubCategories] = useState(false);
 
-    const getTitleByField = (field: string): string => {
-        let title = '';
-        switch (field){
-            case 'price':
-                title = 'Цена';
-                break
-            case 'width':
-                title = 'Ширина';
-                break
-            case 'height':
-                title = 'Высота';
-                break
-            case 'length':
-                title = 'Длина';
-                break
-            case 'thickness':
-                title = 'Толщина';
-                break
-            case 'outerDiameter':
-                title = 'Внешний диаметр';
-                break
-            case 'material':
-                title = 'Материал';
-                break
+    useEffect(() => {
+        if (params.subCategoryId === null || params.subCategoryId === undefined){
+            setIsShowSubCategories(true)
+        }else {
+            setIsShowSubCategories(false)
         }
-        return title;
-    }
+    }, [params.subCategoryId]);
+
+    useEffect(() => {
+        if (params.categoryId !== undefined || params.categoryId !== null){
+            dispatch(SUB_CATEGORIES_FETCH_REQUESTED(params.categoryId))
+        }
+    }, [params.categoryId]);
 
     const handleApplySorted = (sort: OrderedPageRequest) => {
         dispatch(SORTED(sort));
@@ -53,10 +45,11 @@ export default function ProductsFilter(){
     return(
         <div>
             {
+                isShowSubCategories &&
                 subCategories.length > 0 && <div className="subcatalog">
                     {
                         subCategories.map((value, index) => {
-                            return <Link href={`/catalog/${value.id}`} key={index} className="subcatalog__item">
+                            return <Link href={`${pathname}/${value.id}`} key={index} className="subcatalog__item">
                                 <div className="subcatalog__info">
                                     <h3 className="subcatalog__title">{value.name}</h3>
                                     <h4 className="subcatalog__subtitle">{value.productCount} товара</h4>
