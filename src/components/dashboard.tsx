@@ -2,14 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { CatalogModal } from './catalog/catalogModal';
-import { useAppSelector } from "@/lib/hooks";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
+import {useEffect} from "react";
+import {INITIAL_BASKET} from "@/lib/reducers";
 
 export default function Dashboard() {
-    const router = useRouter()
     const { allItems } = useAppSelector((state) => state.basket);
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(INITIAL_BASKET())
+    }, []);
 
     return (
         <header className="header">
