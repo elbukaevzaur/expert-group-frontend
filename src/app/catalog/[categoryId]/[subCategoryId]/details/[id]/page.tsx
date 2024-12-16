@@ -5,6 +5,7 @@ import {useEffect, useState} from "react";
 import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {ADD_SAVE, DETAILS_FETCH_REQUESTED, REMOVE_COUNT} from "@/lib/reducers";
+import Link from "next/link";
 
 export default function ProductDetails() {
     const params = useParams();
@@ -59,7 +60,6 @@ export default function ProductDetails() {
                 <div className="detalis__description">
                     <h3 className="detalis__description_text detalis__description_margin">Характеристики</h3>
                     <h3 className="detalis__description_text">Материал: {details?.material.name}</h3>
-                    {/*<h3 className="detalis__description_text">Вес: </h3>*/}
                     <h3 className="detalis__description_text">Высота, мм: {details?.height}</h3>
                     <h3 className="detalis__description_text">Ширина, мм: {details?.width}</h3>
                     <h3 className="detalis__description_text">Длина, мм: {details?.length}</h3>
@@ -87,12 +87,21 @@ export default function ProductDetails() {
                                 {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: {details?.currentQuantity}`: 'Нет в наличии'}
                             </h2>
                         </div>
-                        <button onClick={addToBasket} className="detalis__price_button">
-                            <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
-                            <h3 className="detalis__price_button_text">В корзину</h3>
-                        </button>
+                        {
+                            basketItem?.count < 1 || basketItem == null ?
+                                <button onClick={addToBasket} className="detalis__price_button">
+                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
+                                    <h3 className="detalis__price_button_text">В корзину</h3>
+                                </button>
+                                :
+                                <Link href={'/basket'} onClick={addToBasket} className="detalis__price_button">
+                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
+                                    <h3 className="detalis__price_button_text">Перейти в корзину</h3>
+                                </Link>
+                        }
                         <button className="detalis__price_button detalis__price_button_color">
-                        <h3 className="detalis__price_button_text detalis__price_button_text_color">Купить в 1 клик</h3>
+                            <h3 className="detalis__price_button_text detalis__price_button_text_color">Купить в 1
+                                клик</h3>
                         </button>
                     </div>
                     <div className="detalis__price_info">

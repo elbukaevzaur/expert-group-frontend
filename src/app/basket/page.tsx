@@ -44,7 +44,15 @@ export default function Basket() {
             <div className="basket__content">
                 <div className="basket__items_content">
                     <div className="basket__items_wrapper">
+                        <div>
                         <h2 className="basket__items_title">{allItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
+                        {
+                            allItems.length === 0 &&
+                            <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
+                                <Link href={'/catalog'}><h4 style={{color: '#1fa038'}}>Перейти в каталог товаров</h4></Link>
+                            </div>
+                        }
+                        </div>
                         {
                             allItems.length > 0 &&
                             <button className="basket__items_clear" onClick={removeAllFromBasket}>

@@ -12,6 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>Expert Group</title>
+      </head>
       <body>
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
