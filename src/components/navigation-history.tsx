@@ -65,6 +65,9 @@ export default function NavigationHistory() {
                     prev_path = value;
                     isAdd = false;
                     break;
+                case 'lk':
+                    title = 'Личный кабинет'
+                    break;
                 default:
                     if (prev_path === 'catalog'){
                         title = `category`

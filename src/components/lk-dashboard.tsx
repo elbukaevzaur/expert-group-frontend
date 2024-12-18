@@ -1,10 +1,22 @@
 import Link from "next/link";
+import {SIGN_OUT} from "@/lib/reducers";
+import {useAppDispatch} from "@/lib/hooks";
+import {usePathname, useRouter} from "next/navigation";
 
 export default function LkDashboard() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  function handleSignOut() {
+    router.push('/')
+    dispatch(SIGN_OUT())
+  }
+
   return (
     <ul className="lk_dashboard">
       <Link href={"/lk/current-orders"}>
-        <li className="lk_dashboard__button lk_dashboard__button_first">
+        <li className={`lk_dashboard__button lk_dashboard__button_first ${pathname == '/lk/current-orders' && 'active active__first'}`}>
           <div className="lk_dashboard__icon">
             <svg
               width="30"
@@ -23,7 +35,7 @@ export default function LkDashboard() {
         </li>
       </Link>
       <Link href={"/lk/personal-data"}>
-        <li className="lk_dashboard__button">
+        <li className={`lk_dashboard__button ${pathname == '/lk/personal-data' && 'active'}`}>
           <div className="lk_dashboard__icon">
             <svg
               width="24"
@@ -42,7 +54,7 @@ export default function LkDashboard() {
         </li>
       </Link>
       <Link href={"/lk/change-password"}>
-        <li className="lk_dashboard__button">
+        <li className={`lk_dashboard__button ${pathname == '/lk/change-password' && 'active'}`}>
           <div className="lk_dashboard__icon">
             <svg
               width="32"
@@ -61,7 +73,7 @@ export default function LkDashboard() {
         </li>
       </Link>
       <Link href={"/lk/orders-history"}>
-        <li className="lk_dashboard__button">
+        <li className={`lk_dashboard__button ${pathname == '/lk/orders-history' && 'active'}`}>
           <div className="lk_dashboard__icon">
             <svg
               width="32"
@@ -90,7 +102,7 @@ export default function LkDashboard() {
         </li>
       </Link>
       <Link href={"/lk/favorites"}>
-        <li className="lk_dashboard__button">
+        <li className={`lk_dashboard__button ${pathname == '/lk/favorites' && 'active'}`}>
           <div className="lk_dashboard__icon">
             <svg
               width="28"
@@ -111,7 +123,7 @@ export default function LkDashboard() {
           Избранные товары
         </li>
       </Link>
-      <button className="lk_dashboard__button lk_dashboard__exit">
+      <button onClick={handleSignOut} className="lk_dashboard__button lk_dashboard__exit">
         <div className="lk_dashboard__icon">
           <svg
             width="26"

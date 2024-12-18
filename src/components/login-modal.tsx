@@ -14,7 +14,7 @@ export function Login({onCloseModal = () => {}}) {
 
     useEffect(() => {
         if (isAuth){
-            router.push('/lk')
+            router.push('/lk/current-orders')
             onCloseModal();
         }
     }, [isAuth]);

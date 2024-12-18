@@ -6,7 +6,7 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_BASKET, INITIAL_TOKEN, SIGN_OUT} from "@/lib/reducers";
+import {INITIAL_BASKET, INITIAL_TOKEN} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 
 export default function Dashboard() {
@@ -23,10 +23,6 @@ export default function Dashboard() {
     const toggleLogin = () => {
         setIsLoginVisible(!isLoginVisible);
     };
-
-    function handleSignOut() {
-        dispatch(SIGN_OUT())
-    }
 
     return (
         <header className="header">
@@ -52,10 +48,10 @@ export default function Dashboard() {
                             <h2 className="user__text">Вход</h2>
                         </div>
                         :
-                        <div className="user" onClick={handleSignOut}>
+                        <Link href={'/lk/current-orders'} className="user">
                             <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
                             <h2 className="user__text">Мой кабинет</h2>
-                        </div>
+                        </Link>
                 }
                 <Link href='/basket'>
                     <div className="dashboar__basket">
