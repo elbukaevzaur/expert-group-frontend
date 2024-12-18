@@ -6,20 +6,27 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_BASKET} from "@/lib/reducers";
+import {INITIAL_BASKET, INITIAL_TOKEN, SIGN_OUT} from "@/lib/reducers";
+import {Login} from "@/components/login-modal";
 
 export default function Dashboard() {
     const { allItems } = useAppSelector((state) => state.basket);
+    const { isAuth } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
-    const [isLoginVisible, setIsLoginVisible] = useState(false); 
+    const [isLoginVisible, setIsLoginVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(INITIAL_BASKET())
-    }, []);
+        dispatch(INITIAL_BASKET());
+        dispatch(INITIAL_TOKEN())
+    }, [isAuth]);
 
     const toggleLogin = () => {
         setIsLoginVisible(!isLoginVisible);
     };
+
+    function handleSignOut() {
+        dispatch(SIGN_OUT())
+    }
 
     return (
         <header className="header">
@@ -38,14 +45,21 @@ export default function Dashboard() {
                     <input type="search" className="search_input" placeholder="Поиск" />
                     <button className="search__button">Найти</button>
                 </div>
-                
-                    <div className="user" onClick={toggleLogin}>
-                        <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26} />
-                        <h2 className="user__text">Вход</h2>
-                    </div>
+                {
+                    !isAuth ?
+                        <div className="user" onClick={toggleLogin}>
+                            <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
+                            <h2 className="user__text">Вход</h2>
+                        </div>
+                        :
+                        <div className="user" onClick={handleSignOut}>
+                            <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
+                            <h2 className="user__text">Мой кабинет</h2>
+                        </div>
+                }
                 <Link href='/basket'>
                     <div className="dashboar__basket">
-                        <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26} />
+                        <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
                         <div className="dashboar__basket_container">
                             <h2 className="dashboar__bascet_text">Корзина</h2>
                             <h3 className="dashboar__bascet_info">{allItems.length > 0 ? allItems.length : 'пусто'}</h3>
@@ -89,42 +103,7 @@ export default function Dashboard() {
                 </div>
             </div>
             <NavigationHistory/>
-            {isLoginVisible && <Login />}
+            {isLoginVisible && <Login onCloseModal={() => setIsLoginVisible(false)}/>}
         </header>
-    )
-}
-
-export function Login() {
-    return (
-        <div className="login">
-            <div className="login__conteiner">
-                <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52}/>
-                <form action="" className="login__form">
-                    <div className="login__content">
-                        <h3 className="login__input_text">Логин</h3>
-                        <input className="login__input" type="text" />
-                    </div>
-                    <div className="login__content login__content_margin">
-                        <h3 className="login__input_text">Пароль</h3>
-                        <input className="login__input" type="password" />
-                    </div>
-                    <div className="login__wrapper">
-                        <button className="login__password">Забыли пароль?</button>
-                    </div>
-                    <button className="login__button">Войти</button>
-                </form>
-                <div className="login__wrapper login__line_margin">
-                <div className="login__line login__line_left"></div>
-                <h3 className="login__line_text">или</h3>
-                <div className="login__line login__line_right"></div>
-                </div>
-                <div className="login__social">
-                    <Image src={'/images/Yandex_logo.png'} alt="Яндекс" width={57} height={57} />
-                    <Image src={'/images/Mail_logo.png'} alt="Яндекс" width={57} height={57} />
-                    <Image src={'/images/VK_logo_login.png'} alt="Яндекс" width={57} height={57} />
-                </div>
-                <h3 className="login__registration">Нет аккаунта? <Link href='/registration'><span className="login__registration_span">Зарегистрироваться</span></Link></h3>
-            </div>
-        </div>
     )
 }

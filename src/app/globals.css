@@ -1709,6 +1709,10 @@ a {
   line-height: 23px;
 }
 
+.login__input.auth_error {
+  border: 1px solid red;
+}
+
 .login__input:focus {
   outline: none;
 }

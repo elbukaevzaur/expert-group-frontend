@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {loadFromLocalStorage} from "@/lib/storage/localStorageCustom";
 
 const axiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -6,19 +7,15 @@ const axiosInstance = axios.create({
   headers: { 'Content-Type': 'application/json' }
 });
 
-// Add a request interceptor
 axiosInstance.interceptors.request.use(
   function (config) {
-    // Do something before the request is sent
-    // For example, add an authentication token to the headers
-    // const token = localStorage.getItem('authToken'); // Retrieve auth token from localStorage
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const token = loadFromLocalStorage('authToken');
+    if (token) {
+      config.headers.Authorization = token.accessToken;
+    }
     return config;
   },
   function (error) {
-    // Handle the error
     return Promise.reject(error);
   }
 );
