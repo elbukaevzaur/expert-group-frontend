@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga';
-import { productsSaga, categoriesSaga, basketSaga } from '@/lib/saga'
+import {productsSaga, categoriesSaga, basketSaga, authSaga} from '@/lib/saga'
 import { all } from 'redux-saga/effects';
-import { basketReducer, categoriesReducer, productsReducer } from '@/lib/reducers';
+import {authReducer, basketReducer, categoriesReducer, productsReducer} from '@/lib/reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -10,7 +10,8 @@ function* rootSaga() {
     yield all([
         productsSaga(),
         categoriesSaga(),
-        basketSaga()
+        basketSaga(),
+        authSaga()
     ])
 }
 
@@ -19,7 +20,8 @@ export const store = () => {
         reducer: {
             products: productsReducer,
             categories: categoriesReducer,
-            basket: basketReducer
+            basket: basketReducer,
+            auth: authReducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([sagaMiddleware]),
