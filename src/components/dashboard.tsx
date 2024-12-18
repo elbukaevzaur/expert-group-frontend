@@ -5,16 +5,21 @@ import Image from "next/image";
 import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {INITIAL_BASKET} from "@/lib/reducers";
 
 export default function Dashboard() {
     const { allItems } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
+    const [isLoginVisible, setIsLoginVisible] = useState(false); 
 
     useEffect(() => {
         dispatch(INITIAL_BASKET())
     }, []);
+
+    const toggleLogin = () => {
+        setIsLoginVisible(!isLoginVisible);
+    };
 
     return (
         <header className="header">
@@ -33,12 +38,11 @@ export default function Dashboard() {
                     <input type="search" className="search_input" placeholder="Поиск" />
                     <button className="search__button">Найти</button>
                 </div>
-                <Link href='/registration'>
-                    <div className="user">
+                
+                    <div className="user" onClick={toggleLogin}>
                         <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26} />
                         <h2 className="user__text">Вход</h2>
                     </div>
-                </Link>
                 <Link href='/basket'>
                     <div className="dashboar__basket">
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26} />
@@ -85,6 +89,42 @@ export default function Dashboard() {
                 </div>
             </div>
             <NavigationHistory/>
+            {isLoginVisible && <Login />}
         </header>
+    )
+}
+
+export function Login() {
+    return (
+        <div className="login">
+            <div className="login__conteiner">
+                <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52}/>
+                <form action="" className="login__form">
+                    <div className="login__content">
+                        <h3 className="login__input_text">Логин</h3>
+                        <input className="login__input" type="text" />
+                    </div>
+                    <div className="login__content login__content_margin">
+                        <h3 className="login__input_text">Пароль</h3>
+                        <input className="login__input" type="password" />
+                    </div>
+                    <div className="login__wrapper">
+                        <button className="login__password">Забыли пароль?</button>
+                    </div>
+                    <button className="login__button">Войти</button>
+                </form>
+                <div className="login__wrapper login__line_margin">
+                <div className="login__line login__line_left"></div>
+                <h3 className="login__line_text">или</h3>
+                <div className="login__line login__line_right"></div>
+                </div>
+                <div className="login__social">
+                    <Image src={'/images/Yandex_logo.png'} alt="Яндекс" width={57} height={57} />
+                    <Image src={'/images/Mail_logo.png'} alt="Яндекс" width={57} height={57} />
+                    <Image src={'/images/VK_logo_login.png'} alt="Яндекс" width={57} height={57} />
+                </div>
+                <h3 className="login__registration">Нет аккаунта? <Link href='/registration'><span className="login__registration_span">Зарегистрироваться</span></Link></h3>
+            </div>
+        </div>
     )
 }
