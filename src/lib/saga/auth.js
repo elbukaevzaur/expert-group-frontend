@@ -1,5 +1,12 @@
 import { all, put, takeEvery, call } from 'redux-saga/effects'
-import {INITIAL_TOKEN, SIGN_IN_REQUEST, SIGN_IN_RESPONSE_SUCCESS, SIGN_OUT, SIGN_OUT_SUCCESS} from '../reducers'
+import {
+    INITIAL_TOKEN,
+    SIGN_IN_REQUEST,
+    SIGN_IN_RESPONSE_ERROR,
+    SIGN_IN_RESPONSE_SUCCESS,
+    SIGN_OUT,
+    SIGN_OUT_SUCCESS
+} from '../reducers'
 import {signIn} from "@/lib/http/authRequest";
 import {loadFromLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
 
@@ -11,6 +18,7 @@ function* signInWorker(action) {
         yield call(saveToLocalStorage, response.data, authStorageKey);
         yield put(SIGN_IN_RESPONSE_SUCCESS(response.data))
     } catch (e) {
+        yield put(SIGN_IN_RESPONSE_ERROR())
     }
 }
 

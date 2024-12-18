@@ -1,21 +1,35 @@
 import Image from "next/image";
 import Link from "next/link";
-import {useAppDispatch} from "@/lib/hooks";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {SIGN_IN_REQUEST, SIGN_OUT} from "@/lib/reducers";
+import {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
 
-export function Login() {
+export function Login({onCloseModal = () => {}}) {
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    const {isAuth, isAuthError } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
+    const router = useRouter();
+
+    useEffect(() => {
+        if (isAuth){
+            router.push('/lk')
+            onCloseModal();
+        }
+    }, [isAuth]);
 
     const handleSignIn = () => {
         const request = {
-            login: 'test',
-            password: 'test'
+            login: login,
+            password: password
         }
         dispatch(SIGN_IN_REQUEST(request))
     }
 
-    function handleSignOut() {
-        dispatch(SIGN_OUT())
+    const handleNavigationToReg = () => {
+        router.push('/registration');
+        onCloseModal();
     }
 
     return (
@@ -25,18 +39,17 @@ export function Login() {
                 <form action={handleSignIn} className="login__form">
                     <div className="login__content">
                         <h3 className="login__input_text">Логин</h3>
-                        <input className="login__input" type="text"/>
+                        <input id="name" value={login} onChange={(e) => setLogin(e.target.value)} className={`login__input ${isAuthError && 'auth_error'}`} type="text"/>
                     </div>
                     <div className="login__content login__content_margin">
                         <h3 className="login__input_text">Пароль</h3>
-                        <input className="login__input" type="password"/>
+                        <input id="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`login__input ${isAuthError && 'auth_error'}`} type="password"/>
                     </div>
                     <div className="login__wrapper">
                         <button className="login__password">Забыли пароль?</button>
                     </div>
                     <button className="login__button">Войти</button>
                 </form>
-                <button onClick={handleSignOut} className="login__button">Выйти</button>
                 <div className="login__wrapper login__line_margin">
                     <div className="login__line login__line_left"></div>
                     <h3 className="login__line_text">или</h3>
@@ -47,8 +60,11 @@ export function Login() {
                     <Image src={'/images/Mail_logo.png'} alt="Яндекс" width={57} height={57}/>
                     <Image src={'/images/VK_logo_login.png'} alt="Яндекс" width={57} height={57}/>
                 </div>
-                <h3 className="login__registration">Нет аккаунта? <Link href='/registration'><span
-                    className="login__registration_span">Зарегистрироваться</span></Link></h3>
+                <h3 className="login__registration">
+                    Нет аккаунта? <button onChange={handleNavigationToReg} style={{all: 'unset'}}>
+                        <span className="login__registration_span">Зарегистрироваться</span>
+                    </button>
+                </h3>
             </div>
         </div>
     )
