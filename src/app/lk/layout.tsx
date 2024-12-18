@@ -9,7 +9,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-      <div style={{flexDirection: 'row', display: 'flex'}}>
+      <div className="account">
           <LkDashboard/>
           {children}
       </div>
