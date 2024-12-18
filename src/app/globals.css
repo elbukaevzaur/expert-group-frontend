@@ -1812,6 +1812,7 @@ a {
 
 .lk_dashboard__exit {
   all: unset;
+  border-radius: 0 0 10px 10px;
 }
 
 .lk_dashboard__button {
@@ -1831,6 +1832,10 @@ a {
 .lk_dashboard__button:hover {
   background-color: #21a038;
   color: #fff;
+}
+
+.lk_dashboard__button_first:hover {
+  border-radius: 10px 10px 0 0;
 }
 
 .lk_dashboard__icon {

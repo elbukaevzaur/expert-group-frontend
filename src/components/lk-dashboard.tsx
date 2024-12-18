@@ -4,7 +4,7 @@ export default function LkDashboard() {
   return (
     <ul className="lk_dashboard">
       <Link href={"/lk/current-orders"}>
-        <li className="lk_dashboard__button">
+        <li className="lk_dashboard__button lk_dashboard__button_first">
           <div className="lk_dashboard__icon">
             <svg
               width="30"
