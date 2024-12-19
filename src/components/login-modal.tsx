@@ -19,7 +19,8 @@ export function Login({onCloseModal = () => {}}) {
         }
     }, [isAuth]);
 
-    const handleSignIn = () => {
+    const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         const request = {
             login: login,
             password: password
@@ -32,11 +33,18 @@ export function Login({onCloseModal = () => {}}) {
         onCloseModal();
     }
 
+    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (e.target === e.currentTarget) {
+            onCloseModal();
+        }
+    };
+
     return (
-        <div className="login">
+        <div className="login" onClick={handleOverlayClick}>
             <div className="login__conteiner">
+                <button className="login__close" onClick={onCloseModal}></button>
                 <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52}/>
-                <form action={handleSignIn} className="login__form">
+                <form onSubmit={handleSignIn} className="login__form">
                     <div className="login__content">
                         <h3 className="login__input_text">Логин</h3>
                         <input id="name" value={login} onChange={(e) => setLogin(e.target.value)} className={`login__input ${isAuthError && 'auth_error'}`} type="text"/>
@@ -61,7 +69,7 @@ export function Login({onCloseModal = () => {}}) {
                     <Image src={'/images/VK_logo_login.png'} alt="Яндекс" width={57} height={57}/>
                 </div>
                 <h3 className="login__registration">
-                    Нет аккаунта? <button onChange={handleNavigationToReg} style={{all: 'unset'}}>
+                    Нет аккаунта? <button onClick={handleNavigationToReg} style={{all: 'unset'}}>
                         <span className="login__registration_span">Зарегистрироваться</span>
                     </button>
                 </h3>

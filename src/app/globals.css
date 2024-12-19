@@ -209,6 +209,7 @@ a {
 .navigator__container_white {
   background-color: #ffffff;
   padding-left: 16px;
+  box-sizing: border-box;
   width: 135px;
   height: 50px;
   border: 3px solid #21a038;
@@ -220,6 +221,7 @@ a {
   box-shadow: inset 0px 2px 3px 2px rgba(0, 0, 0, 0.2);
   border-radius: 5px  5px 0 0;
   height: 53px;
+  padding-left: 19px;
 }
 
 .navigator__text{
@@ -725,6 +727,22 @@ a {
   background: #21a038;
   cursor: pointer;
   border: #21a038;
+  justify-content: center;
+}
+
+.item__basket_cursor {
+  cursor: default;
+}
+
+.item__wrapper {
+  width: 70px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.item__basket_button {
+  all: unset;
+  cursor: pointer;
 }
 
 .item__basket_text {
@@ -734,6 +752,11 @@ a {
   color: #ffffff;
   margin: 0 0 0 8px;
   font-family: 'Roboto';
+}
+
+.item__basket_text_margin {
+  margin: 0;
+  font-size: 20px;
 }
 
 .items__more {
@@ -1662,6 +1685,7 @@ a {
 }
 
 .login__conteiner {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -1671,6 +1695,20 @@ a {
   border: 2px solid #21a038;
   border-radius: 10px;
   padding: 55px;
+}
+
+.login__close {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  background-image: url('/images/Close_button.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 .login__form {
