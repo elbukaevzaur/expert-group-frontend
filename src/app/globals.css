@@ -1847,7 +1847,7 @@ a {
   color: #fff;
 }
 
-.lk_dashboard__button.active{
+.lk_dashboard__button.active .lk_dashboard__icon{
   background-color: #21a038;
   color: #fff;
 }
@@ -1998,4 +1998,8 @@ a {
 .personal-data__input:focus {
   outline: none;
   color: #000;
+}
+
+.password {
+  width: 140px;
 }

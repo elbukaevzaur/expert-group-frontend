@@ -23,7 +23,6 @@ export default function Page() {
         </div>
         <div className="history__item_wrapper">
           <button className="history__item_button">Посмотреть детали</button>
-          <button className="history__item_button">Посмотреть детали</button>
           </div>
       </div>
     </div>
