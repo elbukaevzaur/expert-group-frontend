@@ -12,3 +12,11 @@ export function getAllOrderItems(){
 export function getAllBasketItemsDetails(request: {productIds: []}) {
     return axiosInstance.post('/products/basket/items/details', request)
 }
+
+export function removeByProductId(productId: number) {
+    return axiosInstance.delete(`/basket/order/items?productId=${productId}`)
+}
+
+export function basketCleanRequest() {
+    return axiosInstance.delete(`/basket/order/items/clean`)
+}

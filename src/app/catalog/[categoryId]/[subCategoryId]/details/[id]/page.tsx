@@ -6,13 +6,13 @@ import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {DETAILS_FETCH_REQUESTED, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT} from "@/lib/reducers";
 import Link from "next/link";
-import {OrderItemsRequest} from "@/lib/models";
+import {OrderItems, OrderItemsRequest} from "@/lib/models";
 
 export default function ProductDetails() {
     const params = useParams();
     const { details } = useAppSelector((state) => state.products);
     const { orderItems } = useAppSelector((state) => state.basket);
-    const [basketItem, setBasketItem] = useState(null);
+    const [basketItem, setBasketItem] = useState<OrderItems>(null);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -105,7 +105,7 @@ export default function ProductDetails() {
                                     <h3 className="detalis__price_button_text">В корзину</h3>
                                 </button>
                                 :
-                                <Link href={'/basket'} onClick={addToBasket} className="detalis__price_button">
+                                <Link href={'/basket'} className="detalis__price_button">
                                     <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
                                     <h3 className="detalis__price_button_text">Перейти в корзину</h3>
                                 </Link>

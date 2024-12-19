@@ -32,7 +32,7 @@ const basket = createSlice({
                 state.orderItems.splice(index, 1);
         },
         REMOVE: (state, action) => {
-            const index = state.orderItems.map(m => m.id).indexOf(action.payload);
+            const index = state.orderItems.map(m => m.productId).indexOf(action.payload);
             if (index !== -1) {
                 state.orderItems.splice(index, 1);
             }
