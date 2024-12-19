@@ -53,7 +53,7 @@ export const ProductsListItemComponent = (props: ProductsProps) => {
                                 :
                                 <div className="item__basket">
                                     <button onClick={props.removeFromBasket}>-</button>
-                                    <h3 className="item__basket_text">{props.basketItem.count}</h3>
+                                    <h3 className="item__basket_text">{props.basketItem.quantity}</h3>
                                     <button onClick={props.addToBasket}>+</button>
                                 </div>
                         }

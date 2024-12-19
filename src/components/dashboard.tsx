@@ -6,11 +6,11 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_BASKET, INITIAL_TOKEN, SIGN_OUT} from "@/lib/reducers";
+import {INITIAL_BASKET, INITIAL_TOKEN} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 
 export default function Dashboard() {
-    const { allItems } = useAppSelector((state) => state.basket);
+    const { orderItems } = useAppSelector((state) => state.basket);
     const { isAuth } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const [isLoginVisible, setIsLoginVisible] = useState(false);
@@ -23,10 +23,6 @@ export default function Dashboard() {
     const toggleLogin = () => {
         setIsLoginVisible(!isLoginVisible);
     };
-
-    function handleSignOut() {
-        dispatch(SIGN_OUT())
-    }
 
     return (
         <header className="header">
@@ -52,17 +48,17 @@ export default function Dashboard() {
                             <h2 className="user__text">Вход</h2>
                         </div>
                         :
-                        <div className="user" onClick={handleSignOut}>
+                        <Link href={'/lk/current-orders'} className="user">
                             <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
                             <h2 className="user__text">Мой кабинет</h2>
-                        </div>
+                        </Link>
                 }
                 <Link href='/basket'>
                     <div className="dashboar__basket">
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
                         <div className="dashboar__basket_container">
                             <h2 className="dashboar__bascet_text">Корзина</h2>
-                            <h3 className="dashboar__bascet_info">{allItems.length > 0 ? allItems.length : 'пусто'}</h3>
+                            <h3 className="dashboar__bascet_info">{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
                         </div>
                     </div>
                 </Link>

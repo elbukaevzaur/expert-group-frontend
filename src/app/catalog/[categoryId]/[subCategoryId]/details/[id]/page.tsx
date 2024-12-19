@@ -4,13 +4,14 @@ import Image from "next/image";
 import {useEffect, useState} from "react";
 import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {ADD_SAVE, DETAILS_FETCH_REQUESTED, REMOVE_COUNT} from "@/lib/reducers";
+import {DETAILS_FETCH_REQUESTED, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT} from "@/lib/reducers";
 import Link from "next/link";
+import {OrderItemsRequest} from "@/lib/models";
 
 export default function ProductDetails() {
     const params = useParams();
     const { details } = useAppSelector((state) => state.products);
-    const { allItems } = useAppSelector((state) => state.basket);
+    const { orderItems } = useAppSelector((state) => state.basket);
     const [basketItem, setBasketItem] = useState(null);
     const dispatch = useAppDispatch();
 
@@ -25,21 +26,31 @@ export default function ProductDetails() {
 
     useEffect(() => {
         if (details !== null){
-            const item = allItems.find(f => f.id == details.id);
+            const item = orderItems.find(f => f.productId == details.id);
             if (item !== undefined)
                 setBasketItem(item);
             else
                 setBasketItem(null);
 
         }
-    }, [allItems, details]);
+    }, [orderItems, details]);
 
     const addToBasket = () => {
-        dispatch(ADD_SAVE(details))
+        const request: OrderItemsRequest = {
+            productId: basketItem ? basketItem.productId : details.id,
+            quantity: basketItem ? (basketItem.quantity + 1) : 1,
+        }
+        dispatch(ORDER_ITEMS_INCREMENT(request))
     }
 
     const handleRemoveFromBasket = () => {
-        dispatch(REMOVE_COUNT(details))
+        if (basketItem !== null){
+            const request: OrderItemsRequest = {
+                productId: basketItem.productId,
+                quantity: (basketItem.quantity - 1)
+            }
+            dispatch(ORDER_ITEMS_DECREMENT(request))
+        }
     }
 
     return (
@@ -78,7 +89,7 @@ export default function ProductDetails() {
                                 <button onClick={handleRemoveFromBasket} className="detalis__price_buy_like">
                                     <Image src={'/images/Minus.png'} alt="Убрать" width={22} height={22}/>
                                 </button>
-                                <h3 className="detalis__price_buy_text">{basketItem != null ? basketItem.count : 0}</h3>
+                                <h3 className="detalis__price_buy_text">{basketItem != null ? basketItem.quantity : 0}</h3>
                                 <button onClick={addToBasket} className="detalis__price_buy_like">
                                     <Image src={'/images/Plus.png'} alt="Добавить" width={22} height={22}/>
                                 </button>
@@ -88,7 +99,7 @@ export default function ProductDetails() {
                             </h2>
                         </div>
                         {
-                            basketItem?.count < 1 || basketItem == null ?
+                            basketItem?.quantity < 1 || basketItem == null ?
                                 <button onClick={addToBasket} className="detalis__price_button">
                                     <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
                                     <h3 className="detalis__price_button_text">В корзину</h3>

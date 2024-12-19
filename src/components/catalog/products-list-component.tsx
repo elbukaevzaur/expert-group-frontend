@@ -5,11 +5,10 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { ProductsListItemComponent } from "@/components/catalog/products-list-item-component";
 import {
     ADD_FILTER,
-    ADD_SAVE, FILTERS_FETCH_REQUESTED,
-    REMOVE_COUNT, SUB_CATEGORIES_FETCH_REQUESTED
+    FILTERS_FETCH_REQUESTED, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT,
 } from "@/lib/reducers";
-import {useEffect, useState} from "react";
-import {BasketItem, Products} from "@/lib/models";
+import {useEffect} from "react";
+import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
 import CategoryTitle from "@/components/catalog/category-title-component";
 import ProductsPagination from "@/components/catalog/products-pagination-component";
 
@@ -19,7 +18,7 @@ interface Props {
 
 export default function ProductsListComponent(props: Props) {
     const { allProducts } = useAppSelector((state) => state.products);
-    const { allItems } = useAppSelector((state) => state.basket);
+    const { orderItems } = useAppSelector((state) => state.basket);
     const { allCategories } = useAppSelector((state) => state.categories);
     const dispatch = useAppDispatch();
 
@@ -32,19 +31,31 @@ export default function ProductsListComponent(props: Props) {
     }, [props.categoryId])
 
     const addToBasket = (item: Products) => {
-        dispatch(ADD_SAVE(item))
+        const basketItem = findBasketItemByProductId(item.id);
+        const request: OrderItemsRequest = {
+            productId: basketItem ? basketItem.productId : item.id,
+            quantity: basketItem ? (basketItem.quantity + 1) : 1,
+        }
+        dispatch(ORDER_ITEMS_INCREMENT(request))
     }
 
     const handleRemoveFromBasket = (item: Products) => {
-        dispatch(REMOVE_COUNT(item))
+        const basketItem = findBasketItemByProductId(item.id);
+        if (basketItem !== null){
+            const request: OrderItemsRequest = {
+                productId: basketItem.productId,
+                quantity: (basketItem.quantity - 1)
+            }
+            dispatch(ORDER_ITEMS_DECREMENT(request))
+        }
     }
 
-    function findBasketItemByProductId(productId: number): BasketItem | null{
-        const index = allItems.map(m => m.id).indexOf(productId);
+    function findBasketItemByProductId(productId: number): OrderItems | null{
+        const index = orderItems.map(m => m.productId).indexOf(productId);
         if (index === -1){
             return null;
         }
-        return allItems[index]
+        return orderItems[index]
     }
 
     return (

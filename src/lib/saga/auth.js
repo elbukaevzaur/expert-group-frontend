@@ -1,5 +1,6 @@
 import { all, put, takeEvery, call } from 'redux-saga/effects'
 import {
+    BASKET_CLEAR,
     INITIAL_TOKEN,
     SIGN_IN_REQUEST,
     SIGN_IN_RESPONSE_ERROR,
@@ -8,7 +9,7 @@ import {
     SIGN_OUT_SUCCESS
 } from '../reducers'
 import {signIn} from "@/lib/http/authRequest";
-import {loadFromLocalStorage, removeFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
+import {loadFromLocalStorage, clearFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
 
 const authStorageKey = 'authToken';
 
@@ -34,8 +35,9 @@ function* initialToken() {
 
 function* signOutWorker() {
     try {
-        yield call(removeFromLocalStorage, authStorageKey);
+        yield call(clearFromLocalStorage, authStorageKey);
         yield put(SIGN_OUT_SUCCESS())
+        yield put(BASKET_CLEAR())
     } catch (e) {
     }
 }
