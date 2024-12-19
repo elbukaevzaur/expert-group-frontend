@@ -1,8 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga';
-import {productsSaga, categoriesSaga, basketSaga, authSaga} from '@/lib/saga'
+import {productsSaga, categoriesSaga, basketSaga, authSaga, ordersSaga} from '@/lib/saga'
 import { all } from 'redux-saga/effects';
-import {authReducer, basketReducer, categoriesReducer, productsReducer} from '@/lib/reducers';
+import {authReducer, basketReducer, categoriesReducer, ordersReducer, productsReducer} from '@/lib/reducers';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -11,7 +11,8 @@ function* rootSaga() {
         productsSaga(),
         categoriesSaga(),
         basketSaga(),
-        authSaga()
+        authSaga(),
+        ordersSaga()
     ])
 }
 
@@ -21,7 +22,8 @@ export const store = () => {
             products: productsReducer,
             categories: categoriesReducer,
             basket: basketReducer,
-            auth: authReducer
+            auth: authReducer,
+            orders: ordersReducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([sagaMiddleware]),
