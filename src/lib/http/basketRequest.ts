@@ -8,3 +8,7 @@ export function addOrderItems(request: OrderItemsRequest[]) {
 export function getAllOrderItems(){
     return axiosInstance.get('/basket/order/items/me/all');
 }
+
+export function getAllBasketItemsDetails(request: {productIds: []}) {
+    return axiosInstance.post('/products/basket/items/details', request)
+}

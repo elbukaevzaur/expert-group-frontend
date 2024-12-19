@@ -1,21 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {OrderItems} from '@/lib/models';
+import {OrderItems, OrderItemsDetails} from '@/lib/models';
 
 interface BasketState {
     orderItems: OrderItems[];
+    orderItemsDetails: OrderItemsDetails[];
 }
 
 const initialState: BasketState = {
-    orderItems: []
+    orderItems: [],
+    orderItemsDetails: []
 };
 
 const basket = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        ORDER_ITEMS_INCREMENT: (state, action) => {
-
-        },
+        ORDER_ITEMS_INCREMENT: () => {},
         ORDER_ITEMS_INCREMENT_SUCCESS: (state, action) => {
             const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
             if (index == -1)
@@ -23,9 +23,7 @@ const basket = createSlice({
             else
                 state.orderItems[index] = action.payload;
         },
-        ORDER_ITEMS_DECREMENT: (state, action) => {
-
-        },
+        ORDER_ITEMS_DECREMENT: () => {},
         ORDER_ITEMS_DECREMENT_SUCCESS: (state, action) => {
             const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
             if (state.orderItems[index].quantity > 1)
@@ -42,17 +40,24 @@ const basket = createSlice({
         BASKET_CLEAR: (state) => {
             state.orderItems = [];
         },
-        INITIAL_BASKET: (state) => {
-
-        },
+        INITIAL_BASKET: () => {},
         INITIAL_BASKET_SUCCESS: (state, action) => {
             state.orderItems = action.payload
         },
-        UPDATE_STORAGE: (state) => {
-
-        },
-        UPDATE_FOR_API: (state) => {
-
+        UPDATE_STORAGE: () => {},
+        UPDATE_FOR_API: () => {},
+        ORDER_ITEMS_DETAILS_REQUEST: () => {},
+        ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS: (state, action) => {
+            const detailsMap = action.payload.reduce((acc, itemDetails: OrderItemsDetails) => {
+                acc[itemDetails.productId] = {
+                    name: itemDetails.name,
+                    price: itemDetails.price,
+                    currentQuantity: itemDetails.currentQuantity,
+                    logo: itemDetails.logo,
+                };
+                return acc;
+            }, {});
+            state.orderItemsDetails = detailsMap;
         }
     }
 });
@@ -67,6 +72,8 @@ export const {
     INITIAL_BASKET,
     INITIAL_BASKET_SUCCESS,
     UPDATE_STORAGE,
-    UPDATE_FOR_API
+    UPDATE_FOR_API,
+    ORDER_ITEMS_DETAILS_REQUEST,
+    ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS
 } = basket.actions;
 export default basket.reducer;

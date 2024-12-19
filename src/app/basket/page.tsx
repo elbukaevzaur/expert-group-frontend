@@ -2,13 +2,25 @@
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
 import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
-import {ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT, REMOVE, BASKET_CLEAR} from "@/lib/reducers";
+import {
+    ORDER_ITEMS_DECREMENT,
+    ORDER_ITEMS_INCREMENT,
+    REMOVE,
+    BASKET_CLEAR,
+    ORDER_ITEMS_DETAILS_REQUEST
+} from "@/lib/reducers";
 import Image from "next/image"
 import Link from "next/link";
+import {useEffect} from "react";
 
 export default function Basket() {
-    const { orderItems } = useAppSelector((state) => state.basket);
+    const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
+
     const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(ORDER_ITEMS_DETAILS_REQUEST())
+    }, []);
 
     const removeFromBasket = (item: Products) => {
         dispatch(REMOVE(item.id));
@@ -38,7 +50,7 @@ export default function Basket() {
         let totalSum: number = 0;
         if (orderItems.length > 0)
             orderItems.forEach((value) => {
-                totalSum += Number((value.quantity * value.price).toFixed(2));
+                totalSum += Number((value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2));
             })
         return totalSum.toFixed(2);
     }
@@ -73,8 +85,8 @@ export default function Basket() {
                         orderItems.map((value, index) => {
                             return <div key={index} className="basket__item">
                                 <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
-                                <Link href={`/catalog/${value.parentCategoryId}/${value.categoryId}/details/${value.id}`}>
-                                    <h3 className="basket__item_text">{value.name}</h3>
+                                <Link href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
+                                    <h3 className="basket__item_text">{orderItemsDetails[value.productId]?.name}</h3>
                                 </Link>
                                 <div className="basket__item_wrapper">
                                     <div className="basket__item_quantity">
@@ -86,9 +98,9 @@ export default function Basket() {
                                             <Image src={'/images/Plus.png'} alt="Plus" width={20} height={20} />
                                         </button>
                                     </div>
-                                    <h4 className="basket__item_quantity_sum">{value.price} &#8381; /шт</h4>
+                                    <h4 className="basket__item_quantity_sum">{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
                                 </div>
-                                <h3 className="basket__item_price">{(value.quantity * value.price).toFixed(2)} &#8381;</h3>
+                                <h3 className="basket__item_price">{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
                                 <button className="basket__item_delete" onClick={() => removeFromBasket(value)}>
                                     <Image src={'/images/Clear_button.png'} alt="Удалить" width={6} height={6} />
                                 </button>

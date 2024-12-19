@@ -6,14 +6,19 @@ import {
     INITIAL_BASKET_SUCCESS,
     REMOVE,
     BASKET_CLEAR,
-    ORDER_ITEMS_DECREMENT, ORDER_ITEMS_DECREMENT_SUCCESS, UPDATE_STORAGE, UPDATE_FOR_API
+    ORDER_ITEMS_DECREMENT,
+    ORDER_ITEMS_DECREMENT_SUCCESS,
+    UPDATE_STORAGE,
+    UPDATE_FOR_API,
+    ORDER_ITEMS_DETAILS_REQUEST,
+    ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS
 } from '../reducers'
 import {
     loadFromLocalStorage,
     clearFromLocalStorage,
     saveToLocalStorage
 } from "@/lib/storage/localStorageCustom";
-import {addOrderItems, getAllOrderItems} from "@/lib/http/basketRequest";
+import {addOrderItems, getAllBasketItemsDetails, getAllOrderItems} from "@/lib/http/basketRequest";
 
 const basketStorageKey = 'basketStorageKey';
 
@@ -74,12 +79,22 @@ function* initialStorage() {
             const response = yield call(getAllOrderItems);
             yield put(INITIAL_BASKET_SUCCESS(response.data));
             yield put(UPDATE_STORAGE());
+            yield put(ORDER_ITEMS_DETAILS_REQUEST());
         }else {
             const data = yield call(loadFromLocalStorage, basketStorageKey);
             if (data) {
                 yield put(INITIAL_BASKET_SUCCESS(data));
             }
         }
+    } catch (e) {
+    }
+}
+
+function* orderItemsDetailsRequestWorker() {
+    try {
+        const { orderItems } = yield select(state => state.basket);
+        const response = yield call(getAllBasketItemsDetails, {productIds: orderItems.map(m => m.productId)});
+        yield put(ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS(response.data))
     } catch (e) {
     }
 }
@@ -92,6 +107,7 @@ export default function* basketSaga() {
         yield takeEvery(INITIAL_BASKET, initialStorage),
         yield takeEvery(UPDATE_STORAGE, updateStorage),
         yield takeEvery(BASKET_CLEAR, clearStorage),
-        yield takeEvery(UPDATE_FOR_API, updateForApi)
+        yield takeEvery(UPDATE_FOR_API, updateForApi),
+        yield takeEvery(ORDER_ITEMS_DETAILS_REQUEST, orderItemsDetailsRequestWorker)
     ])
 }
