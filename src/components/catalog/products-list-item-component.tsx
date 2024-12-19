@@ -51,10 +51,12 @@ export const ProductsListItemComponent = (props: ProductsProps) => {
                                     <h3 className="item__basket_text">В корзину</h3>
                                 </button>
                                 :
-                                <div className="item__basket">
-                                    <button onClick={props.removeFromBasket}>-</button>
-                                    <h3 className="item__basket_text">{props.basketItem.quantity}</h3>
-                                    <button onClick={props.addToBasket}>+</button>
+                                <div className="item__basket item__basket_cursor">
+                                    <div className="item__wrapper">
+                                    <button className="item__basket_button" onClick={props.removeFromBasket}><Image src={'/images/Minus.png'} alt="Minus" width={17} height={17} /></button>
+                                    <h3 className="item__basket_text item__basket_text_margin">{props.basketItem.quantity}</h3>
+                                    <button className="item__basket_button" onClick={props.addToBasket}><Image src={'/images/Plus.png'} alt="Plus" width={17} height={17} /></button>
+                                    </div>
                                 </div>
                         }
                     </div>
