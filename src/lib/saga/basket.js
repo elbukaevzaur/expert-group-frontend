@@ -8,50 +8,40 @@ import {
     REMOVE_ALL,
     REMOVE_COUNT
 } from '../reducers'
+import {loadFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
+import {addOrderItems} from "@/lib/http/basketRequest";
+import {OrderItemsRequest} from "@/lib/models";
 
 const basketStorageKey = 'basketStorageKey';
 
-const saveToLocalStorage = (value) => {
-    try {
-        const serializedState = JSON.stringify(value);
-        localStorage.setItem(basketStorageKey, serializedState);
-    } catch (e) {
-        console.warn(e);
-    }
-};
-
-// Функция для получения данных из localStorage
-const loadFromLocalStorage = () => {
-    try {
-        const serializedState = localStorage.getItem(basketStorageKey);
-        if (serializedState === null) {
-            return undefined;
-        }
-        return JSON.parse(serializedState);
-    } catch (e) {
-        console.warn(e);
-        return undefined;
-    }
-}
-
 function* add(action) {
+    const { isAuth } = yield select((state) => state.auth);
     try {
+        if (isAuth){
+            const { id, count } = yield action.payload;
+            const request = {
+                productId: id,
+                quantity: 1
+            }
+            yield call(addOrderItems, request);
+        }
         yield put(ADD_SAVED(action.payload))
     } catch (e) {
+
     }
 }
 
 function* updateStorage() {
     try {
         const { allItems } = yield select(state => state.basket);
-        yield call(saveToLocalStorage, allItems);
+        yield call(saveToLocalStorage, allItems, basketStorageKey);
     } catch (e) {
     }
 }
 
 function* initialStorage() {
     try {
-        const data = yield call(loadFromLocalStorage);
+        const data = yield call(loadFromLocalStorage, basketStorageKey);
         if (data) {
             yield put(INITIAL_BASKET_SUCCESS(data));
         }
