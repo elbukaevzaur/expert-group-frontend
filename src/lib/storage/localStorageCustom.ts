@@ -21,7 +21,7 @@ export const loadFromLocalStorage = (key: string) => {
     }
 }
 
-export const removeFromLocalStorage = (key: string) => {
+export const clearFromLocalStorage = (key: string) => {
     try {
         localStorage.removeItem(key);
     } catch (e) {

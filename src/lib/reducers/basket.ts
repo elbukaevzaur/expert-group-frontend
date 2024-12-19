@@ -1,65 +1,72 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {BasketItem} from '@/lib/models';
+import {OrderItems} from '@/lib/models';
 
 interface BasketState {
-    allItems: BasketItem[];
+    orderItems: OrderItems[];
 }
 
 const initialState: BasketState = {
-    allItems: []
+    orderItems: []
 };
 
 const basket = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        ADD_SAVE: (state, action) => {
+        ORDER_ITEMS_INCREMENT: (state, action) => {
 
         },
-        ADD_SAVED: (state, action) => {
-            const index = state.allItems.map(m => m.id).indexOf(action.payload.id);
-            const basketItem: BasketItem = {
-                ...action.payload,
-                count: 1
-            }
+        ORDER_ITEMS_INCREMENT_SUCCESS: (state, action) => {
+            const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
             if (index == -1)
-                state.allItems.push(basketItem);
+                state.orderItems.push(action.payload);
             else
-                basketItem.count = (state.allItems[index].count + 1);
-                state.allItems[index] = basketItem;
+                state.orderItems[index] = action.payload;
         },
-        REMOVE_COUNT: (state, action) => {
-            const index = state.allItems.map(m => m.id).indexOf(action.payload.id);
-            if (state.allItems[index].count > 1)
-                state.allItems[index].count--;
+        ORDER_ITEMS_DECREMENT: (state, action) => {
+
+        },
+        ORDER_ITEMS_DECREMENT_SUCCESS: (state, action) => {
+            const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
+            if (state.orderItems[index].quantity > 1)
+                state.orderItems[index].quantity = action.payload.quantity;
             else
-                state.allItems.splice(index, 1);
+                state.orderItems.splice(index, 1);
         },
         REMOVE: (state, action) => {
-            const index = state.allItems.map(m => m.id).indexOf(action.payload);
+            const index = state.orderItems.map(m => m.id).indexOf(action.payload);
             if (index !== -1) {
-                state.allItems.splice(index, 1);
+                state.orderItems.splice(index, 1);
             }
         },
-        REMOVE_ALL: (state) => {
-            state.allItems = [];
+        BASKET_CLEAR: (state) => {
+            state.orderItems = [];
         },
         INITIAL_BASKET: (state) => {
 
         },
         INITIAL_BASKET_SUCCESS: (state, action) => {
-            state.allItems = action.payload
+            state.orderItems = action.payload
+        },
+        UPDATE_STORAGE: (state) => {
+
+        },
+        UPDATE_FOR_API: (state) => {
+
         }
     }
 });
 
 export const {
-    ADD_SAVE,
-    ADD_SAVED,
-    REMOVE_COUNT,
+    ORDER_ITEMS_INCREMENT,
+    ORDER_ITEMS_INCREMENT_SUCCESS,
+    ORDER_ITEMS_DECREMENT,
+    ORDER_ITEMS_DECREMENT_SUCCESS,
     REMOVE,
-    REMOVE_ALL,
+    BASKET_CLEAR,
     INITIAL_BASKET,
-    INITIAL_BASKET_SUCCESS
+    INITIAL_BASKET_SUCCESS,
+    UPDATE_STORAGE,
+    UPDATE_FOR_API
 } = basket.actions;
 export default basket.reducer;

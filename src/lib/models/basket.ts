@@ -1,7 +1,8 @@
 import {Products} from "@/lib/models";
 
-export interface BasketItem extends Products {
-    count: number
+export interface OrderItems extends Products {
+    productId: number,
+    quantity: number
 }
 
 export interface OrderItemsRequest {

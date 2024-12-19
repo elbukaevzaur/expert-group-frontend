@@ -10,7 +10,7 @@ import {INITIAL_BASKET, INITIAL_TOKEN} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 
 export default function Dashboard() {
-    const { allItems } = useAppSelector((state) => state.basket);
+    const { orderItems } = useAppSelector((state) => state.basket);
     const { isAuth } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const [isLoginVisible, setIsLoginVisible] = useState(false);
@@ -58,7 +58,7 @@ export default function Dashboard() {
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
                         <div className="dashboar__basket_container">
                             <h2 className="dashboar__bascet_text">Корзина</h2>
-                            <h3 className="dashboar__bascet_info">{allItems.length > 0 ? allItems.length : 'пусто'}</h3>
+                            <h3 className="dashboar__bascet_info">{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
                         </div>
                     </div>
                 </Link>

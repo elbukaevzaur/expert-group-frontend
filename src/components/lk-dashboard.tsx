@@ -9,8 +9,8 @@ export default function LkDashboard() {
   const pathname = usePathname();
 
   function handleSignOut() {
-    router.push('/')
-    dispatch(SIGN_OUT())
+    router.push('/');
+    dispatch(SIGN_OUT());
   }
 
   return (

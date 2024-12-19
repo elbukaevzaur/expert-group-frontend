@@ -27,7 +27,7 @@ export const store = () => {
             getDefaultMiddleware().concat([sagaMiddleware]),
     });
 
-    sagaMiddleware.run(rootSaga,);
+    sagaMiddleware.run(rootSaga);
 
     return store;
 };
