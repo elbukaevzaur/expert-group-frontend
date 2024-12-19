@@ -18,7 +18,13 @@ import {
     clearFromLocalStorage,
     saveToLocalStorage
 } from "@/lib/storage/localStorageCustom";
-import {addOrderItems, getAllBasketItemsDetails, getAllOrderItems} from "@/lib/http/basketRequest";
+import {
+    addOrderItems,
+    basketCleanRequest,
+    getAllBasketItemsDetails,
+    getAllOrderItems,
+    removeByProductId
+} from "@/lib/http/basketRequest";
 
 const basketStorageKey = 'basketStorageKey';
 
@@ -50,13 +56,6 @@ function* updateStorage() {
     try {
         const { orderItems } = yield select(state => state.basket);
         yield call(saveToLocalStorage, orderItems, basketStorageKey);
-    } catch (e) {
-    }
-}
-
-function* clearStorage() {
-    try {
-        yield call(clearFromLocalStorage, basketStorageKey);
     } catch (e) {
     }
 }
@@ -99,15 +98,32 @@ function* orderItemsDetailsRequestWorker() {
     }
 }
 
+function* removeByProductIdRequestWorker(action) {
+    try {
+        yield call(removeByProductId, action.payload);
+        yield put(UPDATE_STORAGE())
+    } catch (e) {
+    }
+}
+
+function* basketCleanWorker() {
+    try {
+        yield call(basketCleanRequest);
+        yield call(clearFromLocalStorage, basketStorageKey);
+    } catch (e) {
+    }
+}
+
 export default function* basketSaga() {
     yield all([
         yield takeEvery(ORDER_ITEMS_INCREMENT, incrementQuantityWorker),
         yield takeEvery(ORDER_ITEMS_DECREMENT, decrementQuantityWorker),
-        yield takeEvery([ORDER_ITEMS_INCREMENT_SUCCESS, ORDER_ITEMS_DECREMENT_SUCCESS, REMOVE, BASKET_CLEAR], updateStorage),
+        yield takeEvery([ORDER_ITEMS_INCREMENT_SUCCESS, ORDER_ITEMS_DECREMENT_SUCCESS], updateStorage),
         yield takeEvery(INITIAL_BASKET, initialStorage),
         yield takeEvery(UPDATE_STORAGE, updateStorage),
-        yield takeEvery(BASKET_CLEAR, clearStorage),
+        yield takeEvery(BASKET_CLEAR, basketCleanWorker),
         yield takeEvery(UPDATE_FOR_API, updateForApi),
-        yield takeEvery(ORDER_ITEMS_DETAILS_REQUEST, orderItemsDetailsRequestWorker)
+        yield takeEvery(ORDER_ITEMS_DETAILS_REQUEST, orderItemsDetailsRequestWorker),
+        yield takeEvery(REMOVE, removeByProductIdRequestWorker),
     ])
 }
