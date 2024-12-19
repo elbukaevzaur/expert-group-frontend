@@ -22,8 +22,8 @@ export default function Basket() {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
     }, []);
 
-    const removeFromBasket = (item: Products) => {
-        dispatch(REMOVE(item.id));
+    const removeFromBasket = (item: OrderItems) => {
+        dispatch(REMOVE(item.productId));
     }
 
     const removeAllFromBasket = () => {
