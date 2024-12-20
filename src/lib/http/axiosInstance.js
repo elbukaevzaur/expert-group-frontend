@@ -11,7 +11,7 @@ axiosInstance.interceptors.request.use(
   function (config) {
     const token = loadFromLocalStorage('authToken');
     if (token) {
-      config.headers.Authorization = token.accessToken;
+        config.headers.Authorization = token.accessToken;
     }
     return config;
   },
