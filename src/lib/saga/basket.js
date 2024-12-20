@@ -78,7 +78,8 @@ function* initialStorage() {
             const response = yield call(getAllOrderItems);
             yield put(INITIAL_BASKET_SUCCESS(response.data));
             yield put(UPDATE_STORAGE());
-            yield put(ORDER_ITEMS_DETAILS_REQUEST());
+            if (response.data)
+                yield put(ORDER_ITEMS_DETAILS_REQUEST());
         }else {
             const data = yield call(loadFromLocalStorage, basketStorageKey);
             if (data) {

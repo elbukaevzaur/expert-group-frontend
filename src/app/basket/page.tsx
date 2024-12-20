@@ -7,7 +7,7 @@ import {
     ORDER_ITEMS_INCREMENT,
     REMOVE,
     BASKET_CLEAR,
-    ORDER_ITEMS_DETAILS_REQUEST
+    ORDER_ITEMS_DETAILS_REQUEST, CREATE_ORDER_REQUEST
 } from "@/lib/reducers";
 import Image from "next/image"
 import Link from "next/link";
@@ -53,6 +53,10 @@ export default function Basket() {
                 totalSum += Number((value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2));
             })
         return totalSum.toFixed(2);
+    }
+
+    function handleCreateOrder() {
+        dispatch(CREATE_ORDER_REQUEST());
     }
 
     return (
@@ -118,7 +122,7 @@ export default function Basket() {
                         <button className="basket__buy_button">
                             <h3 className="basket__buy_text">Перейти к оформлению</h3>
                         </button>
-                        <button className="basket__buy_button basket__buy_button_white">
+                        <button onClick={handleCreateOrder} className="basket__buy_button basket__buy_button_white">
                             <h3 className="basket__buy_text basket__buy_text_green">Купить в 1 клик</h3>
                         </button>
                     </div>

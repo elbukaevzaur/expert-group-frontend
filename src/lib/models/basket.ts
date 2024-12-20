@@ -17,3 +17,9 @@ export interface OrderItemsRequest {
     productId: number,
     quantity: number
 }
+
+export interface Orders {
+    id: number,
+    total: number,
+    status: string
+}
