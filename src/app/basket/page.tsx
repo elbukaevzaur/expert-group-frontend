@@ -119,10 +119,10 @@ export default function Basket() {
                             <h2 className="basket__buy_title">Итого:</h2>
                             <h2 className="basket__buy_sum">{getTotalPrice()} &#8381;/шт</h2>
                         </div>
-                        <button className="basket__buy_button">
+                        <button onClick={handleCreateOrder} className="basket__buy_button">
                             <h3 className="basket__buy_text">Перейти к оформлению</h3>
                         </button>
-                        <button onClick={handleCreateOrder} className="basket__buy_button basket__buy_button_white">
+                        <button className="basket__buy_button basket__buy_button_white">
                             <h3 className="basket__buy_text basket__buy_text_green">Купить в 1 клик</h3>
                         </button>
                     </div>

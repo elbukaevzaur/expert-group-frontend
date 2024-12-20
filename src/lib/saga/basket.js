@@ -100,16 +100,20 @@ function* orderItemsDetailsRequestWorker() {
 }
 
 function* removeByProductIdRequestWorker(action) {
+    const { isAuth } = yield select((state) => state.auth);
     try {
-        yield call(removeByProductId, action.payload);
+        if (isAuth)
+            yield call(removeByProductId, action.payload);
         yield put(UPDATE_STORAGE())
     } catch (e) {
     }
 }
 
 function* basketCleanWorker() {
+    const { isAuth } = yield select((state) => state.auth);
     try {
-        yield call(basketCleanRequest);
+        if (isAuth)
+            yield call(basketCleanRequest);
         yield call(clearFromLocalStorage, basketStorageKey);
     } catch (e) {
     }
