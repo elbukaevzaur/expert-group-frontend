@@ -1,13 +1,21 @@
 import { all, call, put, select, takeEvery } from 'redux-saga/effects'
 import {
-  ADD_FILTER, DETAILS_FETCH_REQUESTED, DETAILS_FETCH_RESPONSE_SUCCESS,
-  FILTERS_FETCH_REQUESTED, FILTERS_FETCH_RESPONSE_SUCCESS,
+  ADD_FILTER,
+  DETAILS_FETCH_REQUESTED,
+  DETAILS_FETCH_RESPONSE_SUCCESS,
+  FAVORITE_PRODUCTS_FETCH_REQUESTED,
+  FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS,
+  FILTERS_FETCH_REQUESTED,
+  FILTERS_FETCH_RESPONSE_SUCCESS,
   PRODUCTS_FETCH_REQUESTED,
   PRODUCTS_FETCH_RESPONSE_SUCCESS,
   PRODUCTS_SHOW_MORE_FETCH_REQUESTED,
-  PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS, REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED
+  PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS,
+  REMOVE_ALL_FILTER,
+  REMOVE_FILTER,
+  SORTED
 } from '@/lib/reducers/products'
-import {getAll, getDetails} from '@/lib/http/productsRequest';
+import {getAll, getAllFavoriteProducts, getDetails} from '@/lib/http/productsRequest';
 import {getAllFilters} from "@/lib/http/filtersRequest";
 
 function* fetchAll() {
@@ -15,6 +23,14 @@ function* fetchAll() {
   try {
     const response = yield call(getAll, pageRequest);
     yield put(PRODUCTS_FETCH_RESPONSE_SUCCESS(response.data))
+  } catch (e) {
+  }
+}
+
+function* fetchAllFavoriteProductsWorker() {
+  try {
+    const response = yield call(getAllFavoriteProducts);
+    yield put(FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS(response.data))
   } catch (e) {
   }
 }
@@ -47,6 +63,7 @@ function* fetchDetails(action) {
 export default function* productsSaga() {
   yield all([
     yield takeEvery(PRODUCTS_FETCH_REQUESTED, fetchAll),
+    yield takeEvery(FAVORITE_PRODUCTS_FETCH_REQUESTED, fetchAllFavoriteProductsWorker),
     yield takeEvery(PRODUCTS_SHOW_MORE_FETCH_REQUESTED, fetchShowMoreProducts),
     yield takeEvery(ADD_FILTER, fetchAll),
     yield takeEvery(REMOVE_FILTER, fetchAll),

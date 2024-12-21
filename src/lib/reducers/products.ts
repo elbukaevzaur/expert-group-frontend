@@ -8,10 +8,10 @@ import {
     FiltersResponse,
     ProductDetailsResponse
 } from '@/lib/models';
-import {any} from "prop-types";
 
 interface ProductsState {
-    allProducts: PageResponse<Products>;
+    allProducts: PageResponse<Products>,
+    allFavoriteProducts: PageResponse<Products>,
     pageable: {
         page: number,
         perPage: number
@@ -23,6 +23,12 @@ interface ProductsState {
 
 const initialState: ProductsState = {
     allProducts: {
+        totalPages: 0,
+        currentPage: 0,
+        perPage: 0,
+        content: []
+    },
+    allFavoriteProducts: {
         totalPages: 0,
         currentPage: 0,
         perPage: 0,
@@ -50,6 +56,11 @@ const products = createSlice({
                 page: action.payload.currentPage,
                 perPage: action.payload.perPage
             }
+        },
+        FAVORITE_PRODUCTS_FETCH_REQUESTED: (state) => {
+        },
+        FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
+            state.allFavoriteProducts = action.payload;
         },
         PRODUCTS_SHOW_MORE_FETCH_REQUESTED: (state, action: PayloadAction<Pageable>) => {
             state.pageRequest = { ...state.pageRequest, page: action.payload.page, perPage: action.payload.perPage }
@@ -119,6 +130,8 @@ export const { PRODUCTS_FETCH_REQUESTED,
     FILTERS_FETCH_RESPONSE_SUCCESS,
     SORTED,
     DETAILS_FETCH_REQUESTED,
-    DETAILS_FETCH_RESPONSE_SUCCESS
+    DETAILS_FETCH_RESPONSE_SUCCESS,
+    FAVORITE_PRODUCTS_FETCH_REQUESTED,
+    FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS
 } = products.actions;
 export default products.reducer;

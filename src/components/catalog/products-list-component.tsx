@@ -20,6 +20,8 @@ export default function ProductsListComponent(props: Props) {
     const { allProducts } = useAppSelector((state) => state.products);
     const { orderItems } = useAppSelector((state) => state.basket);
     const { allCategories } = useAppSelector((state) => state.categories);
+    const { allFavorites } = useAppSelector((state) => state.favorites);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -75,6 +77,7 @@ export default function ProductsListComponent(props: Props) {
                             addToBasket={() => addToBasket(value)}
                             removeFromBasket={() => handleRemoveFromBasket(value)}
                             categoryId={props.categoryId}
+                            isFavorite={allFavorites.hasOwnProperty(value.id)}
                         />
                     })
                 }

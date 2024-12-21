@@ -4,3 +4,4 @@ export * from '@/lib/models/categoryResponse';
 export * from '@/lib/models/basket';
 export * from '@/lib/models/products';
 export * from '@/lib/models/filters';
+export * from '@/lib/models/favorites';
