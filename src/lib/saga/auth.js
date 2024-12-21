@@ -1,5 +1,6 @@
 import { all, put, takeEvery, call } from 'redux-saga/effects'
 import {
+    ALL_FAVORITES_REQUEST,
     BASKET_CLEAR,
     INITIAL_TOKEN,
     SIGN_IN_REQUEST,
@@ -38,6 +39,7 @@ function* signOutWorker() {
         yield call(clearFromLocalStorage, authStorageKey);
         yield put(SIGN_OUT_SUCCESS())
         yield put(BASKET_CLEAR())
+        yield put(ALL_FAVORITES_REQUEST())
     } catch (e) {
     }
 }

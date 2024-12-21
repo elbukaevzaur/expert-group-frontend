@@ -8,3 +8,7 @@ export function getAll(pageRequest: PageRequest) {
 export function getDetails(productId: number) {
     return axiosInstance.get(`/products/details?productId=${productId}`);
 }
+
+export function getAllFavoriteProducts() {
+    return axiosInstance.get('/products/me/favorite/all');
+}

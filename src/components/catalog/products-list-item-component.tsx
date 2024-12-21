@@ -1,33 +1,43 @@
 import Link from "next/link";
 import Image from "next/image";
-import {BasketItem, Products} from "@/lib/models";
+import {OrderItems, Products} from "@/lib/models";
 import { EventHandler } from "react";
-import {useParams, usePathname} from "next/navigation";
+import {useAppDispatch} from "@/lib/hooks";
+import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
+import {LikeSvg} from "@/lib/icon-svg";
 
 interface ProductsProps {
-    key: number;
+    key: number,
     product: Products,
-    basketItem: BasketItem | null,
+    basketItem: OrderItems | null,
     addToBasket: EventHandler<any>,
     removeFromBasket: EventHandler<any>,
     categoryId: string | string[] | undefined,
+    isFavorite: boolean
 }
 
-export const ProductsListItemComponent = (props: ProductsProps) => {
-    const { product } = props;
-    const pathname = usePathname();
-    const params = useParams();
+export function ProductsListItemComponent(props: ProductsProps) {
+    const { product, isFavorite } = props;
+    const dispatch = useAppDispatch();
 
     const getCustomLink = () => {
-        let path = pathname;
-        if (params.subCategoryId === undefined){
-            if (params.categoryId !== product.categoryId.toString()){
-                path += `/${product.categoryId}`
-            }
-        }
+        let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
+        // if (params.subCategoryId === undefined){
+        //     if (params.categoryId !== product.categoryId.toString()){
+        //         path += `/${product.categoryId}`
+        //     }
+        // }
         path += `/details/${product.id}`
         return path;
     }
+
+    const handleChangeFavorite = () => {
+        const request = {
+            productId: product.id
+        }
+        dispatch(CHANGE_FAVORITES_REQUEST(request))
+    }
+
     return (
         <div className="item">
             <Link href={`${getCustomLink()}`}>
@@ -41,8 +51,10 @@ export const ProductsListItemComponent = (props: ProductsProps) => {
                         <h2 className="item__price">{product.price} &#8381;</h2>
                     </div>
                     <div className="item__action">
-                        <button className="item__like">
-                            <Image src={'/images/Like.png'} alt="Лайк" width={28} height={24} />
+                        <button onClick={handleChangeFavorite} className="item__like">
+                            {
+                                <LikeSvg width={28} height={24} fill={isFavorite ? '#21A038' : 'none'}/>
+                            }
                         </button>
                         {
                             props.basketItem == null ?

@@ -4,15 +4,23 @@ import Image from "next/image";
 import {useEffect, useState} from "react";
 import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {DETAILS_FETCH_REQUESTED, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT} from "@/lib/reducers";
+import {
+    CHANGE_FAVORITES_REQUEST,
+    DETAILS_FETCH_REQUESTED,
+    ORDER_ITEMS_DECREMENT,
+    ORDER_ITEMS_INCREMENT
+} from "@/lib/reducers";
 import Link from "next/link";
 import {OrderItems, OrderItemsRequest} from "@/lib/models";
+import {LikeSvg} from "@/lib/icon-svg";
 
 export default function ProductDetails() {
     const params = useParams();
     const { details } = useAppSelector((state) => state.products);
     const { orderItems } = useAppSelector((state) => state.basket);
     const [basketItem, setBasketItem] = useState<OrderItems>(null);
+    const { allFavorites } = useAppSelector((state) => state.favorites);
+
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -53,6 +61,13 @@ export default function ProductDetails() {
         }
     }
 
+    const handleChangeFavorite = () => {
+        const request = {
+            productId: details?.id
+        }
+        dispatch(CHANGE_FAVORITES_REQUEST(request))
+    }
+
     return (
         <section className="detalis">
             <h1 className="detalis__title">{details?.name}</h1>
@@ -63,8 +78,12 @@ export default function ProductDetails() {
                         <button className="detalis__button_show">
                             <h3 className="detalis__button_show_text">Посмотреть в 3D</h3>
                         </button>
-                        <button className="detalis__button_like">
-                            <h3 className="detalis__button_like_text">В ИЗБРАННОЕ</h3>
+                        <button onClick={handleChangeFavorite} className={`detalis__button_like ${!allFavorites.hasOwnProperty(details?.id || 0) && 'detalis__button_not_like'}`}>
+                            <LikeSvg width={24} height={22}
+                                     fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'white'}
+                                     stroke={allFavorites.hasOwnProperty(details?.id || 0)? 'white' :'#21A038'}
+                            />
+                            <h3 className={`detalis__button_like_text ${!allFavorites.hasOwnProperty(details?.id || 0) && 'detalis__button_not_like_text'}`}>В ИЗБРАННОЕ</h3>
                         </button>
                     </div>
                 </div>
@@ -80,8 +99,8 @@ export default function ProductDetails() {
                     <div className="detalis__price_buy">
                         <div className="detalis__price_buy_wrraper">
                         <div className="detalis__price_buy_title">{details?.price} &#8381;/шт</div>
-                        <button className="detalis__price_buy_like">
-                            <Image src={'/images/Like.png'} alt="Лайк" width={24} height={22}/>
+                        <button onClick={handleChangeFavorite} className="detalis__price_buy_like">
+                            <LikeSvg width={24} height={22} fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'none'} />
                         </button>
                         </div>
                         <div className="detalis__price_buy_wrraper detalis__price_buy_margin">

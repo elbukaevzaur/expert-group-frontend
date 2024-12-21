@@ -6,7 +6,7 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_BASKET, INITIAL_TOKEN} from "@/lib/reducers";
+import {ALL_FAVORITES_REQUEST, INITIAL_BASKET, INITIAL_TOKEN} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 
 export default function Dashboard() {
@@ -17,7 +17,8 @@ export default function Dashboard() {
 
     useEffect(() => {
         dispatch(INITIAL_BASKET());
-        dispatch(INITIAL_TOKEN())
+        dispatch(INITIAL_TOKEN());
+        dispatch(ALL_FAVORITES_REQUEST());
     }, [isAuth]);
 
     const toggleLogin = () => {

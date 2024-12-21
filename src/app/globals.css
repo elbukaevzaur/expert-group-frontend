@@ -922,11 +922,12 @@ a {
   align-items: center;  
   justify-content: center;
   border: none;
-  background-image: url(/images/Like_white.png);
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  background-size: 24px;
   cursor: pointer;
+}
+
+.detalis__button_not_like {
+  background-color: white;
+  border: 1px solid #209C36;
 }
 
 .detalis__button_like_text {
@@ -936,6 +937,10 @@ a {
   color: #ffffff;
   margin-left: 15px;
   font-family: 'Roboto';
+}
+
+.detalis__button_not_like_text {
+  color: #209C36;
 }
 
 .detalis__description {
