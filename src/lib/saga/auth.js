@@ -1,7 +1,7 @@
 import { all, put, takeEvery, call } from 'redux-saga/effects'
 import {
     ALL_FAVORITES_REQUEST,
-    BASKET_CLEAR,
+    BASKET_CLEAR, INITIAL_BASKET,
     INITIAL_TOKEN,
     SIGN_IN_REQUEST,
     SIGN_IN_RESPONSE_ERROR,
@@ -29,6 +29,10 @@ function* initialToken() {
         const data = yield call(loadFromLocalStorage, authStorageKey);
         if (data) {
             yield put(SIGN_IN_RESPONSE_SUCCESS(data));
+            yield put(INITIAL_BASKET())
+            // yield put(ALL_FAVORITES_REQUEST())
+        }else {
+            // yield put(INITIAL_BASKET())
         }
     } catch (e) {
     }
