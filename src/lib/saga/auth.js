@@ -11,8 +11,7 @@ import {
 } from '../reducers'
 import {signIn} from "@/lib/http/authRequest";
 import {loadFromLocalStorage, clearFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
-
-const authStorageKey = 'authToken';
+import {authStorageKey} from "@/lib/config";
 
 function* signInWorker(action) {
     try {
@@ -29,11 +28,9 @@ function* initialToken() {
         const data = yield call(loadFromLocalStorage, authStorageKey);
         if (data) {
             yield put(SIGN_IN_RESPONSE_SUCCESS(data));
-            yield put(INITIAL_BASKET())
-            // yield put(ALL_FAVORITES_REQUEST())
-        }else {
-            // yield put(INITIAL_BASKET())
+            yield put(ALL_FAVORITES_REQUEST())
         }
+        yield put(INITIAL_BASKET())
     } catch (e) {
     }
 }
@@ -47,7 +44,6 @@ function* signOutWorker() {
     } catch (e) {
     }
 }
-
 
 export default function* authSaga() {
     yield all([

@@ -1,13 +1,18 @@
+import {removeTokenCookie, setTokenCookie} from "@/lib/storage/cookies";
+import {authStorageKey} from "@/lib/config";
+
 export const saveToLocalStorage = (value: any, key: string) => {
     try {
         const serializedState = JSON.stringify(value);
         localStorage.setItem(key, serializedState);
+        if (key === authStorageKey) {
+            setTokenCookie(serializedState, key)
+        }
     } catch (e) {
         console.warn(e);
     }
-};
+}
 
-// Функция для получения данных из localStorage
 export const loadFromLocalStorage = (key: string) => {
     try {
         const serializedState = localStorage.getItem(key);
@@ -24,6 +29,9 @@ export const loadFromLocalStorage = (key: string) => {
 export const clearFromLocalStorage = (key: string) => {
     try {
         localStorage.removeItem(key);
+        if (key === authStorageKey){
+            removeTokenCookie(authStorageKey)
+        }
     } catch (e) {
         console.warn(e);
     }

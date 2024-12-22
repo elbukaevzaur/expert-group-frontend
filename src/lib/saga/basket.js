@@ -25,8 +25,7 @@ import {
     getAllOrderItems,
     removeByProductId
 } from "@/lib/http/basketRequest";
-
-const basketStorageKey = 'basketStorageKey';
+import {basketStorageKey} from "@/lib/config";
 
 function* incrementQuantityWorker(action) {
     const { isAuth } = yield select((state) => state.auth);
