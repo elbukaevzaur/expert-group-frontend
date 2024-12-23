@@ -2053,3 +2053,8 @@ a {
 .password {
   width: 140px;
 }
+
+.favorites {
+  margin: 0 0 0 10px;
+  grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+}
