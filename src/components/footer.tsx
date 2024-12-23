@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {YoutubeSvg, VkSvg, TelegramSvg, InstagramSvg} from "@/lib/icon-svg";
 
 export default function Footer() {
 
@@ -12,9 +13,10 @@ export default function Footer() {
                     <h3 className="footer__contact_text">+7 (938) 903-26-66</h3>
                     </div>
                     <div className="footer__contact_social">
-                        <Image className="footer__contact_icon" src={'/images/VK-logo.png'} alt="Вконтакте логотип" width={45} height={45}/>
-                        <Image className="footer__contact_icon" src={'/images/TG-logo.png'} alt="Телеграм логотип" width={45} height={45}/>
-                        <Image className="footer__contact_icon" src={'/images/Ins-logo.png'} alt="Инстаграм логотип" width={45} height={45}/>
+                        {<VkSvg/>}
+                        {<TelegramSvg/>}
+                        {<YoutubeSvg />}
+                        {<InstagramSvg />}
                     </div>
                     <h3 className="footer__contact_text_last">Присоединяйтесь к нам в социальных сетях</h3>
                 </div>
