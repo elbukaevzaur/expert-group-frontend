@@ -304,6 +304,7 @@ a {
   width: 256px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .footer__contact_icon{
@@ -726,12 +727,14 @@ a {
   margin-left: 15px;
   background: #21a038;
   cursor: pointer;
-  border: #21a038;
+  border: none;
   justify-content: center;
 }
 
 .item__basket_cursor {
   cursor: default;
+  background-color: transparent;
+  border: 1px solid #21a038;
 }
 
 .item__wrapper {
@@ -743,6 +746,8 @@ a {
 .item__basket_button {
   all: unset;
   cursor: pointer;
+  display: flex;
+  align-items: center;
 }
 
 .item__basket_text {
@@ -757,6 +762,7 @@ a {
 .item__basket_text_margin {
   margin: 0;
   font-size: 20px;
+  color: #21a038;
 }
 
 .items__more {
@@ -1283,6 +1289,7 @@ a {
   font-weight: 500;
   line-height: 23px;
   font-family: 'Roboto';
+  color: #21a038;
 }
 
 .basket__item_quantity_sum {
@@ -2045,4 +2052,9 @@ a {
 
 .password {
   width: 140px;
+}
+
+.favorites {
+  margin: 0 0 0 10px;
+  grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
 }

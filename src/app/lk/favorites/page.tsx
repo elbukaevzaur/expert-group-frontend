@@ -52,7 +52,7 @@ export default function Page() {
     }
 
     return (
-        <div className="items">
+        <div className="items favorites">
             {
                 content.map((item) => {
                     return <ProductsListItemComponent

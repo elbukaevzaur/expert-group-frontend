@@ -12,6 +12,7 @@ import {
 import Image from "next/image"
 import Link from "next/link";
 import {useEffect} from "react";
+import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -95,11 +96,11 @@ export default function Basket() {
                                 <div className="basket__item_wrapper">
                                     <div className="basket__item_quantity">
                                         <button onClick={() => handleRemoveFromBasket(value)} className="basket__item_button">
-                                            <Image src={'/images/Minus.png'} alt="Minus" width={20} height={20} />
+                                            {<GreenMinus width={19.5} height={19.5} />}
                                         </button>
                                         <h4 className="basket__item_quantity_text">{value.quantity}</h4>
                                         <button onClick={() => handleAddToBasket(value)} className="basket__item_button">
-                                            <Image src={'/images/Plus.png'} alt="Plus" width={20} height={20} />
+                                        {<GreenPlus width={19.5} height={19.5} />}
                                         </button>
                                     </div>
                                     <h4 className="basket__item_quantity_sum">{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>

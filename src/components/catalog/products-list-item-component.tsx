@@ -4,7 +4,7 @@ import {OrderItems, Products} from "@/lib/models";
 import { EventHandler } from "react";
 import {useAppDispatch} from "@/lib/hooks";
 import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
-import {LikeSvg} from "@/lib/icon-svg";
+import {LikeSvg, MinusSmall, PlusSmall} from "@/lib/icon-svg";
 
 interface ProductsProps {
     key: number,
@@ -65,9 +65,9 @@ export function ProductsListItemComponent(props: ProductsProps) {
                                 :
                                 <div className="item__basket item__basket_cursor">
                                     <div className="item__wrapper">
-                                    <button className="item__basket_button" onClick={props.removeFromBasket}><Image src={'/images/Minus.png'} alt="Minus" width={17} height={17} /></button>
+                                    <button className="item__basket_button" onClick={props.removeFromBasket}>{<MinusSmall/>}</button>
                                     <h3 className="item__basket_text item__basket_text_margin">{props.basketItem.quantity}</h3>
-                                    <button className="item__basket_button" onClick={props.addToBasket}><Image src={'/images/Plus.png'} alt="Plus" width={17} height={17} /></button>
+                                    <button className="item__basket_button" onClick={props.addToBasket}>{<PlusSmall/>}</button>
                                     </div>
                                 </div>
                         }
