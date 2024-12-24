@@ -645,14 +645,14 @@ a {
 
 /** ITEMS **/
 
-.items {
+ .items {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(295px, 1fr));
     gap: 10px;
     width: 1214px;
     margin: 20px auto 0;
 }
-
+/*
 .item {
   width: 295px;
   height: 274px;
@@ -687,10 +687,6 @@ a {
   margin: 7px 0 0 0;
   justify-content: space-between;
 }
-
-/* .item__conteiner{
-  margin-right: 5px;
-} */
 
 .item__text{
   font-size: 14px;
@@ -763,7 +759,7 @@ a {
   margin: 0;
   font-size: 20px;
   color: #21a038;
-}
+}*/
 
 .items__more {
   margin-top: 20px;
@@ -859,11 +855,11 @@ a {
 .items__button_right_disabled {
   background-image: url(/images/Vector_right_disabled.png);
   cursor: default;
-}
+} 
 
 /** DETALIS **/
 
-.detalis {
+/* .detalis {
   width: 1214px;
   margin: 45px auto 0;
 }
@@ -1182,14 +1178,14 @@ a {
 
 .detalis__swipe_circle_active {
   background-color: #21a038;
-}
+} */
 
 
 
 /** BASKET**/
 
 
-.basket {
+/* .basket {
   max-width: 1214px;
   margin: 40px auto 0;
 }
@@ -1400,7 +1396,7 @@ a {
 
 .basket__buy_text_green:hover {
   color: #fff;
-}
+} */
 
 /* Каталог */
 .dropdown-catalog-content {
