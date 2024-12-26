@@ -6,6 +6,7 @@ import {useParams, usePathname, useRouter} from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
 import {CURRENT_CATEGORY_FETCH_REQUESTED, CURRENT_SUB_CATEGORY_FETCH_REQUESTED} from "@/lib/reducers";
+import styles from "@/components/navigation-history.module.css"
 
 export default function NavigationHistory() {
     const router = useRouter()
@@ -94,21 +95,21 @@ export default function NavigationHistory() {
     };
 
     return (
-        <div className="navigator__wrapper">
+        <div className={styles.navigator__wrapper}>
             {
                 isBack() &&
-                <div className="navigator__back" onClick={router.back}>
-                    <button className="navigator__back_button">
+                <div className={styles.navigator__back} onClick={router.back}>
+                    <button className={styles.navigator__back_button}>
                         <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14}/>
                     </button>
-                    <u className="navigator__back_text">Назад</u>
+                    <u className={styles.navigator__back_text}>Назад</u>
                 </div>
             }
-            <h3 className="navigator__back_text">
+            <h3 className={styles.navigator__back_text}>
                 {
                     historyes().map((value, index) => {
                         return <Link key={index} href={value.path}>
-                            <u className={index != (historyes().length - 1) ? 'not_active_history_link': 'active_history_link'}>
+                            <u className={index != (historyes().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
                                 {value.title === 'category'?currentCategory?.name : value.title === 'subCategory' ? currentSubCategory?.name : value.title}
                             </u>
                             {

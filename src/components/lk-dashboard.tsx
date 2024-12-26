@@ -2,6 +2,7 @@ import Link from "next/link";
 import {SIGN_OUT} from "@/lib/reducers";
 import {useAppDispatch} from "@/lib/hooks";
 import {usePathname, useRouter} from "next/navigation";
+import styles from "@/components/lk-dashboard.module.css" 
 
 export default function LkDashboard() {
   const dispatch = useAppDispatch();
@@ -15,10 +16,10 @@ export default function LkDashboard() {
 
   return (
     <ul>
-      <div className="lk_dashboard">
+      <div className={styles.lk_dashboard}>
         <Link href={"/lk/current-orders"}>
-          <li className={`lk_dashboard__button lk_dashboard__button_first ${pathname == '/lk/current-orders' && 'active active__first'}`}>
-            <div className="lk_dashboard__icon">
+          <li className={`${styles.lk_dashboard__button} ${styles.lk_dashboard__button_first} ${pathname == '/lk/current-orders' && 'active active__first'}`}>
+            <div className={styles.lk_dashboard__icon}>
               <svg
                 width="30"
                 height="30"
@@ -36,8 +37,8 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/personal-data"}>
-          <li className={`lk_dashboard__button ${pathname == '/lk/personal-data' && 'active'}`}>
-            <div className="lk_dashboard__icon">
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/personal-data' && 'active'}`}>
+            <div className={styles.lk_dashboard__icon}>
               <svg
                 width="24"
                 height="31"
@@ -55,8 +56,8 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/change-password"}>
-          <li className={`lk_dashboard__button ${pathname == '/lk/change-password' && 'active'}`}>
-            <div className="lk_dashboard__icon">
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/change-password' && 'active'}`}>
+            <div className={styles.lk_dashboard__icon}>
               <svg
                 width="32"
                 height="19"
@@ -74,8 +75,8 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/orders-history"}>
-          <li className={`lk_dashboard__button ${pathname == '/lk/orders-history' && 'active'}`}>
-            <div className="lk_dashboard__icon">
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/orders-history' && 'active'}`}>
+            <div className={styles.lk_dashboard__icon}>
               <svg
                 width="32"
                 height="30"
@@ -103,8 +104,8 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/favorites"}>
-          <li className={`lk_dashboard__button ${pathname == '/lk/favorites' && 'active'}`}>
-            <div className="lk_dashboard__icon">
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/favorites' && 'active'}`}>
+            <div className={styles.lk_dashboard__icon}>
               <svg
                 width="28"
                 height="25"
@@ -124,8 +125,8 @@ export default function LkDashboard() {
             Избранные товары
           </li>
         </Link>
-        <button onClick={handleSignOut} className="lk_dashboard__button lk_dashboard__exit">
-          <div className="lk_dashboard__icon">
+        <button onClick={handleSignOut} className={`${styles.lk_dashboard__button} ${styles.lk_dashboard__exit}`}>
+          <div className={styles.lk_dashboard__icon}>
             <svg
               width="26"
               height="27"

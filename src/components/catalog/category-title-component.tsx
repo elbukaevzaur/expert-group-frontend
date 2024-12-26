@@ -1,6 +1,7 @@
 import {useAppSelector} from "@/lib/hooks";
 import {useParams} from "next/navigation";
 import {useEffect, useState} from "react";
+import styles from "@/components/catalog/category-title-component.module.css"
 
 export default function CategoryTitle() {
     const { currentCategory, currentSubCategory } = useAppSelector((state) => state.categories);
@@ -15,14 +16,14 @@ export default function CategoryTitle() {
         }
     }, [params.categoryId, params.subCategoryId]);
 
-    return <div className="products__info_wrapper">
-        <h1 className="products__title">
+    return <div className={styles.products__info_wrapper}>
+        <h1 className={styles.products__title}>
             {
                 isCurrentCategoryLevel == 1 ? currentCategory?.name : isCurrentCategoryLevel == 2 ? currentSubCategory?.name : ''
             }
         </h1>
-        <div className="products__info">
-            <h3 className="products__info_text">
+        <div className={styles.products__info}>
+            <h3 className={styles.products__info_text}>
                 {
                     isCurrentCategoryLevel == 1 ? currentCategory?.productCount : isCurrentCategoryLevel == 2 ? currentSubCategory?.productCount : ''
                 }

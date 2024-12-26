@@ -8,6 +8,7 @@ import {
 } from "@/lib/reducers";
 import { useRouter } from 'next/navigation'
 import { useEffect } from "react";
+import styles from "@/components/catalog/catalogModal.module.css"
 
 export const CatalogModal = () => {
     const { allCategories } = useAppSelector((state) => state.categories);
@@ -31,10 +32,10 @@ export const CatalogModal = () => {
     return <div style={{ flexDirection: 'column' }}>
         {
             allCategories.map((value, index) => {
-                return <div className="dropdown-catalog_wrapper" key={index}>
-                    <button className="dropdown-catalog" onClick={() => changeCategory(value.id)} key={index}>{value.name}</button>
-                    <div className="dropdown-catalog_quantity">
-                        <h4 className="dropdown-catalog_quantity_text">{value.productCount}</h4>
+                return <div className={styles.dropdown_catalog_wrapper} key={index}>
+                    <button className={styles.dropdown_catalog} onClick={() => changeCategory(value.id)} key={index}>{value.name}</button>
+                    <div className={styles.dropdown_catalog_quantity}>
+                        <h4 className={styles.dropdown_catalog_quantity_text}>{value.productCount}</h4>
                     </div>
                     </div>
             })

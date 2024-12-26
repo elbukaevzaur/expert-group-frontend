@@ -1,22 +1,22 @@
-
+import styles from "@/app/lk/personal-data/personal-data.module.css"
 export default function Page() {
     return (
-        <div className="personal-data">
-            <div className="personal-data__content">
-                <h2 className="personal-data__info">Имя</h2>
-                <input className="personal-data__input" type="text" placeholder="Иван" />
+        <div className={styles.personal_data}>
+            <div className={styles.personal_data__content}>
+                <h2 className={styles.personal_data__info}>Имя</h2>
+                <input className={styles.personal_data__input} type="text" placeholder="Иван" />
             </div>
-            <div className="personal-data__content">
-                <h2 className="personal-data__info">Отчество</h2>
-                <input className="personal-data__input" type="text" placeholder="Иванович" />
+            <div className={styles.personal_data__content}>
+                <h2 className={styles.personal_data__info}>Отчество</h2>
+                <input className={styles.personal_data__input} type="text" placeholder="Иванович" />
             </div>
-            <div className="personal-data__content">
-                <h2 className="personal-data__info">Фамилия</h2>
-                <input className="personal-data__input" type="text" placeholder="Иванов" />
+            <div className={styles.personal_data__content}>
+                <h2 className={styles.personal_data__info}>Фамилия</h2>
+                <input className={styles.personal_data__input} type="text" placeholder="Иванов" />
             </div>
-            <div className="personal-data__content">
-                <h2 className="personal-data__info">Имя</h2>
-                <input className="personal-data__input" type="email" placeholder="ivanov@mail.ru" />
+            <div className={styles.personal_data__content}>
+                <h2 className={styles.personal_data__info}>Имя</h2>
+                <input className={styles.personal_data__input} type="email" placeholder="ivanov@mail.ru" />
             </div>
         </div>
     )
