@@ -73,29 +73,80 @@ export default function Dashboard() {
                     <CatalogModal/>
                     </div>
                 </div>
-                <div className={styles.navigator__container}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                     <h3 className={styles.navigator__text}>О Компании</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
+                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    <div className={styles.dropdown_green}>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>О нас</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Сотрудники</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Вакансии</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Сертификаты</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Отзывы</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Политика</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.navigator__container}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                     <h3 className={styles.navigator__text}>Проекты</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
+                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    <div className={styles.dropdown_green}>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Проекты дизайнеров интераaaaaaaaaaaaaaaaaaaaaa</h3>
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.navigator__container}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                     <h3 className={styles.navigator__text}>Как купить</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
+                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    <div className={styles.dropdown_green}>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Как оформить заказ</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Способы оплаты</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Условия доставки</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Гарантии и возврат</h3>
+                        </div>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Общие условия продаж</h3>
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.navigator__container}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                     <h3 className={styles.navigator__text}>Галерея</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
+                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    <div className={styles.dropdown_green}>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Фото</h3>
+                        </div>
+                    </div>
                 </div>
-                <div className={styles.navigator__container}>
-                    <h3 className={styles.navigator__text}>Услуги</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
-                </div>
-                <div className={styles.navigator__container}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                     <h3 className={styles.navigator__text}>Контакты</h3>
-                    <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} />
+                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    <div className={styles.dropdown_green}>
+                        <div className={styles.dropdown_green_wrapper}>
+                            <h3 className={styles.dropdown_green_text}>Phone</h3>
+                        </div>
+                    </div>
                 </div>
             </div>
             <NavigationHistory/>
