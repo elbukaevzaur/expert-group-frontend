@@ -13,6 +13,7 @@ import Image from "next/image"
 import Link from "next/link";
 import {useEffect} from "react";
 import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
+import styles from "./basket.module.css"
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -61,16 +62,16 @@ export default function Basket() {
     }
 
     return (
-        <div className="basket">
-            <div className="basket__title">
-                <h1 className="basket__title_text">Корзина</h1>
-                <p className="basket__title_quantity">/ {orderItems.length} шт.</p>
+        <div className={styles.basket}>
+            <div className={styles.title}>
+                <h1 className={styles.title_text}>Корзина</h1>
+                <p className={styles.title_quantity}>/ {orderItems.length} шт.</p>
             </div>
-            <div className="basket__content">
-                <div className="basket__items_content">
-                    <div className="basket__items_wrapper">
+            <div className={styles.content}>
+                <div className={styles.items_content}>
+                    <div className={styles.items_wrapper}>
                         <div>
-                        <h2 className="basket__items_title">{orderItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
+                        <h2 className={styles.items_title}>{orderItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
                         {
                             orderItems.length === 0 &&
                             <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
@@ -80,33 +81,33 @@ export default function Basket() {
                         </div>
                         {
                             orderItems.length > 0 &&
-                            <button className="basket__items_clear" onClick={removeAllFromBasket}>
-                                <h3 className="basket__items_clear_text">ОЧИСТИТЬ</h3>
+                            <button className={styles.items_clear} onClick={removeAllFromBasket}>
+                                <h3 className={styles.items_clear_text}>ОЧИСТИТЬ</h3>
                                 <Image src={'/images/Clear_button.png'} alt="Очистить" width={6.5} height={6.5}/>
                             </button>
                         }
                     </div>
                     {
                         orderItems.map((value, index) => {
-                            return <div key={index} className="basket__item">
+                            return <div key={index} className={styles.item}>
                                 <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
                                 <Link href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
-                                    <h3 className="basket__item_text">{orderItemsDetails[value.productId]?.name}</h3>
+                                    <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
                                 </Link>
-                                <div className="basket__item_wrapper">
-                                    <div className="basket__item_quantity">
-                                        <button onClick={() => handleRemoveFromBasket(value)} className="basket__item_button">
+                                <div className={styles.item_wrapper}>
+                                    <div className={styles.item_quantity}>
+                                        <button onClick={() => handleRemoveFromBasket(value)} className={styles.item_button}>
                                             {<GreenMinus width={19.5} height={19.5} />}
                                         </button>
-                                        <h4 className="basket__item_quantity_text">{value.quantity}</h4>
-                                        <button onClick={() => handleAddToBasket(value)} className="basket__item_button">
+                                        <h4 className={styles.item_quantity_text}>{value.quantity}</h4>
+                                        <button onClick={() => handleAddToBasket(value)} className={styles.item_button}>
                                         {<GreenPlus width={19.5} height={19.5} />}
                                         </button>
                                     </div>
-                                    <h4 className="basket__item_quantity_sum">{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
+                                    <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
                                 </div>
-                                <h3 className="basket__item_price">{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
-                                <button className="basket__item_delete" onClick={() => removeFromBasket(value)}>
+                                <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
+                                <button className={styles.item_delete} onClick={() => removeFromBasket(value)}>
                                     <Image src={'/images/Clear_button.png'} alt="Удалить" width={6} height={6} />
                                 </button>
                             </div>
@@ -115,16 +116,16 @@ export default function Basket() {
                 </div>
                 {
                     orderItems.length > 0 &&
-                    <div className="basket__buy">
-                        <div className="basket__buy_total">
-                            <h2 className="basket__buy_title">Итого:</h2>
-                            <h2 className="basket__buy_sum">{getTotalPrice()} &#8381;/шт</h2>
+                    <div className={styles.buy}>
+                        <div className={styles.buy_total}>
+                            <h2 className={styles.buy_title}>Итого:</h2>
+                            <h2 className={styles.buy_sum}>{getTotalPrice()} &#8381;/шт</h2>
                         </div>
-                        <button onClick={handleCreateOrder} className="basket__buy_button">
-                            <h3 className="basket__buy_text">Перейти к оформлению</h3>
+                        <button onClick={handleCreateOrder} className={styles.buy_button}>
+                            <h3 className={styles.buy_text}>Перейти к оформлению</h3>
                         </button>
-                        <button className="basket__buy_button basket__buy_button_white">
-                            <h3 className="basket__buy_text basket__buy_text_green">Купить в 1 клик</h3>
+                        <button className={`${styles.buy_button} ${styles.buy_button_white}`}>
+                            <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>
                         </button>
                     </div>
                 }

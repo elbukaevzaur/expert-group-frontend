@@ -7,6 +7,7 @@ import {FilterComponent} from "@/components/filter/filter-item-component";
 import {getTitleByField} from "@/lib/consts";
 import {useParams, usePathname} from "next/navigation";
 import {useEffect, useState} from "react";
+import styles from "@/components/filter/filter.module.css"
 
 export default function ProductsFilter(){
     const { filters, pageRequest } = useAppSelector((state) => state.products);
@@ -61,9 +62,9 @@ export default function ProductsFilter(){
                     }
                 </div>
             }
-            <div className="filter">
-                <div className="filter__container">
-                    <div className="filter__container_wrraper">
+            <div className={styles.filter}>
+                <div className={styles.filter__container}>
+                    <div className={styles.filter__container_wrraper}>
                         {
                             filters.map((value, index) => {
                                 return <FilterComponent
@@ -75,18 +76,18 @@ export default function ProductsFilter(){
                             })
                         }
                     </div>
-                    <div className="filter__wrraper products__sorted">
-                        <h3 className="filter__text">Сортировка</h3>
-                        <button className="filter_button">
+                    <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
+                        <h3 className={styles.filter__text}>Сортировка</h3>
+                        <button className={styles.filter_button}>
                         </button>
-                        <div className="sorted-container">
-                            <button className="sorted-container_botton" onClick={() => handleApplySorted(
+                        <div className={styles.sorted_container}>
+                            <button className={styles.sorted_container_botton} onClick={() => handleApplySorted(
                                 {
                                     columnName: 'price',
                                     orderDirection: 'ASC'
                                 }
                             )}>По возрастанию цены</button>
-                            <button className="sorted-container_botton" onClick={() => handleApplySorted(
+                            <button className={styles.sorted_container_botton} onClick={() => handleApplySorted(
                                 {
                                     columnName: 'price',
                                     orderDirection: 'DESC'
@@ -97,22 +98,22 @@ export default function ProductsFilter(){
             </div>
             {
                 pageRequest.filters.filter(f => f.field !== 'categoryId').length > 0 &&
-                <div className="filter__info_wrraper">
+                <div className={styles.filter__info_wrraper}>
                     {
                         pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
-                            return <div key={index} className="filter__info">
-                                <div className="filter__info_text">{value.field}: {
+                            return <div key={index} className={styles.filter__info}>
+                                <div className={styles.filter__info_text}>{value.field}: {
                                     value.operator == 'LESS_GREATER' ? `От ${value.value[0]} до ${value.value[1]}` : value.value.join(', ')
                                 }</div>
-                                <button onClick={() => handleRemoveFilter(value)} className="filter_button_list">
+                                <button onClick={() => handleRemoveFilter(value)} className={styles.filter_button_list}>
                                     <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
                                 </button>
                             </div>
                         })
                     }
-                    <div className="filter__info filter__info_delete">
-                        <div className="filter__info_text">Очистить всё</div>
-                        <button onClick={handleRemoveAllFilter} className="filter_button_list">
+                    <div className={`${styles.filter__info} ${styles.filter__info_delete}`}>
+                        <div className={styles.filter__info_text}>Очистить всё</div>
+                        <button onClick={handleRemoveAllFilter} className={styles.filter_button_list}>
                             <Image src={'/images/Delete_button_grey.png'} alt="Удалить" width={16} height={16}/>
                         </button>
                     </div>

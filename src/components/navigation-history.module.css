@@ -1,0 +1,36 @@
+.navigator__wrapper{
+    display: flex;
+    width: 1214px;
+    margin: 20px auto 0;
+  }
+  
+  .navigator__back{
+    display: flex;
+    margin-right: 15px;
+  }
+  
+  .navigator__back_button{
+    all: unset;
+    cursor: pointer;
+  }
+  
+  .navigator__back_text{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    margin: 0 0 0 7px;
+    cursor: pointer;
+    font-family: 'Roboto';
+  }
+
+  .not_active_history_link{
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    cursor: pointer;
+    font-family: 'Roboto';
+  }
+  
+  .active_history_link{
+    all: unset;
+  }

@@ -2,6 +2,7 @@ import {FiltersResponse} from "@/lib/models";
 import {useState} from "react";
 import {useAppDispatch} from "@/lib/hooks";
 import {ADD_FILTER} from "@/lib/reducers";
+import styles from "@/components/filter/filter.module.css"
 
 interface FilterProps {
     title: string,
@@ -60,12 +61,12 @@ export const FilterComponent = (props: FilterProps) => {
         <div style={{position:'relative'}}
              onMouseEnter={handleFilterHover}
              onMouseLeave={handleFilterHover}
-             className="filter__wrraper"
+             className={styles.filter__wrraper}
         >
-            <h3 className="filter__text">{props.title}</h3>
-            <button className="filter_button">
+            <h3 className={styles.filter__text}>{props.title}</h3>
+            <button className={styles.filter_button}>
             </button>
-            <div className={`filter_button_dropdown filter_button_dropdown_srollbar ${!valueValid && 'validate_error'}`}
+            <div className={`${styles.filter_button_dropdown} ${styles.filter_button_dropdown_srollbar} ${!valueValid && 'validate_error'}`}
                  style={{
                      position: 'absolute',
                      zIndex: 999,
@@ -80,10 +81,10 @@ export const FilterComponent = (props: FilterProps) => {
                 {
                     props.filter.operator === 'LESS_GREATER' ?
                         <>
-                            <div className="filter_button_dropdown_container">
+                            <div className={styles.filter_button_dropdown_container}>
                                 <div>
-                                    <h3 className="filter_button_dropdown_text">Мин. цена</h3>
-                                    <input className="filter_button_dropdown_input"
+                                    <h3 className={styles.filter_button_dropdown_text}>Мин. цена</h3>
+                                    <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max}
                                            placeholder={props.filter.range.min?.toString()}
@@ -92,10 +93,10 @@ export const FilterComponent = (props: FilterProps) => {
                                            title="От"
                                     />
                                 </div>
-                                <div className="filter_button_dropdown_line"></div>
+                                <div className={styles.filter_button_dropdown_line}></div>
                                 <div>
-                                    <h3 className="filter_button_dropdown_text">Макс. цена</h3>
-                                    <input className="filter_button_dropdown_input"
+                                    <h3 className={styles.filter_button_dropdown_text}>Макс. цена</h3>
+                                    <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max} placeholder={props.filter.range.max?.toString()}
                                            value={valueTo}
@@ -105,20 +106,20 @@ export const FilterComponent = (props: FilterProps) => {
                                 </div>
                             </div>
                             <div>
-                                <button className="filter_button_dropdown_botton"
+                                <button className={styles.filter_button_dropdown_botton}
                                         onClick={handleApplyFilter}>Применить
                                 </button>
                             </div>
                         </> :
                         props.filter.value.map((item:{id: number, name: string}) => {
-                            return <div key={item.id} className="filter_button_dropdown_content">
-                                <div className="filter_button_dropdown_wrapper">
-                                    <input checked={props.applyFilterValues !== undefined && props.applyFilterValues?.indexOf(item.id.toString()) !== -1} onChange={() => handleApplyInFilter(item.id)} className="filter_button_dropdown_checkbox" type="checkbox" name=""
+                            return <div key={item.id} className={styles.filter_button_dropdown_content}>
+                                <div className={styles.filter_button_dropdown_wrapper}>
+                                    <input checked={props.applyFilterValues !== undefined && props.applyFilterValues?.indexOf(item.id.toString()) !== -1} onChange={() => handleApplyInFilter(item.id)} className={styles.filter_button_dropdown_checkbox} type="checkbox" name=""
                                            id={`checkbox-${item.id}`}/>
-                                    <label htmlFor={`checkbox-${item.id}`} className="custom-checkbox"></label>
+                                    <label htmlFor={`checkbox-${item.id}`} className={styles.custom_checkbox}></label>
                                 </div>
-                                <h3 className="filter_button_dropdown_checkbox_text">{item.name}</h3>
-                                <h4 className="filter_button_dropdown_checkbox_quantity">61</h4>
+                                <h3 className={styles.filter_button_dropdown_checkbox_text}>{item.name}</h3>
+                                <h4 className={styles.filter_button_dropdown_checkbox_quantity}>61</h4>
                             </div>
                         })
                 }
