@@ -9,6 +9,7 @@ import {useEffect, useState} from "react";
 import {INITIAL_TOKEN} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 import styles from "@/components/dashboard.module.css"
+import PreviewBasketModal from "./preview-basket-modal";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -53,15 +54,16 @@ export default function Dashboard() {
                             <h2 className={styles.user__text}>Мой кабинет</h2>
                         </Link>
                 }
-                <Link href='/basket'>
+                {/* <Link href='/basket'> */}
                     <div className={styles.dashboar__basket}>
                         <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
                         <div className={styles.dashboar__basket_container}>
                             <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
                             <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
                         </div>
+                        <PreviewBasketModal/>
                     </div>
-                </Link>
+                {/* </Link> */}
             </div>
             <div className={styles.navigator}>
                 <div className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}>
