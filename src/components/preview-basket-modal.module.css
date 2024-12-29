@@ -1,0 +1,154 @@
+.content {
+    width: 475px;
+    background-color: #fff;
+    position: absolute;
+    top: 55px;
+    right: 0;
+    z-index: 12;
+    box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
+    cursor: default;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: 600;
+    line-height: 30px;
+    font-family: 'Roboto';
+    width: 100%;
+    height: 70px;
+    color: #21A038;
+    display: flex;
+    align-items: center;
+    padding: 19px 27px;
+    box-sizing: border-box;
+}
+
+.close {
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+    top: 24px;
+    right: 21px;
+}
+
+.item {
+    display: flex;
+}
+
+.image {
+    width: 158px;
+    height: 105px;
+    background-color: #21A038;
+}
+
+.wrapper {
+    padding: 18px 16px 18px 12px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 1px solid #000;
+    border-left: none;
+    border-right: none;
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.text {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18px;
+    font-family: 'Roboto';
+}
+
+.delete {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: start;
+}
+
+.quantity_button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.quantity {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+    font-family: 'Roboto';
+    color: #21A038;
+    margin: 0 25px;
+}
+
+.summ {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    font-family: 'Inter';
+    color: #21A038;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+    padding: 0 15px 0 21px;
+}
+
+.clear {
+    all: unset;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17px;
+    font-family: 'Inter';
+    color: #7b7b7b;
+    width: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total_text {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 18px;
+    font-family: 'Inter';
+    color: #484848;
+}
+
+.total_span {
+    color: #21A038;
+}
+
+.button {
+    all: unset;
+    cursor: pointer;
+    width: 228px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 23px;
+    font-family: 'Inter';
+    color: #fff;
+    background-color: #21A038;
+    border-radius: 10px;
+}
+
+.button_white {
+    border: 2px solid #21A038;
+    color: #21A038;
+    width: 190px;
+    background-color: #fff;
+}
