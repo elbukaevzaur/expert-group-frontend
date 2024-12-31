@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
+import {OrderItems, OrderItemsRequest} from "@/lib/models";
 import {
     ORDER_ITEMS_DECREMENT,
     ORDER_ITEMS_INCREMENT,
