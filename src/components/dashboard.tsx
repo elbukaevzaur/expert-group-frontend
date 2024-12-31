@@ -16,6 +16,7 @@ export default function Dashboard() {
     const { isAuth } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const [isLoginVisible, setIsLoginVisible] = useState(false);
+    const [ isShowPreviewBasket, setIsShowPreviewBasket ] = useState(false);
 
     useEffect(() => {
         dispatch(INITIAL_TOKEN());
@@ -56,12 +57,15 @@ export default function Dashboard() {
                 }
                 {/* <Link href='/basket'> */}
                     <div className={styles.dashboar__basket}>
-                        <Image src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
-                        <div className={styles.dashboar__basket_container}>
+                        <Image onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
+                        <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
                             <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
                             <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
                         </div>
-                        <PreviewBasketModal/>
+                        {
+                            isShowPreviewBasket &&
+                            <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
+                        }
                     </div>
                 {/* </Link> */}
             </div>

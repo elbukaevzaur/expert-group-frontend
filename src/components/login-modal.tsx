@@ -1,7 +1,6 @@
 import Image from "next/image";
-import Link from "next/link";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {SIGN_IN_REQUEST, SIGN_OUT, UPDATE_FOR_API} from "@/lib/reducers";
+import {SIGN_IN_REQUEST, UPDATE_FOR_API} from "@/lib/reducers";
 import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import styles from "./login-modal.module.css"
