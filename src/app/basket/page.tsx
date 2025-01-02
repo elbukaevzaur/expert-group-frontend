@@ -7,18 +7,19 @@ import {
     ORDER_ITEMS_INCREMENT,
     REMOVE,
     BASKET_CLEAR,
-    ORDER_ITEMS_DETAILS_REQUEST, CREATE_ORDER_REQUEST
+    ORDER_ITEMS_DETAILS_REQUEST
 } from "@/lib/reducers";
 import Image from "next/image"
 import Link from "next/link";
 import {useEffect} from "react";
 import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
 import styles from "./basket.module.css"
+import {useRouter} from "next/navigation";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
-
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
     useEffect(() => {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
@@ -58,7 +59,7 @@ export default function Basket() {
     }
 
     function handleCreateOrder() {
-        dispatch(CREATE_ORDER_REQUEST());
+        router.push('/basket/buy')
     }
 
     return (

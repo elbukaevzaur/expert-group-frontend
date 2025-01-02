@@ -1,42 +1,65 @@
-import styles from "@/app/buy/buy.module.css"
+'use client'
+
+import styles from "@/app/basket/buy/buy.module.css"
 import Image from "next/image"
+import {
+    CREATE_ORDER_REQUEST,
+    ORDER_ITEMS_DETAILS_REQUEST
+} from "@/lib/reducers";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
+import {useEffect} from "react";
 
 export default function Buy() {
+    const dispatch = useAppDispatch();
+    const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
+
+    useEffect(() => {
+        dispatch(ORDER_ITEMS_DETAILS_REQUEST())
+    }, []);
+
+    const getTotalPrice = (): string => {
+        let totalSum: number = 0;
+        if (orderItems.length > 0)
+            orderItems.forEach((value) => {
+                totalSum += Number((value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2));
+            })
+        return totalSum.toFixed(2);
+    }
+
+    function handleCreateOrder() {
+        dispatch(CREATE_ORDER_REQUEST());
+
+    }
+
     return (
         <div className={styles.buy}>
             <div className={styles.title_wrapper}>
                 <h1 className={styles.title}>Товары в заказе</h1>
-                <p className={styles.subtitle}>/3 шт.</p>
+                <p className={styles.subtitle}>/{orderItems.length} шт.</p>
             </div>
             <div className={styles.items}>
-                <div className={styles.item}>
-                    <div className={styles.item_image}>
-                        <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
-                    </div>
-                    <div className={styles.item_wrapper}>
-                        <h3 className={styles.item_name}>Гладкий отливной карниз Кт-68, 56Hx34мм</h3>
-                        <h3 className={styles.item_name}>2 шт</h3>
-                        <h3 className={styles.item_summ}>1030 &#8381;</h3>
-                    </div>
-                </div>
-                <div className={styles.item}>
-                    <div className={styles.item_image}>
-                        <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
-                    </div>
-                    <div className={styles.item_wrapper}>
-                        <h3 className={styles.item_name}>Гладкий отливной карниз Кт-68, 56Hx34мм</h3>
-                        <h3 className={styles.item_name}>2 шт</h3>
-                        <h3 className={styles.item_summ}>1030 &#8381;</h3>
-                    </div>
-                </div>
+                {
+                    orderItems.map((item, index) => {
+                        return <div key={index} className={styles.item}>
+                            <div className={styles.item_image}>
+                                <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
+                            </div>
+                            <div className={styles.item_wrapper}>
+                                <h3 className={styles.item_name}>{orderItemsDetails[item.productId]?.name}</h3>
+                                <h3 className={styles.item_name}>{item.quantity} шт</h3>
+                                <h3 className={styles.item_summ}>{orderItemsDetails[item.productId]?.price * item.quantity} &#8381;</h3>
+                            </div>
+                        </div>
+                    })
+                }
                 <div className={styles.total}>
                     <div className={styles.total_wrapper}>
                         <h3 className={styles.total_title}>Итого:</h3>
-                        <h3 className={`${styles.total_title} ${styles.total_title_color}`}>3.892 &#8381;/шт</h3>
+                        <h3 className={`${styles.total_title} ${styles.total_title_color}`}>{getTotalPrice()} &#8381;/шт</h3>
                     </div>
                     <div className={`${styles.total_wrapper} ${styles.total_wrapper_margin}`}>
                         <h3 className={styles.total_text}>Товаров на:</h3>
-                        <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>3.892 &#8381;/шт</h3>
+                        <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>{getTotalPrice()} &#8381;/шт</h3>
                     </div>
                     <div className={`${styles.total_wrapper} ${styles.total_wrapper_margin}`}>
                         <h3 className={styles.total_text}>Доставка:</h3>
@@ -46,7 +69,7 @@ export default function Buy() {
                     <h3 className={`${styles.total_text} ${styles.total_text_weight} ${styles.total_wrapper_margin}`}>Банковской картой онлайн</h3>
                     <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>Доставка:</h3>
                     <h3 className={`${styles.total_text} ${styles.total_text_weight} ${styles.total_title_color}`}>Самовывоз</h3>
-                    <button className={styles.total_button}>Оформить заказ</button>
+                    <button onClick={handleCreateOrder} className={styles.total_button}>Оформить заказ</button>
                 </div>
             </div>
             <div className={styles.delivery}>
