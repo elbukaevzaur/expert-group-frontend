@@ -1,7 +1,7 @@
 import styles from "@/components/preview-basket-modal.module.css"
 import Image from "next/image"
 import {MinusSmall, PlusSmall, CloseSvg, CloseSmall} from "@/lib/icon-svg";
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
     BASKET_CLEAR,
@@ -21,9 +21,14 @@ export default function PreviewBasketModal(props: Props) {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(ORDER_ITEMS_DETAILS_REQUEST())
+        setIsVisible(true);
+        dispatch(ORDER_ITEMS_DETAILS_REQUEST());
+        return () => {
+            setIsVisible(false);
+        };
     }, [orderItems]);
 
     const removeFromBasket = (item: OrderItems) => {
@@ -64,19 +69,22 @@ export default function PreviewBasketModal(props: Props) {
         router.push("/basket");
     }
 
-    function handleOnClose() {
-        props.onClose();
-    }
+    function handleOnClose () {
+        setIsVisible(false); 
+        setTimeout(() => {
+            props.onClose();
+        }, 300);
+    };
 
     return (
-        <div>
-            <div className={styles.content}>
+        <div className={styles.overlay} onClick={handleOnClose}>
+            <div className={`${styles.content} ${isVisible ? styles.show : ''}`} onClick={(e) => e.stopPropagation()}>
                 <h1 className={styles.title}>Корзина</h1>
                 <button onClick={handleOnClose} className={styles.close}>{<CloseSvg/>}</button>
                 {
                     orderItems.length === 0 && <span style={{paddingLeft: 27, paddingRight: 27}}>Вы пока ничего не добавили в корзину</span>
                 }
-                <div style={{maxHeight: 360, overflowY: 'auto'}}>
+                <div className={styles.items}>
                     {
                         orderItems.map((item, index) => {
                             return <div key={index} className={styles.item}>
@@ -109,7 +117,7 @@ export default function PreviewBasketModal(props: Props) {
                     </div>
                 }
                 <div className={styles.total}>
-                        <button onClick={handleNavigateToBasket} style={{width: 'auto'}} className={`${styles.button} ${styles.button_white}`}>
+                        <button onClick={handleNavigateToBasket} className={`${styles.button} ${styles.button_white}`}>
                             ПЕРЕЙТИ В КОРЗИНУ
                         </button>
                     {/*<div className={styles.button}>БЫСТРЫЙ ЗАКАЗ</div>*/}
