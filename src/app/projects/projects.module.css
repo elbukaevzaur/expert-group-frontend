@@ -1,0 +1,97 @@
+.projects {
+  width: 1214px;
+  margin: 45px auto 0;
+}
+
+.title {
+  font-family: "Roboto";
+  font-weight: 700;
+  font-size: 32px;
+}
+
+.filter {
+  width: 100%;
+  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
+  padding: 18px 21px;
+  box-sizing: border-box;
+  margin-top: 37px;
+  border-radius: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 30px;
+  row-gap: 10px;
+}
+
+.filter_button {
+  all: unset;
+  cursor: pointer;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+
+.filter_button_active {
+  background-color: #21a038;
+  color: #fff;
+}
+
+.items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(286px, 1fr));
+  gap: 23px;
+  margin-top: 20px;
+}
+
+.item {
+  position: relative;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.item::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  pointer-events: none;
+  border-radius: 5px;
+}
+
+.item_image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.item_description {
+  position: absolute;
+  max-width: 243px;
+  bottom: 21px;
+  left: 21px;
+  z-index: 3;
+}
+
+.item_title {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 13px;
+  color: #bdbdbd;
+}
+
+.item_subtitle {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 12.73px;
+  line-height: 15px;
+  color: #fff;
+}

@@ -106,9 +106,12 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
+                
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
+                <Link href={'/projects'}>
                     <h3 className={styles.navigator__text}>Проекты</h3>
                     {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                </Link>
                     <div className={styles.dropdown_green}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Проекты дизайнеров интераaaaaaaaaaaaaaaaaaaaaa</h3>
