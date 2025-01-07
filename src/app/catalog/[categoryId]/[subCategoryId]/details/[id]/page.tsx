@@ -123,7 +123,7 @@ export default function ProductDetails() {
                                 </button>
                             </div>
                             <h2 className={styles.price_buy_subtitle}>
-                                {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: {details?.currentQuantity}`: 'Нет в наличии'}
+                                {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}`: 'Нет в наличии'}
                             </h2>
                         </div>
                         {

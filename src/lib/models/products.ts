@@ -4,7 +4,8 @@ export interface Products {
     price: number,
     currentQuantity: number,
     categoryId: number,
-    parentCategoryId: number
+    parentCategoryId: number,
+    defaultImage: string
 }
 
 interface Materials {
@@ -23,5 +24,6 @@ export interface ProductDetailsResponse {
     categoryId: number,
     currentQuantity: number;
     price: number,
-    material: Materials
+    material: Materials,
+    defaultImage: string
 }

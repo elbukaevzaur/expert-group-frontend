@@ -42,7 +42,13 @@ export function ProductsListItemComponent(props: ProductsProps) {
     return (
         <div className={styles.item}>
             <Link href={`${getCustomLink()}`}>
-                <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
+                {
+                    product.defaultImage == null ?
+                        <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
+                        :
+                        <img className={styles.image} width={295} height={149}
+                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + product.defaultImage}`} />
+                }
             </Link>
             <div className={styles.info}>
                 <h3 className={styles.name}>{product.name}</h3>

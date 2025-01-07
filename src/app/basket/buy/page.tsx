@@ -7,7 +7,7 @@ import {
     ORDER_ITEMS_DETAILS_REQUEST
 } from "@/lib/reducers";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {OrderItemsDetails} from "@/lib/models";
 import Link from "next/link";
 
@@ -59,7 +59,14 @@ export default function Buy() {
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
                             <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.item_image}>
-                                <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
+
+                                {
+                                    orderItemsDetails[item.productId].defaultImage == null ?
+                                        <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
+                                        :
+                                        <img width={283} height={100}
+                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} />
+                                }
                             </Link>
                             <div className={styles.item_wrapper}>
                                 <Link href={getCustomLink(orderItemsDetails[item.productId])}>

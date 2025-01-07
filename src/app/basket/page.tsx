@@ -11,7 +11,7 @@ import {
 } from "@/lib/reducers";
 import Image from "next/image"
 import Link from "next/link";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
 import styles from "./basket.module.css"
 import {useRouter} from "next/navigation";
@@ -91,7 +91,13 @@ export default function Basket() {
                     {
                         orderItems.map((value, index) => {
                             return <div key={index} className={styles.item}>
-                                <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
+                                {
+                                    orderItemsDetails[value.productId].defaultImage == null ?
+                                        <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
+                                        :
+                                        <img width={283} height={130}
+                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} />
+                                }
                                 <Link href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
                                     <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
                                 </Link>

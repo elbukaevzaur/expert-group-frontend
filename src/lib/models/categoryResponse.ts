@@ -1,5 +1,6 @@
 export interface Category {
     id: number,
     name: string,
-    productCount: number
+    productCount: number,
+    defaultImage: string
 }
