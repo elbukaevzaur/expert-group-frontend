@@ -50,10 +50,13 @@ const basket = createSlice({
         ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS: (state, action) => {
             const detailsMap = action.payload.reduce((acc, itemDetails: OrderItemsDetails) => {
                 acc[itemDetails.productId] = {
+                    productId: itemDetails.productId,
                     name: itemDetails.name,
                     price: itemDetails.price,
                     currentQuantity: itemDetails.currentQuantity,
                     logo: itemDetails.logo,
+                    parentCategoryId: itemDetails.parentCategoryId,
+                    categoryId: itemDetails.categoryId
                 };
                 return acc;
             }, {});

@@ -10,8 +10,9 @@ import {
     ORDER_ITEMS_INCREMENT,
     REMOVE
 } from "@/lib/reducers";
-import {OrderItems, OrderItemsRequest} from "@/lib/models";
+import {OrderItems, OrderItemsDetails, OrderItemsRequest} from "@/lib/models";
 import {useRouter} from "next/navigation";
+import Link from "next/link";
 
 interface Props {
     onClose: () => void;
@@ -74,7 +75,20 @@ export default function PreviewBasketModal(props: Props) {
         setTimeout(() => {
             props.onClose();
         }, 300);
-    };
+    }
+
+    const getCustomLink = (product: OrderItemsDetails) => {
+        console.log(product)
+        let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
+        // if (params.subCategoryId === undefined){
+        //     if (params.categoryId !== product.categoryId.toString()){
+        //         path += `/${product.categoryId}`
+        //     }
+        // }
+        path += `/details/${product.productId}`
+        return path;
+    }
+
 
     return (
         <div className={styles.overlay} onClick={handleOnClose}>
@@ -88,14 +102,14 @@ export default function PreviewBasketModal(props: Props) {
                     {
                         orderItems.map((item, index) => {
                             return <div key={index} className={styles.item}>
-                                <div className={styles.image}>
+                                <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.image}>
                                     <Image src={"/images/image.png"} alt="image" width={158} height={105}/>
-                                </div>
+                                </Link>
                                 <div className={styles.wrapper}>
-                                    <div className={styles.name}>
+                                    <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.name}>
                                         <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
                                         <button onClick={() => removeFromBasket(item)} className={styles.delete}>{<CloseSmall/>}</button>
-                                    </div>
+                                    </Link>
                                     <div className={styles.name}>
                                         <div className={styles.name}>
                                             <button onClick={() => handleRemoveFromBasket(item)} className={styles.quantity_button}><MinusSmall/></button>

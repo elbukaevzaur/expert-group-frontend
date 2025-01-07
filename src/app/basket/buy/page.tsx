@@ -8,6 +8,8 @@ import {
 } from "@/lib/reducers";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
+import {OrderItemsDetails} from "@/lib/models";
+import Link from "next/link";
 
 export default function Buy() {
     const dispatch = useAppDispatch();
@@ -31,6 +33,21 @@ export default function Buy() {
 
     }
 
+    const getCustomLink = (product: OrderItemsDetails) => {
+        if (product !== undefined){
+            let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
+            // if (params.subCategoryId === undefined){
+            //     if (params.categoryId !== product.categoryId.toString()){
+            //         path += `/${product.categoryId}`
+            //     }
+            // }
+            path += `/details/${product.productId}`
+            return path;
+        }else {
+            return '';
+        }
+    }
+
     return (
         <div className={styles.buy}>
             <div className={styles.title_wrapper}>
@@ -41,11 +58,13 @@ export default function Buy() {
                 {
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
-                            <div className={styles.item_image}>
+                            <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.item_image}>
                                 <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
-                            </div>
+                            </Link>
                             <div className={styles.item_wrapper}>
-                                <h3 className={styles.item_name}>{orderItemsDetails[item.productId]?.name}</h3>
+                                <Link href={getCustomLink(orderItemsDetails[item.productId])}>
+                                    <h3 className={styles.item_name}>{orderItemsDetails[item.productId]?.name}</h3>
+                                </Link>
                                 <h3 className={styles.item_name}>{item.quantity} шт</h3>
                                 <h3 className={styles.item_summ}>{orderItemsDetails[item.productId]?.price * item.quantity} &#8381;</h3>
                             </div>
