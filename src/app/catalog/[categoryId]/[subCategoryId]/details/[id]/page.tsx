@@ -12,7 +12,7 @@ import {
 } from "@/lib/reducers";
 import Link from "next/link";
 import {OrderItems, OrderItemsRequest} from "@/lib/models";
-import {LikeSvg} from "@/lib/icon-svg";
+import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./details.module.css"
 
 export default function ProductDetails() {
@@ -74,8 +74,16 @@ export default function ProductDetails() {
             <h1 className={styles.title}>{details?.name}</h1>
             <div className={styles.info}>
                 <div className={styles.container}>
+                    <div className={styles.image_wrapper}>
+                        <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
+                        <ArrowLeftSvg className={styles.image_right} width={13} height={22}/>
                     <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз" width={532} height={394}/>
-                    <div className={styles.wrraper}>
+                        <div className={styles.mini}>
+                        <Image className={`${styles.mini_image} ${styles.mini_image_active}`} src={'/images/image_detalis.png'} alt="Карниз" width={50} height={50}/>
+                        <Image className={styles.mini_image} src={'/images/Subcatalog__2.png'} alt="Карниз" width={50} height={50}/>
+                        </div>
+                    </div>
+                    <div className={styles.wrapper}>
                         <button className={styles.button_show}>
                             <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
                         </button>
