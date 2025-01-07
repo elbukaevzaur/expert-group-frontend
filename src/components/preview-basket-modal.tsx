@@ -1,7 +1,7 @@
 import styles from "@/components/preview-basket-modal.module.css"
 import Image from "next/image"
 import {MinusSmall, PlusSmall, CloseSvg, CloseSmall} from "@/lib/icon-svg";
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
     BASKET_CLEAR,
@@ -10,8 +10,9 @@ import {
     ORDER_ITEMS_INCREMENT,
     REMOVE
 } from "@/lib/reducers";
-import {OrderItems, OrderItemsRequest} from "@/lib/models";
+import {OrderItems, OrderItemsDetails, OrderItemsRequest} from "@/lib/models";
 import {useRouter} from "next/navigation";
+import Link from "next/link";
 
 interface Props {
     onClose: () => void;
@@ -21,9 +22,14 @@ export default function PreviewBasketModal(props: Props) {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        dispatch(ORDER_ITEMS_DETAILS_REQUEST())
+        setIsVisible(true);
+        dispatch(ORDER_ITEMS_DETAILS_REQUEST());
+        return () => {
+            setIsVisible(false);
+        };
     }, [orderItems]);
 
     const removeFromBasket = (item: OrderItems) => {
@@ -64,30 +70,46 @@ export default function PreviewBasketModal(props: Props) {
         router.push("/basket");
     }
 
-    function handleOnClose() {
-        props.onClose();
+    function handleOnClose () {
+        setIsVisible(false); 
+        setTimeout(() => {
+            props.onClose();
+        }, 300);
     }
 
+    const getCustomLink = (product: OrderItemsDetails) => {
+        console.log(product)
+        let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
+        // if (params.subCategoryId === undefined){
+        //     if (params.categoryId !== product.categoryId.toString()){
+        //         path += `/${product.categoryId}`
+        //     }
+        // }
+        path += `/details/${product.productId}`
+        return path;
+    }
+
+
     return (
-        <div>
-            <div className={styles.content}>
+        <div className={styles.overlay} onClick={handleOnClose}>
+            <div className={`${styles.content} ${isVisible ? styles.show : ''}`} onClick={(e) => e.stopPropagation()}>
                 <h1 className={styles.title}>Корзина</h1>
                 <button onClick={handleOnClose} className={styles.close}>{<CloseSvg/>}</button>
                 {
                     orderItems.length === 0 && <span style={{paddingLeft: 27, paddingRight: 27}}>Вы пока ничего не добавили в корзину</span>
                 }
-                <div style={{maxHeight: 360, overflowY: 'auto'}}>
+                <div className={styles.items}>
                     {
                         orderItems.map((item, index) => {
                             return <div key={index} className={styles.item}>
-                                <div className={styles.image}>
+                                <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.image}>
                                     <Image src={"/images/image.png"} alt="image" width={158} height={105}/>
-                                </div>
+                                </Link>
                                 <div className={styles.wrapper}>
-                                    <div className={styles.name}>
+                                    <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.name}>
                                         <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
                                         <button onClick={() => removeFromBasket(item)} className={styles.delete}>{<CloseSmall/>}</button>
-                                    </div>
+                                    </Link>
                                     <div className={styles.name}>
                                         <div className={styles.name}>
                                             <button onClick={() => handleRemoveFromBasket(item)} className={styles.quantity_button}><MinusSmall/></button>
@@ -109,7 +131,7 @@ export default function PreviewBasketModal(props: Props) {
                     </div>
                 }
                 <div className={styles.total}>
-                        <button onClick={handleNavigateToBasket} style={{width: 'auto'}} className={`${styles.button} ${styles.button_white}`}>
+                        <button onClick={handleNavigateToBasket} className={`${styles.button} ${styles.button_white}`}>
                             ПЕРЕЙТИ В КОРЗИНУ
                         </button>
                     {/*<div className={styles.button}>БЫСТРЫЙ ЗАКАЗ</div>*/}
