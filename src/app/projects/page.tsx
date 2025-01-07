@@ -4,7 +4,7 @@ import Image from "next/image"
 export default function Projects() {
     return (
         <div className={styles.projects}>
-            <h1 className={styles.title}>Проекты</h1>
+            <h2 className={styles.title}>Проекты</h2>
             <div className={styles.filter}>
                 <button className={`${styles.filter_button} ${styles.filter_button_active}`}>ВСЕ ПРОЕКТЫ</button>
                 <button className={styles.filter_button}>ДИЗАЙН ИНТЕРЬЕРА</button>

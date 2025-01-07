@@ -1,0 +1,155 @@
+.details {
+  width: 1214px;
+  margin: 45px auto 0;
+}
+
+.title {
+  font-family: "Roboto";
+  font-weight: 700;
+  font-size: 32.5px;
+  line-height: 38px;
+  margin-bottom: 40px;
+}
+
+.description {
+  position: relative;
+  display: flex;
+}
+
+.description_image {
+  width: 720px;
+  height: 479px;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.description_container {
+  margin: 27px 0 0 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.description_paragraph {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 22px;
+  max-width: 407px;
+}
+
+.description_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.description_button {
+  all: unset;
+  cursor: pointer;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #a9a9a9;
+  border-radius: 5px;
+  color: #525252;
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 17.5px;
+  line-height: 21px;
+}
+
+.description_button_green {
+  border: none;
+  background-color: #21a038;
+  color: #fff;
+}
+
+.paragraph {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.paragraph_text {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 19px;
+  line-height: 22px;
+  color: #747474;
+}
+
+.paragraph_text_margin {
+  margin-bottom: 20px;
+}
+
+.photo {
+  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
+  padding: 40px;
+  box-sizing: border-box;
+  margin-top: 50px;
+}
+
+.photo_title {
+  font-family: "Roboto";
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 26px;
+  border-radius: 5px;
+}
+
+.photo_wrapper {
+  position: relative;
+  margin-top: 35px;
+}
+
+.photo_image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 5px;
+}
+
+.photo_button_left {
+  position: absolute;
+  top: 224px;
+  left: 0;
+  width: 56px;
+  height: 86px;
+  background-color: rgba(33, 160, 56, 0.49);
+  border-radius: 0 8px 8px 0;
+  border: 0;
+  cursor: pointer;
+}
+
+.photo_button_right {
+  position: absolute;
+  top: 224px;
+  right: 0;
+  width: 56px;
+  height: 86px;
+  background-color: rgba(33, 160, 56, 0.49);
+  border-radius: 8px 0 0 8px;
+  border: 0;
+  cursor: pointer;
+}
+
+.swipe {
+  width: 163px;
+  height: 16px;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.swipe_circle {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #d9d9d9;
+}
+
+.swipe_circle_active {
+  background-color: #21a038;
+}
