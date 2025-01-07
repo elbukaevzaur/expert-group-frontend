@@ -56,7 +56,8 @@ const basket = createSlice({
                     currentQuantity: itemDetails.currentQuantity,
                     logo: itemDetails.logo,
                     parentCategoryId: itemDetails.parentCategoryId,
-                    categoryId: itemDetails.categoryId
+                    categoryId: itemDetails.categoryId,
+                    defaultImage: itemDetails.defaultImage
                 };
                 return acc;
             }, {});

@@ -10,7 +10,8 @@ export interface OrderItemsDetails {
     currentQuantity: number,
     logo: string,
     categoryId: number,
-    parentCategoryId: number
+    parentCategoryId: number,
+    defaultImage: string
 }
 
 export interface OrderItemsRequest {
