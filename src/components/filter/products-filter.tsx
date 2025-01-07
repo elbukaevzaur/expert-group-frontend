@@ -55,8 +55,15 @@ export default function ProductsFilter(){
                                     <h3 className="subcatalog__title">{value.name}</h3>
                                     <h4 className="subcatalog__subtitle">{value.productCount} товара</h4>
                                 </div>
-                                <Image className="subcatalog__image" src={'/images/subcatalog__2.png'}
-                                       alt="Карнизы потолочные" layout="fill" objectFit="contain"/>
+                                {
+                                    value.defaultImage == null ?
+                                        <Image className="subcatalog__image" src={'/images/subcatalog__2.png'}
+                                               alt="Карнизы потолочные"
+                                               layout="fill" objectFit="contain"/>
+                                        :
+                                        <img className="table_img"
+                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + value.defaultImage}`} />
+                                }
                             </Link>
                         })
                     }

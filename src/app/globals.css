@@ -121,3 +121,8 @@ a {
   margin: 0 0 0 10px;
   grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
 }
+
+.table_img {
+  object-fit: contain;
+  width: 180px;
+}
