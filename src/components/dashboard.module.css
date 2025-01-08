@@ -167,6 +167,10 @@
   .navigator__container:last-of-type {
     margin-right: 50px;
   }
+
+  .navigator__container.navigator__container_active {
+    background-color: #118c28;
+  }
   
   .navigator__container_white {
     background-color: #ffffff;
@@ -254,5 +258,9 @@
   }
 
   .dropdown_green_wrapper:hover .dropdown_green_text{
+    font-size: 17px;
+  }
+
+  .dropdown_green_text.dropdown_green_text_active{
     font-size: 17px;
   }

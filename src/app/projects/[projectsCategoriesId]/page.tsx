@@ -1,21 +1,40 @@
-import styles from "@/app/projects/projects.module.css"
+"use client"
+
+import styles from "@/app/projects/[projectsCategoriesId]/projects.module.css"
 import Image from "next/image"
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
+import {useEffect} from "react";
+import {useParams, useRouter} from "next/navigation";
 
 export default function Projects() {
+    const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
+    const dispatch = useAppDispatch();
+    const params = useParams();
+    const router = useRouter();
+
+    useEffect(() => {
+        Number(params.projectsCategoriesId)
+    }, [params.projectsCategoriesId]);
+
+    function handleSelectedProjectCategory(id: number) {
+        router.push(`/projects/${id}`)
+    }
+
     return (
         <div className={styles.projects}>
             <h2 className={styles.title}>Проекты</h2>
             <div className={styles.filter}>
-                <button className={`${styles.filter_button} ${styles.filter_button_active}`}>ВСЕ ПРОЕКТЫ</button>
-                <button className={styles.filter_button}>ДИЗАЙН ИНТЕРЬЕРА</button>
-                <button className={styles.filter_button}>ФАСАДНЫЙ ДЕКОР</button>
-                <button className={styles.filter_button}>ГОТОВЫЕ РЕШЕНИЯ ПО ФАСАДНОМУ ДЕКОРУ</button>
-                <button className={styles.filter_button}>БАЛКИ</button>
-                <button className={styles.filter_button}>ЛЕПНИНА ДЛЯ ИНТЕРЬЕРА</button>
-                <button className={styles.filter_button}>КАМЕННЫЙ ШПОН</button>
-                <button className={styles.filter_button}>3Д ПАНЕЛИ</button>
-                <button className={styles.filter_button}>КАМЕННЫЙ ШПОН</button>
-                <button className={styles.filter_button}>ФРЕСКИ ФОТООБОИ</button>
+                {
+                    allProjectsCategories.map((item, index) => {
+                       return <button
+                           key={index}
+                           className={`${styles.filter_button} ${item.id.toString() === params.projectsCategoriesId && styles.filter_button_active}`}
+                           onClick={() => handleSelectedProjectCategory(item.id)}
+                       >
+                            {item.name}
+                        </button>
+                    })
+                }
             </div>
             <div className={styles.items}>
                 <div className={styles.item}>

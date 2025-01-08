@@ -10,10 +10,12 @@ import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import React, {useEffect} from "react";
 import {OrderItemsDetails} from "@/lib/models";
 import Link from "next/link";
+import {useRouter} from "next/navigation";
 
 export default function Buy() {
     const dispatch = useAppDispatch();
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
+    const router = useRouter();
 
     useEffect(() => {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
@@ -30,7 +32,7 @@ export default function Buy() {
 
     function handleCreateOrder() {
         dispatch(CREATE_ORDER_REQUEST());
-
+        router.push('/lk/current-orders')
     }
 
     const getCustomLink = (product: OrderItemsDetails) => {

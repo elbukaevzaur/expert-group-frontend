@@ -1,4 +1,4 @@
-import styles from '@/app/projects/details/details.module.css'
+import styles from '@/app/projects/[projectsCategoriesId]/details/details.module.css'
 import Image from 'next/image'
 
 export default function ProjectDetails() {
