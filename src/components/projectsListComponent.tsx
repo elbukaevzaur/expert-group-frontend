@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {getAllProjects} from "@/lib/http/projectsRequest";
 import {ProjectsListResponse} from "@/lib/models/projects";
+import Link from "next/link";
 
 export default function ProjectsList() {
     const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
@@ -56,27 +57,36 @@ export default function ProjectsList() {
                     })
                 }
             </div>
-            <div className={styles.items}>
-                {
-                    projects.map((item, index) => {
-                        return <div key={index} className={styles.item}>
-                            {
-                                item.defaultImage === null ?
-                                    <Image className={styles.item_image} src={'/images/Project1.png'} alt="Image"
-                                           width={286}
-                                           height={201}/>
-                                    :
-                                    <img className={styles.image} width={286} height={201}
-                                         src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item.defaultImage}`}/>
-                            }
-                            <div className={styles.item_description}>
-                                <h2 className={styles.item_title}>{item.category.name}</h2>
-                                <p className={styles.item_subtitle}>{item.address}, {item.name}</p>
-                            </div>
-                        </div>
-                    })
-                }
-            </div>
+            {
+                projects.length == 0 ?
+                    <div style={{marginTop: 20, textAlign: 'center'}}>
+                        <h1>Список пуст</h1>
+                    </div>
+                    :
+                    <div className={styles.items}>
+                        {
+                            projects.map((item, index) => {
+                                return <Link href={`/projects/${item.projectCategoryId}/details/${item.id}`} key={index}
+                                             className={styles.item}>
+                                    {
+                                        item.defaultImage === null ?
+                                            <Image className={styles.item_image} src={'/images/Project1.png'}
+                                                   alt="Image"
+                                                   width={286}
+                                                   height={201}/>
+                                            :
+                                            <img className={styles.image} width={286} height={201}
+                                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item.defaultImage}`}/>
+                                    }
+                                    <div className={styles.item_description}>
+                                        <h2 className={styles.item_title}>{item.category.name}</h2>
+                                        <p className={styles.item_subtitle}>{item.address}, {item.name}</p>
+                                    </div>
+                                </Link>
+                            })
+                        }
+                    </div>
+            }
         </div>
     )
 }

@@ -14,7 +14,6 @@ import Link from "next/link";
 import {OrderItems, OrderItemsRequest} from "@/lib/models";
 import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./details.module.css"
-import {images} from "next/dist/build/webpack/config/blocks/images";
 
 export default function ProductDetails() {
     const params = useParams();
