@@ -357,3 +357,7 @@
   .swipe_circle_active {
     background-color: #21a038;
   }
+
+  .selected_image {
+    cursor: pointer;
+  }

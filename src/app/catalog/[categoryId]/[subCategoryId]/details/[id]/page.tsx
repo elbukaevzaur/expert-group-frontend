@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useParams } from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
@@ -14,6 +14,7 @@ import Link from "next/link";
 import {OrderItems, OrderItemsRequest} from "@/lib/models";
 import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./details.module.css"
+import {images} from "next/dist/build/webpack/config/blocks/images";
 
 export default function ProductDetails() {
     const params = useParams();
@@ -21,6 +22,7 @@ export default function ProductDetails() {
     const { orderItems } = useAppSelector((state) => state.basket);
     const [basketItem, setBasketItem] = useState<OrderItems>(null);
     const { allFavorites } = useAppSelector((state) => state.favorites);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(null);
 
     const dispatch = useAppDispatch();
 
@@ -69,18 +71,69 @@ export default function ProductDetails() {
         dispatch(CHANGE_FAVORITES_REQUEST(request))
     }
 
+    useEffect(() => {
+        if (details?.defaultImage !== null && details?.defaultImage !== undefined) {
+            const index = details?.images.map(m => m.imagePath).indexOf(details.defaultImage);
+            setSelectedImageIndex(index)
+        } else if (details?.images !== null && details?.images !== undefined){
+            setSelectedImageIndex(0)
+        }
+    }, [details?.defaultImage]);
+
+    function handleShowPrevImage() {
+        if (selectedImageIndex > 0) {
+            setSelectedImageIndex(selectedImageIndex - 1);
+        }
+    }
+
+    function handleShowNextImage() {
+        if (selectedImageIndex < (details?.images.length - 1)) {
+            setSelectedImageIndex(selectedImageIndex + 1);
+        }
+    }
+
     return (
         <section className={styles.details}>
             <h1 className={styles.title}>{details?.name}</h1>
             <div className={styles.info}>
                 <div className={styles.container}>
                     <div className={styles.image_wrapper}>
-                        <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
-                        <ArrowLeftSvg className={styles.image_right} width={13} height={22}/>
-                    <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз" width={532} height={394}/>
+                        {
+                            selectedImageIndex > 0 &&
+                            <div style={{cursor: 'pointer'}} onClick={handleShowPrevImage}>
+                                <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
+                            </div>
+                        }
+                        {
+                            selectedImageIndex < (details?.images?.length - 1) &&
+                            <div style={{cursor: 'pointer'}} onClick={handleShowNextImage}>
+                                <ArrowLeftSvg className={styles.image_right} width={13} height={22}/>
+                            </div>
+                        }
+                        {
+                            selectedImageIndex !== null ?
+                                <img className={styles.image} width={532} height={394}
+                                     src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}/>
+                                :
+                                <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
+                                       width={532} height={394}/>
+
+                        }
                         <div className={styles.mini}>
-                        <Image className={`${styles.mini_image} ${styles.mini_image_active}`} src={'/images/image_detalis.png'} alt="Карниз" width={50} height={50}/>
-                        <Image className={styles.mini_image} src={'/images/Subcatalog__2.png'} alt="Карниз" width={50} height={50}/>
+                            {
+                                details?.images?.map((item, index) => {
+                                    return <div
+                                        key={index}
+                                        onClick={() => setSelectedImageIndex(index)}
+                                        className={styles.selected_image}
+                                    >
+                                        <img className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
+                                             width={50} height={50}
+                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'thumbnail_' + item?.imagePath}`}/>
+                                    </div>
+                                })
+
+                            }
                         </div>
                     </div>
                     <div className={styles.wrapper}>
