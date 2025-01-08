@@ -5,5 +5,6 @@ export interface ProjectsListResponse {
     name: string,
     defaultImage: string,
     projectCategoryId: number,
-    category: ProjectsCategories
+    category: ProjectsCategories,
+    address: string
 }

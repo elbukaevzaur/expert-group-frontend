@@ -71,7 +71,7 @@ export default function ProjectsList() {
                             }
                             <div className={styles.item_description}>
                                 <h2 className={styles.item_title}>{item.category.name}</h2>
-                                <p className={styles.item_subtitle}>Грозный, {item.name}</p>
+                                <p className={styles.item_subtitle}>{item.address}, {item.name}</p>
                             </div>
                         </div>
                     })
