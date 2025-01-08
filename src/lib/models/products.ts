@@ -25,5 +25,13 @@ export interface ProductDetailsResponse {
     currentQuantity: number;
     price: number,
     material: Materials,
-    defaultImage: string
+    defaultImage: string,
+    images: ProductImages[]
+}
+
+export interface ProductImages{
+    id: number,
+    imagePath: string,
+    productId: number,
+    createdAt: string,
 }

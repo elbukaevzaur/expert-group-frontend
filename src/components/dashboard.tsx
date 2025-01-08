@@ -29,7 +29,9 @@ export default function Dashboard() {
     return (
         <header>
             <div className={styles.dashboar}>
-                <Link href='/'><Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} /></Link>
+                <Link href='/'>
+                    <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
+                </Link>
                 <div className={styles.location}>
                     <Image src={'/images/Location.png'} alt="Локация" width={14} height={18} />
                     <h3 className={styles.location__text}>Москва</h3>
@@ -67,7 +69,6 @@ export default function Dashboard() {
                             <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
                         }
                     </div>
-                {/* </Link> */}
             </div>
             <div className={styles.navigator}>
                 <div className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}>
@@ -106,7 +107,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                
+
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
                 <Link href={'/projects'}>
                     <h3 className={styles.navigator__text}>Проекты</h3>
