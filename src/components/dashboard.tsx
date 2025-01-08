@@ -6,10 +6,12 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_TOKEN} from "@/lib/reducers";
+import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED, SELECT_PROJECT_CATEGORY} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 import styles from "@/components/dashboard.module.css"
 import PreviewBasketModal from "./preview-basket-modal";
+import {ProjectsCategories} from "@/lib/models/projectsCategories";
+import {useParams, usePathname} from "next/navigation";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -17,14 +19,22 @@ export default function Dashboard() {
     const dispatch = useAppDispatch();
     const [isLoginVisible, setIsLoginVisible] = useState(false);
     const [ isShowPreviewBasket, setIsShowPreviewBasket ] = useState(false);
+    const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
+    const pathname = usePathname();
+    const params = useParams();
 
     useEffect(() => {
         dispatch(INITIAL_TOKEN());
+        dispatch(PROJECTS_CATEGORIES_FETCH_REQUESTED())
     }, []);
 
     const toggleLogin = () => {
         setIsLoginVisible(!isLoginVisible);
     };
+
+    const containCurrentPage = (path: string): boolean => {
+        return pathname.startsWith(path);
+    }
 
     return (
         <header>
@@ -108,15 +118,24 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
-                <Link href={'/projects'}>
-                    <h3 className={styles.navigator__text}>Проекты</h3>
-                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
-                </Link>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/projects') && styles.navigator__container_active}`}>
+                    <Link href={'/projects'}>
+                        <h3 className={styles.navigator__text}>Проекты</h3>
+                        {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
+                    </Link>
                     <div className={styles.dropdown_green}>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Проекты дизайнеров интераaaaaaaaaaaaaaaaaaaaaa</h3>
-                        </div>
+                        {
+                            allProjectsCategories.map((value, index) => {
+                                return <Link
+                                    href={`/projects/${value.id}`}
+                                    key={index}
+                                >
+                                    <div className={styles.dropdown_green_wrapper}>
+                                        <h3 className={`${styles.dropdown_green_text} ${value.id.toString() === params?.projectsCategoriesId && styles.dropdown_green_text_active}`}>{value.name}</h3>
+                                    </div>
+                                </Link>
+                            })
+                        }
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>

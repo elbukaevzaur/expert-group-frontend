@@ -2,6 +2,6 @@
 
 import ProjectsList from "@/components/projectsListComponent";
 
-export default function ProjectsPage() {
+export default function ProjectsForParameterPage() {
     return <ProjectsList/>
 }

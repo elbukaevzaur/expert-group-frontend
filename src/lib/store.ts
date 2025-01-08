@@ -8,8 +8,9 @@ import {
     categoriesReducer,
     favoritesReducer,
     ordersReducer,
-    productsReducer
+    productsReducer, projectCategories,
 } from '@/lib/reducers';
+import projectsCategoriesSaga from "@/lib/saga/projects-categories";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -20,7 +21,8 @@ function* rootSaga() {
         basketSaga(),
         authSaga(),
         ordersSaga(),
-        favoritesSaga()
+        favoritesSaga(),
+        projectsCategoriesSaga()
     ])
 }
 
@@ -32,7 +34,8 @@ export const store = () => {
             basket: basketReducer,
             auth: authReducer,
             orders: ordersReducer,
-            favorites: favoritesReducer
+            favorites: favoritesReducer,
+            projectsCategories: projectCategories
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([sagaMiddleware]),
