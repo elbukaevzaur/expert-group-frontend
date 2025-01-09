@@ -112,10 +112,12 @@ export default function PreviewBasketModal(props: Props) {
                                     }
                                 </Link>
                                 <div className={styles.wrapper}>
-                                    <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.name}>
+                                    <div className={styles.name}>
+                                        <Link href={getCustomLink(orderItemsDetails[item.productId])}>
                                         <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
+                                        </Link>
                                         <button onClick={() => removeFromBasket(item)} className={styles.delete}>{<CloseSmall/>}</button>
-                                    </Link>
+                                        </div>
                                     <div className={styles.name}>
                                         <div className={styles.name}>
                                             <button onClick={() => handleRemoveFromBasket(item)} className={styles.quantity_button}><MinusSmall/></button>

@@ -162,6 +162,8 @@
     cursor: pointer;
     position: relative;
     height: 100%;
+    padding-left: 35px;
+    box-sizing: border-box;
   }
   
   .navigator__container:last-of-type {
@@ -170,6 +172,9 @@
 
   .navigator__container.navigator__container_active {
     background-color: #118c28;
+    width: 203px;
+    justify-content: center;
+    padding: 0;
   }
   
   .navigator__container_white {
@@ -227,7 +232,7 @@
     min-width: 180px;
     position: absolute;
     top: 50px;
-    left: -30px;
+    left: 0;
     max-width: 236px;
     background-color: #39B34F;
     z-index: 12;
