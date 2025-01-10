@@ -12,6 +12,7 @@ import styles from "@/components/dashboard.module.css"
 import PreviewBasketModal from "./preview-basket-modal";
 import {ProjectsCategories} from "@/lib/models/projectsCategories";
 import {useParams, usePathname} from "next/navigation";
+import { UserSvg, BasketSvg } from "@/lib/icon-svg";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -58,18 +59,23 @@ export default function Dashboard() {
                 {
                     !isAuth ?
                         <div className={styles.user} onClick={toggleLogin}>
-                            <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
+                            {<UserSvg/>}
                             <h2 className={styles.user__text}>Вход</h2>
                         </div>
                         :
                         <Link href={'/lk/current-orders'} className={styles.user}>
-                            <Image src={'/images/User.png'} alt="Пользователь" width={26} height={26}/>
+                            {<UserSvg fill={'#21A038'}/>}
                             <h2 className={styles.user__text}>Мой кабинет</h2>
                         </Link>
                 }
                 {/* <Link href='/basket'> */}
                     <div className={styles.dashboar__basket}>
-                        <Image onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} src={'/images/Basket.png'} alt="Корзина" width={26} height={26}/>
+                    {
+                            orderItems.length > 0 ?
+                            <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={'#21A038'}/>
+                            :
+                            <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}/>
+                        }
                         <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
                             <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
                             <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
