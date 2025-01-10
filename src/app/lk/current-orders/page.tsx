@@ -17,9 +17,19 @@ export default function Page() {
     return (
         <div className="history">
             {
+                currentOrders.length > 0 ?
                 currentOrders.map((item, index) => {
                     return <OrderListItemView key={index} order={item}/>
                 })
+                    :
+                <div style={{
+                height: '100%',
+                alignItems: 'center',
+                justifyContent: 'center',
+                display: 'flex'
+            }}>
+            <h2>Список заказов пуст</h2>
+        </div>
             }
         </div>
     )

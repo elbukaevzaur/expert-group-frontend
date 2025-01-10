@@ -54,5 +54,10 @@
   
   .lk_dashboard__button.active__first{
     border-radius: 10px 10px 0 0;
+    background-color: #21a038;
+    color: #fff;
   }
-  
+
+.lk_dashboard__button.active__first .lk_dashboard__icon{
+  color: #fff;
+}

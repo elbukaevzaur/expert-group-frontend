@@ -10,7 +10,7 @@ import {ProjectsDetailsResponse} from "@/lib/models/projects";
 export default function ProjectDetails() {
     const params = useParams();
     const [project, setProject] = useState<ProjectsDetailsResponse>(null);
-    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
 
     useEffect(() => {
         loadProjectDetails(Number(params.projectId))
@@ -24,8 +24,8 @@ export default function ProjectDetails() {
 
     useEffect(() => {
         if (project?.defaultImage !== null && project?.defaultImage !== undefined) {
-            const index = project?.images?.map(m => m.imagePath).indexOf(project.defaultImage);
-            setSelectedImageIndex(index)
+            // const index = project?.images?.map(m => m.imagePath).indexOf(project.defaultImage);
+            // setSelectedImageIndex(index)
         } else if (project?.images !== null && project?.images !== undefined){
             setSelectedImageIndex(0)
         }
@@ -89,7 +89,7 @@ export default function ProjectDetails() {
                     {
                         selectedImageIndex !== null ?
                             <img className={styles.photo_image} width={1089} height={1089}
-                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + project?.images[selectedImageIndex]?.imagePath}`}/>
+                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'medium_' + project?.images[selectedImageIndex]?.imagePath}`}/>
                             :
                             <Image className={styles.photo_image} src={'/images/Detalis_image.png'} alt="Фото"
                                    width={1089} height={1089}/>

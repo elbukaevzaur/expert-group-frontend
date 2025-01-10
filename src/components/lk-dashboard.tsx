@@ -13,12 +13,12 @@ export default function LkDashboard() {
     router.push('/');
     dispatch(SIGN_OUT());
   }
-
+  // className={`${styles.lk_dashboard__button_first} ${styles.lk_dashboard__button} ${pathname == '/lk/current-orders' && styles.active__first}`
   return (
     <ul>
       <div className={styles.lk_dashboard}>
         <Link href={"/lk/current-orders"}>
-          <li className={`${styles.lk_dashboard__button} ${styles.lk_dashboard__button_first} ${pathname == '/lk/current-orders' && 'active active__first'}`}>
+          <li className={`${styles.lk_dashboard__button_first} ${styles.lk_dashboard__button} ${pathname == '/lk/current-orders' && styles.active__first}`}>
             <div className={styles.lk_dashboard__icon}>
               <svg
                 width="30"
@@ -37,7 +37,7 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/personal-data"}>
-          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/personal-data' && 'active'}`}>
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/personal-data' && styles.active}`}>
             <div className={styles.lk_dashboard__icon}>
               <svg
                 width="24"
@@ -56,7 +56,7 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/change-password"}>
-          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/change-password' && 'active'}`}>
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/change-password' && styles.active}`}>
             <div className={styles.lk_dashboard__icon}>
               <svg
                 width="32"
@@ -75,7 +75,7 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/orders-history"}>
-          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/orders-history' && 'active'}`}>
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/orders-history' && styles.active}`}>
             <div className={styles.lk_dashboard__icon}>
               <svg
                 width="32"
@@ -104,7 +104,7 @@ export default function LkDashboard() {
           </li>
         </Link>
         <Link href={"/lk/favorites"}>
-          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/favorites' && 'active'}`}>
+          <li className={`${styles.lk_dashboard__button} ${pathname == '/lk/favorites' && styles.active}`}>
             <div className={styles.lk_dashboard__icon}>
               <svg
                 width="28"

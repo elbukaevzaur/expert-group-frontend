@@ -64,27 +64,21 @@ export default function Dashboard() {
                         </div>
                         :
                         <Link href={'/lk/current-orders'} className={styles.user}>
-                            {<UserSvg fill={'#21A038'}/>}
+                            {<UserSvg fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
                             <h2 className={styles.user__text}>Мой кабинет</h2>
                         </Link>
                 }
-                {/* <Link href='/basket'> */}
-                    <div className={styles.dashboar__basket}>
-                    {
-                            orderItems.length > 0 ?
-                            <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={'#21A038'}/>
-                            :
-                            <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}/>
-                        }
-                        <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
-                            <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
-                            <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
-                        </div>
-                        {
-                            isShowPreviewBasket &&
-                            <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
-                        }
+                <div className={styles.dashboar__basket}>
+                    <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
+                    <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
+                        <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
+                        <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
                     </div>
+                    {
+                        isShowPreviewBasket &&
+                        <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
+                    }
+                </div>
             </div>
             <div className={styles.navigator}>
                 <div className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}>
@@ -165,23 +159,15 @@ export default function Dashboard() {
                         </div>
                     </div>
                 </div>
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
-                    <h3 className={styles.navigator__text}>Галерея</h3>
-                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
-                    <div className={styles.dropdown_green}>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Фото</h3>
-                        </div>
-                    </div>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/gallery') && styles.navigator__container_active}`}>
+                    <Link href={'/gallery'}>
+                        <h3 className={styles.navigator__text}>Галерея</h3>
+                    </Link>
                 </div>
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
-                    <h3 className={styles.navigator__text}>Контакты</h3>
-                    {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
-                    <div className={styles.dropdown_green}>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Phone</h3>
-                        </div>
-                    </div>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/contacts') && styles.navigator__container_active}`}>
+                    <Link href={'/contacts'}>
+                        <h3 className={styles.navigator__text}>Контакты</h3>
+                    </Link>
                 </div>
             </div>
             <NavigationHistory/>
