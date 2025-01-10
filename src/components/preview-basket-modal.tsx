@@ -78,17 +78,12 @@ export default function PreviewBasketModal(props: Props) {
     }
 
     const getCustomLink = (product: OrderItemsDetails) => {
-        console.log(product)
-        let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
-        // if (params.subCategoryId === undefined){
-        //     if (params.categoryId !== product.categoryId.toString()){
-        //         path += `/${product.categoryId}`
-        //     }
-        // }
-        path += `/details/${product.productId}`
+        let path = `/`;
+        if (product?.parentCategoryId !== undefined){
+            path += `catalog/${product.parentCategoryId}/${product.categoryId}/details/${product.productId}`;
+        }
         return path;
     }
-
 
     return (
         <div className={styles.overlay} onClick={handleOnClose}>
@@ -104,7 +99,7 @@ export default function PreviewBasketModal(props: Props) {
                             return <div key={index} className={styles.item}>
                                 <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.image}>
                                     {
-                                        orderItemsDetails[item.productId].defaultImage == null ?
+                                        orderItemsDetails[item.productId]?.defaultImage == null ?
                                             <Image src={"/images/image.png"} alt="image" width={158} height={105}/>
                                             :
                                             <img width={158} height={105}

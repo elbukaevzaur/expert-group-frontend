@@ -74,14 +74,14 @@ export default function Basket() {
                         <div>
                         <h2 className={styles.items_title}>{orderItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
                         {
-                            orderItems.length === 0 &&
+                            orderItems.length === 0 || orderItemsDetails.length === 0 &&
                             <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
                                 <Link href={'/catalog'}><h4 style={{color: '#1fa038'}}>Перейти в каталог товаров</h4></Link>
                             </div>
                         }
                         </div>
                         {
-                            orderItems.length > 0 &&
+                            orderItems.length > 0 && orderItemsDetails.length > 0 &&
                             <button className={styles.items_clear} onClick={removeAllFromBasket}>
                                 <h3 className={styles.items_clear_text}>ОЧИСТИТЬ</h3>
                                 <Image src={'/images/Clear_button.png'} alt="Очистить" width={6.5} height={6.5}/>
@@ -92,7 +92,7 @@ export default function Basket() {
                         orderItems.map((value, index) => {
                             return <div key={index} className={styles.item}>
                                 {
-                                    orderItemsDetails[value.productId].defaultImage == null ?
+                                    orderItemsDetails[value.productId]?.defaultImage == null ?
                                         <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
                                         :
                                         <img width={283} height={130}
