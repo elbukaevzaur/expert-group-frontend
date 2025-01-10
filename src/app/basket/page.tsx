@@ -131,9 +131,9 @@ export default function Basket() {
                         <button onClick={handleCreateOrder} className={styles.buy_button}>
                             <h3 className={styles.buy_text}>Перейти к оформлению</h3>
                         </button>
-                        <button className={`${styles.buy_button} ${styles.buy_button_white}`}>
-                            <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>
-                        </button>
+                        {/*<button className={`${styles.buy_button} ${styles.buy_button_white}`}>*/}
+                        {/*    <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>*/}
+                        {/*</button>*/}
                     </div>
                 }
             </div>
