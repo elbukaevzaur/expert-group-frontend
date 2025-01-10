@@ -90,13 +90,15 @@ export default function Dashboard() {
                     <CatalogModal/>
                     </div>
                 </div>
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/about-us') && styles.navigator__container_active}`}>
                     <h3 className={styles.navigator__text}>О Компании</h3>
                     {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
                     <div className={styles.dropdown_green}>
+                    <Link href={'/about-us'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>О нас</h3>
                         </div>
+                    </Link>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Сотрудники</h3>
                         </div>
@@ -119,7 +121,7 @@ export default function Dashboard() {
                 </div>
 
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/projects') && styles.navigator__container_active}`}>
-                    <Link href={'/projects'}>
+                    <Link className={styles.link} href={'/projects'}>
                         <h3 className={styles.navigator__text}>Проекты</h3>
                         {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
                     </Link>
@@ -160,12 +162,12 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/gallery') && styles.navigator__container_active}`}>
-                    <Link href={'/gallery'}>
+                    <Link className={styles.link} href={'/gallery'}>
                         <h3 className={styles.navigator__text}>Галерея</h3>
                     </Link>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/contacts') && styles.navigator__container_active}`}>
-                    <Link href={'/contacts'}>
+                    <Link className={styles.link} href={'/contacts'}>
                         <h3 className={styles.navigator__text}>Контакты</h3>
                     </Link>
                 </div>
