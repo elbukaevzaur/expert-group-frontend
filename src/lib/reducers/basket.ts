@@ -15,7 +15,7 @@ const basket = createSlice({
     name: 'basket',
     initialState,
     reducers: {
-        ORDER_ITEMS_INCREMENT: () => {},
+        ORDER_ITEMS_INCREMENT: (state, action) => {},
         ORDER_ITEMS_INCREMENT_SUCCESS: (state, action) => {
             const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
             if (index == -1)
@@ -23,7 +23,7 @@ const basket = createSlice({
             else
                 state.orderItems[index] = action.payload;
         },
-        ORDER_ITEMS_DECREMENT: () => {},
+        ORDER_ITEMS_DECREMENT: (state, action) => {},
         ORDER_ITEMS_DECREMENT_SUCCESS: (state, action) => {
             const index = state.orderItems.map(m => m.productId).indexOf(action.payload.productId);
             if (state.orderItems[index].quantity > 1)
@@ -48,7 +48,7 @@ const basket = createSlice({
         UPDATE_FOR_API: () => {},
         ORDER_ITEMS_DETAILS_REQUEST: () => {},
         ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS: (state, action) => {
-            const detailsMap = action.payload.reduce((acc, itemDetails: OrderItemsDetails) => {
+            const detailsMap = action.payload.reduce((acc: any, itemDetails: OrderItemsDetails) => {
                 acc[itemDetails.productId] = {
                     productId: itemDetails.productId,
                     name: itemDetails.name,

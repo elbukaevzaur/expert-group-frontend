@@ -1,4 +1,4 @@
-export function VkSvg (props){ 
+export function VkSvg (){
     return (
         <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -18,7 +18,7 @@ export function VkSvg (props){
   );
   }
 
-  export function YoutubeSvg (props){ 
+  export function YoutubeSvg (){
     return (
         <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,7 @@ export function VkSvg (props){
       </svg>
   );
   }
-  export function TelegramSvg (props){ 
+  export function TelegramSvg (){
     return (
       <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -56,7 +56,7 @@ export function VkSvg (props){
     </svg>
   );
   }
-  export function InstagramSvg (props){ 
+  export function InstagramSvg (){
     return (
       <svg
       xmlns="http://www.w3.org/2000/svg"

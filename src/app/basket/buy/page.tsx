@@ -61,10 +61,9 @@ export default function Buy() {
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
                             <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.item_image}>
-
                                 {
                                     orderItemsDetails[item.productId].defaultImage == null ?
-                                        <Image src={'/images/Image.png'} alt="Image" width={283} height={100}/>
+                                        <Image src={'/images/image.png'} alt="Image" width={283} height={100}/>
                                         :
                                         <img width={283} height={100}
                                              src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} />

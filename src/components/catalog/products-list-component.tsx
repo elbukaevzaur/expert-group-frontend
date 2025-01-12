@@ -29,7 +29,7 @@ export default function ProductsListComponent(props: Props) {
 
     useEffect(() => {
         dispatch(FILTERS_FETCH_REQUESTED(props.categoryId));
-        dispatch(ADD_FILTER({ field: 'categoryId', value: [props.categoryId + ''] }));
+        dispatch(ADD_FILTER({ field: 'categoryId', value: [String(props.categoryId)], operator: 'EQUAL' }));
     }, [props.categoryId])
 
     const addToBasket = (item: Products) => {

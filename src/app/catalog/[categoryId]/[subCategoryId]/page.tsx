@@ -1,12 +1,11 @@
-'use client'
-
-import {useParams} from "next/navigation";
 import ProductsListComponent from "@/components/catalog/products-list-component";
 
-export default function CategoriesPage() {
-    const params = useParams();
+type tParams = Promise<{ subCategoryId: string }>;
+
+export default async function CategoriesPage(props: { params: tParams }) {
+    const { subCategoryId } = await props.params;
 
     return (
-        <ProductsListComponent categoryId={params.subCategoryId} />
+        <ProductsListComponent categoryId={subCategoryId} />
     )
 }

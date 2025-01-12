@@ -1,7 +1,5 @@
-"use client"
-
 import ProjectsList from "@/components/projectsListComponent";
 
-export default function ProjectsPage() {
-    return <ProjectsList/>
+export default async function ProjectsPage() {
+    return <ProjectsList projectsCategoriesId={undefined}/>
 }

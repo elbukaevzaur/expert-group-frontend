@@ -1,6 +1,5 @@
 "use client"
 
-import Image from "next/image"
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
 import {CURRENT_ORDERS_REQUEST} from "@/lib/reducers";

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {Orders} from "@/lib/models";
 import styles from "@/components/order/orderListItemViewComponent.module.css"
 

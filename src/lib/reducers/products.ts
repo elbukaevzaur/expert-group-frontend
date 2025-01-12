@@ -18,7 +18,7 @@ interface ProductsState {
     },
     pageRequest: PageRequest,
     filters: FiltersResponse[],
-    details: ProductDetailsResponse | null
+    details: ProductDetailsResponse
 }
 
 const initialState: ProductsState = {
@@ -40,7 +40,7 @@ const initialState: ProductsState = {
     },
     pageRequest: { filters: [], orderedColumns: [] },
     filters: [],
-    details: null
+    details: {} as ProductDetailsResponse
 };
 
 const products = createSlice({

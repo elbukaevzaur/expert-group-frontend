@@ -3,7 +3,6 @@
 import { useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 import Link from "next/link";
-import {useEffect} from "react";
 import {usePathname} from "next/navigation";
 
 export default function ProductsPage() {

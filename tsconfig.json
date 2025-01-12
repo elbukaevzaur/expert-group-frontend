@@ -22,6 +22,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/lib/saga/index.js"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "src/lib/saga/index.js",
+    "../../../Library/Caches/JetBrains/IntelliJIdea2024.1/javascript/typings/node/22.10.5/node_modules/@types/node/globals.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

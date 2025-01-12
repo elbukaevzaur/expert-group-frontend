@@ -108,7 +108,8 @@ export default function Basket() {
                                         </button>
                                         <h4 className={styles.item_quantity_text}>{value.quantity}</h4>
                                         <button onClick={() => handleAddToBasket(value)} className={styles.item_button}>
-                                        {<GreenPlus width={19.5} height={19.5} />}
+                                            {/*{<GreenPlus width={19.5} height={19.5} />}*/}
+                                            {<GreenPlus/>}
                                         </button>
                                     </div>
                                     <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>

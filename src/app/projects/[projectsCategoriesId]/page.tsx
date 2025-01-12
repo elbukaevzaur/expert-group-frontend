@@ -1,7 +1,8 @@
-"use client"
-
 import ProjectsList from "@/components/projectsListComponent";
 
-export default function ProjectsForParameterPage() {
-    return <ProjectsList/>
+type tParams = Promise<{ projectsCategoriesId: string }>;
+
+export default async function ProjectsForParameterPage(props: { params: tParams }) {
+    const { projectsCategoriesId } = await props.params;
+    return <ProjectsList projectsCategoriesId={projectsCategoriesId}/>
 }

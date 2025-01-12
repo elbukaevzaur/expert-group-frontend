@@ -24,7 +24,7 @@ const categories = createSlice({
         CATEGORIES_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.allCategories = action.payload;
         },
-        SUB_CATEGORIES_FETCH_REQUESTED: (state) => {
+        SUB_CATEGORIES_FETCH_REQUESTED: (state, action) => {
         },
         SUB_CATEGORIES_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.subCategories = action.payload;

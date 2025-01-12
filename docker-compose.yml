@@ -1,0 +1,25 @@
+version: '3.8'
+services:
+  expert-group-frontend:
+    container_name: expert-group-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - expert-group-frontend-network
+  expert-group-frontend-nginx:
+    image: nginx:alpine
+    container_name: expert-group-frontend-nginx
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 80:80
+    depends_on:
+      - expert-group-frontend
+    networks:
+      - expert-group-frontend-network
+networks:
+  expert-group-frontend-network:
+    driver: bridge

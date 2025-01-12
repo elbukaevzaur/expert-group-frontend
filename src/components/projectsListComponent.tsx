@@ -9,20 +9,23 @@ import {getAllProjects} from "@/lib/http/projectsRequest";
 import {ProjectsListResponse} from "@/lib/models/projects";
 import Link from "next/link";
 
-export default function ProjectsList() {
+interface Props {
+    projectsCategoriesId: string | string[] | undefined,
+}
+
+export default function ProjectsList(props: Props) {
     const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
     const [projects, setProjects] = useState<ProjectsListResponse[]>([]);
-    const params = useParams();
     const router = useRouter();
 
     useEffect(() => {
-        if(params.projectsCategoriesId)
-            loadProjects(Number(params.projectsCategoriesId));
+        if(props.projectsCategoriesId)
+            loadProjects(Number(props.projectsCategoriesId));
         else
             loadProjects();
-    }, [params.projectsCategoriesId]);
+    }, [props.projectsCategoriesId]);
 
-    function handleSelectedProjectCategory(id: number) {
+    function handleSelectedProjectCategory(id?: number) {
         if (id === undefined)
             router.push(`/projects`)
         else
@@ -40,7 +43,7 @@ export default function ProjectsList() {
             <h2 className={styles.title}>Проекты</h2>
             <div className={styles.filter}>
                 <button
-                    className={`${styles.filter_button} ${undefined === params.projectsCategoriesId && styles.filter_button_active}`}
+                    className={`${styles.filter_button} ${undefined === props.projectsCategoriesId && styles.filter_button_active}`}
                     onClick={() => handleSelectedProjectCategory(undefined)}
                 >
                     Все
@@ -49,7 +52,7 @@ export default function ProjectsList() {
                     allProjectsCategories.map((item, index) => {
                         return <button
                             key={index}
-                            className={`${styles.filter_button} ${item.id.toString() === params.projectsCategoriesId && styles.filter_button_active}`}
+                            className={`${styles.filter_button} ${item.id.toString() === props.projectsCategoriesId && styles.filter_button_active}`}
                             onClick={() => handleSelectedProjectCategory(item.id)}
                         >
                             {item.name}

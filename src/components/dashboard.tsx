@@ -6,7 +6,7 @@ import { CatalogModal } from './catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/navigation-history";
 import {useEffect, useState} from "react";
-import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED, SELECT_PROJECT_CATEGORY} from "@/lib/reducers";
+import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
 import {Login} from "@/components/login-modal";
 import styles from "@/components/dashboard.module.css"
 import PreviewBasketModal from "./preview-basket-modal";
@@ -91,12 +91,14 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/about-us') && styles.navigator__container_active}`}>
-                    <h3 className={styles.navigator__text}>О Компании</h3>
+                    <Link className={styles.link} href={'/about-us'}>
+                        <h3 className={styles.navigator__text}>О Компании</h3>
+                    </Link>
                     {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
                     <div className={styles.dropdown_green}>
                     <Link href={'/about-us'}>
                         <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>О нас</h3>
+                            <h3 className={`${styles.dropdown_green_text} ${containCurrentPage('/about-us') && styles.dropdown_green_text_active}`}>О нас</h3>
                         </div>
                     </Link>
                         <div className={styles.dropdown_green_wrapper}>

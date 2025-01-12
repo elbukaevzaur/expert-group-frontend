@@ -57,11 +57,11 @@ export default function ProductsFilter(){
                                 </div>
                                 {
                                     value.defaultImage == null ?
-                                        <Image className="subcatalog__image" src={'/images/subcatalog__2.png'}
+                                        <Image className="subcatalog__image" src={'/images/Subcatalog__2.png'}
                                                alt="Карнизы потолочные"
                                                layout="fill" objectFit="contain"/>
                                         :
-                                        <img className="table_img"
+                                        <img className="subcatalog__image"
                                              src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + value.defaultImage}`} />
                                 }
                             </Link>
