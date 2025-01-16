@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
 import {CURRENT_ORDERS_REQUEST} from "@/lib/reducers";
 import OrderListItemView from "@/components/order/orderListItemViewComponent";
+import ListNotContent from "@/components/ListNotContent";
 
 export default function Page() {
     const { currentOrders } = useAppSelector((state) => state.orders);
@@ -21,14 +22,7 @@ export default function Page() {
                     return <OrderListItemView key={index} order={item}/>
                 })
                     :
-                <div style={{
-                height: '100%',
-                alignItems: 'center',
-                justifyContent: 'center',
-                display: 'flex'
-            }}>
-            <h2>Список заказов пуст</h2>
-        </div>
+                <ListNotContent text="Список заказов пуст"/>
             }
         </div>
     )

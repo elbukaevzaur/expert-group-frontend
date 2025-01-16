@@ -1,4 +1,4 @@
-import ProjectsList from "@/components/projectsListComponent";
+import ProjectsList from "@/components/projects/projectsListComponent";
 
 type tParams = Promise<{ projectsCategoriesId: string }>;
 

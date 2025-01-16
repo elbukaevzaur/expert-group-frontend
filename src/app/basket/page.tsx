@@ -1,7 +1,7 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import {OrderItems, OrderItemsRequest} from "@/lib/models";
+import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
 import {
     ORDER_ITEMS_DECREMENT,
     ORDER_ITEMS_INCREMENT,
@@ -15,6 +15,7 @@ import React, {useEffect} from "react";
 import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
 import styles from "./basket.module.css"
 import {useRouter} from "next/navigation";
+import ListNotContent from "@/components/ListNotContent";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -33,20 +34,14 @@ export default function Basket() {
         dispatch(BASKET_CLEAR());
     }
 
-    const handleAddToBasket = (item: OrderItems) => {
-        const request: OrderItemsRequest = {
-            productId: item.productId,
-            quantity: (item.quantity + 1),
-        }
-        dispatch(ORDER_ITEMS_INCREMENT(request))
+    const handleAddToBasket = (orderItem: OrderItems) => {
+        dispatch(ORDER_ITEMS_INCREMENT({orderItem: orderItem}))
     }
 
-    const handleRemoveFromBasket = (item: OrderItems) => {
-        const request: OrderItemsRequest = {
-            productId: item.productId,
-            quantity: (item.quantity - 1)
+    const handleRemoveFromBasket = (orderItem: OrderItems) => {
+        if (orderItem !== null){
+            dispatch(ORDER_ITEMS_DECREMENT(orderItem))
         }
-        dispatch(ORDER_ITEMS_DECREMENT(request))
     }
 
     const getTotalPrice = (): string => {
@@ -72,13 +67,17 @@ export default function Basket() {
                 <div className={styles.items_content}>
                     <div className={styles.items_wrapper}>
                         <div>
-                        <h2 className={styles.items_title}>{orderItems.length > 0 ? 'Товары в корзине': 'Вы пока ничего не добавили в корзину'}</h2>
-                        {
-                            orderItems.length === 0 || orderItemsDetails.length === 0 &&
-                            <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
-                                <Link href={'/catalog'}><h4 style={{color: '#1fa038'}}>Перейти в каталог товаров</h4></Link>
-                            </div>
-                        }
+                            <h2 className={styles.items_title}>{orderItems.length > 0 && 'Товары в корзине'}</h2>
+                            {
+                                orderItems.length === 0 &&
+                                <ListNotContent text="Вы пока ничего не добавили в корзину"/>
+                            }
+                            {
+                                orderItems.length === 0 || orderItemsDetails.length === 0 &&
+                                <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
+                                    <Link href={'/catalog'}><h4 style={{color: '#1fa038'}}>Перейти в каталог товаров</h4></Link>
+                                </div>
+                            }
                         </div>
                         {
                             orderItems.length > 0 && orderItemsDetails.length > 0 &&

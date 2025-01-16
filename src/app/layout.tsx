@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import Dashboard from "@/components/dashboard";
+import Dashboard from "@/components/dashboard/dashboard";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
 

@@ -1,4 +1,4 @@
-import ProjectDetailsComponent from "@/components/project-details-component";
+import ProjectDetailsComponent from "@/components/projects/project-details-component";
 
 type tParams = Promise<{ projectId: string }>;
 

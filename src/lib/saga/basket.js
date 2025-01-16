@@ -26,14 +26,22 @@ import {
     removeByProductId
 } from "@/lib/http/basketRequest";
 import {basketStorageKey} from "@/lib/config";
+import {OrderItemsRequest} from "@/lib/models";
 
 function* incrementQuantityWorker(action) {
     const { isAuth } = yield select((state) => state.auth);
+    const { orderItem, productId } = action.payload;
+
+    const request = {
+        productId: orderItem ? orderItem.productId : productId,
+        quantity: orderItem ? (orderItem.quantity + 1) : 1,
+    }
+
     try {
         if (isAuth){
-            yield call(addOrderItems, [action.payload]);
+            yield call(addOrderItems, [request]);
         }
-        yield put(ORDER_ITEMS_INCREMENT_SUCCESS(action.payload))
+        yield put(ORDER_ITEMS_INCREMENT_SUCCESS(request))
     } catch (e) {
 
     }
@@ -41,11 +49,16 @@ function* incrementQuantityWorker(action) {
 
 function* decrementQuantityWorker(action) {
     const { isAuth } = yield select((state) => state.auth);
+    const request = {
+        productId: action.payload.productId,
+        quantity: (action.payload.quantity - 1)
+    }
+
     try {
         if (isAuth){
-            yield call(addOrderItems, [action.payload]);
+            yield call(addOrderItems, [request]);
         }
-        yield put(ORDER_ITEMS_DECREMENT_SUCCESS(action.payload))
+        yield put(ORDER_ITEMS_DECREMENT_SUCCESS(request))
     } catch (e) {
 
     }
