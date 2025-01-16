@@ -1,4 +1,4 @@
-import styles from "@/components/preview-basket-modal.module.css"
+import styles from "@/components/basket/preview-basket-modal.module.css"
 import Image from "next/image"
 import {MinusSmall, PlusSmall, CloseSvg, CloseSmall} from "@/lib/icon-svg";
 import React, {useEffect, useState} from 'react';
@@ -13,6 +13,7 @@ import {
 import {OrderItems, OrderItemsDetails, OrderItemsRequest} from "@/lib/models";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
+import ListNotContent from "@/components/ListNotContent";
 
 interface Props {
     onClose: () => void;
@@ -40,20 +41,12 @@ export default function PreviewBasketModal(props: Props) {
         dispatch(BASKET_CLEAR());
     }
 
-    const handleAddToBasket = (item: OrderItems) => {
-        const request: OrderItemsRequest = {
-            productId: item.productId,
-            quantity: (item.quantity + 1),
-        }
-        dispatch(ORDER_ITEMS_INCREMENT(request))
+    const handleAddToBasket = (orderItem: OrderItems) => {
+        dispatch(ORDER_ITEMS_INCREMENT(orderItem))
     }
 
-    const handleRemoveFromBasket = (item: OrderItems) => {
-        const request: OrderItemsRequest = {
-            productId: item.productId,
-            quantity: (item.quantity - 1)
-        }
-        dispatch(ORDER_ITEMS_DECREMENT(request))
+    const handleRemoveFromBasket = (orderItem: OrderItems) => {
+        dispatch(ORDER_ITEMS_DECREMENT(orderItem))
     }
 
     const getTotalPrice = (): string => {
@@ -71,7 +64,7 @@ export default function PreviewBasketModal(props: Props) {
     }
 
     function handleOnClose () {
-        setIsVisible(false); 
+        setIsVisible(false);
         setTimeout(() => {
             props.onClose();
         }, 300);
@@ -91,7 +84,8 @@ export default function PreviewBasketModal(props: Props) {
                 <h1 className={styles.title}>Корзина</h1>
                 <button onClick={handleOnClose} className={styles.close}>{<CloseSvg/>}</button>
                 {
-                    orderItems.length === 0 && <span style={{paddingLeft: 27, paddingRight: 27}}>Вы пока ничего не добавили в корзину</span>
+                    orderItems.length === 0 &&
+                    <ListNotContent text="Вы пока ничего не добавили в корзину"/>
                 }
                 <div className={styles.items}>
                     {
@@ -109,10 +103,10 @@ export default function PreviewBasketModal(props: Props) {
                                 <div className={styles.wrapper}>
                                     <div className={styles.name}>
                                         <Link href={getCustomLink(orderItemsDetails[item.productId])}>
-                                        <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
+                                            <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
                                         </Link>
                                         <button onClick={() => removeFromBasket(item)} className={styles.delete}>{<CloseSmall/>}</button>
-                                        </div>
+                                    </div>
                                     <div className={styles.name}>
                                         <div className={styles.name}>
                                             <button onClick={() => handleRemoveFromBasket(item)} className={styles.quantity_button}><MinusSmall/></button>
@@ -134,9 +128,9 @@ export default function PreviewBasketModal(props: Props) {
                     </div>
                 }
                 <div className={styles.total}>
-                        <button onClick={handleNavigateToBasket} className={`${styles.button} ${styles.button_white}`}>
-                            ПЕРЕЙТИ В КОРЗИНУ
-                        </button>
+                    <button onClick={handleNavigateToBasket} className={`${styles.button} ${styles.button_white}`}>
+                        ПЕРЕЙТИ В КОРЗИНУ
+                    </button>
                     {/*<div className={styles.button}>БЫСТРЫЙ ЗАКАЗ</div>*/}
                 </div>
             </div>

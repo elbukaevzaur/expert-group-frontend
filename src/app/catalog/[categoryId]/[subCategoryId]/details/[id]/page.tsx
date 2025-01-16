@@ -1,4 +1,4 @@
-import ProductDetailsComponent from "@/components/product-details-component";
+import ProductDetailsComponent from "@/components/catalog/product-details-component";
 
 type tParams = Promise<{ id: string }>;
 

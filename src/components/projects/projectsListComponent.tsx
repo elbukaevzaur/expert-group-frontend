@@ -3,11 +3,12 @@
 import styles from "@/app/projects/[projectsCategoriesId]/projects.module.css"
 import Image from "next/image"
 import {useAppSelector} from "@/lib/hooks";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {getAllProjects} from "@/lib/http/projectsRequest";
 import {ProjectsListResponse} from "@/lib/models/projects";
 import Link from "next/link";
+import ListNotContent from "@/components/ListNotContent";
 
 interface Props {
     projectsCategoriesId: string | string[] | undefined,
@@ -62,8 +63,8 @@ export default function ProjectsList(props: Props) {
             </div>
             {
                 projects.length == 0 ?
-                    <div style={{marginTop: 20, textAlign: 'center'}}>
-                        <h1>Список пуст</h1>
+                    <div style={{marginTop: 20}}>
+                        <ListNotContent text="Список проектов пуст"/>
                     </div>
                     :
                     <div className={styles.items}>

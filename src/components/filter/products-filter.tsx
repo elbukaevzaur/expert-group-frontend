@@ -2,18 +2,17 @@ import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED, SUB_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
 import {FilterProperty, OrderedPageRequest} from "@/lib/models";
-import Link from "next/link";
 import {FilterComponent} from "@/components/filter/filter-item-component";
 import {getTitleByField} from "@/lib/consts";
-import {useParams, usePathname} from "next/navigation";
+import {useParams} from "next/navigation";
 import {useEffect, useState} from "react";
 import styles from "@/components/filter/filter.module.css"
+import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 
 export default function ProductsFilter(){
     const { filters, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
     const { subCategories } = useAppSelector((state) => state.categories);
-    const pathname = usePathname();
     const params = useParams();
     const [isShowSubCategories, setIsShowSubCategories] = useState(false);
 
@@ -50,21 +49,7 @@ export default function ProductsFilter(){
                 subCategories.length > 0 && <div className="subcatalog">
                     {
                         subCategories.map((value, index) => {
-                            return <Link href={`${pathname}/${value.id}`} key={index} className="subcatalog__item">
-                                <div className="subcatalog__info">
-                                    <h3 className="subcatalog__title">{value.name}</h3>
-                                    <h4 className="subcatalog__subtitle">{value.productCount} товара</h4>
-                                </div>
-                                {
-                                    value.defaultImage == null ?
-                                        <Image className="subcatalog__image" src={'/images/Subcatalog__2.png'}
-                                               alt="Карнизы потолочные"
-                                               layout="fill" objectFit="contain"/>
-                                        :
-                                        <img className="subcatalog__image"
-                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + value.defaultImage}`} />
-                                }
-                            </Link>
+                            return <CategoryListItem key={index} category={value}/>
                         })
                     }
                 </div>

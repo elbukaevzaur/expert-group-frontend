@@ -4,12 +4,11 @@ import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
 import {
     ALL_FAVORITES_REQUEST,
-    FAVORITE_PRODUCTS_FETCH_REQUESTED,
-    ORDER_ITEMS_DECREMENT,
-    ORDER_ITEMS_INCREMENT
+    FAVORITE_PRODUCTS_FETCH_REQUESTED
 } from "@/lib/reducers";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
-import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
+import {OrderItems} from "@/lib/models";
+import ListNotContent from "@/components/ListNotContent";
 
 export default function Page() {
     const { content } = useAppSelector((state) => state.products.allFavoriteProducts);
@@ -23,26 +22,6 @@ export default function Page() {
         dispatch(ALL_FAVORITES_REQUEST());
     }, []);
 
-    const addToBasket = (item: Products) => {
-        const basketItem = findBasketItemByProductId(item.id);
-        const request: OrderItemsRequest = {
-            productId: basketItem ? basketItem.productId : item.id,
-            quantity: basketItem ? (basketItem.quantity + 1) : 1,
-        }
-        dispatch(ORDER_ITEMS_INCREMENT(request))
-    }
-
-    const handleRemoveFromBasket = (item: Products) => {
-        const basketItem = findBasketItemByProductId(item.id);
-        if (basketItem !== null){
-            const request: OrderItemsRequest = {
-                productId: basketItem.productId,
-                quantity: (basketItem.quantity - 1)
-            }
-            dispatch(ORDER_ITEMS_DECREMENT(request))
-        }
-    }
-
     function findBasketItemByProductId(productId: number): OrderItems | null{
         const index = orderItems.map(m => m.productId).indexOf(productId);
         if (index === -1){
@@ -52,19 +31,23 @@ export default function Page() {
     }
 
     return (
-        <div className="items favorites">
+        <div className="history">
             {
-                content.map((item) => {
-                    return <ProductsListItemComponent
-                        key={item.id}
-                        product={item}
-                        basketItem={findBasketItemByProductId(item.id)}
-                        addToBasket={() => addToBasket(item)}
-                        removeFromBasket={() => handleRemoveFromBasket(item)}
-                        categoryId={item.categoryId.toString()}
-                        isFavorite={allFavorites.hasOwnProperty(item.id)}
-                    />
-                })
+                content.length === 0 ?
+                    <ListNotContent text="Список избранных товаров пуст"/>
+                    :
+                    <div className="items favorites">
+                        {
+                            content.map((item) => {
+                                return <ProductsListItemComponent
+                                    key={item.id}
+                                    product={item}
+                                    basketItem={findBasketItemByProductId(item.id)}
+                                    isFavorite={allFavorites.hasOwnProperty(item.id)}
+                                />
+                            })
+                        }
+                    </div>
             }
         </div>
     )

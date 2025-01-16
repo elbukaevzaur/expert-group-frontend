@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import {OrderItems, Products} from "@/lib/models";
-import { EventHandler } from "react";
+import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
 import {useAppDispatch} from "@/lib/hooks";
-import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
+import {CHANGE_FAVORITES_REQUEST, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT} from "@/lib/reducers";
 import {LikeSvg, MinusSmall, PlusSmall} from "@/lib/icon-svg";
 import styles from "./products-list-item-component.module.css"
 
@@ -11,25 +10,15 @@ interface ProductsProps {
     key: number,
     product: Products,
     basketItem: OrderItems | null,
-    addToBasket: EventHandler<any>,
-    removeFromBasket: EventHandler<any>,
-    categoryId: string | string[] | undefined,
     isFavorite: boolean
 }
 
 export function ProductsListItemComponent(props: ProductsProps) {
-    const { product, isFavorite } = props;
+    const { product, isFavorite, basketItem } = props;
     const dispatch = useAppDispatch();
 
     const getCustomLink = () => {
-        let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
-        // if (params.subCategoryId === undefined){
-        //     if (params.categoryId !== product.categoryId.toString()){
-        //         path += `/${product.categoryId}`
-        //     }
-        // }
-        path += `/details/${product.id}`
-        return path;
+        return `/catalog/${product.parentCategoryId}/${product.categoryId}/details/${product.id}`;
     }
 
     const handleChangeFavorite = () => {
@@ -37,6 +26,16 @@ export function ProductsListItemComponent(props: ProductsProps) {
             productId: product.id
         }
         dispatch(CHANGE_FAVORITES_REQUEST(request))
+    }
+
+    const addToBasket = () => {
+        dispatch(ORDER_ITEMS_INCREMENT({orderItem: basketItem, productId: product.id}))
+    }
+
+    const handleRemoveFromBasket = () => {
+        if (basketItem !== null){
+            dispatch(ORDER_ITEMS_DECREMENT(basketItem))
+        }
     }
 
     return (
@@ -65,16 +64,16 @@ export function ProductsListItemComponent(props: ProductsProps) {
                         </button>
                         {
                             props.basketItem == null ?
-                                <button className={styles.basket} onClick={props.addToBasket}>
+                                <button className={styles.basket} onClick={addToBasket}>
                                     <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/>
                                     <h3 className={styles.basket_text}>В корзину</h3>
                                 </button>
                                 :
                                 <div className={`${styles.basket} ${styles.basket_cursor}`}>
                                     <div className={styles.wrapper}>
-                                    <button className={styles.basket_button} onClick={props.removeFromBasket}>{<MinusSmall/>}</button>
+                                    <button className={styles.basket_button} onClick={handleRemoveFromBasket}>{<MinusSmall/>}</button>
                                     <h3 className={`${styles.basket_text} ${styles.basket_text_margin}`}>{props.basketItem.quantity}</h3>
-                                    <button className={styles.basket_button} onClick={props.addToBasket}>{<PlusSmall/>}</button>
+                                    <button className={styles.basket_button} onClick={addToBasket}>{<PlusSmall/>}</button>
                                     </div>
                                 </div>
                         }

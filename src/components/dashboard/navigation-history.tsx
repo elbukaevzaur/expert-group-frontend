@@ -6,7 +6,7 @@ import {useParams, usePathname, useRouter} from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {useEffect} from "react";
 import {CURRENT_CATEGORY_FETCH_REQUESTED, CURRENT_SUB_CATEGORY_FETCH_REQUESTED} from "@/lib/reducers";
-import styles from "@/components/navigation-history.module.css"
+import styles from "@/components/dashboard/navigation-history.module.css"
 
 export default function NavigationHistory() {
     const router = useRouter()

@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { CatalogModal } from './catalog/catalogModal';
+import { CatalogModal } from '../catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import NavigationHistory from "@/components/navigation-history";
+import NavigationHistory from "@/components/dashboard/navigation-history";
 import {useEffect, useState} from "react";
 import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
-import {Login} from "@/components/login-modal";
-import styles from "@/components/dashboard.module.css"
-import PreviewBasketModal from "./preview-basket-modal";
+import {Login} from "@/components/login/login-modal";
+import styles from "@/components/dashboard/dashboard.module.css"
+import PreviewBasketModal from "../basket/preview-basket-modal";
 import {ProjectsCategories} from "@/lib/models/projectsCategories";
 import {useParams, usePathname} from "next/navigation";
 import { UserSvg, BasketSvg } from "@/lib/icon-svg";
@@ -40,7 +40,7 @@ export default function Dashboard() {
     return (
         <header>
             <div className={styles.dashboar}>
-                <Link href='/'>
+                <Link href='/public'>
                     <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
                 </Link>
                 <div className={styles.location}>

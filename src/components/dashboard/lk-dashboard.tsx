@@ -2,7 +2,7 @@ import Link from "next/link";
 import {SIGN_OUT} from "@/lib/reducers";
 import {useAppDispatch} from "@/lib/hooks";
 import {usePathname, useRouter} from "next/navigation";
-import styles from "@/components/lk-dashboard.module.css" 
+import styles from "@/components/dashboard/lk-dashboard.module.css"
 
 export default function LkDashboard() {
   const dispatch = useAppDispatch();
