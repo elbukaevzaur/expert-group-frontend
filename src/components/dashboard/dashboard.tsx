@@ -113,9 +113,11 @@ export default function Dashboard() {
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Отзывы</h3>
                         </div>
+                        <Link href={'/politics'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Политика</h3>
                         </div>
+                        </Link>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
                         </div>
