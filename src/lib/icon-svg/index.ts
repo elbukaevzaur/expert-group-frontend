@@ -5,3 +5,4 @@ export * from '@/lib/icon-svg/close';
 export * from '@/lib/icon-svg/arrow';
 export * from '@/lib/icon-svg/user';
 export * from '@/lib/icon-svg/basket';
+export * from '@/lib/icon-svg/increase';
