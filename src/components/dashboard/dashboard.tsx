@@ -91,9 +91,9 @@ export default function Dashboard() {
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/about-us') && styles.navigator__container_active}`}>
-                    <Link className={styles.link} href={'/about-us'}>
+                    {/* <Link className={styles.link} href={'/about-us'}> */}
                         <h3 className={styles.navigator__text}>О Компании</h3>
-                    </Link>
+                    {/* </Link> */}
                     {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
                     <div className={styles.dropdown_green}>
                     <Link href={'/about-us'}>
@@ -116,9 +116,11 @@ export default function Dashboard() {
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Политика</h3>
                         </div>
+                        <Link href={'/requisites'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
                         </div>
+                        </Link>
                     </div>
                 </div>
 
