@@ -43,14 +43,14 @@ export default function Dashboard() {
                 <Link href='/public'>
                     <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
                 </Link>
+                <div className={styles.number}>
+                    <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
+                    <Image src={'/images/Whatsapp_logo.png'} alt="Логотип Whatsapp" width={20} height={20} />
+                </div>
                 <div className={styles.location}>
                     <Image src={'/images/Location.png'} alt="Локация" width={14} height={18} />
                     <h3 className={styles.location__text}>Москва</h3>
                     <Image src={'/images/Vector_green.png'} alt="Стрелка" width={13} height={7} />
-                </div>
-                <div className={styles.number}>
-                    <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
-                    <Image src={'/images/Whatsapp_logo.png'} alt="Логотип Whatsapp" width={20} height={20} />
                 </div>
                 <div className={styles.search}>
                     <input type="search" className={styles.search_input} placeholder="Поиск" />
@@ -104,9 +104,11 @@ export default function Dashboard() {
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Сотрудники</h3>
                         </div>
+                        <Link href={'/vacancy'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Вакансии</h3>
                         </div>
+                        </Link>
                         <Link href={'/certificate'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Сертификаты</h3>
@@ -115,12 +117,16 @@ export default function Dashboard() {
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Отзывы</h3>
                         </div>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Политика</h3>
-                        </div>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
-                        </div>
+                        <Link href={'/politics'}>
+                            <div className={styles.dropdown_green_wrapper}>
+                                <h3 className={styles.dropdown_green_text}>Политика</h3>
+                            </div>
+                        </Link>
+                        <Link href={'/requisites'}>
+                            <div className={styles.dropdown_green_wrapper}>
+                                <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
+                            </div>
+                        </Link>
                     </div>
                 </div>
 

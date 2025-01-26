@@ -1,0 +1,19 @@
+.requisites {
+    width: 1214px;
+    margin: 45px auto 0;
+}
+
+.title {
+    font-family: 'Roboto';
+    font-size: 33px;
+    line-height: 38px;
+    font-weight: 700;
+    margin-bottom: 45px;
+}
+
+.subtitile {
+    font-family: 'Roboto';
+    font-size: 18px;
+    line-height: 25px;
+    font-weight: 400;
+}
