@@ -109,9 +109,11 @@ export default function Dashboard() {
                             <h3 className={styles.dropdown_green_text}>Вакансии</h3>
                         </div>
                         </Link>
+                        <Link href={'/certificate'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Сертификаты</h3>
                         </div>
+                        </Link>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Отзывы</h3>
                         </div>
