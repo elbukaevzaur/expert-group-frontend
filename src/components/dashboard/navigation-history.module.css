@@ -1,9 +1,17 @@
 .navigator__wrapper{
     display: flex;
-    width: 1214px;
+    max-width: 1214px;
     margin: 20px auto 0;
   }
-  
+
+  @media (max-width: 1250px) {
+    .navigator__wrapper {
+      max-width: calc(100% - 40px);
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  }
+
   .navigator__back{
     display: flex;
     margin-right: 15px;

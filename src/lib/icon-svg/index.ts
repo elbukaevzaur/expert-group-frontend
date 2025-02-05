@@ -7,3 +7,6 @@ export * from '@/lib/icon-svg/user';
 export * from '@/lib/icon-svg/basket';
 export * from '@/lib/icon-svg/share';
 export * from '@/lib/icon-svg/increase';
+export * from '@/lib/icon-svg/search';
+export * from '@/lib/icon-svg/location';
+export * from '@/lib/icon-svg/menu';

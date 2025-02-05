@@ -15,9 +15,9 @@ export default function AboutUs() {
                 </div>
             </div>
             <div className={styles.photo}>
-                <Image src={'/images/AboutUS2.png'} alt="Image" width={368} height={309}/>
-                <Image src={'/images/AboutUS3.png'} alt="Image" width={368} height={309}/>
-                <Image src={'/images/AboutUS4.png'} alt="Image" width={368} height={309}/>
+                <Image className={styles.photo_image} src={'/images/AboutUS2.png'} alt="Image" width={368} height={309}/>
+                <Image className={styles.photo_image} src={'/images/AboutUS3.png'} alt="Image" width={368} height={309}/>
+                <Image className={styles.photo_image} src={'/images/AboutUS4.png'} alt="Image" width={368} height={309}/>
             </div>
             <div className={styles.paragraph}>
                 <h3 className={styles.paragraph_text}>Сегодня <span className={styles.span}>EXPERT GROUP</span> – это мощная команда профессионалов, собственные производственные возможности и широкая сеть надежных партнеров.</h3>

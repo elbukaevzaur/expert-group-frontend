@@ -150,11 +150,13 @@ export default function ProductDetailsComponent(params: Params) {
                     </div>
                 </div>
                 <div className={styles.description}>
+                    <div>
                     <h3 className={`${styles.description_text} ${styles.description_margin}`}>Характеристики</h3>
                     <h3 className={styles.description_text}>Материал: {details?.material?.name}</h3>
                     <h3 className={styles.description_text}>Высота, мм: {details?.height}</h3>
                     <h3 className={styles.description_text}>Ширина, мм: {details?.width}</h3>
                     <h3 className={styles.description_text}>Длина, мм: {details?.length}</h3>
+                    </div>
                     <Image className={styles.description_image} src={'/images/Description.png'} alt="Характеристики" width={130} height={178}/>
                 </div>
                 <div className={styles.price}>
@@ -228,8 +230,8 @@ export default function ProductDetailsComponent(params: Params) {
                 </button>
             </div>
             <div className={styles.show}>
-                <div className={styles.show_wrraper}>
-                <Image src={'/images/Detalis_image.png'} alt="Фото" width={1214} height={584}/>
+                <div className={styles.show_wrapper}>
+                <Image className={styles.show_image} src={'/images/Detalis_image.png'} alt="Фото" width={1214} height={584}/>
                 <button className={styles.show_button_left}>
                     <Image src={'/images/Vector_left_img.png'} alt="Влево" width={25} height={41}/>
                 </button>

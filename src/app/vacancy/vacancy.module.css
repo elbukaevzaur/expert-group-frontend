@@ -3,20 +3,42 @@
     margin: 45px auto 0;
 }
 
+@media (max-width: 1250px) {
+    .vacancy {
+      width: calc(100% - 40px);
+    }
+  }
+
 .items {
     margin-top: 45px;
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(592px, 1fr));
+    gap: 30px;
 }
 
+@media (max-width: 650px) {
+    .items {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
 .item {
+    display: flex;
+    flex-direction: column;
     border-radius: 10px;
     box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.2);
-    width: 592px;
-    height: 323px;
+    max-width: 592px;
+    height: auto;
     padding: 30px;
     box-sizing: border-box;
 }
+
+@media (max-width: 650px) {
+    .item {
+      width: 100%;
+    }
+  }
 
 .item_title {
     font-family: 'Roboto';
@@ -48,10 +70,16 @@
 .item_container {
     display: flex;
     width: 353px;
-    height: 39px;
     margin-top: 20px;
     justify-content: space-between;
 }
+
+@media (max-width: 460px) {
+    .item_container {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
 
 .item_button {
     all: unset;
@@ -59,7 +87,7 @@
     border: 1px solid rgb(33, 160, 56);
     border-radius: 5px;
     width: 183px;
-    height: 100%;
+    height: 40px;
     color: rgb(33, 160, 56);
     display: flex;
     align-items: center;

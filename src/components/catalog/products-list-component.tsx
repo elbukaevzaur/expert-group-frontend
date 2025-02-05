@@ -12,6 +12,7 @@ import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
 import CategoryTitle from "@/components/catalog/category-title-component";
 import ProductsPagination from "@/components/catalog/products-pagination-component";
 import ListNotContent from "@/components/ListNotContent";
+import styles from "./products-list-component.module.css"
 
 interface Props {
     categoryId: string | string[] | undefined,
@@ -48,7 +49,7 @@ export default function ProductsListComponent(props: Props) {
                 allProducts.content.length > 0 &&
                 <ProductsFilter/>
             }
-            <div className="items">
+            <div className={styles.items}>
                 {
                     allProducts.content.map((value, index) => {
                         return <ProductsListItemComponent

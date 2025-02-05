@@ -4,19 +4,118 @@
     margin-top: 140px;
   }
   
+  @media (max-width: 1250px) {
+    .footer {
+      max-width: calc(100% - 40px);
+      margin: 50px auto 0;
+    }
+  }
+  
   .container {
-    width: 1129px;
+    max-width: 1129px;
     height: 345px;
     margin: 66px auto;
     display: flex;
   }
+    
+  @media (max-width: 890px) {
+    .container {
+      flex-direction: column-reverse;
+      height: auto;
+    }
+  }
   
   .contact{
     margin-right: 190px;
+    position: relative;
+  }
+    
+  @media (max-width: 1250px) {
+    .contact {
+      margin-right: 75px;
+    }
+  }
+    
+  @media (max-width: 890px) {
+    .contact {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-right: 0;
+    }
+  }
+    
+  @media (max-width: 550px) {
+    .contact {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+    
+  @media (max-width: 460px) {
+    .contact {
+      margin-top: 133px;
+    }
+  }
+    
+  @media (max-width: 1250px) {
+    .contact_image {
+      width: 264px;
+      height: 55px;
+    }
+  }
+    
+  @media (max-width: 890px) {
+    .contact_image {
+      margin-right: 70px;
+    }
+  }
+    
+  @media (max-width: 550px) {
+    .contact_image {
+      width: 210px;
+      height: 43px;
+      margin: 30px 0 0 0;
+    }
   }
   
   .contact_wrraper{
     margin-top: 50px;
+  }
+        
+  @media (max-width: 1250px) {
+    .contact_wrraper{
+      margin-top: 40px;
+    }
+  }
+        
+  @media (max-width: 890px) {
+    .contact_wrraper{
+      display: flex;
+      justify-content: space-between;
+      width: 360px;
+    }
+  }
+        
+  @media (max-width: 550px) {
+    .contact_wrraper{
+      position: absolute;
+      top: 85px;
+      right: -31px;
+      flex-direction: column;
+      margin: 0;
+      width: 210px;
+      gap: 10px;
+    }
+  }
+        
+  @media (max-width: 460px) {
+    .contact_wrraper{
+      top: -100px;
+      right: auto;
+      left: 0;
+    }
   }
   
   .contact_text{
@@ -31,6 +130,34 @@
   .contact_text:last-child{
     margin: 0;
   }
+      
+  @media (max-width: 1250px) {
+    .contact_text {
+      font-size: 17px;
+      max-width: 278px;
+      max-width: 163px;
+    }
+  }
+      
+  @media (max-width: 890px) {
+    .contact_text {
+      display: flex;
+      flex-wrap: wrap;
+    }
+  }
+      
+  @media (max-width: 550px) {
+    .contact_text {
+      margin: 0;
+      font-size: 15px;
+    }
+  }
+      
+  @media (max-width: 460px) {
+    .contact_text {
+      max-width: 148px;
+    }
+  }
   
   .contact_social{
     margin: 50px 0 0;
@@ -39,23 +166,59 @@
     justify-content: space-between;
     align-items: center;
   }
+        
+  @media (max-width: 1250px) {
+    .contact_social {
+      margin-top: 40px;
+    }
+  }
+        
+  @media (max-width: 550px) {
+    .contact_social {
+      width: 210px;
+      margin-top: 30px;
+    }
+  }
   
   .contact_icon{
     cursor: pointer;
   }
   
-  .contact_text_last{
+  .contact_text_last {
     margin-top: 30px;
     width: 221px;
     font-size: 19px;
     font-weight: 400;
     font-family: 'Roboto';
+    color: #A3A3A3;
+  }
+          
+  @media (max-width: 1250px) {
+    .contact_text_last {
+      font-size: 16px;
+      margin-top: 25px;
+    }
   }
   
   .wrraper{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    position: relative;
+  }
+            
+  @media (max-width: 550px) {
+    .wrraper{
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    
+  .info_absolute {
+    position: absolute;
+    bottom: -65px;
+    right: 50px;
+  }
   }
   
   .info_title{
@@ -66,9 +229,21 @@
     line-height: 26px;
     font-family: 'Roboto';
   }
+              
+  @media (max-width: 460px) {
+    .info_title{
+      font-size: 20px;
+    }
+  }
   
   .info_wrraper{
     margin-top: 30px;
+  }
+                  
+  @media (max-width: 460px) {
+    .info_wrraper{
+      margin-top: 25px;
+    }
   }
   
   .info_text{
@@ -78,7 +253,19 @@
     line-height: 22px;
     font-family: 'Roboto';
   }
+                
+  @media (max-width: 460px) {
+    .info_text{
+      font-size: 14px;
+    }
+  }
   
   .info_text:last-of-type{
     margin: 0;
+  }
+
+  @media (max-width: 1250px) {
+    .info_text {
+      font-size: 16px;
+    }
   }
