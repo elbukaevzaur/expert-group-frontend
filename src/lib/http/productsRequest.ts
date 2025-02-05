@@ -12,3 +12,7 @@ export function getDetails(productId: number) {
 export function getAllFavoriteProducts() {
     return axiosInstance.get('/products/me/favorite/all');
 }
+
+export function getProductsFullTextSearch(query: string) {
+    return axiosInstance.get(`/products/search?query=${query}`);
+}
