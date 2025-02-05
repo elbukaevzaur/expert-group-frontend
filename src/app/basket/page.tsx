@@ -92,14 +92,16 @@ export default function Basket() {
                             return <div key={index} className={styles.item}>
                                 {
                                     orderItemsDetails[value.productId]?.defaultImage == null ?
-                                        <Image src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
+                                        <Image className={styles.item_image} src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
                                         :
-                                        <img width={283} height={130}
+                                        <img className={styles.item_image} width={283} height={130}
                                              src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} />
                                 }
-                                <Link href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
+                                <div className={styles.item_container}>
+                                <Link className={styles.item_text_link} href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
                                     <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
                                 </Link>
+                                <div className={styles.item_content}>
                                 <div className={styles.item_wrapper}>
                                     <div className={styles.item_quantity}>
                                         <button onClick={() => handleRemoveFromBasket(value)} className={styles.item_button}>
@@ -114,9 +116,11 @@ export default function Basket() {
                                     <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
                                 </div>
                                 <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
+                                </div>
                                 <button className={styles.item_delete} onClick={() => removeFromBasket(value)}>
                                     <Image src={'/images/Clear_button.png'} alt="Удалить" width={6} height={6} />
                                 </button>
+                                </div>
                             </div>
                         })
                     }

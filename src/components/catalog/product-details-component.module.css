@@ -3,25 +3,59 @@
     margin: 45px auto 0;
   }
   
+  @media (max-width: 1250px) {
+    .details {
+      width: calc(100% - 40px);
+    }
+  }
+  
   .title {
     margin: 0;
-    font-size: 32px;
+    font-size: 30px;
     line-height: 38px;
-    font-weight: 400;
+    font-weight: 700;
     font-family: 'Roboto';
   }
   
   .info {
     margin-top: 45px;
     display: flex;
+    position: relative;
+  }
+
+  @media (max-width: 970px) {
+    .info {
+      margin-bottom: 270px;
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .info {
+      flex-direction: column;
+      margin-bottom: 0;
+    }
   }
   
   .container {
     width: 532px;
   }
+    
+  @media (max-width: 720px) {
+    .container {
+      width: 100%;
+    }
+  }
 
   .image_wrapper {
     position: relative;
+    max-width: 532px;
+  }
+  
+  @media (max-width: 720px) {
+    .image_wrapper {
+      max-width: 100%;
+    }
   }
   
   .image {
@@ -29,6 +63,8 @@
     border-radius: 20px;
     background-color: #21a038;
     object-fit: contain;
+    width: 100%;
+    height: auto;
   }
 
   .image_left {
@@ -70,6 +106,14 @@
     margin-top: 18px;
     align-items: center;
     justify-content: space-between;
+  }
+
+  @media (max-width: 1150px) {
+    .wrapper {
+      flex-direction: column;
+      align-items: start;
+      gap: 20px;
+    }
   }
   
   .button_show {
@@ -126,12 +170,45 @@
   .description {
     margin: 20px 0 0 52px;
   }
+    
+  @media (max-width: 1250px) {
+    .description {
+      margin: 20px 30px 0;
+    }
+  }
+    
+  @media (max-width: 970px) {
+    .description {
+      display: flex;
+      gap: 10px;
+      position: absolute;
+      bottom: -210px;
+      left: 0;
+      margin: 0;
+    }
+  }
+    
+  @media (max-width: 720px) {
+    .description {
+      position: static;
+    }
+  }
+    
+  @media (max-width: 600px) {
+    .description {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+
   
   .description_text {
+    display: flex;
+    flex-wrap: wrap;
     font-size: 17px;
     font-weight: 400;
     line-height: 24px;
-    width: 227px;
+    max-width: 227px;
     font-family: 'Roboto';
   }
   
@@ -143,12 +220,24 @@
   .description_image {
     margin: 10px 0 0 -15px;
   }
+    
+  @media (max-width: 970px) {
+    .description_image {
+      margin: 0;
+    }
+  }
   
   .price {
     position: relative;
     margin-left: 8px;
     width: 397px;
     height: 394px;
+  }
+      
+  @media (max-width: 720px) {
+    .price {
+      width: 100%;
+    }
   }
   
   .price_buy {
@@ -159,7 +248,7 @@
     height: 244px;
     box-shadow: 0px 0px 8px 2px rgba(34, 60, 80, 0.5);
     border-radius: 15px;
-    padding: 38px 30px 26px;
+    padding: 30px;
     box-sizing: border-box;
     background-color: #fff;
     z-index: 10;
@@ -237,7 +326,9 @@
   }
   
   .price_info {
-    width: 395px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
     height: 165px;
     border: 2px solid #21a038;
     border-radius: 0 0 15px 15px;
@@ -270,6 +361,20 @@
     display: flex;
     justify-content: space-between;
     width: calc(100% - 130px);
+  }
+  
+  @media (max-width: 1250px) {
+    .navigator {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 1130px) {
+    .navigator {
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: left;
+    }
   }
   
   .navigator_button {
@@ -311,13 +416,29 @@
   
   .show{
     margin: 55px 0 0 0;
+  }
+    
+  @media (max-width: 1250px) {
+    .show {
+      width: 100%;
+    }
+  }
+
+  .show_wrapper{
     position: relative;
+  }
+
+  .show_image{
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
   
   .show_button_left{
     position: absolute;
-    top: 250px;
+    top: 50%;
     left: 0;
+    transform: translateY(-50%);
     width: 56px;
     height: 86px;
     background-color: rgba(33, 160, 56, 0.49);
@@ -328,8 +449,9 @@
   
   .show_button_right{
     position: absolute;
-    top: 250px;
+    top: 50%;
     right: 0;
+    transform: translateY(-50%);
     width: 56px;
     height: 86px;
     background-color: rgba(33, 160, 56, 0.49);

@@ -52,16 +52,19 @@ export function ProductsListItemComponent(props: ProductsProps) {
             <div className={styles.info}>
                 <h3 className={styles.name}>{product.name}</h3>
                 <div className={styles.wrraper}>
+                    <div className={styles.content}>
                     <div className={styles.conteiner}>
                         <h3 className={styles.text}>{product.currentQuantity > 0 ? 'В наличии' : 'Нет в наличии'}</h3>
                         <h2 className={styles.price}>{product.price} &#8381;</h2>
                     </div>
-                    <div className={styles.action}>
-                        <button onClick={handleChangeFavorite} className={styles.like}>
+                    <button onClick={handleChangeFavorite} className={styles.like}>
                             {
                                 <LikeSvg width={28} height={24} fill={isFavorite ? '#21A038' : 'none'}/>
                             }
                         </button>
+                        </div>
+                    <div className={styles.action}>
+                    
                         {
                             props.basketItem == null ?
                                 <button className={styles.basket} onClick={addToBasket}>

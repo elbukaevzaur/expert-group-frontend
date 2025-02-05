@@ -3,6 +3,12 @@
   margin: 45px auto 0;
 }
 
+@media (max-width: 1250px) {
+  .projects {
+    width: calc(100% - 40px);
+  }
+}
+
 .title {
   font-family: "Roboto";
   font-weight: 700;
@@ -43,8 +49,14 @@
 .items {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(286px, 1fr));
-  gap: 23px;
+  gap: 20px;
   margin-top: 20px;
+}
+
+@media (max-width: 970px) {
+  .items {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
 }
 
 .item {
@@ -69,7 +81,7 @@
 .item_image {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   border-radius: 5px;
 }
 

@@ -12,7 +12,7 @@ import styles from "@/components/dashboard/dashboard.module.css"
 import PreviewBasketModal from "../basket/preview-basket-modal";
 import {ProjectsCategories} from "@/lib/models/projectsCategories";
 import {useParams, usePathname} from "next/navigation";
-import { UserSvg, BasketSvg } from "@/lib/icon-svg";
+import { UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg } from "@/lib/icon-svg";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -38,47 +38,55 @@ export default function Dashboard() {
     }
 
     return (
-        <header>
+        <header className={styles.header}>
+            <div className={styles.dashboar_wrapper}>
             <div className={styles.dashboar}>
                 <Link href='/public'>
-                    <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
+                    <Image className={styles.logo} src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
+                    <Image className={styles.logo__small} src={"/images/Logo_small.png"} alt="Логотип" width={94} height={44} priority={true} />
                 </Link>
                 <div className={styles.number}>
                     <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
-                    <Image src={'/images/Whatsapp_logo.png'} alt="Логотип Whatsapp" width={20} height={20} />
+                    <WatsappSvg className={styles.number__icon}/>
                 </div>
                 <div className={styles.location}>
-                    <Image src={'/images/Location.png'} alt="Локация" width={14} height={18} />
+                    <LocationSvg className={styles.location__icon}/>
                     <h3 className={styles.location__text}>Москва</h3>
-                    <Image src={'/images/Vector_green.png'} alt="Стрелка" width={13} height={7} />
+                    <Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка" width={13} height={7} />
                 </div>
                 <div className={styles.search}>
                     <input type="search" className={styles.search_input} placeholder="Поиск" />
                     <button className={styles.search__button}>Найти</button>
+                    <SearchSvg className={styles.search__icon}/>
                 </div>
                 {
                     !isAuth ?
                         <div className={styles.user} onClick={toggleLogin}>
-                            {<UserSvg/>}
+                            {<UserSvg className={styles.user__icon}/>}
                             <h2 className={styles.user__text}>Вход</h2>
                         </div>
                         :
                         <Link href={'/lk/current-orders'} className={styles.user}>
-                            {<UserSvg fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
-                            <h2 className={styles.user__text}>Мой кабинет</h2>
+                            {<UserSvg className={styles.user__icon} fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
+                            <h2 className={styles.user__text}>Кабинет</h2>
                         </Link>
                 }
                 <div className={styles.dashboar__basket}>
-                    <BasketSvg onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
+                    <BasketSvg className={styles.dashboar__bascet_icon} onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
                     <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
                         <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
                         <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
+                        <div className={styles.dashboar__bascet_info_mini}>
+                            <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                        </div>
                     </div>
                     {
                         isShowPreviewBasket &&
                         <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
                     }
                 </div>
+                <button className={styles.dashboar__menu}><MenuSvg/></button>
+            </div>
             </div>
             <div className={styles.navigator}>
                 <div className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}>
