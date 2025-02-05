@@ -3,6 +3,12 @@
     margin: 45px auto 0;
 }
 
+@media (max-width: 1250px) {
+    .certificate {
+      width: calc(100% - 40px);
+    }
+  }
+
 .title {
     font-family: 'Roboto';
     font-size: 33px;
@@ -11,14 +17,15 @@
 }
 
 .items {
-    display: flex;
     margin-top: 45px;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
 }
 
 .item {
-    width: 386px;
-    height: 418px;
+    width: 100%;
+    height: auto;
     border-radius: 10px;
     box-shadow: 0 0 4px 1px rgba(38, 38, 38, 0.18);
     display: flex;
