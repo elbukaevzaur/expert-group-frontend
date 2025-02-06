@@ -40,49 +40,56 @@ export default function Dashboard() {
     return (
         <header className={styles.header}>
             <div className={styles.dashboar_wrapper}>
-            <div className={styles.dashboar}>
-                <Link href='/public'>
-                    <Image className={styles.logo} src={"/images/Logo.png"} alt="Логотип" width={251} height={52} priority={true} />
-                    <Image className={styles.logo__small} src={"/images/Logo_small.png"} alt="Логотип" width={94} height={44} priority={true} />
-                </Link>
-                <div className={styles.number}>
-                    <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
-                    <WatsappSvg className={styles.number__icon}/>
-                </div>
-                <div className={styles.location}>
-                    <LocationSvg className={styles.location__icon}/>
-                    <h3 className={styles.location__text}>Москва</h3>
-                    <Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка" width={13} height={7} />
-                </div>
-                <SearchForm/>
-                {
-                    !isAuth ?
-                        <div className={styles.user} onClick={toggleLogin}>
-                            {<UserSvg className={styles.user__icon}/>}
-                            <h2 className={styles.user__text}>Вход</h2>
-                        </div>
-                        :
-                        <Link href={'/lk/current-orders'} className={styles.user}>
-                            {<UserSvg className={styles.user__icon} fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
-                            <h2 className={styles.user__text}>Кабинет</h2>
-                        </Link>
-                }
-                <div className={styles.dashboar__basket}>
-                    <BasketSvg className={styles.dashboar__bascet_icon} onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
-                    <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)} className={styles.dashboar__basket_container}>
-                        <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
-                        <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
-                        <div className={styles.dashboar__bascet_info_mini}>
-                            <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
-                        </div>
+                <div className={styles.dashboar}>
+                    <Link href='/public'>
+                        <Image className={styles.logo} src={"/images/Logo.png"} alt="Логотип" width={251} height={52}
+                               priority={true}/>
+                        <Image className={styles.logo__small} src={"/images/Logo_small.png"} alt="Логотип" width={94}
+                               height={44} priority={true}/>
+                    </Link>
+                    <div className={styles.number}>
+                        <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
+                        <WatsappSvg className={styles.number__icon}/>
                     </div>
+                    <div className={styles.location}>
+                        <LocationSvg className={styles.location__icon}/>
+                        <h3 className={styles.location__text}>Москва</h3>
+                        <Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка"
+                               width={13} height={7}/>
+                    </div>
+                    <SearchForm/>
                     {
-                        isShowPreviewBasket &&
-                        <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
+                        !isAuth ?
+                            <div className={styles.user} onClick={toggleLogin}>
+                                {<UserSvg className={styles.user__icon}/>}
+                                <h2 className={styles.user__text}>Вход</h2>
+                            </div>
+                            :
+                            <Link href={'/lk/current-orders'} className={styles.user}>
+                                {<UserSvg className={styles.user__icon}
+                                          fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
+                                <h2 className={styles.user__text}>Кабинет</h2>
+                            </Link>
                     }
+                    <div className={styles.dashboar__basket}>
+                        <BasketSvg className={styles.dashboar__bascet_icon}
+                                   onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
+                                   fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
+                        <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
+                             className={styles.dashboar__basket_container}>
+                            <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
+                            <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
+                            <div className={styles.dashboar__bascet_info_mini}>
+                                <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                            </div>
+                        </div>
+                        {
+                            isShowPreviewBasket &&
+                            <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
+                        }
+                    </div>
+                    <button className={styles.dashboar__menu}><MenuSvg/></button>
                 </div>
-                <button className={styles.dashboar__menu}><MenuSvg/></button>
-            </div>
             </div>
             <div className={styles.navigator}>
                 <div className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}>
