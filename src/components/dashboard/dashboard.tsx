@@ -10,41 +10,9 @@ import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers
 import {Login} from "@/components/login/login-modal";
 import styles from "@/components/dashboard/dashboard.module.css"
 import PreviewBasketModal from "../basket/preview-basket-modal";
-import {ProjectsCategories} from "@/lib/models/projectsCategories";
 import {useParams, usePathname} from "next/navigation";
 import { UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg } from "@/lib/icon-svg";
-import {getProductsFullTextSearch} from "@/lib/http/productsRequest";
-
-
-interface HighlightTextProps {
-    text: string;
-    query: string;
-}
-
-const HighlightText: React.FC<HighlightTextProps> = ({ text, query }) => {
-    if (!query) return <span>{text}</span>;
-
-    const regex = new RegExp(`(${query})`, "gi");
-    const parts = text.split(regex);
-
-    return (
-        <span>
-      {parts.map((part, index) =>
-          part.toLowerCase() === query.toLowerCase() ? <span style={{fontWeight: 'bold'}} key={index}>{part}</span> : part
-      )}
-    </span>
-    );
-};
-
-interface SearchProducts {
-    name: string,
-    description: string
-}
-
-interface SearchResult {
-    totalHits: number,
-    products: SearchProducts[]
-}
+import SearchForm from "@/components/dashboard/search-form";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -55,9 +23,6 @@ export default function Dashboard() {
     const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
     const pathname = usePathname();
     const params = useParams();
-    const [searchText, setSearchText] = useState("");
-    const [searchResult, setSearchResult] = useState<SearchResult>({totalHits: 0, products: []});
-    const [isFocused, setIsFocused] = useState<boolean>(false);
 
     useEffect(() => {
         dispatch(INITIAL_TOKEN());
@@ -70,17 +35,6 @@ export default function Dashboard() {
 
     const containCurrentPage = (path: string): boolean => {
         return pathname.startsWith(path);
-    }
-
-    function handleFullTextSearch(text: string) {
-        setSearchText(text)
-        getProductsFullTextSearch(text).then((resp) => {
-            setSearchResult(resp.data);
-        })
-    }
-
-    function handleSelectProduct(name: string) {
-        console.log(name);
     }
 
     return (
@@ -100,44 +54,7 @@ export default function Dashboard() {
                     <h3 className={styles.location__text}>Москва</h3>
                     <Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка" width={13} height={7} />
                 </div>
-                <div className={styles.search}>
-                    <input
-                        value={searchText}
-                        onChange={(event) => {
-                        handleFullTextSearch(event.currentTarget.value)
-                        }}
-                        type="search"
-                        className={styles.search_input}
-                        placeholder="Поиск"
-                        onFocus={() => setIsFocused(true)}
-                        onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Даем время на клик
-
-                    />
-                    {
-                        isFocused && searchResult.totalHits > 0 &&
-                        <div className={styles.suggestions_list}>
-                            <div className={styles.suggestions_list_container}>
-                                {/*<span>Total results: {searchResult.totalHits}</span>*/}
-                                {searchResult.products.map((item, index) => {
-                                    return <div
-                                        key={index}
-                                        className={styles.suggestion_item}
-                                        onClick={() => handleSelectProduct(item.name)}
-                                    >
-                                        <div className={styles.suggestion_item_image_container}>
-                                            <Image className={styles.suggestion_item_image}
-                                                   src={'/images/subcatalog__2.png'}
-                                                   layout="fill" objectFit="contain" alt="search image"/>
-                                        </div>
-                                        <div style={{width: 10}}/>
-                                        <HighlightText text={`${item.name} ${item.description}`} query={searchText}/>
-                                    </div>
-                                })}
-                            </div>
-                            <button className={styles.search__button_stick}>Все результаты</button>
-                        </div>
-                    }
-                </div>
+                <SearchForm/>
                 {
                     !isAuth ?
                         <div className={styles.user} onClick={toggleLogin}>
