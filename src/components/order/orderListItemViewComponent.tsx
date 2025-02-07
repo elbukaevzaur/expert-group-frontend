@@ -11,12 +11,13 @@ export default function OrderListItemView(props: Props) {
     return <div className={styles.history__item}>
         <div className={styles.history__item_content}>
             <div className={styles.history__item_wrapper}>
-                <h3 className={`${styles.history__item_text} ${styles.history__item_width}`}>№ Заказа: {order.id}</h3>
+                <h3 className={`${styles.history__item_text}}`}>Гладкий отливной карниз Кт-68, 56Hx34мм  </h3>
                 <h3 className={`${styles.history__item_text} ${styles.history__item_width}`}>Статус:{" "}<span
                     className={styles.history__item_span}>{order.status}</span>
                 </h3>
             </div>
             <div className={styles.history__item_wrapper}>
+            <h3 className={`${styles.history__item_text} ${styles.history__item_width}`}>№ Заказа: {order.id}</h3>
                 <h3 className={`${styles.history__item_text} ${styles.history__item_width}`}>Итого: {order.total} ₽</h3>
             </div>
         </div>

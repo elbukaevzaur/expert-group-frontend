@@ -110,14 +110,42 @@ a {
   margin: 50px auto 0;
 }
 
+@media (max-width: 1250px) {
+  .account {
+    width: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 700px) {
+  .account {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
 .history {
   width: 100%;
   margin-left: 14px;
 }
 
+@media (max-width: 700px) {
+  .history {
+    margin-left: 0;
+  }
+}
+
 .favorites {
   margin: 0 0 0 10px;
+  display: grid;
   grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .favorites {
+    margin: 0;
+    gap: 20px;
+  }
 }
 
 .table_img {

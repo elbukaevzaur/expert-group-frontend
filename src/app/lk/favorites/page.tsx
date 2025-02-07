@@ -36,7 +36,7 @@ export default function Page() {
                 content.length === 0 ?
                     <ListNotContent text="Список избранных товаров пуст"/>
                     :
-                    <div className="items favorites">
+                    <div className="favorites">
                         {
                             content.map((item) => {
                                 return <ProductsListItemComponent
