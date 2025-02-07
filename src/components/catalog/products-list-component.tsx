@@ -62,10 +62,12 @@ export default function ProductsListComponent(props: Props) {
                 }
             </div>
             {
-                allProducts.content.length > 0 ?
+                allProducts.content.length < 1 &&
+                <ListNotContent text="Список товаров пуст"/>
+            }
+            {
+                allProducts.totalPages > 0 &&
                     <ProductsPagination />
-                    :
-                    <ListNotContent text="Список товаров пуст"/>
             }
         </div>
     )
