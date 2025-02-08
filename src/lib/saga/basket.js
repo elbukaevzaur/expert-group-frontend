@@ -26,15 +26,14 @@ import {
     removeByProductId
 } from "@/lib/http/basketRequest";
 import {basketStorageKey} from "@/lib/config";
-import {OrderItemsRequest} from "@/lib/models";
 
 function* incrementQuantityWorker(action) {
     const { isAuth } = yield select((state) => state.auth);
     const { orderItem, productId } = action.payload;
 
     const request = {
-        productId: orderItem ? orderItem.productId : productId,
-        quantity: orderItem ? (orderItem.quantity + 1) : 1,
+        productId: productId,
+        quantity: orderItem !== null || orderItem?.quantity ? (orderItem.quantity + 1) : 1,
     }
 
     try {

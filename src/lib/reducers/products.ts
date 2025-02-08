@@ -12,10 +12,6 @@ import {
 interface ProductsState {
     allProducts: PageResponse<Products>,
     allFavoriteProducts: PageResponse<Products>,
-    pageable: {
-        page: number,
-        perPage: number
-    },
     pageRequest: PageRequest,
     filters: FiltersResponse[],
     details: ProductDetailsResponse
@@ -24,21 +20,19 @@ interface ProductsState {
 const initialState: ProductsState = {
     allProducts: {
         totalPages: 0,
-        currentPage: 0,
+        page: 0,
         perPage: 0,
-        content: []
+        content: [],
+        orderedColumns: []
     },
     allFavoriteProducts: {
         totalPages: 0,
-        currentPage: 0,
-        perPage: 0,
-        content: []
-    },
-    pageable: {
         page: 0,
-        perPage: 0
+        perPage: 0,
+        content: [],
+        orderedColumns: []
     },
-    pageRequest: { filters: [], orderedColumns: [] },
+    pageRequest: { filters: [], orderedColumns: [], page: 1 },
     filters: [],
     details: {} as ProductDetailsResponse
 };
@@ -52,10 +46,7 @@ const products = createSlice({
         },
         PRODUCTS_FETCH_RESPONSE_SUCCESS: (state, action) => {
             state.allProducts = action.payload;
-            state.pageable = {
-                page: action.payload.currentPage,
-                perPage: action.payload.perPage
-            }
+            state.pageRequest = { ...state.pageRequest, page: action.payload.page, perPage: action.payload.perPage, totalPages: action.payload.totalPages }
         },
         FAVORITE_PRODUCTS_FETCH_REQUESTED: (state) => {
         },
@@ -66,13 +57,12 @@ const products = createSlice({
             state.pageRequest = { ...state.pageRequest, page: action.payload.page, perPage: action.payload.perPage }
         },
         PRODUCTS_SHOW_MORE_FETCH_RESPONSE_SUCCESS: (state, action) => {
-            state.allProducts.currentPage = action.payload.currentPage;
-            state.allProducts.perPage = action.payload.perPage;
-            state.allProducts.totalPages = action.payload.totalPages;
-            state.allProducts.content = [...state?.allProducts.content, ...action.payload.content]
-            state.pageable = {
+            state.allProducts = {
+                content: [...state?.allProducts.content, ...action.payload.content],
                 page: action.payload.currentPage,
-                perPage: action.payload.perPage
+                perPage: state.allProducts.perPage,
+                totalPages: state.allProducts.totalPages,
+                orderedColumns: state.allProducts.orderedColumns
             }
         },
         ADD_FILTER: (state, action: PayloadAction<FilterProperty>) => {
@@ -111,6 +101,9 @@ const products = createSlice({
         SORTED: (state, action) => {
             state.pageRequest.orderedColumns = [action.payload];
         },
+        UPDATE_PER_PAGE: (state, action) => {
+            state.pageRequest.perPage = action.payload;
+        },
         DETAILS_FETCH_REQUESTED: (state, action) => {
         },
         DETAILS_FETCH_RESPONSE_SUCCESS: (state, action) => {
@@ -129,6 +122,7 @@ export const { PRODUCTS_FETCH_REQUESTED,
     FILTERS_FETCH_REQUESTED,
     FILTERS_FETCH_RESPONSE_SUCCESS,
     SORTED,
+    UPDATE_PER_PAGE,
     DETAILS_FETCH_REQUESTED,
     DETAILS_FETCH_RESPONSE_SUCCESS,
     FAVORITE_PRODUCTS_FETCH_REQUESTED,

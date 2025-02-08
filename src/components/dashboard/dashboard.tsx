@@ -74,7 +74,8 @@ export default function Dashboard() {
                     <div className={styles.dashboar__basket}>
                         <BasketSvg className={styles.dashboar__bascet_icon}
                                    onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
-                                   fill={pathname.startsWith('/basket') ? '#21A038' : 'white'}/>
+                                   fill={pathname.startsWith('/basket') ? '#21A038' : 'none'}
+                        />
                         <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
                              className={styles.dashboar__basket_container}>
                             <h2 className={styles.dashboar__bascet_text}>Корзина</h2>

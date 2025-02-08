@@ -5,7 +5,7 @@ import { PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/
 import styles from "@/components/catalog/products-pagination-component.module.css";
 
 export default function ProductsPagination() {
-    const { allProducts, pageable } = useAppSelector((state) => state.products);
+    const { allProducts, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
 
     const loadProducts = (pageable: Pageable) => {
@@ -14,16 +14,16 @@ export default function ProductsPagination() {
 
     const nextPage = () => {
         const page: Pageable = {
-            page: (pageable.page + 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page + 1),
+            perPage: pageRequest.perPage
         }
         loadProducts(page);
     }
 
     const prevPage = () => {
         const page: Pageable = {
-            page: (pageable.page - 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page - 1),
+            perPage: pageRequest.perPage
         }
         loadProducts(page);
     }
@@ -31,22 +31,22 @@ export default function ProductsPagination() {
     const selectPage = (selectPage: number) => {
         const page: Pageable = {
             page: selectPage,
-            perPage: pageable.perPage
+            perPage: pageRequest.perPage
         }
         loadProducts(page);
     }
 
     const showMore = () => {
         const page: Pageable = {
-            page: (pageable.page + 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page + 1),
+            perPage: pageRequest.perPage
         }
         dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
     const createPageButtons = () => {
         const totalPages = allProducts.totalPages;
-        const currentPage = allProducts.currentPage;
+        const currentPage = pageRequest.page;
         const visiblePages = 3;
 
         let pages = [];
@@ -81,17 +81,17 @@ export default function ProductsPagination() {
 
     return (
         <>
-            {pageable.page < allProducts.totalPages && (
+            {pageRequest.page < allProducts.totalPages && (
                 <button className={styles.more} onClick={showMore}>
                     <h2 className={styles.more_text}>Показать еще</h2>
                 </button>
             )}
             <div className={styles.buttons}>
-                <button className={styles.button_left} onClick={prevPage} disabled={pageable.page === 1}>
+                <button className={styles.button_left} onClick={prevPage} disabled={pageRequest.page === 1}>
                     <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
                 </button>
                 {createPageButtons()}
-                <button className={styles.button_right} onClick={nextPage} disabled={pageable.page === allProducts.totalPages}>
+                <button className={styles.button_right} onClick={nextPage} disabled={pageRequest.page === allProducts.totalPages}>
                     <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17} />
                 </button>
             </div>

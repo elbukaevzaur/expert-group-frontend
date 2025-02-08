@@ -10,12 +10,12 @@ export interface OrderedPageRequest {
 }
 
 export interface Pageable {
-    page?: number;
     perPage?: number;
+    totalPages?: number,
+    page: number,
 }
 
 export interface PageRequest extends Pageable {
-
     filters: FilterProperty[];
-    orderedColumns?: OrderedPageRequest[];
+    orderedColumns: OrderedPageRequest[];
 }
