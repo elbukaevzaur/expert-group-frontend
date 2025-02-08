@@ -67,7 +67,7 @@ export default function Dashboard() {
                             :
                             <Link href={'/lk/current-orders'} className={styles.user}>
                                 {<UserSvg className={styles.user__icon}
-                                          fill={pathname.startsWith('/lk') ? '#21A038' : 'white'}/>}
+                                          fill={pathname.startsWith('/lk') ? '#21A038' : 'none'}/>}
                                 <h2 className={styles.user__text}>Кабинет</h2>
                             </Link>
                     }
