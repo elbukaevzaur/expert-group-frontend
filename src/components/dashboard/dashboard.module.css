@@ -1,16 +1,18 @@
 
 
 .dashboar {
-    display: flex;
-    width: 1218px;
-    height: 77px;
-    align-items: center;
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
-    background-color: rgba(255, 255, 255, 0.9);
-    margin-top: -77px;
+  display: flex;
+  width: 1218px;
+  height: 77px;
+  align-items: center;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  background-color: rgb(255 255 255 / 66%);
+  margin-top: -77px;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   }
 
   @media (max-width: 1250px) {

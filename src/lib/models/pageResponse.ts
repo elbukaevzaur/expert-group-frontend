@@ -1,6 +1,9 @@
+import {OrderedPageRequest} from "@/lib/models/pageRequest";
+
 export interface PageResponse<T> {
     totalPages: number,
-    currentPage: number,
+    page: number,
     perPage: number,
-    content: T[]
+    content: T[],
+    orderedColumns: OrderedPageRequest[];
 }

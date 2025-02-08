@@ -1,11 +1,11 @@
 import Image from "next/image";
-import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {Pageable} from "@/lib/models";
-import {PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED} from "@/lib/reducers";
-import styles from "@/components/catalog/products-pagination-component.module.css"
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { Pageable } from "@/lib/models";
+import { PRODUCTS_FETCH_REQUESTED, PRODUCTS_SHOW_MORE_FETCH_REQUESTED } from "@/lib/reducers";
+import styles from "@/components/catalog/products-pagination-component.module.css";
 
 export default function ProductsPagination() {
-    const { allProducts, pageable } = useAppSelector((state) => state.products);
+    const { allProducts, pageRequest } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
 
     const loadProducts = (pageable: Pageable) => {
@@ -14,71 +14,87 @@ export default function ProductsPagination() {
 
     const nextPage = () => {
         const page: Pageable = {
-            page: (pageable.page + 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page + 1),
+            perPage: pageRequest.perPage
         }
-        loadProducts(page)
+        loadProducts(page);
     }
 
     const prevPage = () => {
         const page: Pageable = {
-            page: (pageable.page - 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page - 1),
+            perPage: pageRequest.perPage
         }
-        loadProducts(page)
+        loadProducts(page);
     }
 
     const selectPage = (selectPage: number) => {
         const page: Pageable = {
             page: selectPage,
-            perPage: pageable.perPage
+            perPage: pageRequest.perPage
         }
-        loadProducts(page)
+        loadProducts(page);
     }
 
     const showMore = () => {
         const page: Pageable = {
-            page: (pageable.page + 1),
-            perPage: pageable.perPage
+            page: (pageRequest.page + 1),
+            perPage: pageRequest.perPage
         }
         dispatch(PRODUCTS_SHOW_MORE_FETCH_REQUESTED(page));
     }
 
+    const createPageButtons = () => {
+        const totalPages = allProducts.totalPages;
+        const currentPage = pageRequest.page;
+        const visiblePages = 3;
+
+        let pages = [];
+
+        pages.push(1);
+        if (currentPage > visiblePages + 2) {
+            pages.push("...");
+        }
+
+        for (let i = Math.max(currentPage - visiblePages, 2); i <= Math.min(currentPage + visiblePages, totalPages - 1); i++) {
+            pages.push(i);
+        }
+
+        if (currentPage < totalPages - visiblePages - 1) {
+            pages.push("...");
+        }
+        pages.push(totalPages);
+
+        return pages.map((page, index) => (
+            <button
+                key={index}
+                className={`${styles.button_number} ${page === currentPage ? styles.button_number_active : ""}`}
+                onClick={() => typeof page === "number" && selectPage(page)}
+                disabled={page === "..."}
+            >
+                <h3 className={`${styles.button_number_text} ${page === currentPage ? styles.button_number_text_active : ""}`}>
+                    {page}
+                </h3>
+            </button>
+        ));
+    }
+
     return (
         <>
-        {
-            pageable.page < allProducts.totalPages &&
+            {pageRequest.page < allProducts.totalPages && (
                 <button className={styles.more} onClick={showMore}>
                     <h2 className={styles.more_text}>Показать еще</h2>
                 </button>
-        }
-        <div className={styles.buttons}>
-            <button className={styles.button_left} onClick={prevPage}>
-                <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17}/>
-            </button>
-            {
-                Array.from({length: allProducts.totalPages}, (v, i) => {
-                    i++;
-                    let buttonClass = styles.button_number;
-                    let textClass = styles.button_number_text;
-                    if (i == 1) {
-                        buttonClass += ` ${styles.button_number_first}`;
-                    } else if (i == allProducts.totalPages) {
-                        buttonClass += ` ${styles.button_number_last}`;
-                    }
-                    if (i == allProducts.currentPage) {
-                        buttonClass += ` ${styles.button_number_active}`;
-                        textClass += ` ${styles.button_number_text_active}`;
-                    }
-                    return <button className={buttonClass} key={i} onClick={() => selectPage(i)}>
-                        <h3 className={textClass}>{i}</h3>
-                    </button>
-                })
-            }
-            <button className={styles.button_right} onClick={nextPage}>
-                <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17}/>
-            </button>
-        </div>
+            )}
+            <div className={styles.buttons}>
+                <button className={styles.button_left} onClick={prevPage} disabled={pageRequest.page === 1}>
+                    <Image src={'/images/Vector_left.png'} alt="Лево" width={9} height={17} />
+                </button>
+                {createPageButtons()}
+                <button className={styles.button_right} onClick={nextPage} disabled={pageRequest.page === allProducts.totalPages}>
+                    <Image src={'/images/Vector_right.png'} alt="Право" width={9} height={17} />
+                </button>
+            </div>
         </>
-    )
+    );
 }

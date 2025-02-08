@@ -47,20 +47,12 @@ export default function ProductDetailsComponent(params: Params) {
     }, [orderItems, details]);
 
     const addToBasket = () => {
-        const request: OrderItemsRequest = {
-            productId: basketItem ? basketItem.productId : details.id,
-            quantity: basketItem ? (basketItem.quantity + 1) : 1,
-        }
-        dispatch(ORDER_ITEMS_INCREMENT(request))
+        dispatch(ORDER_ITEMS_INCREMENT({orderItem: basketItem, productId: details.id}))
     }
 
     const handleRemoveFromBasket = () => {
         if (basketItem !== null){
-            const request: OrderItemsRequest = {
-                productId: basketItem.productId,
-                quantity: (basketItem.quantity - 1)
-            }
-            dispatch(ORDER_ITEMS_DECREMENT(request))
+            dispatch(ORDER_ITEMS_DECREMENT(basketItem))
         }
     }
 
@@ -168,21 +160,27 @@ export default function ProductDetailsComponent(params: Params) {
                         </button>
                         </div>
                         <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>
-                            <div className={`${styles.price_buy_wrraper} ${styles.price_buy_width}`}>
-                                <button onClick={handleRemoveFromBasket} className={styles.price_buy_like}>
-                                    <Image src={'/images/Minus.png'} alt="Убрать" width={22} height={22}/>
-                                </button>
-                                <h3 className={styles.price_buy_text}>{basketItem != null ? basketItem.quantity : 0}</h3>
-                                <button onClick={addToBasket} className={styles.price_buy_like}>
-                                    <Image src={'/images/Plus.png'} alt="Добавить" width={22} height={22}/>
-                                </button>
-                            </div>
+                            {
+                                details?.currentQuantity > 0 && basketItem?.quantity > 0 ?
+                                <div className={`${styles.price_buy_wrraper} ${styles.price_buy_width}`}>
+                                    <button onClick={handleRemoveFromBasket} className={styles.price_buy_like}>
+                                        <Image src={'/images/Minus.png'} alt="Убрать" width={22} height={22}/>
+                                    </button>
+                                    <h3 className={styles.price_buy_text}>{basketItem != null ? basketItem.quantity : 0}</h3>
+                                    <button onClick={addToBasket} className={styles.price_buy_like}>
+                                        <Image src={'/images/Plus.png'} alt="Добавить" width={22} height={22}/>
+                                    </button>
+                                </div>
+                                    :
+                                    <div/>
+                            }
+
                             <h2 className={styles.price_buy_subtitle}>
-                                {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}`: 'Нет в наличии'}
+                                {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}` : 'Нет в наличии'}
                             </h2>
                         </div>
                         {
-                            basketItem?.quantity < 1 || basketItem == null ?
+                            basketItem?.quantity < 1 || basketItem?.quantity === undefined ?
                                 <button onClick={addToBasket} className={styles.price_button}>
                                     <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
                                     <h3 className={styles.price_button_text}>В корзину</h3>
@@ -193,10 +191,10 @@ export default function ProductDetailsComponent(params: Params) {
                                     <h3 className={styles.price_button_text}>Перейти в корзину</h3>
                                 </Link>
                         }
-                        <button className= {`${styles.price_button} ${styles.price_button_color}`}>
+{/*                        <button className= {`${styles.price_button} ${styles.price_button_color}`}>
                             <h3 className={`${styles.price_button_text} ${styles.price_button_text_color}`}>Купить в 1
                                 клик</h3>
-                        </button>
+                        </button>*/}
                     </div>
                     <div className={styles.price_info}>
                         <h2 className={`${styles.price_info_text} ${styles.price_info_text_weight}`}>Доставим ваш товар:</h2>
