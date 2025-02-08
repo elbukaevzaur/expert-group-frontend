@@ -12,7 +12,7 @@ import styles from "@/components/dashboard/dashboard.module.css"
 import PreviewBasketModal from "../basket/preview-basket-modal";
 import {ProjectsCategories} from "@/lib/models/projectsCategories";
 import {useParams, usePathname} from "next/navigation";
-import { UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg } from "@/lib/icon-svg";
+import { UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg, TelegramSvg, YoutubeSvg, InstagramSvg, CloseSvg } from "@/lib/icon-svg";
 import {getProductsFullTextSearch} from "@/lib/http/productsRequest";
 
 
@@ -58,6 +58,15 @@ export default function Dashboard() {
     const [searchText, setSearchText] = useState("");
     const [searchResult, setSearchResult] = useState<SearchResult>({totalHits: 0, products: []});
     const [isFocused, setIsFocused] = useState<boolean>(false);
+    const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+
+    const handleMenuClick = () => {
+        setIsBurgerOpen(!isBurgerOpen);
+    };
+
+    const handleOverlayClick = () => {
+        setIsBurgerOpen(false);
+    };
 
     useEffect(() => {
         dispatch(INITIAL_TOKEN());
@@ -164,7 +173,7 @@ export default function Dashboard() {
                         <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
                     }
                 </div>
-                <button className={styles.dashboar__menu}><MenuSvg/></button>
+                <button className={styles.dashboar__menu}><MenuSvg onClick={handleMenuClick}/></button>
             </div>
             </div>
             <div className={styles.navigator}>
@@ -271,6 +280,67 @@ export default function Dashboard() {
             </div>
             <NavigationHistory/>
             {isLoginVisible && <Login onCloseModal={() => setIsLoginVisible(false)}/>}
+            {isBurgerOpen && (
+                <>
+                    <div className={styles.overlay} onClick={handleOverlayClick} />
+                    <Burger onClose={() => setIsBurgerOpen(false)} toggleLogin={toggleLogin} isAuth={isAuth} pathname={pathname} orderItems={orderItems}/>
+                </>
+            )}
+
         </header>
+    )
+}
+
+export function Burger({ onClose, toggleLogin, isAuth, pathname, orderItems }: { 
+    onClose: () => void; 
+    toggleLogin: () => void; 
+    isAuth: boolean; 
+    pathname: string; 
+    orderItems: any[];
+}) {
+    return(
+        <div className={styles.burger}>
+            <button className={styles.burger_close} onClick={onClose}><CloseSvg fill={'#fff'} width={25} height={25}/></button>
+            <div className={styles.burger_nav}>
+                <Link className={styles.burger_link} href='/catalog' onClick={onClose}>Каталог</Link>
+                <Link className={styles.burger_link} href='/about-us' onClick={onClose}>О компании</Link>
+                <Link className={styles.burger_link} href='/projects' onClick={onClose}>Проекты</Link>
+                <Link className={styles.burger_link} href='/catalog' onClick={onClose}>Как купить</Link>
+                <Link className={styles.burger_link} href='/gallery' onClick={onClose}>Галерея</Link>
+                <Link className={styles.burger_link} href='/contacts' onClick={onClose}>Контакты</Link>
+            </div>
+            <div className={styles.burger_contacts}>
+                {
+                    !isAuth ?
+                        <div className={styles.burger_wrapper} onClick={() => { toggleLogin(); onClose(); }}>
+                            <UserSvg stroke={'#fff'} width={26} height={26}/>
+                            <h4 className={styles.burger_text}>Вход</h4>
+                        </div>
+                        :
+                        <Link href={'/lk/current-orders'} className={styles.burger_wrapper} onClick={onClose}>
+                            <UserSvg stroke={'#fff'} width={26} height={26}/>
+                            <h4 className={styles.burger_text}>Кабинет</h4>
+                        </Link>
+                }
+                <Link href={'/basket'} className={styles.burger_wrapper} onClick={onClose}>
+                    <div className={styles.burger_basket}>
+                        <BasketSvg stroke={'#fff'} width={26} height={26}/>
+                        <div className={styles.burger_basket_wrapper}>
+                            <h5 className={styles.burger_basket_text}>{orderItems.length}</h5>
+                        </div>
+                    </div>
+                    <h4 className={styles.burger_text}>Корзина</h4>
+                </Link>
+                <div className={styles.burger_wrapper}>
+                    <LocationSvg stroke={'#fff'}/>
+                    <h4 className={styles.burger_text}>Москва</h4>
+                </div>
+                <div className={styles.burger_wrapper}>
+                    <WatsappSvg fill={'#fff'}/>
+                    <a href="https://wa.me/+79389032666" target="_blank" className={styles.burger_text}>+7 (938) 903-26-66</a>
+                </div>
+                <h4 className={styles.burger_text}>Россия, г. Грозный, Назарбаева 79</h4>
+            </div>
+        </div>
     )
 }

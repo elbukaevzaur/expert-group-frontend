@@ -10,7 +10,7 @@ export function BasketSvg(props) {
     >
       <path
         id="Vector"
-        stroke="#21A038"
+        stroke={props.stroke || "#21A038"}
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeOpacity="1"

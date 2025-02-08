@@ -1,5 +1,6 @@
 import {Orders} from "@/lib/models";
 import styles from "@/components/order/orderListItemViewComponent.module.css"
+import Link from "next/link";
 
 interface Props {
     order: Orders
@@ -21,9 +22,13 @@ export default function OrderListItemView(props: Props) {
                 <h3 className={`${styles.history__item_text} ${styles.history__item_width}`}>Итого: {order.total} ₽</h3>
             </div>
         </div>
+        <Link href={'/lk/current-orders/order-details'}>
         <div className={styles.history__item_wrapper}>
+            
             <button className={styles.history__item_button}>Посмотреть детали</button>
+            
         </div>
+        </Link>
     </div>
 }
 

@@ -182,7 +182,7 @@
     line-height: 18px;
     color: #0a0a0a;
     font-family: 'Roboto';
-    z-index: 999;
+    z-index: 50;
   }
   
   .search_input:focus {
@@ -220,7 +220,7 @@
     font-weight: 500;
     line-height: 18px;
     font-family: 'Roboto';
-    z-index: 999;
+    z-index: 50;
   }
   
   .search__button:hover {
@@ -579,7 +579,7 @@
   box-shadow: 0px 0px 6px 3px rgba(0, 0, 0, 0.1);
   margin-top: -5px;
   padding-top: 10px;
-  z-index: 998;
+  z-index: 51;
   border-bottom-left-radius: 8px;
   border-bottom-right-radius: 8px;
 }
@@ -613,4 +613,114 @@
 .suggestion_item_image{
   width: 100%;
   height: auto;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(2px);
+  z-index: 52;
+}
+
+.burger {
+  width: 385px;
+  height: 100vh;
+  background-color: #21a038;
+  padding: 20px;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 53;
+}
+
+@media (max-width: 675px) {
+  .burger {
+    width: 300px;
+  }
+}
+
+.burger_close{
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 54;
+}
+
+.burger_nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 110px;
+  gap: 20px;
+}
+
+@media (max-width: 420px) {
+  .burger_nav {
+    margin-top: 80px;
+  }
+}
+
+.burger_link {
+  width: 100%;
+  height: 40px;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  line-height: 20px;
+}
+
+.burger_contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 50px;
+}
+
+.burger_wrapper {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.burger_text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  line-height: 20px;
+  color: #fff;
+}
+
+.burger_basket {
+  position: relative;
+  margin-right: 5px;
+}
+
+.burger_basket_wrapper {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  width: 18px;
+  height: 18px;
+  background-color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.burger_basket_text {
+  font-size: 12px;
+  font-weight: 500;
+  font-family: 'Roboto';
+  line-height: 14px;
+  color: #128928;
 }

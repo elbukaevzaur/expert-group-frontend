@@ -15,7 +15,7 @@ export function UserSvg(props) {
           d="M1 23.75a6.5 6.5 0 0 1 6.5-6.5h13a6.5 6.5 0 0 1 6.5 6.5A3.25 3.25 0 0 1 23.75 27H4.25A3.25 3.25 0 0 1 1 23.75Z"
         ></path>
         <path
-          stroke="#21A038"
+          stroke={props.stroke || "#21A038"}
           strokeWidth="2"
           d="M14 10.75A4.875 4.875 0 1 0 14 1a4.875 4.875 0 0 0 0 9.75Z"
         ></path>

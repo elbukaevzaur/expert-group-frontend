@@ -6,6 +6,7 @@ export function CloseSvg(props) {
     height="26"
     fill="none"
     viewBox="0 0 26 26"
+    {...props}
   >
     <defs>
       <filter
@@ -16,7 +17,6 @@ export function CloseSvg(props) {
         y="0"
         colorInterpolationFilters="sRGB"
         filterUnits="userSpaceOnUse"
-        {...props}
       >
         <feFlood floodOpacity="0" result="BackgroundImageFix"></feFlood>
         <feColorMatrix
@@ -47,7 +47,7 @@ export function CloseSvg(props) {
     <g filter="url(#filter_1650_907_dd)">
       <path
         id="Vector"
-        fill="#000"
+        fill={props.fill || "#000"}
         fillOpacity="1"
         fillRule="evenodd"
         d="M6.21.36C5.96.12 5.64-.01 5.3 0a1.263 1.263 0 0 0-1.27 1.27c-.01.34.12.66.36.9l6.8 6.81-6.8 6.8c-.13.12-.22.27-.29.42-.07.16-.1.33-.1.5-.01.17.03.34.09.5.07.15.16.3.28.42s.27.21.42.28c.16.06.33.1.5.1a1.32 1.32 0 0 0 .92-.4l6.8-6.8 6.81 6.8c.24.24.56.37.9.36.34 0 .66-.13.9-.37s.37-.56.38-.9c0-.34-.13-.66-.37-.91l-6.8-6.8 6.8-6.81c.24-.24.37-.56.37-.9-.01-.34-.14-.66-.38-.9s-.56-.37-.9-.37c-.34-.01-.66.12-.9.36l-6.81 6.8z"

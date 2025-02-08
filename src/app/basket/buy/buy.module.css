@@ -280,7 +280,6 @@
     display: flex;
     max-width: 390px;
     justify-content: space-between;
-    /* gap: 50px; */
     margin-bottom: 6px;
 }
 
