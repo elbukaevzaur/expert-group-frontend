@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
+import {OrderItems, Products} from "@/lib/models";
 import {useAppDispatch} from "@/lib/hooks";
-import {CHANGE_FAVORITES_REQUEST, ORDER_ITEMS_DECREMENT, ORDER_ITEMS_INCREMENT} from "@/lib/reducers";
-import {LikeSvg, MinusSmall, PlusSmall} from "@/lib/icon-svg";
+import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
+import {LikeSvg} from "@/lib/icon-svg";
 import styles from "./products-list-item-component.module.css"
+import {AddToCartButton, CartItemQuantity} from "@/components/basket/basket-actions";
 
 interface ProductsProps {
     key: number,
@@ -26,16 +27,6 @@ export function ProductsListItemComponent(props: ProductsProps) {
             productId: product.id
         }
         dispatch(CHANGE_FAVORITES_REQUEST(request))
-    }
-
-    const addToBasket = () => {
-        dispatch(ORDER_ITEMS_INCREMENT({orderItem: basketItem, productId: product.id}))
-    }
-
-    const handleRemoveFromBasket = () => {
-        if (basketItem !== null){
-            dispatch(ORDER_ITEMS_DECREMENT(basketItem))
-        }
     }
 
     return (
@@ -67,18 +58,9 @@ export function ProductsListItemComponent(props: ProductsProps) {
                     
                         {
                             props.basketItem == null ?
-                                <button className={styles.basket} onClick={addToBasket}>
-                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/>
-                                    <h3 className={styles.basket_text}>В корзину</h3>
-                                </button>
+                                <AddToCartButton productId={product.id} orderItem={basketItem} productQuantity={product.currentQuantity}/>
                                 :
-                                <div className={`${styles.basket} ${styles.basket_cursor}`}>
-                                    <div className={styles.wrapper}>
-                                    <button className={styles.basket_button} onClick={handleRemoveFromBasket}>{<MinusSmall/>}</button>
-                                    <h3 className={`${styles.basket_text} ${styles.basket_text_margin}`}>{props.basketItem.quantity}</h3>
-                                    <button className={styles.basket_button} onClick={addToBasket}>{<PlusSmall/>}</button>
-                                    </div>
-                                </div>
+                                <CartItemQuantity orderItem={basketItem} productId={product.id} productQuantity={product.currentQuantity}/>
                         }
                     </div>
                 </div>

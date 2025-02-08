@@ -1,19 +1,20 @@
 import styles from "@/components/basket/preview-basket-modal.module.css"
 import Image from "next/image"
-import {MinusSmall, PlusSmall, CloseSvg, CloseSmall} from "@/lib/icon-svg";
+import {CloseSvg} from "@/lib/icon-svg";
 import React, {useEffect, useState} from 'react';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
-    BASKET_CLEAR,
-    ORDER_ITEMS_DECREMENT,
     ORDER_ITEMS_DETAILS_REQUEST,
-    ORDER_ITEMS_INCREMENT,
-    REMOVE
 } from "@/lib/reducers";
-import {OrderItems, OrderItemsDetails, OrderItemsRequest} from "@/lib/models";
+import { OrderItemsDetails } from "@/lib/models";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
 import ListNotContent from "@/components/ListNotContent";
+import {
+    CartItemQuantityPreviewBasket,
+    RemoveAllPreviewBasket,
+    RemoveItemPreviewBasket
+} from "@/components/basket/basket-actions";
 
 interface Props {
     onClose: () => void;
@@ -32,22 +33,6 @@ export default function PreviewBasketModal(props: Props) {
             setIsVisible(false);
         };
     }, [orderItems]);
-
-    const removeFromBasket = (item: OrderItems) => {
-        dispatch(REMOVE(item.productId));
-    }
-
-    const removeAllFromBasket = () => {
-        dispatch(BASKET_CLEAR());
-    }
-
-    const handleAddToBasket = (orderItem: OrderItems) => {
-        dispatch(ORDER_ITEMS_INCREMENT({orderItem: orderItem, productId: orderItem.productId}))
-    }
-
-    const handleRemoveFromBasket = (orderItem: OrderItems) => {
-        dispatch(ORDER_ITEMS_DECREMENT(orderItem))
-    }
 
     const getTotalPrice = (): string => {
         let totalSum: number = 0;
@@ -105,14 +90,10 @@ export default function PreviewBasketModal(props: Props) {
                                         <Link href={getCustomLink(orderItemsDetails[item.productId])}>
                                             <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
                                         </Link>
-                                        <button onClick={() => removeFromBasket(item)} className={styles.delete}>{<CloseSmall/>}</button>
+                                        <RemoveItemPreviewBasket productId={item.productId.toString()}/>
                                     </div>
                                     <div className={styles.name}>
-                                        <div className={styles.name}>
-                                            <button onClick={() => handleRemoveFromBasket(item)} className={styles.quantity_button}><MinusSmall/></button>
-                                            <h3 className={styles.quantity}>{item.quantity}</h3>
-                                            <button onClick={() => handleAddToBasket(item)} className={styles.quantity_button}><PlusSmall/></button>
-                                        </div>
+                                        <CartItemQuantityPreviewBasket productId={item.productId} orderItem={item} productQuantity={orderItemsDetails[item.productId].currentQuantity}/>
                                         <h3 className={styles.summ}>{(item.quantity * orderItemsDetails[item.productId]?.price).toFixed(2)} &#8381;</h3>
                                     </div>
                                 </div>
@@ -124,7 +105,7 @@ export default function PreviewBasketModal(props: Props) {
                     orderItems.length > 0 &&
                     <div className={styles.total}>
                         <h3 className={styles.total_text}>Итого <span className={styles.total_span}>{getTotalPrice()} &#8381;</span></h3>
-                        <button onClick={removeAllFromBasket} className={styles.clear}>Очистить {<CloseSmall stroke={'#7B7B7B'}/>}</button>
+                        <RemoveAllPreviewBasket/>
                     </div>
                 }
                 <div className={styles.total}>

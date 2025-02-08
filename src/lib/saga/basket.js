@@ -33,7 +33,7 @@ function* incrementQuantityWorker(action) {
 
     const request = {
         productId: productId,
-        quantity: orderItem !== null || orderItem?.quantity ? (orderItem.quantity + 1) : 1,
+        quantity: orderItem !== null && orderItem?.quantity ? (orderItem.quantity + 1) : 1,
     }
 
     try {

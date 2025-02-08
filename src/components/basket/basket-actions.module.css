@@ -1,0 +1,178 @@
+.price_buy_wrraper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.price_buy_width{
+    width: 93px;
+}
+
+.price_buy_like {
+    all: unset;
+    cursor: pointer;
+}
+
+.price_buy_text {
+    font-size: 23px;
+    font-weight: 500;
+    line-height: 27px;
+}
+
+
+.basket{
+    width: 115px;
+    height: 41px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    padding: 7px 8px;
+    background: #21a038;
+    cursor: pointer;
+    border: none;
+    justify-content: center;
+}
+
+@media (max-width: 760px) {
+    .basket {
+        width: 100%;
+        margin: 20px 0 0 0;
+    }
+}
+
+@media (max-width: 460px) {
+    .basket {
+        margin: 0;
+    }
+}
+
+
+
+.basket_cursor {
+    cursor: default;
+    background-color: transparent;
+    border: 1px solid #21a038;
+}
+
+.wrapper {
+    width: 70px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.basket_button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.basket_text {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 15px;
+    color: #ffffff;
+    margin: 0 0 0 8px;
+    font-family: 'Roboto';
+}
+
+.basket_text_margin {
+    margin: 0;
+    font-size: 20px;
+    color: #21a038;
+}
+
+.name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.quantity_button {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.quantity {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+    font-family: 'Roboto';
+    color: #21A038;
+    margin: 0 25px;
+}
+
+.item_quantity {
+    display: flex;
+    width: 80px;
+    justify-content: space-between;
+    margin-top: 22px;
+}
+
+.item_button {
+    all: unset;
+    cursor: pointer;
+}
+
+.item_quantity_text {
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 23px;
+    font-family: 'Roboto';
+    color: #21a038;
+}
+
+.clear {
+    all: unset;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 17px;
+    font-family: 'Inter';
+    color: #7b7b7b;
+    width: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.delete {
+    all: unset;
+    cursor: pointer;
+    display: flex;
+    align-items: start;
+}
+
+.item_delete {
+    all: unset;
+    width: 6px;
+    height: 6px;
+    cursor: pointer;
+    margin: 22px 0 0 0;
+}
+
+@media (max-width: 760px) {
+    .item_delete {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        margin: 0;
+
+    }
+}
+
+.items_clear {
+    all: unset;
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+}
+
+.items_clear_text {
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 14px;
+    margin-right: 10px;
+    font-family: 'Roboto';
+}

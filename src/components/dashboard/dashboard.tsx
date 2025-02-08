@@ -71,17 +71,21 @@ export default function Dashboard() {
                                 <h2 className={styles.user__text}>Кабинет</h2>
                             </Link>
                     }
-                    <div className={styles.dashboar__basket}>
-                        <BasketSvg className={styles.dashboar__bascet_icon}
-                                   onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
-                                   fill={pathname.startsWith('/basket') ? '#21A038' : 'none'}
-                        />
-                        <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
-                             className={styles.dashboar__basket_container}>
-                            <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
-                            <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
-                            <div className={styles.dashboar__bascet_info_mini}>
-                                <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                    <div>
+                        <div
+                            onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
+                            className={styles.dashboar__basket}
+                        >
+                            <BasketSvg className={styles.dashboar__bascet_icon}
+                                       fill={pathname.startsWith('/basket') ? '#21A038' : 'none'}
+                            />
+                            <div
+                                className={styles.dashboar__basket_container}>
+                                <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
+                                <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
+                                <div className={styles.dashboar__bascet_info_mini}>
+                                    <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                                </div>
                             </div>
                         </div>
                         {

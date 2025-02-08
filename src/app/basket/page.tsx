@@ -1,21 +1,17 @@
 'use client'
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks"
-import {OrderItems, OrderItemsRequest, Products} from "@/lib/models";
 import {
-    ORDER_ITEMS_DECREMENT,
-    ORDER_ITEMS_INCREMENT,
-    REMOVE,
     BASKET_CLEAR,
     ORDER_ITEMS_DETAILS_REQUEST
 } from "@/lib/reducers";
 import Image from "next/image"
 import Link from "next/link";
 import React, {useEffect} from "react";
-import {GreenMinus, GreenPlus} from "@/lib/icon-svg";
 import styles from "./basket.module.css"
 import {useRouter} from "next/navigation";
 import ListNotContent from "@/components/ListNotContent";
+import {CartItemQuantityBasket, RemoveAllBasket, RemoveItemBasket} from "@/components/basket/basket-actions";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -26,22 +22,8 @@ export default function Basket() {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
     }, []);
 
-    const removeFromBasket = (item: OrderItems) => {
-        dispatch(REMOVE(item.productId));
-    }
-
     const removeAllFromBasket = () => {
         dispatch(BASKET_CLEAR());
-    }
-
-    const handleAddToBasket = (orderItem: OrderItems) => {
-        dispatch(ORDER_ITEMS_INCREMENT({orderItem: orderItem, productId: orderItem.productId}))
-    }
-
-    const handleRemoveFromBasket = (orderItem: OrderItems) => {
-        if (orderItem !== null){
-            dispatch(ORDER_ITEMS_DECREMENT(orderItem))
-        }
     }
 
     const getTotalPrice = (): string => {
@@ -80,11 +62,8 @@ export default function Basket() {
                             }
                         </div>
                         {
-                            orderItems.length > 0 && orderItemsDetails.length > 0 &&
-                            <button className={styles.items_clear} onClick={removeAllFromBasket}>
-                                <h3 className={styles.items_clear_text}>ОЧИСТИТЬ</h3>
-                                <Image src={'/images/Clear_button.png'} alt="Очистить" width={6.5} height={6.5}/>
-                            </button>
+                            orderItems.length > 0 &&
+                            <RemoveAllBasket />
                         }
                     </div>
                     {
@@ -103,23 +82,12 @@ export default function Basket() {
                                 </Link>
                                 <div className={styles.item_content}>
                                 <div className={styles.item_wrapper}>
-                                    <div className={styles.item_quantity}>
-                                        <button onClick={() => handleRemoveFromBasket(value)} className={styles.item_button}>
-                                            {<GreenMinus width={19.5} height={19.5} />}
-                                        </button>
-                                        <h4 className={styles.item_quantity_text}>{value.quantity}</h4>
-                                        <button onClick={() => handleAddToBasket(value)} className={styles.item_button}>
-                                            {/*{<GreenPlus width={19.5} height={19.5} />}*/}
-                                            {<GreenPlus/>}
-                                        </button>
-                                    </div>
+                                    <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity}/>
                                     <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
                                 </div>
                                 <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
                                 </div>
-                                <button className={styles.item_delete} onClick={() => removeFromBasket(value)}>
-                                    <Image src={'/images/Clear_button.png'} alt="Удалить" width={6} height={6} />
-                                </button>
+                                    <RemoveItemBasket productId={value.productId.toString()}/>
                                 </div>
                             </div>
                         })
