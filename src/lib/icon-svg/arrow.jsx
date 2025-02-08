@@ -18,3 +18,21 @@ export function ArrowLeftSvg(props) {
   </svg>
   )
 }
+
+export function CloseSvg(props) {
+  return (
+      <svg
+          width={15}
+          height={16}
+          viewBox="0 0 15 16"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          {...props}
+      >
+        <path
+            d="M14.72 14.158a.561.561 0 11-.795.795L7.572 8.602 1.22 14.953a.563.563 0 01-.795-.795l6.351-6.352L.425 1.453A.562.562 0 011.22.658L7.572 7.01 13.925.658a.563.563 0 01.795.795L8.368 7.806l6.352 6.352z"
+            fill="#000"
+        />
+      </svg>
+  )
+}

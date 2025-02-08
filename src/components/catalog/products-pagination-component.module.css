@@ -18,7 +18,7 @@
   
   .buttons{
     margin: 20px auto 0;
-    width: 348px;
+    max-width: 428px;
     height: 40px;
     display: flex;
     align-items: center;
@@ -36,12 +36,11 @@
     background-repeat: no-repeat;
     background-size: contain;
   }
-  
+
   .button_number{
     width: 50px;
     height: 40px;
-    border: 2px solid #A9A9A9;
-    border-right: 0;
+    border: 1px solid #A9A9A9;
     background-color: transparent;
     cursor: pointer;
   }

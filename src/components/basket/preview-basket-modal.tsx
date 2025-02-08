@@ -42,7 +42,7 @@ export default function PreviewBasketModal(props: Props) {
     }
 
     const handleAddToBasket = (orderItem: OrderItems) => {
-        dispatch(ORDER_ITEMS_INCREMENT(orderItem))
+        dispatch(ORDER_ITEMS_INCREMENT({orderItem: orderItem, productId: orderItem.productId}))
     }
 
     const handleRemoveFromBasket = (orderItem: OrderItems) => {

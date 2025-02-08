@@ -1,6 +1,12 @@
 import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {REMOVE_ALL_FILTER, REMOVE_FILTER, SORTED, SUB_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
+import {
+    REMOVE_ALL_FILTER,
+    REMOVE_FILTER,
+    SORTED,
+    SUB_CATEGORIES_FETCH_REQUESTED,
+    UPDATE_PER_PAGE
+} from "@/lib/reducers";
 import {FilterProperty, OrderedPageRequest} from "@/lib/models";
 import {FilterComponent} from "@/components/filter/filter-item-component";
 import {getTitleByField} from "@/lib/consts";
@@ -10,7 +16,7 @@ import styles from "@/components/filter/filter.module.css"
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 
 export default function ProductsFilter(){
-    const { filters, pageRequest } = useAppSelector((state) => state.products);
+    const { filters, pageRequest, allProducts } = useAppSelector((state) => state.products);
     const dispatch = useAppDispatch();
     const { subCategories } = useAppSelector((state) => state.categories);
     const params = useParams();
@@ -34,6 +40,10 @@ export default function ProductsFilter(){
         dispatch(SORTED(sort));
     }
 
+    const handleApplyPerPage = (perPage: number) => {
+        dispatch(UPDATE_PER_PAGE(perPage));
+    }
+
     const handleRemoveFilter = (filter: FilterProperty) => {
         dispatch(REMOVE_FILTER(filter))
     }
@@ -41,6 +51,21 @@ export default function ProductsFilter(){
     const handleRemoveAllFilter = () => {
         dispatch(REMOVE_ALL_FILTER())
     }
+
+    const perPageValues = [10, 20, 30, 40, 50, 100]
+
+    const orderedColumnsValues: {title: string, columnName: string, orderDirection: string}[] = [
+        {
+            title: 'По возрастанию цены',
+            columnName: 'price',
+            orderDirection: 'ASC'
+        },
+        {
+            title: 'По убыванию цены',
+            columnName: 'price',
+            orderDirection: 'DESC'
+        }
+    ]
 
     return(
         <div>
@@ -69,41 +94,61 @@ export default function ProductsFilter(){
                         }
                     </div>
                     <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
-                        <h3 className={styles.filter__text}>Сортировка</h3>
+                        <h3 className={styles.filter__text}>Показать {allProducts.perPage}</h3>
                         <button className={styles.filter_button}>
                         </button>
                         <div className={styles.sorted_container}>
-                            <button className={styles.sorted_container_botton} onClick={() => handleApplySorted(
-                                {
-                                    columnName: 'price',
-                                    orderDirection: 'ASC'
-                                }
-                            )}>По возрастанию цены</button>
-                            <button className={styles.sorted_container_botton} onClick={() => handleApplySorted(
-                                {
-                                    columnName: 'price',
-                                    orderDirection: 'DESC'
-                                }
-                            )}>По убыванию цены</button>
+                            {
+                                perPageValues.map((value, index) => {
+                                    return <button
+                                        key={index}
+                                        className={`${styles.sorted_container_botton} ${value === allProducts.perPage && styles.sorted_container_botton_active}`}
+                                        onClick={() => handleApplyPerPage(value)}
+                                    >
+                                        {value}
+                                    </button>
+                                })
+                            }
                         </div>
                     </div>
-            </div>
-            {
-                pageRequest.filters.filter(f => f.field !== 'categoryId').length > 0 &&
-                <div className={styles.filter__info_wrraper}>
-                    {
-                        pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
-                            return <div key={index} className={styles.filter__info}>
-                                <div className={styles.filter__info_text}>{value.field}: {
-                                    value.operator == 'LESS_GREATER' ? `От ${value.value[0]} до ${value.value[1]}` : value.value.join(', ')
-                                }</div>
-                                <button onClick={() => handleRemoveFilter(value)} className={styles.filter_button_list}>
-                                    <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
-                                </button>
-                            </div>
-                        })
-                    }
-                    <div className={`${styles.filter__info} ${styles.filter__info_delete}`}>
+                    <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
+                        <h3 className={styles.filter__text}>
+                            Сортировка
+                        </h3>
+                        <button className={styles.filter_button}>
+                        </button>
+                        <div className={styles.sorted_container}>
+                            {
+                                orderedColumnsValues.map((item, index) => {
+                                    return <button
+                                        key={index}
+                                        className={styles.sorted_container_botton}
+                                        onClick={() => handleApplySorted(item)}
+                                    >
+                                        {item.title}
+                                    </button>
+                                })
+                            }
+                        </div>
+                    </div>
+                </div>
+                {
+                    pageRequest.filters.filter(f => f.field !== 'categoryId').length > 0 &&
+                    <div className={styles.filter__info_wrraper}>
+                        {
+                            pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
+                                return <div key={index} className={styles.filter__info}>
+                                    <div className={styles.filter__info_text}>{value.field}: {
+                                        value.operator == 'LESS_GREATER' ? `От ${value.value[0]} до ${value.value[1]}` : value.value.join(', ')
+                                    }</div>
+                                    <button onClick={() => handleRemoveFilter(value)}
+                                            className={styles.filter_button_list}>
+                                        <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
+                                    </button>
+                                </div>
+                            })
+                        }
+                        <div className={`${styles.filter__info} ${styles.filter__info_delete}`}>
                         <div className={styles.filter__info_text}>Очистить всё</div>
                         <button onClick={handleRemoveAllFilter} className={styles.filter_button_list}>
                             <Image src={'/images/Delete_button_grey.png'} alt="Удалить" width={16} height={16}/>

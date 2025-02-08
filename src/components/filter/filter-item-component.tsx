@@ -111,15 +111,21 @@ export const FilterComponent = (props: FilterProps) => {
                                 </button>
                             </div>
                         </> :
-                        props.filter.value.map((item:{id: number, name: string}) => {
+                        props.filter.value.map((item) => {
                             return <div key={item.id} className={styles.filter_button_dropdown_content}>
-                                <div className={styles.filter_button_dropdown_wrapper}>
-                                    <input checked={props.applyFilterValues !== undefined && props.applyFilterValues?.indexOf(item.id.toString()) !== -1} onChange={() => handleApplyInFilter(item.id)} className={styles.filter_button_dropdown_checkbox} type="checkbox" name=""
-                                           id={`checkbox-${item.id}`}/>
-                                    <label htmlFor={`checkbox-${item.id}`} className={styles.custom_checkbox}></label>
+                                <div className={styles.filter_title_container}>
+                                    <div className={styles.filter_button_dropdown_wrapper}>
+                                        <input
+                                            checked={props.applyFilterValues !== undefined && props.applyFilterValues.includes(item.id.toString())}
+                                            onChange={() => handleApplyInFilter(item.id)}
+                                            className={styles.filter_button_dropdown_checkbox} type="checkbox" name=""
+                                            id={`checkbox-${item.id}`}/>
+                                        <label htmlFor={`checkbox-${item.id}`}
+                                               className={styles.custom_checkbox}></label>
+                                    </div>
+                                    <h3 className={styles.filter_button_dropdown_checkbox_text}>{item.name}</h3>
                                 </div>
-                                <h3 className={styles.filter_button_dropdown_checkbox_text}>{item.name}</h3>
-                                <h4 className={styles.filter_button_dropdown_checkbox_quantity}>61</h4>
+                                <h4 className={styles.filter_button_dropdown_checkbox_quantity}>{item.countResults}</h4>
                             </div>
                         })
                 }

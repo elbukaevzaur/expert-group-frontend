@@ -43,7 +43,7 @@
   
   .filter__text{
     margin: 0 6px 0 0;
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     line-height: 20px;
     font-family: 'Roboto';
@@ -57,7 +57,7 @@
     display: flex;
     align-items: center;
     background-color: #21a038;
-    max-width: 174px;
+    /*max-width: 174px;*/
     height: 26px;
     border-radius: 4px;
     padding: 5px 6px 5px 9px;
@@ -205,8 +205,13 @@
   .filter_button_dropdown_content {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     position: relative;
     height: 30px;
+  }
+
+  .filter_title_container{
+    display: inline-flex;
   }
   
   .filter_button_dropdown_checkbox_text {
@@ -255,7 +260,6 @@
     line-height: 10px;
     font-family: 'Roboto';  
     color: #626262;
-    margin-left: 65px;
   }
 
   .filter_button_dropdown.validate_error{
@@ -287,7 +291,13 @@
   font-weight: 400;
   line-height: 18px;
   font-family: 'Roboto';
-  margin-bottom: 15px;
+  margin-bottom: 2px;
+  padding: 10px 0;
+}
+
+.sorted_container_botton_active {
+  color: #1fa038;
+  font-weight: bold;
 }
 
 .sorted_container_botton:last-of-type {
@@ -296,6 +306,7 @@
 
 .products__sorted:hover{
   .sorted_container{
-    display: block;
+    display: flex;
+    flex-direction: column;
   }
 }
