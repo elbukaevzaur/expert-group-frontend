@@ -10,7 +10,7 @@ export function LocationSvg(props) {
       >
         <path
           id="Vector"
-          stroke="#21A038"
+          stroke={props.stroke || "#21A038"}
           strokeLinejoin="round"
           strokeOpacity="1"
           strokeWidth="2"
@@ -18,7 +18,7 @@ export function LocationSvg(props) {
         ></path>
         <path
           id="Vector"
-          stroke="#21A038"
+          stroke={props.stroke || "#21A038"}
           strokeLinejoin="round"
           strokeOpacity="1"
           strokeWidth="2"
