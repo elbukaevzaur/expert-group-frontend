@@ -11,7 +11,7 @@ import {Login} from "@/components/login/login-modal";
 import styles from "@/components/dashboard/dashboard.module.css"
 import PreviewBasketModal from "../basket/preview-basket-modal";
 import {useParams, usePathname} from "next/navigation";
-import { UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg } from "@/lib/icon-svg";
+import {UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg, CloseSvg} from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
 
 export default function Dashboard() {
@@ -23,9 +23,6 @@ export default function Dashboard() {
     const { allProjectsCategories } = useAppSelector((state) => state.projectsCategories);
     const pathname = usePathname();
     const params = useParams();
-    const [searchText, setSearchText] = useState("");
-    const [searchResult, setSearchResult] = useState<SearchResult>({totalHits: 0, products: []});
-    const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isBurgerOpen, setIsBurgerOpen] = useState(false);
 
     const handleMenuClick = () => {
@@ -101,7 +98,7 @@ export default function Dashboard() {
                             <PreviewBasketModal onClose={() => setIsShowPreviewBasket(false)}/>
                         }
                     </div>
-                    <button className={styles.dashboar__menu}><MenuSvg/></button>
+                    <button onClick={handleMenuClick} className={styles.dashboar__menu}><MenuSvg/></button>
                 </div>
             </div>
             <div className={styles.navigator}>
