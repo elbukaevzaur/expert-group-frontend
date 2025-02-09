@@ -16,6 +16,14 @@ export default function Page() {
 
     return (
         <div className="history">
+            <div className="table">
+                <div className='table_title'>Дата</div>
+                <div className='table_title'>Номер заказа</div>
+                <div className='table_title'>Доставка</div>
+                <div className='table_title'>Оплата</div>
+                <div className='table_title'>Сумма</div>
+                <div className='table_title'>Статус</div>
+            </div>
             {
                 currentOrders.length > 0 ?
                 currentOrders.map((item, index) => {
