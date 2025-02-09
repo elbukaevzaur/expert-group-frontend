@@ -134,6 +134,27 @@ a {
   }
 }
 
+.table{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 0 20px 0;
+  border-radius: 10px;
+}
+
+@media (max-width: 950px) {
+  .table {
+    display: none;
+  }
+}
+
+.table_title {
+    text-align: center;
+    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 16px;
+}
+
 .favorites {
   margin: 0 0 0 10px;
   display: grid;
