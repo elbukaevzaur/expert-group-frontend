@@ -56,16 +56,17 @@ export default function Buy() {
                 <h1 className={styles.title}>Товары в заказе</h1>
                 <p className={styles.subtitle}>/{orderItems.length} шт.</p>
             </div>
+            <div className={styles.wrapper}>
             <div className={styles.items}>
                 {
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
                             <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.item_image}>
                                 {
-                                    orderItemsDetails[item.productId].defaultImage == null ?
-                                        <Image src={'/images/image.png'} alt="Image" width={283} height={100}/>
+                                    orderItemsDetails[item.productId]?.defaultImage == null ?
+                                        <Image className={styles.item_image} src={'/images/image.png'} alt="Image" width={283} height={100}/>
                                         :
-                                        <img width={283} height={100}
+                                        <img className={styles.item_image} width={283} height={100}
                                              src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} />
                                 }
                             </Link>
@@ -79,7 +80,20 @@ export default function Buy() {
                         </div>
                     })
                 }
-                <div className={styles.total}>
+               <div className={styles.delivery}>
+                <div className={styles.delivery_info}>
+                    <h3 className={styles.delivery_title}>Способ доставки</h3>
+                    <button className={styles.delivery_button}>Изменить</button>
+                </div>
+                <div className={styles.delivery_wrapper}>
+                        <h4 className={styles.delivery_text}>Самовывоз</h4>
+                        <h4 className={`${styles.delivery_text} ${styles.delivery_text_grey}`}>м. Ботанический сад</h4>
+                    </div>
+                    <h4 className={`${styles.delivery_text} ${styles.delivery_text_size}`}>Бесплатно</h4>
+                
+            </div>
+            </div>
+            <div className={styles.total}>
                     <div className={styles.total_wrapper}>
                         <h3 className={styles.total_title}>Итого:</h3>
                         <h3 className={`${styles.total_title} ${styles.total_title_color}`}>{getTotalPrice()} &#8381;/шт</h3>
@@ -98,18 +112,7 @@ export default function Buy() {
                     <h3 className={`${styles.total_text} ${styles.total_text_weight} ${styles.total_title_color}`}>Самовывоз</h3>
                     <button onClick={handleCreateOrder} className={styles.total_button}>Оформить заказ</button>
                 </div>
-            </div>
-            <div className={styles.delivery}>
-                <div className={styles.delivery_info}>
-                    <h3 className={styles.delivery_title}>Способ доставки</h3>
-                    <div className={styles.delivery_wrapper}>
-                        <h4 className={styles.delivery_text}>Самовывоз</h4>
-                        <h4 className={`${styles.delivery_text} ${styles.delivery_text_grey}`}>м. Ботанический сад</h4>
-                    </div>
-                    <h4 className={`${styles.delivery_text} ${styles.delivery_text_size}`}>Бесплатно</h4>
                 </div>
-                <button className={styles.delivery_button}>Изменить</button>
-            </div>
         </div>
     )
 }

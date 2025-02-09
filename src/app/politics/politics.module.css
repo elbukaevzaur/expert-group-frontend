@@ -3,6 +3,12 @@
     margin: 45px auto 0;
 }
 
+@media (max-width: 1250px) {
+    .politics {
+      width: calc(100% - 40px);
+    }
+  }
+
 .title {
     font-family: 'Roboto';
     font-weight: 700;
