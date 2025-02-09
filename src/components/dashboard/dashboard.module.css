@@ -683,7 +683,7 @@ flex-direction: column;
   background-color: #21a038;
   padding: 20px;
   box-sizing: border-box;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   z-index: 53;
