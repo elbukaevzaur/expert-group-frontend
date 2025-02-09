@@ -251,7 +251,7 @@ export function Burger({ onClose, toggleLogin, isAuth, pathname, orderItems }: {
             <motion.div
                 initial={{right: isClose ? 0 : -280}}
                 animate={{right: isClose ? -280 : 0}}
-                transition={{duration: 0.4}}
+                transition={{duration: 0.2}}
                 onAnimationComplete={() => {
                     if (isClose) {
                         onClose()

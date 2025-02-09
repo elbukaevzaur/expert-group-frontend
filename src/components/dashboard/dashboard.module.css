@@ -695,6 +695,12 @@ flex-direction: column;
   }
 }
 
+@media (min-width: 820px) {
+  .burger {
+    display: none;
+  }
+}
+
 .burger_close{
   all: unset;
   cursor: pointer;

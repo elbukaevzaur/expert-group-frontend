@@ -1,27 +1,167 @@
-import styles from "@/app/registration/registration.module.css"
+"use client"
+
+import styles from "@/app/registration/registration.module.css";
+import { registerRequest } from "@/lib/http/authRequest";
+import { RegisterRequest } from "@/lib/models/login";
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import {useRouter} from "next/navigation";
+
+interface IFormInput {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    password: string;
+    confirmPassword: string;
+    consent: boolean;
+}
 
 export default function Registration() {
+    const { register, handleSubmit, formState: { errors }, control, watch } = useForm<IFormInput>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
+
+    const onSubmit: SubmitHandler<IFormInput> = (data) => {
+        setIsSubmitting(true);
+        const request: RegisterRequest = {
+            firstName: data.firstName,
+            lastName: data.lastName,
+            email: data.email,
+            phoneNumber: data.phoneNumber,
+            password: data.password,
+        };
+
+        try {
+            registerRequest(request).then((resp) => {
+                router.push("/registration/success")
+            });
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
-        <div className={styles.registration}>
-            <h2 className={styles.registration__title}>Регистрация </h2>
+        <form onSubmit={handleSubmit(onSubmit)} className={styles.registration}>
+            <h2 className={styles.registration__title}>Регистрация</h2>
             <div className={`${styles.registration__info} ${styles.registration__input_margin}`}>
-                <input className={styles.registration__input} type="text" placeholder="Имя"/>
-                <input className={styles.registration__input} type="text" placeholder="Фамилия"/>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="text"
+                        id="firstName"
+                        placeholder="Имя"
+                        {...register("firstName", {required: "Имя обязательно"})}
+                    />
+                    {errors.firstName && <span className={styles.error}>{errors.firstName.message}</span>}
+                </div>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="text"
+                        id="lastName"
+                        placeholder="Фамилия"
+                        {...register("lastName", {required: "Фамилия обязательна"})}
+                    />
+                    {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
+                </div>
             </div>
             <div className={styles.registration__info}>
-                <input className={styles.registration__input} type="text" placeholder="E-mail"/>
-                <input className={styles.registration__input} type="text" placeholder="Телефон"/>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="email"
+                        id="email"
+                        placeholder="Электронный адрес"
+                        {...register("email", {
+                            required: "Электронный адрес обязателен",
+                            pattern: {
+                                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                                message: "Введите корректный email",
+                            },
+                        })}
+                    />
+                    {errors.email && <span className={styles.error}>{errors.email.message}</span>}
+                </div>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="tel"
+                        id="phoneNumber"
+                        placeholder="Телефон"
+                        {...register("phoneNumber", {
+                            required: "Номер телефона обязателен",
+                            pattern: {
+                                value: /^[+]?[0-9]{10,15}$/,
+                                message: "Введите корректный номер телефона",
+                            },
+                        })}
+                    />
+                    {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber.message}</span>}
+                </div>
             </div>
             <div className={styles.registration__wrapper}>
-            <input id="registration__checkbox" className={styles.registration__checkbox} type="checkbox" />
-            <label htmlFor="registration__checkbox">Я даю согласие на обработку персональных данных</label>
+                <div className={styles.registration__input_wrap}>
+                    <div>
+                        <input
+                            id="registration__checkbox"
+                            className={styles.registration__checkbox}
+                            type="checkbox"
+                            {...register("consent", {
+                                required: "Вы должны согласиться на обработку данных"
+                            })}
+                        />
+                        <label htmlFor="registration__checkbox">
+                            Я даю согласие на обработку персональных данных
+                        </label>
+                    </div>
+                    <div style={{marginTop: 5}}>
+                        {errors.consent && <span className={styles.error}>{errors.consent.message}</span>}
+                    </div>
+                </div>
             </div>
             <div className={styles.registration__info}>
-                <input className={styles.registration__input} type="text" placeholder="Придумайте пароль"/>
-                <input className={styles.registration__input} type="text" placeholder="Повторите пароль"/>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="password"
+                        id="password"
+                        placeholder="Придумайте пароль"
+                        {...register("password", {
+                            required: "Пароль обязателен",
+                            minLength: {value: 6, message: "Пароль должен содержать не менее 6 символов"},
+                            pattern: {
+                                value: /^[A-Za-z]+$/,
+                                message: "Только латинские буквы"
+                            },
+                        })}
+                    />
+                    {errors.password && <span className={styles.error}>{errors.password.message}</span>}
+                </div>
+                <div className={styles.registration__input_wrap}>
+                    <input
+                        className={styles.registration__input}
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Повторите пароль"
+                        {...register("confirmPassword", {
+                            required: "Подтверждение пароля обязательно",
+                            validate: (value) => {
+                                const password = watch("password");
+                                return password === value || "Пароли не совпадают";
+                            },
+                        })}
+                    />
+                    {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword.message}</span>}
+                </div>
             </div>
-            <button className={styles.registration__button}>Зарегистрироваться</button>
-
-        </div>
-    )
+            <div style={{display: 'flex', justifyContent: 'end'}}>
+                <button type="submit" className={styles.registration__button} disabled={isSubmitting}>
+                    {isSubmitting ? 'Загружается...' : 'Зарегистрироваться'}
+                </button>
+            </div>
+        </form>
+    );
 }

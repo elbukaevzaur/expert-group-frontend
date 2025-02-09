@@ -93,7 +93,7 @@ export default function PreviewBasketModal(props: Props) {
                                         <RemoveItemPreviewBasket productId={item.productId.toString()}/>
                                     </div>
                                     <div className={styles.name}>
-                                        <CartItemQuantityPreviewBasket productId={item.productId} orderItem={item} productQuantity={orderItemsDetails[item.productId].currentQuantity}/>
+                                        <CartItemQuantityPreviewBasket productId={item.productId} orderItem={item} productQuantity={orderItemsDetails[item.productId]?.currentQuantity}/>
                                         <h3 className={styles.summ}>{(item.quantity * orderItemsDetails[item.productId]?.price).toFixed(2)} &#8381;</h3>
                                     </div>
                                 </div>
