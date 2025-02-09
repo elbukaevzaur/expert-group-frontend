@@ -67,21 +67,6 @@
     font-family: 'Roboto';
   }
   
-  .items_clear {
-    all: unset;
-    display: flex;
-    cursor: pointer;
-    align-items: center;
-  }
-  
-  .items_clear_text {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 14px;
-    margin-right: 10px;
-    font-family: 'Roboto';
-  }
-  
   .item {
     display: flex;
     margin-top: 25px;
@@ -172,27 +157,7 @@
     width: 100%;
     font-family: 'Roboto';
   }
-  
-  .item_quantity {
-    display: flex;
-    width: 80px;
-    justify-content: space-between;
-    margin-top: 22px;
-  }
-  
-  .item_button {
-    all: unset;
-    cursor: pointer;
-  }
-  
-  .item_quantity_text {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 23px;
-    font-family: 'Roboto';
-    color: #21a038;
-  }
-  
+
   .item_quantity_sum {
     margin: 8px 0 0 0;
     font-size: 14px;
@@ -212,25 +177,7 @@
     margin: 22px 0 0 0;
     font-family: 'Inter';
   }
-  
-  .item_delete {
-    all: unset;
-    width: 6px;
-    height: 6px;
-    cursor: pointer;
-    margin: 22px 0 0 0;
-  }
-      
-  @media (max-width: 760px) {
-    .item_delete {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      margin: 0;
 
-    }
-  } 
-  
   .buy {
     display: flex;
     flex-direction: column;

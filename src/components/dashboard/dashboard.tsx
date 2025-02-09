@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CatalogModal } from '../catalog/catalogModal';
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import NavigationHistory from "@/components/dashboard/navigation-history";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {INITIAL_TOKEN, PROJECTS_CATEGORIES_FETCH_REQUESTED} from "@/lib/reducers";
 import {Login} from "@/components/login/login-modal";
 import styles from "@/components/dashboard/dashboard.module.css"
@@ -13,6 +13,7 @@ import PreviewBasketModal from "../basket/preview-basket-modal";
 import {useParams, usePathname} from "next/navigation";
 import {UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg, CloseSvg} from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
+import { motion } from "framer-motion";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -80,17 +81,21 @@ export default function Dashboard() {
                                 <h2 className={styles.user__text}>Кабинет</h2>
                             </Link>
                     }
-                    <div className={styles.dashboar__basket}>
-                        <BasketSvg className={styles.dashboar__bascet_icon}
-                                   onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
-                                   fill={pathname.startsWith('/basket') ? '#21A038' : 'none'}
-                        />
-                        <div onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
-                             className={styles.dashboar__basket_container}>
-                            <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
-                            <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
-                            <div className={styles.dashboar__bascet_info_mini}>
-                                <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                    <div>
+                        <div
+                            onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
+                            className={styles.dashboar__basket}
+                        >
+                            <BasketSvg className={styles.dashboar__bascet_icon}
+                                       fill={pathname.startsWith('/basket') ? '#21A038' : 'none'}
+                            />
+                            <div
+                                className={styles.dashboar__basket_container}>
+                                <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
+                                <h3 className={styles.dashboar__bascet_info}>{orderItems.length > 0 ? orderItems.length : 'пусто'}</h3>
+                                <div className={styles.dashboar__bascet_info_mini}>
+                                    <h3 className={styles.dashboar__bascet_info_mini_text}>{orderItems.length > 0 ? orderItems.length : '0'}</h3>
+                                </div>
                             </div>
                         </div>
                         {
@@ -206,10 +211,7 @@ export default function Dashboard() {
             <NavigationHistory/>
             {isLoginVisible && <Login onCloseModal={() => setIsLoginVisible(false)}/>}
             {isBurgerOpen && (
-                <>
-                    <div className={styles.overlay} onClick={handleOverlayClick} />
                     <Burger onClose={() => setIsBurgerOpen(false)} toggleLogin={toggleLogin} isAuth={isAuth} pathname={pathname} orderItems={orderItems}/>
-                </>
             )}
 
         </header>
@@ -223,49 +225,82 @@ export function Burger({ onClose, toggleLogin, isAuth, pathname, orderItems }: {
     pathname: string;
     orderItems: any[];
 }) {
-    return(
-        <div className={styles.burger}>
-            <button className={styles.burger_close} onClick={onClose}><CloseSvg fill={'#fff'} width={25} height={25}/></button>
-            <div className={styles.burger_nav}>
-                <Link className={styles.burger_link} href='/catalog' onClick={onClose}>Каталог</Link>
-                <Link className={styles.burger_link} href='/about-us' onClick={onClose}>О компании</Link>
-                <Link className={styles.burger_link} href='/projects' onClick={onClose}>Проекты</Link>
-                <Link className={styles.burger_link} href='/catalog' onClick={onClose}>Как купить</Link>
-                <Link className={styles.burger_link} href='/gallery' onClick={onClose}>Галерея</Link>
-                <Link className={styles.burger_link} href='/contacts' onClick={onClose}>Контакты</Link>
-            </div>
-            <div className={styles.burger_contacts}>
-                {
-                    !isAuth ?
-                        <div className={styles.burger_wrapper} onClick={() => { toggleLogin(); onClose(); }}>
-                            <UserSvg stroke={'#fff'} width={26} height={26}/>
-                            <h4 className={styles.burger_text}>Вход</h4>
+    const [isClose, setIsClose] = useState(false);
+
+    const burgerRef = useRef<HTMLDivElement | null>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+        if (burgerRef.current && !burgerRef.current.contains(event.target as Node)) {
+            setIsClose(true);
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleIsClose = () => {
+        setIsClose(true)
+    }
+
+    return (
+        <div ref={burgerRef}>
+            <motion.div
+                initial={{right: isClose ? 0 : -280}}
+                animate={{right: isClose ? -280 : 0}}
+                transition={{duration: 0.2}}
+                onAnimationComplete={() => {
+                    if (isClose) {
+                        onClose()
+                    }
+                }}
+                className={styles.burger}
+            >
+                <button className={styles.burger_close} onClick={handleIsClose}><CloseSvg fill={'#fff'} width={25} height={25}/></button>
+                <div className={styles.burger_nav}>
+                    <Link className={styles.burger_link} href='/catalog' onClick={handleIsClose}>Каталог</Link>
+                    <Link className={styles.burger_link} href='/about-us' onClick={handleIsClose}>О компании</Link>
+                    <Link className={styles.burger_link} href='/projects' onClick={handleIsClose}>Проекты</Link>
+                    <Link className={styles.burger_link} href='/catalog' onClick={handleIsClose}>Как купить</Link>
+                    <Link className={styles.burger_link} href='/gallery' onClick={handleIsClose}>Галерея</Link>
+                    <Link className={styles.burger_link} href='/contacts' onClick={handleIsClose}>Контакты</Link>
+                </div>
+                <div className={styles.burger_contacts}>
+                    {
+                        !isAuth ?
+                            <div className={styles.burger_wrapper} onClick={() => { toggleLogin(); handleIsClose(); }}>
+                                <UserSvg stroke={'#fff'} width={26} height={26}/>
+                                <h4 className={styles.burger_text}>Вход</h4>
+                            </div>
+                            :
+                            <Link href={'/lk/current-orders'} className={styles.burger_wrapper} onClick={handleIsClose}>
+                                <UserSvg stroke={'#fff'} width={26} height={26}/>
+                                <h4 className={styles.burger_text}>Кабинет</h4>
+                            </Link>
+                    }
+                    <Link href={'/basket'} className={styles.burger_wrapper} onClick={handleIsClose}>
+                        <div className={styles.burger_basket}>
+                            <BasketSvg stroke={'#fff'} width={26} height={26}/>
+                            <div className={styles.burger_basket_wrapper}>
+                                <h5 className={styles.burger_basket_text}>{orderItems.length}</h5>
+                            </div>
                         </div>
-                        :
-                        <Link href={'/lk/current-orders'} className={styles.burger_wrapper} onClick={onClose}>
-                            <UserSvg stroke={'#fff'} width={26} height={26}/>
-                            <h4 className={styles.burger_text}>Кабинет</h4>
-                        </Link>
-                }
-                <Link href={'/basket'} className={styles.burger_wrapper} onClick={onClose}>
-                    <div className={styles.burger_basket}>
-                        <BasketSvg stroke={'#fff'} width={26} height={26}/>
-                        <div className={styles.burger_basket_wrapper}>
-                            <h5 className={styles.burger_basket_text}>{orderItems.length}</h5>
-                        </div>
+                        <h4 className={styles.burger_text}>Корзина</h4>
+                    </Link>
+                    <div className={styles.burger_wrapper}>
+                        <LocationSvg stroke={'#fff'}/>
+                        <h4 className={styles.burger_text}>Москва</h4>
                     </div>
-                    <h4 className={styles.burger_text}>Корзина</h4>
-                </Link>
-                <div className={styles.burger_wrapper}>
-                    <LocationSvg stroke={'#fff'}/>
-                    <h4 className={styles.burger_text}>Москва</h4>
+                    <div className={styles.burger_wrapper}>
+                        <WatsappSvg fill={'#fff'}/>
+                        <a href="https://wa.me/+79389032666" target="_blank" className={styles.burger_text}>+7 (938) 903-26-66</a>
+                    </div>
+                    <h4 className={styles.burger_text}>Россия, г. Грозный, Назарбаева 79</h4>
                 </div>
-                <div className={styles.burger_wrapper}>
-                    <WatsappSvg fill={'#fff'}/>
-                    <a href="https://wa.me/+79389032666" target="_blank" className={styles.burger_text}>+7 (938) 903-26-66</a>
-                </div>
-                <h4 className={styles.burger_text}>Россия, г. Грозный, Назарбаева 79</h4>
-            </div>
+            </motion.div>
         </div>
     )
 }

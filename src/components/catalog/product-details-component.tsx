@@ -6,13 +6,12 @@ import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
     CHANGE_FAVORITES_REQUEST,
     DETAILS_FETCH_REQUESTED,
-    ORDER_ITEMS_DECREMENT,
-    ORDER_ITEMS_INCREMENT
 } from "@/lib/reducers";
 import Link from "next/link";
 import {OrderItems, OrderItemsRequest} from "@/lib/models";
 import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./product-details-component.module.css"
+import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/basket-actions";
 
 interface Params {
     id: string
@@ -45,16 +44,6 @@ export default function ProductDetailsComponent(params: Params) {
 
         }
     }, [orderItems, details]);
-
-    const addToBasket = () => {
-        dispatch(ORDER_ITEMS_INCREMENT({orderItem: basketItem, productId: details.id}))
-    }
-
-    const handleRemoveFromBasket = () => {
-        if (basketItem !== null){
-            dispatch(ORDER_ITEMS_DECREMENT(basketItem))
-        }
-    }
 
     const handleChangeFavorite = () => {
         const request = {
@@ -162,32 +151,20 @@ export default function ProductDetailsComponent(params: Params) {
                         <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>
                             {
                                 details?.currentQuantity > 0 && basketItem?.quantity > 0 ?
-                                <div className={`${styles.price_buy_wrraper} ${styles.price_buy_width}`}>
-                                    <button onClick={handleRemoveFromBasket} className={styles.price_buy_like}>
-                                        <Image src={'/images/Minus.png'} alt="Убрать" width={22} height={22}/>
-                                    </button>
-                                    <h3 className={styles.price_buy_text}>{basketItem != null ? basketItem.quantity : 0}</h3>
-                                    <button onClick={addToBasket} className={styles.price_buy_like}>
-                                        <Image src={'/images/Plus.png'} alt="Добавить" width={22} height={22}/>
-                                    </button>
-                                </div>
-                                    :
-                                    <div/>
+                                    <CartItemQuantityDetails productId={details.id} orderItem={basketItem} productQuantity={details.currentQuantity}/>
+                                :
+                                    <AddToCartButton productId={details.id} orderItem={basketItem} productQuantity={details.currentQuantity}/>
                             }
-
-                            <h2 className={styles.price_buy_subtitle}>
-                                {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}` : 'Нет в наличии'}
-                            </h2>
+                            <div style={{textAlign: 'right'}}>
+                                <h2 className={styles.price_buy_subtitle}>
+                                    {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}` : 'Нет в наличии'}
+                                </h2>
+                            </div>
                         </div>
                         {
-                            basketItem?.quantity < 1 || basketItem?.quantity === undefined ?
-                                <button onClick={addToBasket} className={styles.price_button}>
-                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
-                                    <h3 className={styles.price_button_text}>В корзину</h3>
-                                </button>
-                                :
-                                <Link href={'/basket'} className={styles.price_button}>
-                                    <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
+                            basketItem?.quantity > 0 &&
+                            <Link href={'/basket'} className={styles.price_button}>
+                                <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
                                     <h3 className={styles.price_button_text}>Перейти в корзину</h3>
                                 </Link>
                         }

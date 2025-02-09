@@ -89,6 +89,7 @@
     border: 1px solid #000;
     border-left: none;
     border-right: none;
+    flex: 1;
 }
 
 .name {
@@ -101,13 +102,6 @@
     font-weight: 400;
     line-height: 18px;
     font-family: 'Roboto';
-}
-
-.delete {
-    all: unset;
-    cursor: pointer;
-    display: flex;
-    align-items: start;
 }
 
 .quantity_button {
@@ -140,20 +134,6 @@
     height: 80px;
     align-items: center;
     padding: 0 15px 0 21px;
-}
-
-.clear {
-    all: unset;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
-    line-height: 17px;
-    font-family: 'Inter';
-    color: #7b7b7b;
-    width: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .total_text {
