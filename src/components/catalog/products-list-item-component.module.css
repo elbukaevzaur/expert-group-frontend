@@ -61,13 +61,13 @@
     flex-direction: column;
   }
 }
-
+/* 
 @media (max-width: 460px) {
   .wrraper {
     flex-direction: row;
     align-items: center;
   }
-}
+} */
 
 .content {
   display: flex;

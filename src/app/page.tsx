@@ -17,9 +17,6 @@ export default function Home() {
     { id: 4, defaultImage: null, name: 'Category 4', productCount: 10},
     { id: 5, defaultImage: null, name: 'Category 5', productCount: 10},
     { id: 6, defaultImage: null, name: 'Category 6', productCount: 10},
-    { id: 7, defaultImage: null, name: 'Category 7', productCount: 10},
-    { id: 8, defaultImage: null, name: 'Category 8', productCount: 10},
-    { id: 9, defaultImage: null, name: 'Category 9', productCount: 10},
   ]
 
   const products: Products[] = [
@@ -60,6 +57,7 @@ export default function Home() {
           })
         }
       </div>
+      <button className={styles.home_button}>Показать еще</button>
 
       <h2 className={styles.home__title}>Партнеры</h2>
         <div className={styles.home__partners}>
