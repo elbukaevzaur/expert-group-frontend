@@ -248,3 +248,25 @@ a.secondary {
   background-color: rgba(33, 160, 56, .1);
   border-radius: 10px;
 }
+
+.home_categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  margin: 27px 0 0;
+  grid-column-gap: 24px;
+  column-gap: 24px;
+  grid-row-gap: 30px;
+  row-gap: 30px;
+}
+
+.home__products_list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-row-gap: 20px;
+  row-gap: 20px;
+  grid-column-gap: 10px;
+  column-gap: 10px;
+  margin-top: 50px;
+  position: relative;
+  padding-bottom: 10px;
+}

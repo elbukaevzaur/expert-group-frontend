@@ -51,7 +51,7 @@ export default function Dashboard() {
         <header className={styles.header}>
             <div className={styles.dashboar_wrapper}>
                 <div className={styles.dashboar}>
-                    <Link href='/public'>
+                    <Link href='/'>
                         <Image className={styles.logo} src={"/images/Logo.png"} alt="Логотип" width={251} height={52}
                                priority={true}/>
                         <Image className={styles.logo__small} src={"/images/Logo_small.png"} alt="Логотип" width={94}

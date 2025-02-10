@@ -5,7 +5,7 @@ export interface Products {
     currentQuantity: number,
     categoryId: number,
     parentCategoryId: number,
-    defaultImage: string
+    defaultImage: string | null
 }
 
 interface Materials {
