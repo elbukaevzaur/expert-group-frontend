@@ -115,3 +115,18 @@
         left: 100%;
     }
 }
+
+.loading_circle {
+    border: 5px solid #f3f3f3; /* Светлый фон */
+    border-top: 5px solid #1fa038; /* Цвет загрузки */
+    border-radius: 50%; /* Сделать кругом */
+    width: 20px; /* Диаметр круга */
+    height: 20px; /* Диаметр круга */
+    animation: spin 2s linear infinite; /* Анимация вращения */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+

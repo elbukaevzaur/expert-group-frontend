@@ -14,7 +14,7 @@ import {useParams, usePathname} from "next/navigation";
 import {UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg, CloseSvg} from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
 import { motion } from "framer-motion";
-import LoadingText from "@/components/loading/loading-text";
+import LoadingCircle from "@/components/loading/loading-circle";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -73,7 +73,7 @@ export default function Dashboard() {
                         isAuthLoading ?
                             <div className={styles.user}>
                                 {<UserSvg className={styles.user__icon}/>}
-                                <LoadingText styles={{marginTop: 5, width: 66, height: 19}}/>
+                                <LoadingCircle styles={{marginTop: 5, width: 20, height: 20}}/>
                             </div>
                             :
                             !isAuth ?
