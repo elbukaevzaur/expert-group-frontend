@@ -213,7 +213,7 @@
   border: 2px solid #21a038;
   height: 53px;
   padding-left: 10px;
-  padding-right: 45px;
+  padding-right: 37px;
   font-size: 15px;
   font-weight: 400;
   line-height: 18px;
@@ -247,9 +247,14 @@
 
 .mobile_search_close {
   position: absolute;
-  top: 16px;
-  right: 21px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  right: 0;
   font-size: 25px;
+  height: 60px;
+  width: 53px;
 }
 
   .search__button {

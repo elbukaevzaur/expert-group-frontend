@@ -62,26 +62,28 @@ export default function SearchForm() {
                 className={styles.mobile_search_container}
                 transition={{duration: 0.3}}
             >
-                <input
-                    value={searchText}
-                    onChange={(event) => {
-                        handleFullTextSearch(event.currentTarget.value)
-                    }}
-                    type="search"
-                    className={styles.search_input_mobile}
-                    placeholder="Поиск"
-                    onFocus={() => setIsFocusedMobile(true)}
-                    onBlur={() => setTimeout(() => setIsFocusedMobile(false), 200)} // Даем время на клик
+                <div style={{position: 'relative'}}>
+                    <input
+                        value={searchText}
+                        onChange={(event) => {
+                            handleFullTextSearch(event.currentTarget.value)
+                        }}
+                        type="search"
+                        className={styles.search_input_mobile}
+                        placeholder="Поиск"
+                        onFocus={() => setIsFocusedMobile(true)}
+                        onBlur={() => setTimeout(() => setIsFocusedMobile(false), 200)} // Даем время на клик
 
-                />
-                <div
-                    className={styles.mobile_search_close}
-                    onClick={() => {
-                        setIsShowMobileSearch(false)
-                        setSearchText("")
-                    }}
-                >
-                    <CloseSvg/>
+                    />
+                    <div
+                        className={styles.mobile_search_close}
+                        onClick={() => {
+                            setIsShowMobileSearch(false)
+                            setSearchText("")
+                        }}
+                    >
+                        <CloseSvg/>
+                    </div>
                 </div>
                 <motion.div
                     initial={{display: 'none', opacity: 0}}
