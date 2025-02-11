@@ -31,7 +31,7 @@ function* initialToken() {
             yield put(ALL_FAVORITES_REQUEST())
         }
         yield put(INITIAL_BASKET())
-        yield put(INITIAL_TOKEN_SUCCESS)
+        yield put(INITIAL_TOKEN_SUCCESS())
     } catch (e) {
     }
 }
