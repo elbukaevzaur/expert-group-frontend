@@ -105,7 +105,7 @@ export default function SearchForm() {
                             >
                                 <div className={styles.suggestion_item_image_container}>
                                     <Image className={styles.suggestion_item_image}
-                                           src={'/images/subcatalog__2.png'}
+                                           src={'/images/Subcatalog__2.png'}
                                            layout="fill" objectFit="contain" alt="search image"/>
                                 </div>
                                 <div style={{width: 10}}/>
