@@ -21,8 +21,8 @@ export default function CategoryListItem(params: Params) {
             </div>
             {
                 category.defaultImage == null ?
-                    <Image className="subcatalog__image" src={'/images/subcatalog__2.png'}
-                           alt="Карнизы потолочные"
+                    <Image className="subcatalog__image" src={'/images/Subcatalog__2.png'}
+                           alt={category.name}
                            layout="fill" objectFit="contain"/>
                     :
                     <img className="subcatalog__image"
