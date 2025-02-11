@@ -330,8 +330,7 @@ align-items: center;
 }
 
 .user__text {
-margin: 0 0 0 11px;
-max-width: 54px;
+/*max-width: 54px;*/
 color: #21a038;
 font-size: 16px;
 font-weight: 500;

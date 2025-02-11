@@ -2,7 +2,7 @@ import { all, put, takeEvery, call } from 'redux-saga/effects'
 import {
     ALL_FAVORITES_REQUEST,
     BASKET_CLEAR, INITIAL_BASKET,
-    INITIAL_TOKEN,
+    INITIAL_TOKEN, INITIAL_TOKEN_SUCCESS,
     SIGN_IN_REQUEST,
     SIGN_IN_RESPONSE_ERROR,
     SIGN_IN_RESPONSE_SUCCESS,
@@ -31,6 +31,7 @@ function* initialToken() {
             yield put(ALL_FAVORITES_REQUEST())
         }
         yield put(INITIAL_BASKET())
+        yield put(INITIAL_TOKEN_SUCCESS)
     } catch (e) {
     }
 }

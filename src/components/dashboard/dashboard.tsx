@@ -14,10 +14,11 @@ import {useParams, usePathname} from "next/navigation";
 import {UserSvg, BasketSvg, SearchSvg, WatsappSvg, LocationSvg, MenuSvg, CloseSvg} from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
 import { motion } from "framer-motion";
+import LoadingText from "@/components/loading/loading-text";
 
 export default function Dashboard() {
     const { orderItems } = useAppSelector((state) => state.basket);
-    const { isAuth } = useAppSelector((state) => state.auth);
+    const { isAuth, isAuthLoading } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const [isLoginVisible, setIsLoginVisible] = useState(false);
     const [ isShowPreviewBasket, setIsShowPreviewBasket ] = useState(false);
@@ -69,10 +70,16 @@ export default function Dashboard() {
                     </div>
                     <SearchForm/>
                     {
-                        !isAuth ?
-                            <div className={styles.user} onClick={toggleLogin}>
+                        isAuthLoading ?
+                            <div className={styles.user}>
                                 {<UserSvg className={styles.user__icon}/>}
-                                <h2 className={styles.user__text}>Вход</h2>
+                                <LoadingText styles={{marginTop: 5, width: 66, height: 19}}/>
+                            </div>
+                            :
+                            !isAuth ?
+                                <div className={styles.user} onClick={toggleLogin}>
+                                    {<UserSvg className={styles.user__icon}/>}
+                                    <h2 className={styles.user__text}>Вход</h2>
                             </div>
                             :
                             <Link href={'/lk/current-orders'} className={styles.user}>
