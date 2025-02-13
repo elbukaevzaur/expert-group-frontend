@@ -691,6 +691,7 @@ flex-direction: column;
   top: 0;
   right: 0;
   z-index: 53;
+  overflow-y: auto;
 }
 
 @media (max-width: 675px) {
@@ -725,6 +726,12 @@ flex-direction: column;
 @media (max-width: 420px) {
   .burger_nav {
     margin-top: 80px;
+  }
+}
+
+@media (max-height: 750px) {
+  .burger_nav {
+    margin-top: 50px;
   }
 }
 

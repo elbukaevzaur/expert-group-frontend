@@ -23,6 +23,12 @@
   .items {
     width: 100%;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-
+  }
+}
+            
+@media (max-width: 460px) {
+  .items {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    column-gap: 3px;
   }
 }

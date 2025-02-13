@@ -85,6 +85,7 @@
     font-size: 14px;
     font-weight: 400;
     font-family: 'Roboto';
+    box-decoration-break: clone;
   }
   
   .registration__checkbox + label::before {
