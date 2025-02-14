@@ -1,4 +1,4 @@
-import {FiltersResponse} from "@/lib/models";
+import {FilterProperty, FiltersResponse} from "@/lib/models";
 import {useState} from "react";
 import {useAppDispatch} from "@/lib/hooks";
 import {ADD_FILTER} from "@/lib/reducers";
@@ -7,7 +7,8 @@ import styles from "@/components/filter/filter.module.css"
 interface FilterProps {
     title: string,
     applyFilterValues: string[] | undefined,
-    filter: FiltersResponse
+    filter: FiltersResponse,
+    onChangeFilter: (filter: FilterProperty) => void
 }
 
 export const FilterComponent = (props: FilterProps) => {
@@ -22,17 +23,21 @@ export const FilterComponent = (props: FilterProps) => {
     }
 
     const handleApplyFilter = () => {
-        dispatch(ADD_FILTER({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator}));
+        // dispatch(ADD_FILTER({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator}));
+        props.onChangeFilter({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator})
     }
 
     const handleApplyInFilter = (val: number) => {
         if (props.applyFilterValues === undefined){
-            dispatch(ADD_FILTER({field: props.filter.fieldName, value: [val.toString()], operator: props.filter.operator}));
+            // dispatch(ADD_FILTER({field: props.filter.fieldName, value: [val.toString()], operator: props.filter.operator}));
+            props.onChangeFilter({field: props.filter.fieldName, value: [val.toString()], operator: props.filter.operator})
         }else if (props.applyFilterValues.indexOf(val.toString()) == -1){
             const fil = [...props.applyFilterValues, val.toString()]
-            dispatch(ADD_FILTER({field: props.filter.fieldName, value: fil, operator: props.filter.operator}));
+            // dispatch(ADD_FILTER({field: props.filter.fieldName, value: fil, operator: props.filter.operator}));
+            props.onChangeFilter({field: props.filter.fieldName, value: fil, operator: props.filter.operator})
         }else {
-            dispatch(ADD_FILTER({field: props.filter.fieldName, value: props.applyFilterValues.filter(f => f !== val.toString()), operator: props.filter.operator}));
+            // dispatch(ADD_FILTER({field: props.filter.fieldName, value: props.applyFilterValues.filter(f => f !== val.toString()), operator: props.filter.operator}));
+            props.onChangeFilter({field: props.filter.fieldName, value: props.applyFilterValues.filter(f => f !== val.toString()), operator: props.filter.operator})
         }
     }
 

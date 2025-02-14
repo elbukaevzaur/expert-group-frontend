@@ -120,7 +120,7 @@ export default function Dashboard() {
                         <h3 className={`${styles.navigator__text} ${styles.navigator__text_white}`}>Каталог</h3>
                     </Link>
                     <div className={styles.dropdown_catalog_content}>
-                    <CatalogModal/>
+                        <CatalogModal/>
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/about-us') && styles.navigator__container_active}`}>
