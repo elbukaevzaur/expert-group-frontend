@@ -168,6 +168,13 @@ a {
     gap: 20px;
   }
 }
+            
+@media (max-width: 630px) {
+  .favorites {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    column-gap: 3px;
+  }
+}
 
 .table_img {
   object-fit: contain;
