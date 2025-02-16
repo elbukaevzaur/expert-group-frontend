@@ -79,8 +79,13 @@ export default function ProjectsList(props: Props) {
                                                    width={286}
                                                    height={201}/>
                                             :
-                                            <img className={styles.item_image} width={286} height={201}
-                                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item.defaultImage}`}/>
+                                            <Image 
+                                                className={styles.item_image} 
+                                                width={286} 
+                                                height={201}
+                                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item.defaultImage}`}
+                                                alt={item.name}
+                                            />
                                     }
                                     <div className={styles.item_description}>
                                         <h2 className={styles.item_title}>{item.category.name}</h2>

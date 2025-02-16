@@ -58,15 +58,15 @@ export default function Dashboard() {
                         <Image className={styles.logo__small} src={"/images/Logo_small.png"} alt="Логотип" width={94}
                                height={44} priority={true}/>
                     </Link>
-                    <div className={styles.number}>
+                    <Link href="https://api.whatsapp.com/send?phone=79389032666" target="_blank" className={styles.number}>
                         <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
                         <WatsappSvg className={styles.number__icon}/>
-                    </div>
+                    </Link>
                     <div className={styles.location}>
                         <LocationSvg className={styles.location__icon}/>
-                        <h3 className={styles.location__text}>Москва</h3>
-                        <Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка"
-                               width={13} height={7}/>
+                        <h3 className={styles.location__text}>Грозный</h3>
+                        {/*<Image className={styles.location__vector} src={'/images/Vector_green.png'} alt="Стрелка"*/}
+                        {/*       width={13} height={7}/>*/}
                     </div>
                     <SearchForm/>
                     {
@@ -120,7 +120,7 @@ export default function Dashboard() {
                         <h3 className={`${styles.navigator__text} ${styles.navigator__text_white}`}>Каталог</h3>
                     </Link>
                     <div className={styles.dropdown_catalog_content}>
-                    <CatalogModal/>
+                        <CatalogModal/>
                     </div>
                 </div>
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/about-us') && styles.navigator__container_active}`}>
@@ -134,9 +134,6 @@ export default function Dashboard() {
                             <h3 className={`${styles.dropdown_green_text} ${containCurrentPage('/about-us') && styles.dropdown_green_text_active}`}>О нас</h3>
                         </div>
                     </Link>
-                        <div className={styles.dropdown_green_wrapper}>
-                            <h3 className={styles.dropdown_green_text}>Сотрудники</h3>
-                        </div>
                         <Link href={'/vacancy'}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Вакансии</h3>
@@ -299,13 +296,15 @@ export function Burger({ onClose, toggleLogin, isAuth, pathname, orderItems }: {
                     </Link>
                     <div className={styles.burger_wrapper}>
                         <LocationSvg stroke={'#fff'}/>
-                        <h4 className={styles.burger_text}>Москва</h4>
+                        <h4 className={styles.burger_text}>Грозный</h4>
                     </div>
                     <div className={styles.burger_wrapper}>
                         <WatsappSvg fill={'#fff'}/>
                         <a href="https://wa.me/+79389032666" target="_blank" className={styles.burger_text}>+7 (938) 903-26-66</a>
                     </div>
-                    <h4 className={styles.burger_text}>Россия, г. Грозный, Назарбаева 79</h4>
+                    <Link href="https://go.2gis.com/R1lEi" target="_blank">
+                        <h4 className={styles.burger_text}>Россия, г. Грозный, Назарбаева 79</h4>
+                    </Link>
                 </div>
             </motion.div>
         </div>

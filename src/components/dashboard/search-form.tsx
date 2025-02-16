@@ -31,7 +31,6 @@ export default function SearchForm() {
     function handleFullTextSearch(text: string) {
         setSearchText(text)
         getProductsFullTextSearch(text).then((resp) => {
-            console.log(resp.data)
             setSearchResult(resp.data);
         })
     }

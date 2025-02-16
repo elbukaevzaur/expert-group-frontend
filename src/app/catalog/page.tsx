@@ -1,16 +1,25 @@
 "use client"
 
-import { useAppSelector } from "@/lib/hooks";
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
+import {useEffect, useState} from "react";
+import {getAll} from "@/lib/http/categoriesRequest";
+import {Category} from "@/lib/models";
 
 export default function ProductsPage() {
-    const { allCategories } = useAppSelector((state) => state.categories);
+
+    const [categories, setCategories] = useState<Category[]>([])
+
+    useEffect(() => {
+        getAll(undefined).then((resp) => {
+            setCategories(resp.data)
+        })
+    }, []);
 
     return (
         <div className="products">
             <div className="subcatalog">
                 {
-                    allCategories.map((value, index) => {
+                    categories.map((value, index) => {
                         return <CategoryListItem key={index} category={value}/>
                     })
                 }

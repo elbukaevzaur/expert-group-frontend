@@ -59,7 +59,7 @@ export default function ProjectDetailsComponent(params: Params) {
                             alt='image'
                         />
                         :
-                        <img
+                        <Image
                             className={styles.description_image}
                             width={720}
                             height={479}
@@ -90,8 +90,13 @@ export default function ProjectDetailsComponent(params: Params) {
                 <div className={styles.photo_wrapper}>
                     {
                         selectedImageIndex !== null && project?.images != undefined ?
-                            <img className={styles.photo_image} width={1089} height={1089}
-                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'medium_' + project?.images[selectedImageIndex]?.imagePath}`}/>
+                            <Image 
+                                className={styles.photo_image} 
+                                width={1089} 
+                                height={1089}
+                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'medium_' + project?.images[selectedImageIndex]?.imagePath}`}
+                                alt={project.name}
+                            />
                             :
                             <Image className={styles.photo_image} src={'/images/Detalis_image.png'} alt="Фото"
                                    width={1089} height={1089}/>

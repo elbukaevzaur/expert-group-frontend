@@ -1,55 +1,47 @@
 import Image from "next/image";
-import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {
-    REMOVE_ALL_FILTER,
-    REMOVE_FILTER,
-    SORTED,
-    SUB_CATEGORIES_FETCH_REQUESTED,
-    UPDATE_PER_PAGE
-} from "@/lib/reducers";
-import {FilterProperty, OrderedPageRequest} from "@/lib/models";
+import {useAppDispatch} from "@/lib/hooks";
+import {FilterProperty, FiltersResponse, OrderedPageRequest, PageRequest, PageResponse, Products} from "@/lib/models";
 import {FilterComponent} from "@/components/filter/filter-item-component";
 import {getTitleByField} from "@/lib/consts";
-import {useParams} from "next/navigation";
-import {useEffect, useState} from "react";
 import styles from "@/components/filter/filter.module.css"
-import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
+import {useEffect, useState} from "react";
+import {getAllFilters} from "@/lib/http/filtersRequest";
 
-export default function ProductsFilter(){
-    const { filters, pageRequest, allProducts } = useAppSelector((state) => state.products);
-    const dispatch = useAppDispatch();
-    const { subCategories } = useAppSelector((state) => state.categories);
-    const params = useParams();
-    const [isShowSubCategories, setIsShowSubCategories] = useState(false);
+interface Props {
+    categoryId: string | string[] | undefined,
+    productsPageResponse: PageResponse<Products>,
+    pageRequest: PageRequest
+    updateFilter: (filter: FilterProperty) => void,
+    updateSort: (filter: OrderedPageRequest) => void,
+    updatePerPage: (perPage: number) => void,
+    handleRemoveFilter: (filter: FilterProperty) => void,
+    onRemoveAllFilter: () => void
+}
+
+export default function ProductsFilter(props: Props){
+    const [filters, setFilters] = useState<FiltersResponse[]>([]);
+    const {pageRequest} = props;
 
     useEffect(() => {
-        if (params.subCategoryId === null || params.subCategoryId === undefined){
-            setIsShowSubCategories(true)
-        }else {
-            setIsShowSubCategories(false)
-        }
-    }, [params.subCategoryId]);
-
-    useEffect(() => {
-        if (params.categoryId !== undefined || params.categoryId !== null){
-            dispatch(SUB_CATEGORIES_FETCH_REQUESTED(params.categoryId))
-        }
-    }, [params.categoryId]);
+        getAllFilters(Number(props.categoryId)).then((resp) => {
+            setFilters(resp.data);
+        })
+    }, []);
 
     const handleApplySorted = (sort: OrderedPageRequest) => {
-        dispatch(SORTED(sort));
+        props.updateSort(sort);
     }
 
     const handleApplyPerPage = (perPage: number) => {
-        dispatch(UPDATE_PER_PAGE(perPage));
+        props.updatePerPage(perPage);
     }
 
     const handleRemoveFilter = (filter: FilterProperty) => {
-        dispatch(REMOVE_FILTER(filter))
+        props.handleRemoveFilter(filter);
     }
 
     const handleRemoveAllFilter = () => {
-        dispatch(REMOVE_ALL_FILTER())
+        props.onRemoveAllFilter();
     }
 
     const perPageValues = [10, 20, 30, 40, 50, 100]
@@ -67,18 +59,12 @@ export default function ProductsFilter(){
         }
     ]
 
+    const handleUpdateFilter = (filter: FilterProperty) => {
+        props.updateFilter(filter);
+    }
+
     return(
         <div>
-            {
-                isShowSubCategories &&
-                subCategories.length > 0 && <div className="subcatalog">
-                    {
-                        subCategories.map((value, index) => {
-                            return <CategoryListItem key={index} category={value}/>
-                        })
-                    }
-                </div>
-            }
             <div className={styles.filter}>
                 <div className={styles.filter__container}>
                     <div className={styles.filter__container_wrraper}>
@@ -89,12 +75,13 @@ export default function ProductsFilter(){
                                     title={getTitleByField(value.fieldName)}
                                     filter={value}
                                     applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
+                                    onChangeFilter={handleUpdateFilter}
                                 />
                             })
                         }
                     </div>
                     <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
-                        <h3 className={styles.filter__text}>Показать {allProducts.perPage}</h3>
+                        <h3 className={styles.filter__text}>Показать {props.productsPageResponse.perPage}</h3>
                         <button className={styles.filter_button}>
                         </button>
                         <div className={styles.sorted_container}>
@@ -102,7 +89,7 @@ export default function ProductsFilter(){
                                 perPageValues.map((value, index) => {
                                     return <button
                                         key={index}
-                                        className={`${styles.sorted_container_botton} ${value === allProducts.perPage && styles.sorted_container_botton_active}`}
+                                        className={`${styles.sorted_container_botton} ${value === props.productsPageResponse.perPage && styles.sorted_container_botton_active}`}
                                         onClick={() => handleApplyPerPage(value)}
                                     >
                                         {value}

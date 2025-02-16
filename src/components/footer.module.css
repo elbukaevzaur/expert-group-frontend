@@ -82,6 +82,9 @@
   
   .contact_wrraper{
     margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
         
   @media (max-width: 1250px) {
@@ -94,6 +97,7 @@
     .contact_wrraper{
       display: flex;
       justify-content: space-between;
+      flex-direction: row;
       width: 360px;
     }
   }

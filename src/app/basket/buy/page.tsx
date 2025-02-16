@@ -66,8 +66,13 @@ export default function Buy() {
                                     orderItemsDetails[item.productId]?.defaultImage == null ?
                                         <Image className={styles.item_image} src={'/images/image.png'} alt="Image" width={283} height={100}/>
                                         :
-                                        <img className={styles.item_image} width={283} height={100}
-                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} />
+                                        <Image 
+                                            className={styles.item_image} 
+                                            width={283} 
+                                            height={100}
+                                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} 
+                                            alt={orderItemsDetails[item.productId].name}
+                                        />
                                 }
                             </Link>
                             <div className={styles.item_wrapper}>

@@ -21,12 +21,19 @@ export default function CategoryListItem(params: Params) {
             </div>
             {
                 category.defaultImage == null ?
-                    <Image className="subcatalog__image" src={'/images/Subcatalog__2.png'}
-                           alt={category.name}
-                           layout="fill" objectFit="contain"/>
+                    <Image 
+                        className="subcatalog__image" 
+                        src={'/images/Subcatalog__2.png'}
+                        alt={category.name}
+                        layout="fill" 
+                        objectFit="contain"
+                    />
                     :
-                    <img className="subcatalog__image"
-                         src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + category.defaultImage}`}/>
+                    <Image 
+                        className="subcatalog__image"
+                        src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + category.defaultImage}`}
+                        alt={category.name}
+                    />
             }
         </Link>
     )
