@@ -93,8 +93,13 @@ export default function ProductDetailsComponent(params: Params) {
                         }
                         {
                             selectedImageIndex !== null && details?.images?.length > 0 ?
-                                <img className={styles.image} width={532} height={394}
-                                     src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}/>
+                                <Image 
+                                    className={styles.image} 
+                                    width={532} 
+                                    height={394}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}
+                                    alt={details?.name}
+                                />
                                 :
                                 <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
                                        width={532} height={394}/>
@@ -108,9 +113,13 @@ export default function ProductDetailsComponent(params: Params) {
                                         onClick={() => setSelectedImageIndex(index)}
                                         className={styles.selected_image}
                                     >
-                                        <img className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
-                                             width={50} height={50}
-                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'thumbnail_' + item?.imagePath}`}/>
+                                        <Image 
+                                        className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
+                                        width={50} 
+                                        height={50}
+                                        src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'thumbnail_' + item?.imagePath}`}
+                                        alt="img"
+                                        />
                                     </div>
                                 })
 

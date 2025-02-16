@@ -34,9 +34,7 @@ export default function ProductsListComponent(props: Props) {
     }, [props.categoryId])
 
     useEffect(() => {
-        console.log('test 1')
         if (pageRequest.filters.length > 0){
-            console.log('test 2')
             getAll(pageRequest).then((resp) => {
                 if (!isShowMore){
                     setProductsPageResponse(resp.data);

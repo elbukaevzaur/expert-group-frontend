@@ -73,8 +73,12 @@ export default function Basket() {
                                     orderItemsDetails[value.productId]?.defaultImage == null ?
                                         <Image className={styles.item_image} src={'/images/Basket_image.png'} alt="Карниз Кт-68" width={283} height={130}/>
                                         :
-                                        <img className={styles.item_image} width={283} height={130}
-                                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} />
+                                        <Image 
+                                            className={styles.item_image} 
+                                            width={283} height={130}
+                                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} 
+                                            alt={orderItemsDetails[value.productId].name}
+                                        />
                                 }
                                 <div className={styles.item_container}>
                                 <Link className={styles.item_text_link} href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>

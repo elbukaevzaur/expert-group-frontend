@@ -81,8 +81,12 @@ export default function PreviewBasketModal(props: Props) {
                                         orderItemsDetails[item.productId]?.defaultImage == null ?
                                             <Image src={"/images/image.png"} alt="image" width={158} height={105}/>
                                             :
-                                            <img width={158} height={105}
-                                                 src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`} />
+                                            <Image 
+                                                width={158} 
+                                                height={105}
+                                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[item.productId].defaultImage}`}
+                                                alt={orderItemsDetails[item.productId].name}
+                                            />
                                     }
                                 </Link>
                                 <div className={styles.wrapper}>
