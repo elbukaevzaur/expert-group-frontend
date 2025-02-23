@@ -1,18 +1,28 @@
 "use client"
 
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {ALL_ORDERS_REQUEST} from "@/lib/reducers";
 import OrderListItemView from "@/components/order/orderListItemViewComponent";
 import ListNotContent from "@/components/ListNotContent";
+import {findMeAllOrdersRequest} from "@/lib/http/ordersRequest";
+import {Orders} from "@/lib/models";
+import LoadingTableRow from "@/components/loading/loading-table-row";
 
 export default function Page() {
-  const { allOrders } = useAppSelector((state) => state.orders);
-  const dispatch = useAppDispatch();
+  const [allOrders, setAllOrders] = useState<Orders[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(ALL_ORDERS_REQUEST())
+    handleAllOrdersRequest();
   }, []);
+
+  const handleAllOrdersRequest = () => {
+    findMeAllOrdersRequest().then((resp) => {
+      setAllOrders(resp.data);
+      setTimeout(() => setIsLoading(false), 500);
+    })
+  }
 
   return (
     <div className="history">
@@ -25,12 +35,21 @@ export default function Page() {
         <div className='table_title'>Статус</div>
       </div>
       {
+        !isLoading ?
         allOrders.length > 0 ?
         allOrders.map((item, index) => {
           return <OrderListItemView key={index} order={item}/>
         })
             :
             <ListNotContent text="Список заказов пуст"/>
+
+            :
+            <div style={{display: 'flex', flexDirection: 'column', gap: 10}}>
+              <LoadingTableRow rowCount={6} />
+              <LoadingTableRow rowCount={6} />
+              <LoadingTableRow rowCount={6} />
+            </div>
+
       }
       
     </div>

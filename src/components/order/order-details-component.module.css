@@ -178,7 +178,7 @@
 
 .total {
   width: 350px;
-  height: 392px;
+  /*height: 392px;*/
   box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
   border-radius: 10px;
   padding: 19px 27px 33px;
@@ -239,4 +239,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.order_items_loading_container {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
 }
