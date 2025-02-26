@@ -7,8 +7,12 @@ import Image from 'next/image';
 import {Category, Products} from "@/lib/models";
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
+import VideoPlayer, {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
+import {useState} from "react";
 
 export default function Home() {
+    const [showVideoSource, setShowVideoSource] = useState('');
+    const [isShowVideo, setIsShowVideo] = useState(false);
 
   const categories: Category[] = [
     { id: 1, defaultImage: null, name: 'Category 1', productCount: 10},
@@ -31,12 +35,92 @@ export default function Home() {
     { id: 9, name: 'Product 9', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
   ]
 
+    const project = {name: 'Грозный, оформление кафе пилястрами', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'};
+  const projects = [
+    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
+    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
+    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
+    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
+  ]
+
   return (
     <div className={styles.home}>
-      <div className={styles.home__wrapper}>
-        <h2 className={styles.home__title}>Популярные категории</h2>
-        <Link href={"/catalog"} className={styles.home__title_link}>
-          <p className={styles.home__title_subtitle}>Весь каталог</p>
+      <div className={styles.projects}>
+          <Link href={"/"} className={styles.item_image}>
+              <Image className={styles.item_image_img} src={"/images/Project_details.png"} alt="test" width={100} height={100}/>
+              <div className={styles.description}>
+                  <span className={styles.description_category}>Фасадный декор</span>
+                  <span className={styles.description_name}>Грозный, оформление кафе пилястрами</span>
+              </div>
+          </Link>
+          <div className={styles.list_images}>
+              {
+                  projects.map((item, index) => {
+                      return <Link href={"/"} key={index} className={styles.item_image}>
+                          <Image className={styles.list_images_img} src={"/images/Project_details.png"} alt="test"
+                                 width={100} height={100}/>
+                          <div className={styles.description_small}>
+                              <span className={styles.description_category_small}>Фасадный декор</span>
+                              <span className={styles.description_name_small}>Грозный, оформление кафе пилястрами</span>
+                          </div>
+                      </Link>
+                  })
+              }
+          </div>
+      </div>
+        {
+            isShowVideo &&
+            <VideoShowModal
+                src={showVideoSource}
+                onClose={() => {
+                    setIsShowVideo(false);
+                    setShowVideoSource('')
+                }}
+            />
+        }
+        <div className={styles.videos} style={{display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20, marginBottom: 40}}>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+            <div style={{width: 186}}>
+                <VideoPreview onShowVideo={() => {
+                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
+                    setIsShowVideo(true);
+                }}/>
+            </div>
+        </div>
+
+        <div className={styles.home__wrapper}>
+            <h2 className={styles.home__title}>Популярные категории</h2>
+            <Link href={"/catalog"} className={styles.home__title_link}>
+            <p className={styles.home__title_subtitle}>Весь каталог</p>
           <ArrowLeftSvg className={styles.home_svg} fill={'#21A038'} width={9} height={16}/>
         </Link>
       </div>
