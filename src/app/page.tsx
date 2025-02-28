@@ -15,24 +15,25 @@ export default function Home() {
     const [isShowVideo, setIsShowVideo] = useState(false);
 
   const categories: Category[] = [
-    { id: 1, defaultImage: null, name: 'Category 1', productCount: 10},
-    { id: 2, defaultImage: null, name: 'Category 2', productCount: 10},
-    { id: 3, defaultImage: null, name: 'Category 3', productCount: 10},
-    { id: 4, defaultImage: null, name: 'Category 4', productCount: 10},
-    { id: 5, defaultImage: null, name: 'Category 5', productCount: 10},
-    { id: 6, defaultImage: null, name: 'Category 6', productCount: 10},
+    { id: 1, defaultImage: null, name: 'Category 1', slug: 'slug1', productCount: 10},
+    { id: 2, defaultImage: null, name: 'Category 2', slug: 'slug1', productCount: 10},
+    { id: 3, defaultImage: null, name: 'Category 3', slug: 'slug1', productCount: 10},
+    { id: 4, defaultImage: null, name: 'Category 4',slug: 'slug1', productCount: 10},
+    { id: 5, defaultImage: null, name: 'Category 5',slug: 'slug1', productCount: 10},
+    { id: 6, defaultImage: null, name: 'Category 6',slug: 'slug1', productCount: 10},
   ]
 
   const products: Products[] = [
-    { id: 1, name: 'Product 1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},    { id: 1, name: 'Product 1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 2, name: 'Product 2', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 3, name: 'Product 3', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 4, name: 'Product 4', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 5, name: 'Product 5', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 6, name: 'Product 6', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 7, name: 'Product 7', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 8, name: 'Product 8', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 9, name: 'Product 9', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 1, name: 'Product 1', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+      { id: 1, name: 'Product 1', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 2, name: 'Product 2', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 3, name: 'Product 3', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 4, name: 'Product 4', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 5, name: 'Product 5', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 6, name: 'Product 6', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 7, name: 'Product 7', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 8, name: 'Product 8', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
+    { id: 9, name: 'Product 9', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
   ]
 
     const project = {name: 'Грозный, оформление кафе пилястрами', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'};
