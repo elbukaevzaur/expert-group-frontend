@@ -121,6 +121,7 @@
     line-height: 20px;
     max-width: 293px;
     min-width: 60px;
+    color: black;
 }
 
 @media (max-width: 950px) {

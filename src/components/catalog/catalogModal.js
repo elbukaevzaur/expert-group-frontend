@@ -19,10 +19,10 @@ export const CatalogModal = () => {
         dispatch(CATEGORIES_FETCH_REQUESTED());
     }, [])
 
-    const changeCategory = (categoryId) => {
-        router.push(`/catalog/${categoryId}`)
-        dispatch(ADD_FILTER({ field: 'categoryId', value: [categoryId] }));
-        loadFiltersData(categoryId);
+    const changeCategory = (category) => {
+        router.push(`/catalog/${category.slug}`)
+        dispatch(ADD_FILTER({ field: 'categoryId', value: [category.categoryId] }));
+        loadFiltersData(category.categoryId);
     }
 
     const loadFiltersData = (categoryId) => {
@@ -33,7 +33,7 @@ export const CatalogModal = () => {
         {
             allCategories.map((value, index) => {
                 return <div className={styles.dropdown_catalog_wrapper} key={index}>
-                    <button className={styles.dropdown_catalog} onClick={() => changeCategory(value.id)} key={index}>{value.name}</button>
+                    <button className={styles.dropdown_catalog} onClick={() => changeCategory(value)} key={index}>{value.name}</button>
                     <div className={styles.dropdown_catalog_quantity}>
                         <h4 className={styles.dropdown_catalog_quantity_text}>{value.productCount}</h4>
                     </div>

@@ -4,7 +4,11 @@ import {useEffect, useState} from "react";
 import {Category} from "@/lib/models";
 import {getAll} from "@/lib/http/categoriesRequest";
 
-export default function SubCategoriesListComponent() {
+interface Props {
+    parentCategoryId: number
+}
+
+export default function SubCategoriesListComponent(props: Props) {
     const params = useParams();
     const [isShowSubCategories, setIsShowSubCategories] = useState(false);
     const [subCategories, setSubCategories] = useState<Category[]>([]);
@@ -18,12 +22,12 @@ export default function SubCategoriesListComponent() {
     }, [params.subCategoryId]);
 
     useEffect(() => {
-        if (params.categoryId !== undefined || params.categoryId !== null){
-            getAll(Number(params.categoryId)).then((resp) => {
+        if (isShowSubCategories && props.parentCategoryId){
+            getAll(props.parentCategoryId).then((resp) => {
                 setSubCategories(resp.data);
             })
         }
-    }, [params.categoryId]);
+    }, [isShowSubCategories, props.parentCategoryId]);
 
     return <>
             {

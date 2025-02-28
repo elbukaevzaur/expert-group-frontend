@@ -8,30 +8,32 @@ import {
     DETAILS_FETCH_REQUESTED,
 } from "@/lib/reducers";
 import Link from "next/link";
-import {OrderItems, OrderItemsRequest} from "@/lib/models";
+import {OrderItems, OrderItemsRequest, ProductDetailsResponse} from "@/lib/models";
 import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./product-details-component.module.css"
 import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/basket-actions";
+import {getProductDetailsBySlug} from "@/lib/http/productsRequest";
 
 interface Params {
-    id: string
+    slug: string
 }
 
 export default function ProductDetailsComponent(params: Params) {
-    const { details } = useAppSelector((state) => state.products);
     const { orderItems } = useAppSelector((state) => state.basket);
     const [basketItem, setBasketItem] = useState<OrderItems>({} as OrderItems);
     const { allFavorites } = useAppSelector((state) => state.favorites);
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
-
+    const [details, setDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse);
     const dispatch = useAppDispatch();
 
     useEffect(() => {
          fetchData();
-    }, [params.id]);
+    }, [params.slug]);
 
     const fetchData = async () => {
-        dispatch(DETAILS_FETCH_REQUESTED(params.id))
+        getProductDetailsBySlug(params.slug).then((resp) => {
+            setDetails(resp.data);
+        })
     }
 
     useEffect(() => {

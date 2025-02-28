@@ -12,6 +12,8 @@ import styles from "./basket.module.css"
 import {useRouter} from "next/navigation";
 import ListNotContent from "@/components/ListNotContent";
 import {CartItemQuantityBasket, RemoveAllBasket, RemoveItemBasket} from "@/components/basket/basket-actions";
+import {OrderItemsDetails} from "@/lib/models";
+import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -38,6 +40,14 @@ export default function Basket() {
     function handleCreateOrder() {
         router.push('/basket/buy')
     }
+
+    function handleToProductDetails(value: OrderItemsDetails) {
+        getCurrentUrlForProductDetails(value).then((result) => {
+            router.push(result);
+        })
+    }
+
+    const styleText = [styles.item_text_link, 'product_details_link_button']
 
     return (
         <div className={styles.basket}>
@@ -81,9 +91,9 @@ export default function Basket() {
                                         />
                                 }
                                 <div className={styles.item_container}>
-                                <Link className={styles.item_text_link} href={`/catalog/${orderItemsDetails[value.productId]?.parentCategoryId}/${orderItemsDetails[value.productId]?.categoryId}/details/${value.productId}`}>
+                                <button className={styleText.join(" ")} onClick={() => handleToProductDetails(orderItemsDetails[value.productId])}>
                                     <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
-                                </Link>
+                                </button>
                                 <div className={styles.item_content}>
                                 <div className={styles.item_wrapper}>
                                     <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity}/>

@@ -57,7 +57,8 @@ const basket = createSlice({
                     logo: itemDetails.logo,
                     parentCategoryId: itemDetails.parentCategoryId,
                     categoryId: itemDetails.categoryId,
-                    defaultImage: itemDetails.defaultImage
+                    defaultImage: itemDetails.defaultImage,
+                    slug: itemDetails.slug
                 };
                 return acc;
             }, {});

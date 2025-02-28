@@ -11,6 +11,7 @@ import React, {useEffect} from "react";
 import {OrderItemsDetails} from "@/lib/models";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
+import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
 
 export default function Buy() {
     const dispatch = useAppDispatch();
@@ -35,20 +36,14 @@ export default function Buy() {
         router.push('/lk/current-orders')
     }
 
-    const getCustomLink = (product: OrderItemsDetails) => {
-        if (product !== undefined){
-            let path = `/catalog/${product.parentCategoryId}/${product.categoryId}`;
-            // if (params.subCategoryId === undefined){
-            //     if (params.categoryId !== product.categoryId.toString()){
-            //         path += `/${product.categoryId}`
-            //     }
-            // }
-            path += `/details/${product.productId}`
-            return path;
-        }else {
-            return '';
-        }
+    function handleToProductDetails(value: OrderItemsDetails) {
+        getCurrentUrlForProductDetails(value).then((result) => {
+            router.push(result);
+        })
     }
+
+    const styleImage = [styles.item_image, 'product_details_link_button']
+
 
     return (
         <div className={styles.buy}>
@@ -61,7 +56,7 @@ export default function Buy() {
                 {
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
-                            <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.item_image}>
+                            <button onClick={() => handleToProductDetails(orderItemsDetails[item.productId])} className={styleImage.join(" ")}>
                                 {
                                     orderItemsDetails[item.productId]?.defaultImage == null ?
                                         <Image className={styles.item_image} src={'/images/image.png'} alt="Image" width={283} height={100}/>
@@ -74,11 +69,11 @@ export default function Buy() {
                                             alt={orderItemsDetails[item.productId].name}
                                         />
                                 }
-                            </Link>
+                            </button>
                             <div className={styles.item_wrapper}>
-                                <Link href={getCustomLink(orderItemsDetails[item.productId])}>
+                                <button className="product_details_link_button" onClick={() => handleToProductDetails(orderItemsDetails[item.productId])}>
                                     <h3 className={styles.item_name}>{orderItemsDetails[item.productId]?.name}</h3>
-                                </Link>
+                                </button>
                                 <h3 className={styles.item_name}>{item.quantity} шт</h3>
                                 <h3 className={styles.item_summ}>{orderItemsDetails[item.productId]?.price * item.quantity} &#8381;</h3>
                             </div>

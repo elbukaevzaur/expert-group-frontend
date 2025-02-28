@@ -14,7 +14,7 @@ export default function CategoryListItem(params: Params) {
     const pathname = usePathname();
 
     return (
-        <Link href={`${pathname}/${category.id}`} className="subcatalog__item">
+        <Link href={`${pathname}/${category.slug}`} className="subcatalog__item">
             <div className="subcatalog__info">
                 <h3 className="subcatalog__title">{category.name}</h3>
                 <h4 className="subcatalog__subtitle">{category.productCount} товара</h4>

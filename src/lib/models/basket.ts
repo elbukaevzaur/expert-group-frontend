@@ -28,7 +28,8 @@ export interface OrderItemsDetails {
     logo: string,
     categoryId: number,
     parentCategoryId: number,
-    defaultImage: string
+    defaultImage: string,
+    slug: string
 }
 
 export interface OrderItemsRequest {

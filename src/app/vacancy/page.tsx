@@ -8,6 +8,7 @@ import {getAllVacancies} from "@/lib/http/vacanciesRequest";
 import {VacanciesResponse} from "@/lib/models/vacancies";
 import {handleShare} from "@/components/shareButton";
 import LoadingCard from "@/components/loading/loading-card";
+import ListNotContent from "@/components/ListNotContent";
 
 export default function Vacancy() {
     const [vacancies, setVacancies] = useState<VacanciesResponse[]>([]);
@@ -32,7 +33,7 @@ export default function Vacancy() {
             <div className={styles.items}>
                 {
                     !isLoading ?
-                    vacancies.map((item, index) => {
+                        vacancies.length > 0 ? vacancies.map((item, index) => {
                         return <div key={index} className={styles.item}>
                             <h3 className={styles.item_title}>{item.name}</h3>
                             <p className={styles.item_info}>{item.description}</p>
@@ -46,7 +47,7 @@ export default function Vacancy() {
                                     <ShareSvg/>}</button>
                             </div>
                         </div>
-                    })
+                    }): <ListNotContent text="Список вакансий пуст"/>
                         :
                         <>
                             <LoadingCard styles={{width: 'auto', maxWidth: 592}}/>

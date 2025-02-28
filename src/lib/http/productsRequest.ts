@@ -9,6 +9,10 @@ export function getDetails(productId: number) {
     return axiosInstance.get(`/products/details?productId=${productId}`);
 }
 
+export function getProductDetailsBySlug(slug: string) {
+    return axiosInstance.get(`/products/details/slug?slug=${slug}`);
+}
+
 export function getAllFavoriteProducts() {
     return axiosInstance.get('/products/me/favorite/all');
 }

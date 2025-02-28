@@ -1,6 +1,7 @@
 export interface Products {
     id: number,
     name: string,
+    slug: string,
     price: number,
     currentQuantity: number,
     categoryId: number,

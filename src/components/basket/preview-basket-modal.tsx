@@ -15,6 +15,7 @@ import {
     RemoveAllPreviewBasket,
     RemoveItemPreviewBasket
 } from "@/components/basket/basket-actions";
+import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
 
 interface Props {
     onClose: () => void;
@@ -55,13 +56,13 @@ export default function PreviewBasketModal(props: Props) {
         }, 300);
     }
 
-    const getCustomLink = (product: OrderItemsDetails) => {
-        let path = `/`;
-        if (product?.parentCategoryId !== undefined){
-            path += `catalog/${product.parentCategoryId}/${product.categoryId}/details/${product.productId}`;
-        }
-        return path;
+    function handleToProductDetails(product: OrderItemsDetails) {
+        getCurrentUrlForProductDetails(product).then((result) => {
+            router.push(result)
+        })
     }
+
+    const styleImage = [styles.image, "product_details_link_button"]
 
     return (
         <div className={styles.overlay} onClick={handleOnClose}>
@@ -76,7 +77,7 @@ export default function PreviewBasketModal(props: Props) {
                     {
                         orderItems.map((item, index) => {
                             return <div key={index} className={styles.item}>
-                                <Link href={getCustomLink(orderItemsDetails[item.productId])} className={styles.image}>
+                                <button onClick={() => handleToProductDetails(orderItemsDetails[item.productId])} className={styleImage.join(" ")}>
                                     {
                                         orderItemsDetails[item.productId]?.defaultImage == null ?
                                             <Image src={"/images/image.png"} alt="image" width={158} height={105}/>
@@ -88,12 +89,12 @@ export default function PreviewBasketModal(props: Props) {
                                                 alt={orderItemsDetails[item.productId].name}
                                             />
                                     }
-                                </Link>
+                                </button>
                                 <div className={styles.wrapper}>
                                     <div className={styles.name}>
-                                        <Link href={getCustomLink(orderItemsDetails[item.productId])}>
+                                        <button className="product_details_link_button" onClick={() => handleToProductDetails(orderItemsDetails[item.productId])}>
                                             <h2 className={styles.text}>{orderItemsDetails[item.productId]?.name}</h2>
-                                        </Link>
+                                        </button>
                                         <RemoveItemPreviewBasket productId={item.productId.toString()}/>
                                     </div>
                                     <div className={styles.name}>

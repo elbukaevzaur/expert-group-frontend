@@ -6,6 +6,8 @@ import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
 import {LikeSvg} from "@/lib/icon-svg";
 import styles from "./products-list-item-component.module.css"
 import {AddToCartButton, CartItemQuantity} from "@/components/basket/basket-actions";
+import {useRouter} from "next/navigation";
+import {getCategoryById} from "@/lib/http/categoriesRequest";
 
 interface ProductsProps {
     key: number,
@@ -14,13 +16,31 @@ interface ProductsProps {
     isFavorite: boolean
 }
 
+export const getCurrentUrlForProductDetails = async (product: {categoryId: number, parentCategoryId: number, slug: string}): Promise<string> => {
+    return  new Promise((resolve, reject) => {
+        getCategoryById(product.categoryId).then((categoryResp) => {
+            getCategoryById(product.parentCategoryId).then((subCategoryResp) => {
+                return resolve(`/catalog/${subCategoryResp.data.slug}/${categoryResp.data.slug}/details/${product.slug}`);
+            }).catch((e) => {
+                reject();
+            })
+        }).catch((e) => {
+            reject();
+        })
+    })
+}
+
 export function ProductsListItemComponent(props: ProductsProps) {
     const { product, isFavorite, basketItem } = props;
     const dispatch = useAppDispatch();
+    const router = useRouter();
 
-    const getCustomLink = () => {
-        return `/catalog/${product.parentCategoryId}/${product.categoryId}/details/${product.id}`;
+    function handleToProductDetails() {
+        getCurrentUrlForProductDetails(product).then((result) => {
+            router.push(result);
+        })
     }
+
 
     const handleChangeFavorite = () => {
         const request = {
@@ -31,7 +51,7 @@ export function ProductsListItemComponent(props: ProductsProps) {
 
     return (
         <div className={styles.item}>
-            <Link href={`${getCustomLink()}`}>
+            <button className="product_details_link_button" onClick={() => handleToProductDetails()}>
                 {
                     product.defaultImage == null ?
                         <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
@@ -44,7 +64,7 @@ export function ProductsListItemComponent(props: ProductsProps) {
                             alt={product.name}
                         />
                 }
-            </Link>
+            </button>
             <div className={styles.info}>
                 <h3 className={styles.name}>{product.name}</h3>
                 <div className={styles.wrraper}>

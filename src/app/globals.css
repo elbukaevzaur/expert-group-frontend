@@ -234,3 +234,8 @@ a {
   height: 100%;
   padding-bottom: 30px;
 }
+
+.product_details_link_button {
+  border: none;
+  background: transparent;
+}
