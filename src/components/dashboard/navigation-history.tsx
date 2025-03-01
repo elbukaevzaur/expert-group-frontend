@@ -8,7 +8,8 @@ import {useEffect, useState} from "react";
 import {CURRENT_CATEGORY_FETCH_REQUESTED, CURRENT_SUB_CATEGORY_FETCH_REQUESTED} from "@/lib/reducers";
 import styles from "@/components/dashboard/navigation-history.module.css"
 import {getCategoryBySlug} from "@/lib/http/categoriesRequest";
-import {Category} from "@/lib/models";
+import {Category, ProductDetailsResponse} from "@/lib/models";
+import {getProductDetailsBySlug} from "@/lib/http/productsRequest";
 
 export default function NavigationHistory() {
     const router = useRouter()
@@ -17,6 +18,7 @@ export default function NavigationHistory() {
     const dispatch = useAppDispatch();
     const [category, setCategory] = useState<Category>({} as Category);
     const [subCategory, setSubCategory] = useState<Category>({} as Category);
+    const [productDetails, setProductDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse)
 
     useEffect(() => {
         if (params.categorySlug !== null && params.categorySlug !== undefined) {
@@ -29,6 +31,16 @@ export default function NavigationHistory() {
             loadCurrentSubCategory(String(params.subCategorySlug))
         }
     }, [params.subCategorySlug]);
+
+    useEffect(() => {
+        if (params.productDetailsSlug !== null && params.productDetailsSlug !== undefined){
+            getProductDetailsBySlug(String(params.productDetailsSlug)).then((resp) => {
+                setProductDetails(resp.data);
+            })
+        }
+    }, [params.productDetailsSlug]);
+
+
 
     const loadCurrentCategory = (slug: string) => {
         getCategoryBySlug(slug).then((resp) => {
@@ -84,7 +96,7 @@ export default function NavigationHistory() {
                     } else if (prev_path == 'category') {
                         title = `subCategory`
                     } else if (prev_path == 'details') {
-                        title = `${value}`
+                        title = `productDetails`
                     } else {
                         isAdd = false
                     }
@@ -118,7 +130,7 @@ export default function NavigationHistory() {
                     histories().map((value, index) => {
                         return <Link key={index} href={value.path}>
                             <u className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
-                                {value.title === 'category'?category?.name : value.title === 'subCategory' ? subCategory?.name : value.title}
+                                {value.title === 'category'?category?.name : value.title === 'subCategory' ? subCategory?.name : value.title === 'productDetails' ? productDetails?.name : value.title}
                             </u>
                             {
                                 index < (histories().length - 1) &&

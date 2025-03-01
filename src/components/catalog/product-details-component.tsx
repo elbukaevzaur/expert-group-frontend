@@ -33,6 +33,7 @@ export default function ProductDetailsComponent(params: Params) {
     const fetchData = async () => {
         getProductDetailsBySlug(params.slug).then((resp) => {
             setDetails(resp.data);
+            console.log(resp.data)
         })
     }
 
@@ -43,7 +44,6 @@ export default function ProductDetailsComponent(params: Params) {
                 setBasketItem(item);
             else
                 setBasketItem({} as OrderItems);
-
         }
     }, [orderItems, details]);
 
@@ -129,9 +129,12 @@ export default function ProductDetailsComponent(params: Params) {
                         </div>
                     </div>
                     <div className={styles.wrapper}>
-                        <button className={styles.button_show}>
-                            <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
-                        </button>
+                        {
+                            details?.modelLink !== undefined &&
+                            <Link href={details?.modelLink} className={styles.button_show} target={"_blank"}>
+                                <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
+                            </Link>
+                        }
                         <button onClick={handleChangeFavorite} className={`${styles.button_like} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like}`}>
                             <LikeSvg width={24} height={22}
                                      fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'white'}
@@ -192,7 +195,7 @@ export default function ProductDetailsComponent(params: Params) {
                     </div>
                 </div>
             </div>
-            <div className={styles.navigator}>
+            {/*<div className={styles.navigator}>
                 <button className={styles.navigator_button}>
                     <h3 className={styles.navigator_text}>НАЛИЧИЕ</h3>
                 </button>
@@ -233,7 +236,7 @@ export default function ProductDetailsComponent(params: Params) {
                     <div className={styles.swipe_circle}></div>
                     <div className={styles.swipe_circle}></div>
                 </div>
-            </div>
+            </div>*/}
         </section>
     )
 }

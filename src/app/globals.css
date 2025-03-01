@@ -238,4 +238,5 @@ a {
 .product_details_link_button {
   border: none;
   background: transparent;
+  cursor: pointer;
 }

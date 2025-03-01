@@ -27,7 +27,8 @@ export interface ProductDetailsResponse {
     price: number,
     material: Materials,
     defaultImage: string,
-    images: ProductImages[]
+    images: ProductImages[],
+    modelLink: string
 }
 
 export interface ProductImages{
