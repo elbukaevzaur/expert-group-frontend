@@ -33,7 +33,6 @@ export default function ProductDetailsComponent(params: Params) {
     const fetchData = async () => {
         getProductDetailsBySlug(params.slug).then((resp) => {
             setDetails(resp.data);
-            console.log(resp.data)
         })
     }
 
