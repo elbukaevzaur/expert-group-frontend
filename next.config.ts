@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
             {
                 protocol: 'https',
                 hostname: 'api.expertgroupholding.ru',
-                port: '80',
                 pathname: '/images/**',
             },
         ]
