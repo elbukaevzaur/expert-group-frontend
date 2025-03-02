@@ -56,7 +56,7 @@ export function ProductsListItemComponent(props: ProductsProps) {
                     product.defaultImage == null ?
                         <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
                         :
-                        <Image
+                        <img
                             className={styles.image}
                             width={295}
                             height={149}

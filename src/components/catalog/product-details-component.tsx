@@ -94,7 +94,7 @@ export default function ProductDetailsComponent(params: Params) {
                         }
                         {
                             selectedImageIndex !== null && details?.images?.length > 0 ?
-                                <Image 
+                                <img 
                                     className={styles.image} 
                                     width={532} 
                                     height={394}

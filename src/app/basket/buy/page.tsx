@@ -61,7 +61,7 @@ export default function Buy() {
                                     orderItemsDetails[item.productId]?.defaultImage == null ?
                                         <Image className={styles.item_image} src={'/images/image.png'} alt="Image" width={283} height={100}/>
                                         :
-                                        <Image 
+                                        <img 
                                             className={styles.item_image} 
                                             width={283} 
                                             height={100}
