@@ -114,7 +114,7 @@ export default function ProductDetailsComponent(params: Params) {
                                         onClick={() => setSelectedImageIndex(index)}
                                         className={styles.selected_image}
                                     >
-                                        <Image 
+                                        <img
                                         className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
                                         width={50} 
                                         height={50}
