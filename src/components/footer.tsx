@@ -75,12 +75,10 @@ export default function Footer() {
                     <div className={styles.info}>
                         <h2 className={styles.info_title}>Покупателям</h2>
                         <div className={styles.info_wrraper}>
-                        <h3 className={styles.info_text}>Как оформить заказ</h3>
-                        <h3 className={styles.info_text}>Способы оплаты</h3>
-                        <h3 className={styles.info_text}>Условия доставки</h3>
-                        <h3 className={styles.info_text}>Гарантии и возврат</h3>
-                        <h3 className={styles.info_text}>Общие условия продаж</h3>
-                    </div>
+                            <Link href={"/stores"}>
+                                <h3 className={styles.info_text}>Где купить</h3>
+                            </Link>
+                        </div>
                 </div>
                 <div className={`${styles.info} ${styles.info_absolute}`}>
                     <h2 className={styles.info_title}>Контакты</h2>
@@ -90,7 +88,11 @@ export default function Footer() {
                                 Наши реквизиты
                             </Link>
                         </h3>
-                        <h3 className={styles.info_text}>Где купить</h3>
+                        <h3 className={styles.info_text}>
+                            <Link href={"/contacts"}>
+                                Наши Контакты
+                            </Link>
+                        </h3>
                         {/*<h3 className={styles.info_text}>Как купить</h3>*/}
                     </div>
                 </div>
