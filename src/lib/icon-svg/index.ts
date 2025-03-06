@@ -10,3 +10,4 @@ export * from '@/lib/icon-svg/increase';
 export * from '@/lib/icon-svg/search';
 export * from '@/lib/icon-svg/location';
 export * from '@/lib/icon-svg/menu';
+export * from '@/lib/icon-svg/contacts';

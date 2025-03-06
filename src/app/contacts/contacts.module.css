@@ -1,0 +1,52 @@
+.main {
+    width: 1214px;
+    margin: 20px auto 0;
+}
+
+@media (max-width: 1250px) {
+    .main {
+        width: calc(100% - 40px);
+    }
+}
+
+.container {
+    margin: 20px auto;
+}
+
+.info_bar {
+    padding: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+@media (max-width: 700px) {
+    .info_bar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+
+.address, .phone, .email {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.address:hover, .phone:hover, .email:hover {
+    color: #1fa038;
+}
+
+.address img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+.map_container iframe {
+    border-radius: 12px;
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #d8d8d8;
+}
