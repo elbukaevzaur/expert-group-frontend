@@ -67,3 +67,22 @@ export function MailSvg(props) {
       </svg>
   )
 }
+
+export function ClockSvg(props) {
+    return (
+        <svg
+            width={25}
+            height={25}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            {...props}
+        >
+            <path
+                d="M10.145.55a9.563 9.563 0 109.563 9.562A9.574 9.574 0 0010.144.55zm0 18a8.437 8.437 0 118.438-8.438 8.447 8.447 0 01-8.438 8.438zm5.813-8.438a.563.563 0 01-.563.563h-5.25a.563.563 0 01-.562-.563v-5.25a.562.562 0 011.124 0V9.55h4.688a.563.563 0 01.563.562z"
+                fill="#21A038"
+            />
+        </svg>
+    )
+}
+

@@ -180,10 +180,12 @@ export default function Dashboard() {
                         }
                     </div>
                 </div>
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog}`}>
-                    <h3 className={styles.navigator__text}>Как купить</h3>
+                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/stores') && styles.navigator__container_active}`}>
+                    <Link className={styles.link} href={'/stores'}>
+                        <h3 className={styles.navigator__text}>Где купить</h3>
+                    </Link>
                     {/* <Image src={'/images/Vector_white.png'} alt="Стрелка" width={13} height={8} /> */}
-                    <div className={styles.dropdown_green}>
+                    {/*<div className={styles.dropdown_green}>
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Как оформить заказ</h3>
                         </div>
@@ -199,13 +201,13 @@ export default function Dashboard() {
                         <div className={styles.dropdown_green_wrapper}>
                             <h3 className={styles.dropdown_green_text}>Общие условия продаж</h3>
                         </div>
-                    </div>
+                    </div>*/}
                 </div>
-                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/gallery') && styles.navigator__container_active}`}>
+{/*                <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/gallery') && styles.navigator__container_active}`}>
                     <Link className={styles.link} href={'/gallery'}>
                         <h3 className={styles.navigator__text}>Галерея</h3>
                     </Link>
-                </div>
+                </div>*/}
                 <div className={`${styles.navigator__container} ${styles.dropdown__catalog} ${containCurrentPage('/contacts') && styles.navigator__container_active}`}>
                     <Link className={styles.link} href={'/contacts'}>
                         <h3 className={styles.navigator__text}>Контакты</h3>
