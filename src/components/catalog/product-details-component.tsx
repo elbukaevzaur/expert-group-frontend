@@ -95,9 +95,7 @@ export default function ProductDetailsComponent(params: Params) {
                         {
                             selectedImageIndex !== null && details?.images?.length > 0 ?
                                 <img 
-                                    className={styles.image} 
-                                    width={532} 
-                                    height={394}
+                                    className={styles.image_details}
                                     src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}
                                     alt={details?.name}
                                 />
@@ -151,7 +149,16 @@ export default function ProductDetailsComponent(params: Params) {
                     <h3 className={styles.description_text}>Ширина, мм: {details?.width}</h3>
                     <h3 className={styles.description_text}>Длина, мм: {details?.length}</h3>
                     </div>
-                    <Image className={styles.description_image} src={'/images/Description.png'} alt="Характеристики" width={130} height={178}/>
+                    {
+                        (details.draftImage !== null && details.draftImage !== '') &&
+                        <img
+                            className={styles.description_image}
+                            width={130}
+                            height={178}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'thumbnail_' + details.draftImage}`}
+                            alt="Характеристики"
+                        />
+                    }
                 </div>
                 <div className={styles.price}>
                     <div className={styles.price_buy}>
