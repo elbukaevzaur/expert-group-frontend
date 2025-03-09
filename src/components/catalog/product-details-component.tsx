@@ -94,7 +94,7 @@ export default function ProductDetailsComponent(params: Params) {
                         }
                         {
                             selectedImageIndex !== null && details?.images?.length > 0 ?
-                                <img 
+                                <img
                                     className={styles.image_details}
                                     src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}
                                     alt={details?.name}
@@ -114,7 +114,7 @@ export default function ProductDetailsComponent(params: Params) {
                                     >
                                         <img
                                         className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
-                                        width={50} 
+                                        width={50}
                                         height={50}
                                         src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'thumbnail_' + item?.imagePath}`}
                                         alt="img"
@@ -139,6 +139,12 @@ export default function ProductDetailsComponent(params: Params) {
                             />
                             <h3 className={`${styles.button_like_text} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like_text}`}>В ИЗБРАННОЕ</h3>
                         </button>
+                    </div>
+                    <div className={styles.description_container}>
+                        <h3 className={styles.product_text_title}>Описание</h3>
+                        <p className={styles.product_text}>
+                            {details?.description}
+                        </p>
                     </div>
                 </div>
                 <div className={styles.description}>

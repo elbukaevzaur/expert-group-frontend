@@ -509,3 +509,15 @@
   .selected_image {
     cursor: pointer;
   }
+
+  .description_container{
+    margin-top: 15px;
+    margin-bottom: 20px;
+  }
+  .product_text_title{
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .product_text {
+    line-height: 1.6;
+  }
