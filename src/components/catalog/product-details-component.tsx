@@ -19,6 +19,7 @@ interface Params {
 }
 
 export default function ProductDetailsComponent(params: Params) {
+    const { isAuth } = useAppSelector((state) => state.auth);
     const { orderItems } = useAppSelector((state) => state.basket);
     const [basketItem, setBasketItem] = useState<OrderItems>({} as OrderItems);
     const { allFavorites } = useAppSelector((state) => state.favorites);
@@ -81,6 +82,17 @@ export default function ProductDetailsComponent(params: Params) {
                 <div className={styles.container}>
                     <div className={styles.image_wrapper}>
                         {
+                            details?.defaultImage ?
+                                <img
+                                    className={styles.image_details}
+                                    src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}
+                                    alt={details?.name}
+                                />
+                                :
+                                <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
+                                       width={532} height={394}/>
+                        }
+{/*                        {
                             selectedImageIndex > 0 &&
                             <div style={{cursor: 'pointer'}} onClick={handleShowPrevImage}>
                                 <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
@@ -123,22 +135,27 @@ export default function ProductDetailsComponent(params: Params) {
                                 })
 
                             }
-                        </div>
+                        </div>*/}
                     </div>
                     <div className={styles.wrapper}>
                         {
-                            details?.modelLink !== undefined &&
+                            (details?.modelLink !== undefined && details?.modelLink !== null && details?.modelLink !== '')  ?
                             <Link href={details?.modelLink} className={styles.button_show} target={"_blank"}>
                                 <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
                             </Link>
+                                :
+                                <div/>
                         }
-                        <button onClick={handleChangeFavorite} className={`${styles.button_like} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like}`}>
-                            <LikeSvg width={24} height={22}
-                                     fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'white'}
-                                     stroke={allFavorites.hasOwnProperty(details?.id || 0)? 'white' :'#21A038'}
-                            />
-                            <h3 className={`${styles.button_like_text} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like_text}`}>В ИЗБРАННОЕ</h3>
-                        </button>
+                        {
+                            isAuth &&
+                            <button onClick={handleChangeFavorite} className={`${styles.button_like} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like}`}>
+                                <LikeSvg width={24} height={22}
+                                         fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'white'}
+                                         stroke={allFavorites.hasOwnProperty(details?.id || 0)? 'white' :'#21A038'}
+                                />
+                                <h3 className={`${styles.button_like_text} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like_text}`}>В ИЗБРАННОЕ</h3>
+                            </button>
+                        }
                     </div>
                     <div className={styles.description_container}>
                         <h3 className={styles.product_text_title}>Описание</h3>
@@ -149,14 +166,34 @@ export default function ProductDetailsComponent(params: Params) {
                 </div>
                 <div className={styles.description}>
                     <div>
-                    <h3 className={`${styles.description_text} ${styles.description_margin}`}>Характеристики</h3>
-                    <h3 className={styles.description_text}>Материал: {details?.material?.name}</h3>
-                    <h3 className={styles.description_text}>Высота, мм: {details?.height}</h3>
-                    <h3 className={styles.description_text}>Ширина, мм: {details?.width}</h3>
-                    <h3 className={styles.description_text}>Длина, мм: {details?.length}</h3>
+                        <h3 className={`${styles.description_text} ${styles.description_margin}`}>Характеристики</h3>
+                        {
+                            details?.material &&
+                            <h3 className={styles.description_text}>Материал: {details?.material?.name}</h3>
+                        }
+                        {
+                            details?.height > 0 &&
+                            <h3 className={styles.description_text}>Высота, мм: {details?.height}</h3>
+                        }
+                        {
+                            details?.width > 0 &&
+                            <h3 className={styles.description_text}>Ширина, мм: {details?.width}</h3>
+                        }
+                        {
+                            details?.length > 0 &&
+                            <h3 className={styles.description_text}>Длина, мм: {details?.length}</h3>
+                        }
+                        {
+                            details?.thickness > 0 &&
+                            <h3 className={styles.description_text}>Толщина, мм: {details?.thickness}</h3>
+                        }
+                        {
+                            details?.outerDiameter > 0 &&
+                            <h3 className={styles.description_text}>Внешний диаметр, мм: {details?.outerDiameter}</h3>
+                        }
                     </div>
                     {
-                        (details.draftImage !== null && details.draftImage !== '') &&
+                        details.draftImage &&
                         <img
                             className={styles.description_image}
                             width={130}
@@ -170,9 +207,12 @@ export default function ProductDetailsComponent(params: Params) {
                     <div className={styles.price_buy}>
                         <div className={styles.price_buy_wrraper}>
                         <div className={styles.price_buy_title}>{details?.price} &#8381;/шт</div>
-                        <button onClick={handleChangeFavorite} className={styles.price_buy_like}>
-                            <LikeSvg width={24} height={22} fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'none'} />
-                        </button>
+                            {
+                                isAuth &&
+                                <button onClick={handleChangeFavorite} className={styles.price_buy_like}>
+                                    <LikeSvg width={24} height={22} fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'none'} />
+                                </button>
+                            }
                         </div>
                         <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>
                             {
