@@ -20,3 +20,7 @@ export function getAllFavoriteProducts() {
 export function getProductsFullTextSearch(query: string) {
     return axiosInstance.get(`/products/search?query=${query}`);
 }
+
+export function getModelsForProduct(productId: string) {
+    return axiosInstance.get(`/files/product/${productId}`);
+}

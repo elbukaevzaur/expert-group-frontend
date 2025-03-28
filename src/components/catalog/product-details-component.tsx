@@ -12,7 +12,9 @@ import {OrderItems, OrderItemsRequest, ProductDetailsResponse} from "@/lib/model
 import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
 import styles from "./product-details-component.module.css"
 import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/basket-actions";
-import {getProductDetailsBySlug} from "@/lib/http/productsRequest";
+import {getModelsForProduct, getProductDetailsBySlug} from "@/lib/http/productsRequest";
+import {loadFromLocalStorage} from "@/lib/storage/localStorageCustom";
+import {HexagonModelSection} from "@/components/catalog/hexagon-model-section";
 
 interface Params {
     slug: string
@@ -26,6 +28,7 @@ export default function ProductDetailsComponent(params: Params) {
     const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
     const [details, setDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse);
     const dispatch = useAppDispatch();
+    const [models, setModels] = useState<{id: number, name: string, type: string}[]>([]);
 
     useEffect(() => {
          fetchData();
@@ -34,6 +37,13 @@ export default function ProductDetailsComponent(params: Params) {
     const fetchData = async () => {
         getProductDetailsBySlug(params.slug).then((resp) => {
             setDetails(resp.data);
+            fetchModels(resp.data.id)
+        })
+    }
+
+    const fetchModels = (productId: string) => {
+        getModelsForProduct(productId).then((resp) => {
+            setModels(resp.data)
         })
     }
 
@@ -92,7 +102,7 @@ export default function ProductDetailsComponent(params: Params) {
                                 <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
                                        width={532} height={394}/>
                         }
-{/*                        {
+                        {/*                        {
                             selectedImageIndex > 0 &&
                             <div style={{cursor: 'pointer'}} onClick={handleShowPrevImage}>
                                 <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
@@ -139,21 +149,23 @@ export default function ProductDetailsComponent(params: Params) {
                     </div>
                     <div className={styles.wrapper}>
                         {
-                            (details?.modelLink !== undefined && details?.modelLink !== null && details?.modelLink !== '')  ?
-                            <Link href={details?.modelLink} className={styles.button_show} target={"_blank"}>
-                                <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
-                            </Link>
+                            (details?.modelLink !== undefined && details?.modelLink !== null && details?.modelLink !== '') ?
+                                <Link href={details?.modelLink} className={styles.button_show} target={"_blank"}>
+                                    <h3 className={styles.button_show_text}>Посмотреть в 3D</h3>
+                                </Link>
                                 :
                                 <div/>
                         }
                         {
                             isAuth &&
-                            <button onClick={handleChangeFavorite} className={`${styles.button_like} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like}`}>
+                            <button onClick={handleChangeFavorite}
+                                    className={`${styles.button_like} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like}`}>
                                 <LikeSvg width={24} height={22}
-                                         fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'white'}
-                                         stroke={allFavorites.hasOwnProperty(details?.id || 0)? 'white' :'#21A038'}
+                                         fill={allFavorites.hasOwnProperty(details?.id || 0) ? '#21A038' : 'white'}
+                                         stroke={allFavorites.hasOwnProperty(details?.id || 0) ? 'white' : '#21A038'}
                                 />
-                                <h3 className={`${styles.button_like_text} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like_text}`}>В ИЗБРАННОЕ</h3>
+                                <h3 className={`${styles.button_like_text} ${!allFavorites.hasOwnProperty(details?.id || 0) && styles.button_not_like_text}`}>В
+                                    ИЗБРАННОЕ</h3>
                             </button>
                         }
                     </div>
@@ -206,20 +218,23 @@ export default function ProductDetailsComponent(params: Params) {
                 <div className={styles.price}>
                     <div className={styles.price_buy}>
                         <div className={styles.price_buy_wrraper}>
-                        <div className={styles.price_buy_title}>{details?.price} &#8381;/шт</div>
+                            <div className={styles.price_buy_title}>{details?.price} &#8381;/шт</div>
                             {
                                 isAuth &&
                                 <button onClick={handleChangeFavorite} className={styles.price_buy_like}>
-                                    <LikeSvg width={24} height={22} fill={allFavorites.hasOwnProperty(details?.id || 0)? '#21A038' : 'none'} />
+                                    <LikeSvg width={24} height={22}
+                                             fill={allFavorites.hasOwnProperty(details?.id || 0) ? '#21A038' : 'none'}/>
                                 </button>
                             }
                         </div>
                         <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>
                             {
                                 details?.currentQuantity > 0 && basketItem?.quantity > 0 ?
-                                    <CartItemQuantityDetails productId={details.id} orderItem={basketItem} productQuantity={details.currentQuantity}/>
-                                :
-                                    <AddToCartButton productId={details.id} orderItem={basketItem} productQuantity={details.currentQuantity}/>
+                                    <CartItemQuantityDetails productId={details.id} orderItem={basketItem}
+                                                             productQuantity={details.currentQuantity}/>
+                                    :
+                                    <AddToCartButton productId={details.id} orderItem={basketItem}
+                                                     productQuantity={details.currentQuantity}/>
                             }
                             <div style={{textAlign: 'right'}}>
                                 <h2 className={styles.price_buy_subtitle}>
@@ -231,22 +246,29 @@ export default function ProductDetailsComponent(params: Params) {
                             basketItem?.quantity > 0 &&
                             <Link href={'/basket'} className={styles.price_button}>
                                 <Image src={'/images/Basket_white.png'} alt="Корзина" width={26} height={26}/>
-                                    <h3 className={styles.price_button_text}>Перейти в корзину</h3>
-                                </Link>
+                                <h3 className={styles.price_button_text}>Перейти в корзину</h3>
+                            </Link>
                         }
-{/*                        <button className= {`${styles.price_button} ${styles.price_button_color}`}>
+                        {/*                        <button className= {`${styles.price_button} ${styles.price_button_color}`}>
                             <h3 className={`${styles.price_button_text} ${styles.price_button_text_color}`}>Купить в 1
                                 клик</h3>
                         </button>*/}
                     </div>
                     <div className={styles.price_info}>
-                        <h2 className={`${styles.price_info_text} ${styles.price_info_text_weight}`}>Доставим ваш товар:</h2>
+                        <h2 className={`${styles.price_info_text} ${styles.price_info_text_weight}`}>Доставим ваш
+                            товар:</h2>
                         <h2 className={styles.price_info_text}>По Москве – 500 руб. (1-2 дня)</h2>
                         <h2 className={styles.price_info_text}>БЕСПЛАТНО – от 5000 руб.</h2>
                         <h2 className={styles.price_info_text}>По России (уточняйте у наших менеджеров)</h2>
                     </div>
                 </div>
             </div>
+
+            {
+                models.length > 0 &&
+                <HexagonModelSection title="3D модели для скачивания" files={models}/>
+            }
+
             {/*<div className={styles.navigator}>
                 <button className={styles.navigator_button}>
                     <h3 className={styles.navigator_text}>НАЛИЧИЕ</h3>
