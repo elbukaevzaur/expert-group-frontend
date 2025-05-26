@@ -4,15 +4,17 @@ import styles from '@/app/page.module.css';
 import { ArrowLeftSvg } from '@/lib/icon-svg';
 import Link from 'next/link';
 import Image from 'next/image';
-import {Category, Products} from "@/lib/models";
+import {Category, PageRequest, PageResponse, Products} from "@/lib/models";
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
 import VideoPlayer, {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getPopularProducts} from "@/lib/http/popularRequest";
 
 export default function Home() {
     const [showVideoSource, setShowVideoSource] = useState('');
     const [isShowVideo, setIsShowVideo] = useState(false);
+    const [popularProducts, setPopularProducts] = useState<PageResponse<Products>>({page: 0} as PageResponse<Products>);
 
   const categories: Category[] = [
     { id: 1, defaultImage: null, name: 'Category 1', slug: 'slug1', productCount: 10},
@@ -43,6 +45,25 @@ export default function Home() {
     {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
     {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
   ]
+
+    useEffect(() => {
+        loadProducts();
+    }, []);
+
+  const loadProducts = () => {
+      const pageRequest: PageRequest = {
+          filters: [],
+          orderedColumns: [],
+          page: (popularProducts.page + 1)
+      }
+      console.log('pageRequest', pageRequest.page)
+      getPopularProducts(pageRequest).then((resp) => {
+          setPopularProducts({
+              ...resp.data,
+              content: popularProducts.content?.length > 0 ? [...popularProducts.content, ...resp.data.content] : resp.data.content
+          })
+      })
+  }
 
   return (
     <div className={styles.home}>
@@ -132,21 +153,26 @@ export default function Home() {
           })
         }
       </div>
-      
-
-      <h2 className={styles.home__title}>Популярные товары</h2>
-      <div className={styles.home__products_list}>
         {
-          products.map((item, index) => {
-            return <ProductsListItemComponent key={index} product={item} basketItem={null} isFavorite={false} />
-          })
+            popularProducts.content?.length > 0 &&
+            <>
+              <h2 className={styles.home__title}>Популярные товары</h2>
+              <div className={styles.home__products_list}>
+                {
+                  popularProducts.content.map((item, index) => {
+                    return <ProductsListItemComponent key={index} product={item} basketItem={null} isFavorite={false} />
+                  })
+                }
+              </div>
+                {
+                    popularProducts.page < popularProducts.totalPages &&
+                    <button onClick={loadProducts} className={styles.home_button}>Показать еще</button>
+                }
+            </>
         }
-      </div>
-      <button className={styles.home_button}>Показать еще</button>
-
       <h2 className={styles.home__title}>Партнеры</h2>
         <div className={styles.home__partners}>
-          <Image src={'/images/Home1.png'} alt='Docke' width={282} height={90}/>
+          <Image src={'/images/Home1.png'} alt='Docker' width={282} height={90}/>
           <Image src={'/images/Home2.png'} alt='Grasaro' width={282} height={90}/>
           <Image src={'/images/Home3.png'} alt='Grand Line' width={282} height={90}/>
           <Image src={'/images/Home4.png'} alt='Brayer' width={282} height={90}/>

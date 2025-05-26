@@ -44,7 +44,7 @@ export default function Dashboard() {
         setIsLoginVisible(!isLoginVisible);
     };
 
-    const containCurrentPage = (path: string): boolean => {
+    const containCurrentPage = (path: string): boolean => {containCurrentPage
         return pathname.startsWith(path);
     }
 
