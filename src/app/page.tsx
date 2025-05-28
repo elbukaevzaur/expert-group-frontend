@@ -9,12 +9,13 @@ import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
 import VideoPlayer, {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
 import {useEffect, useState} from "react";
-import {getPopularProducts} from "@/lib/http/popularRequest";
+import {getPopularCategories, getPopularProducts} from "@/lib/http/popularRequest";
 
 export default function Home() {
     const [showVideoSource, setShowVideoSource] = useState('');
     const [isShowVideo, setIsShowVideo] = useState(false);
     const [popularProducts, setPopularProducts] = useState<PageResponse<Products>>({page: 0} as PageResponse<Products>);
+    const [popularCategories, setPopularCategories] = useState<PageResponse<Category>>({page: 0} as PageResponse<Category>);
 
   const categories: Category[] = [
     { id: 1, defaultImage: null, name: 'Category 1', slug: 'slug1', productCount: 10},
@@ -48,19 +49,34 @@ export default function Home() {
 
     useEffect(() => {
         loadProducts();
+        loadCategories();
     }, []);
 
   const loadProducts = () => {
-      const pageRequest: PageRequest = {
+      const pageRequestProducts: PageRequest = {
           filters: [],
           orderedColumns: [],
           page: (popularProducts.page + 1)
       }
-      console.log('pageRequest', pageRequest.page)
-      getPopularProducts(pageRequest).then((resp) => {
+      getPopularProducts(pageRequestProducts).then((resp) => {
           setPopularProducts({
               ...resp.data,
               content: popularProducts.content?.length > 0 ? [...popularProducts.content, ...resp.data.content] : resp.data.content
+          })
+      })
+  }
+
+  const loadCategories = () => {
+      const pageRequestCategories: PageRequest = {
+          filters: [],
+          orderedColumns: [],
+          page: (popularCategories.page + 1)
+      }
+
+      getPopularCategories(pageRequestCategories).then((resp) => {
+          setPopularCategories({
+              ...resp.data,
+              content: popularCategories.content?.length > 0 ? [...popularCategories.content, ...resp.data.content] : resp.data.content
           })
       })
   }
@@ -138,21 +154,25 @@ export default function Home() {
                 }}/>
             </div>
         </div>
-
-        <div className={styles.home__wrapper}>
-            <h2 className={styles.home__title}>Популярные категории</h2>
-            <Link href={"/catalog"} className={styles.home__title_link}>
-            <p className={styles.home__title_subtitle}>Весь каталог</p>
-          <ArrowLeftSvg className={styles.home_svg} fill={'#21A038'} width={9} height={16}/>
-        </Link>
-      </div>
-      <div className={styles.home_categories}>
         {
-          categories.map((item, index) => {
-            return <CategoryListItem key={index} category={item} />
-          })
+            popularCategories.content?.length > 0 &&
+            <>
+                <div className={styles.home__wrapper}>
+                    <h2 className={styles.home__title}>Популярные категории</h2>
+                    <Link href={"/catalog"} className={styles.home__title_link}>
+                        <p className={styles.home__title_subtitle}>Весь каталог</p>
+                        <ArrowLeftSvg className={styles.home_svg} fill={'#21A038'} width={9} height={16}/>
+                    </Link>
+                </div>
+                <div className={styles.home_categories}>
+                    {
+                        popularCategories.content?.map((item, index) => {
+                            return <CategoryListItem key={index} category={item} />
+                        })
+                    }
+                </div>
+            </>
         }
-      </div>
         {
             popularProducts.content?.length > 0 &&
             <>
