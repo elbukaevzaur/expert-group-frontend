@@ -80,14 +80,14 @@ export default function Home() {
   return (
     <div className={styles.home}>
         {
-            popularProjects.content?.length > 1 ?
+            popularProjects.content?.length > 0 ?
                 <div className={styles.projects}>
                     <Link href={"/"} className={styles.item_image}>
                         <img
                             className={styles.item_image_img}
                             width={100}
                             height={100}
-                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + popularProjects.content[0]?.defaultImage}`}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + popularProjects.content[0]?.defaultImage}`}
                             alt={popularProjects.content[0].name}
                         />
                         <div className={styles.description}>
@@ -99,13 +99,13 @@ export default function Home() {
                         {
                             popularProjects.content.filter(filter => filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
                                 return <Link href={"/"} key={index} className={styles.item_image}>
-                                    {/*<img*/}
-                                    {/*    className={styles.list_images_img}*/}
-                                    {/*    src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`}*/}
-                                    {/*    alt={item.name}*/}
-                                    {/*/>*/}
-                                    <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
-                                           width={100} height={100}/>
+                                    <img
+                                       className={styles.list_images_img}
+                                       src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + item?.defaultImage}`}
+                                       alt={item.name}
+                                    />
+                                    {/* <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
+                                           width={100} height={100}/> */}
                                     <div className={styles.description_small}>
                                         <span className={styles.description_category_small}>{item.name}</span>
                                         <span className={styles.description_name_small}>{item.address}, {item.category.name}</span>
@@ -114,24 +114,7 @@ export default function Home() {
                             })
                         }
                     </div>
-                </div>:
-                popularProjects.content?.length > 0 ?
-                    <div className={styles.projects}>
-                        <Link href={"/"} className={styles.item_image}>
-                            <img
-                                className={styles.item_image_img}
-                                width={100}
-                                height={100}
-                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + popularProjects.content[0]?.defaultImage}`}
-                                alt={popularProjects.content[0].name}
-                            />
-                            <div className={styles.description}>
-                                <span className={styles.description_category}>{popularProjects.content[0].name}</span>
-                                <span className={styles.description_name}>{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</span>
-                            </div>
-                        </Link>
-                    </div>:
-                    <div/>
+                </div>:<div/>
         }
 
         {
