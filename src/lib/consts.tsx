@@ -26,3 +26,25 @@ export const getTitleByField = (field: string): string => {
     }
     return title;
 }
+
+export const getUnitTypeTitle = (value: string): string => {
+    let title = '';
+    switch (value){
+        case 'PIECE':
+            title = 'шт';
+            break
+        case 'KILOGRAM':
+            title = 'кг';
+            break
+        case 'LITER':
+            title = 'л';
+            break
+        case 'METER':
+            title = 'м';
+            break
+        case 'CENTIMETER':
+            title = 'см';
+            break
+    }
+    return title;
+}

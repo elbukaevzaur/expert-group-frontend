@@ -16,3 +16,11 @@ export function getPopularCategories(pageRequest: PageRequest) {
     }
     return axiosInstance.get(`/popular/categories?${params}`);
 }
+
+export function getPopularProjects(pageRequest: PageRequest) {
+    const params = [];
+    if (pageRequest.page > 1) {
+        params.push(`page=${pageRequest.page}`)
+    }
+    return axiosInstance.get(`/popular/projects?${params}`);
+}

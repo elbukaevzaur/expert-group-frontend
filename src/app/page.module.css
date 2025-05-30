@@ -393,12 +393,6 @@ a.secondary {
   line-height: 17px;
 }
 
-.list_images_img {
-  width: 100%;
-  height: 100%;
-  border-radius: 12px;
-}
-
 .description_small {
   position: absolute;
   bottom: 0;

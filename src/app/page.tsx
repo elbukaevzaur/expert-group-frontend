@@ -9,38 +9,17 @@ import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
 import VideoPlayer, {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
 import {useEffect, useState} from "react";
-import {getPopularCategories, getPopularProducts} from "@/lib/http/popularRequest";
+import {getPopularCategories, getPopularProducts, getPopularProjects} from "@/lib/http/popularRequest";
+import {ProjectsListResponse} from "@/lib/models/projects";
 
 export default function Home() {
     const [showVideoSource, setShowVideoSource] = useState('');
     const [isShowVideo, setIsShowVideo] = useState(false);
     const [popularProducts, setPopularProducts] = useState<PageResponse<Products>>({page: 0} as PageResponse<Products>);
     const [popularCategories, setPopularCategories] = useState<PageResponse<Category>>({page: 0} as PageResponse<Category>);
+    const [popularProjects, setPopularProjects] = useState<PageResponse<ProjectsListResponse>>({page: 0} as PageResponse<ProjectsListResponse>);
 
-  const categories: Category[] = [
-    { id: 1, defaultImage: null, name: 'Category 1', slug: 'slug1', productCount: 10},
-    { id: 2, defaultImage: null, name: 'Category 2', slug: 'slug1', productCount: 10},
-    { id: 3, defaultImage: null, name: 'Category 3', slug: 'slug1', productCount: 10},
-    { id: 4, defaultImage: null, name: 'Category 4',slug: 'slug1', productCount: 10},
-    { id: 5, defaultImage: null, name: 'Category 5',slug: 'slug1', productCount: 10},
-    { id: 6, defaultImage: null, name: 'Category 6',slug: 'slug1', productCount: 10},
-  ]
-
-  const products: Products[] = [
-    { id: 1, name: 'Product 1', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-      { id: 1, name: 'Product 1', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 2, name: 'Product 2', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 3, name: 'Product 3', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 4, name: 'Product 4', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 5, name: 'Product 5', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 6, name: 'Product 6', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 7, name: 'Product 7', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 8, name: 'Product 8', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-    { id: 9, name: 'Product 9', slug: 'slug1', price: 100, currentQuantity: 10, categoryId: 1, parentCategoryId: 2, defaultImage: null},
-  ]
-
-    const project = {name: 'Грозный, оформление кафе пилястрами', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'};
-  const projects = [
+    const projects = [
     {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
     {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
     {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
@@ -50,6 +29,7 @@ export default function Home() {
     useEffect(() => {
         loadProducts();
         loadCategories();
+        loadProjects();
     }, []);
 
   const loadProducts = () => {
@@ -81,31 +61,79 @@ export default function Home() {
       })
   }
 
+    const loadProjects = () => {
+        const pageRequestProjects: PageRequest = {
+            filters: [],
+            orderedColumns: [],
+            page: (popularProjects.page + 1)
+        }
+
+        getPopularProjects(pageRequestProjects).then((resp) => {
+            console.log(resp.data.content[0])
+            setPopularProjects({
+                ...resp.data,
+                content: resp.data.content
+            })
+        })
+    }
+
   return (
     <div className={styles.home}>
-      <div className={styles.projects}>
-          <Link href={"/"} className={styles.item_image}>
-              <Image className={styles.item_image_img} src={"/images/Project_details.png"} alt="test" width={100} height={100}/>
-              <div className={styles.description}>
-                  <span className={styles.description_category}>Фасадный декор</span>
-                  <span className={styles.description_name}>Грозный, оформление кафе пилястрами</span>
-              </div>
-          </Link>
-          <div className={styles.list_images}>
-              {
-                  projects.map((item, index) => {
-                      return <Link href={"/"} key={index} className={styles.item_image}>
-                          <Image className={styles.list_images_img} src={"/images/Project_details.png"} alt="test"
-                                 width={100} height={100}/>
-                          <div className={styles.description_small}>
-                              <span className={styles.description_category_small}>Фасадный декор</span>
-                              <span className={styles.description_name_small}>Грозный, оформление кафе пилястрами</span>
-                          </div>
-                      </Link>
-                  })
-              }
-          </div>
-      </div>
+        {
+            popularProjects.content?.length > 1 ?
+                <div className={styles.projects}>
+                    <Link href={"/"} className={styles.item_image}>
+                        <img
+                            className={styles.item_image_img}
+                            width={100}
+                            height={100}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + popularProjects.content[0]?.defaultImage}`}
+                            alt={popularProjects.content[0].name}
+                        />
+                        <div className={styles.description}>
+                            <span className={styles.description_category}>{popularProjects.content[0].name}</span>
+                            <span className={styles.description_name}>{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</span>
+                        </div>
+                    </Link>
+                    <div className={styles.list_images}>
+                        {
+                            popularProjects.content.filter(filter => filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
+                                return <Link href={"/"} key={index} className={styles.item_image}>
+                                    {/*<img*/}
+                                    {/*    className={styles.list_images_img}*/}
+                                    {/*    src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`}*/}
+                                    {/*    alt={item.name}*/}
+                                    {/*/>*/}
+                                    <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
+                                           width={100} height={100}/>
+                                    <div className={styles.description_small}>
+                                        <span className={styles.description_category_small}>{item.name}</span>
+                                        <span className={styles.description_name_small}>{item.address}, {item.category.name}</span>
+                                    </div>
+                                </Link>
+                            })
+                        }
+                    </div>
+                </div>:
+                popularProjects.content?.length > 0 ?
+                    <div className={styles.projects}>
+                        <Link href={"/"} className={styles.item_image}>
+                            <img
+                                className={styles.item_image_img}
+                                width={100}
+                                height={100}
+                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + popularProjects.content[0]?.defaultImage}`}
+                                alt={popularProjects.content[0].name}
+                            />
+                            <div className={styles.description}>
+                                <span className={styles.description_category}>{popularProjects.content[0].name}</span>
+                                <span className={styles.description_name}>{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</span>
+                            </div>
+                        </Link>
+                    </div>:
+                    <div/>
+        }
+
         {
             isShowVideo &&
             <VideoShowModal

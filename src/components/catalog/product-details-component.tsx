@@ -15,6 +15,7 @@ import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/bask
 import {getModelsForProduct, getProductDetailsBySlug} from "@/lib/http/productsRequest";
 import {loadFromLocalStorage} from "@/lib/storage/localStorageCustom";
 import {HexagonModelSection} from "@/components/catalog/hexagon-model-section";
+import {getUnitTypeTitle} from "@/lib/consts";
 
 interface Params {
     slug: string
@@ -218,7 +219,7 @@ export default function ProductDetailsComponent(params: Params) {
                 <div className={styles.price}>
                     <div className={styles.price_buy}>
                         <div className={styles.price_buy_wrraper}>
-                            <div className={styles.price_buy_title}>{details?.price} &#8381;/шт</div>
+                            <div className={styles.price_buy_title}>{details?.price} &#8381;/{getUnitTypeTitle(details?.unitType)}</div>
                             {
                                 isAuth &&
                                 <button onClick={handleChangeFavorite} className={styles.price_buy_like}>

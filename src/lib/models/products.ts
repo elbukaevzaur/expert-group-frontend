@@ -25,6 +25,7 @@ export interface ProductDetailsResponse {
     categoryId: number,
     currentQuantity: number;
     price: number,
+    unitType: string
     material: Materials,
     defaultImage: string,
     draftImage: string,

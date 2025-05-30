@@ -8,6 +8,7 @@ export interface ProjectsListResponse {
     projectCategoryId: number,
     category: ProjectsCategories,
     address: string
+    imagePath: string
 }
 
 export interface ProjectsDetailsResponse {
