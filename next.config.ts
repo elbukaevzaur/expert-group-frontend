@@ -15,7 +15,7 @@ const nextConfig: NextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'api.expertgroupholding.ru',
+                hostname: 'api.proeg.ru',
                 pathname: '/images/**',
             },
         ]
