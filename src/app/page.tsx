@@ -69,7 +69,7 @@ export default function Home() {
         }
 
         getPopularProjects(pageRequestProjects).then((resp) => {
-            console.log(resp.data.content[0])
+            console.log(resp.data.content[0].projectCategoryId)
             setPopularProjects({
                 ...resp.data,
                 content: resp.data.content
@@ -82,7 +82,7 @@ export default function Home() {
         {
             popularProjects.content?.length > 0 ?
                 <div className={styles.projects}>
-                    <Link href={"/"} className={styles.item_image}>
+                    <Link href={`/projects/${popularProjects.content[0].projectCategoryId}/details/${popularProjects.content[0].id}`} className={styles.item_image}>
                         <img
                             className={styles.item_image_img}
                             width={100}
@@ -98,7 +98,7 @@ export default function Home() {
                     <div className={styles.list_images}>
                         {
                             popularProjects.content.filter(filter => filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
-                                return <Link href={"/"} key={index} className={styles.item_image}>
+                                return <Link href={`/projects/${item.projectCategoryId}/details/${item.id}`} key={index} className={styles.item_image}>
                                     <img
                                        className={styles.list_images_img}
                                        src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + item?.defaultImage}`}
@@ -178,7 +178,7 @@ export default function Home() {
                 <div className={styles.home_categories}>
                     {
                         popularCategories.content?.map((item, index) => {
-                            return <CategoryListItem key={index} category={item} />
+                            return <CategoryListItem key={index} category={item} customPathname="catalog"/>
                         })
                     }
                 </div>

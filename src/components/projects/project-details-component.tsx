@@ -63,7 +63,7 @@ export default function ProjectDetailsComponent(params: Params) {
                             className={styles.description_image}
                             width={720}
                             height={479}
-                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + project?.defaultImage}`}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${project?.defaultImage}`}
                             alt='image'
                         />
                 }
@@ -94,7 +94,7 @@ export default function ProjectDetailsComponent(params: Params) {
                                 className={styles.photo_image} 
                                 width={1089} 
                                 height={1089}
-                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'medium_' + project?.images[selectedImageIndex]?.imagePath}`}
+                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${project?.images[selectedImageIndex]?.imagePath}`}
                                 alt={project.name}
                             />
                             :

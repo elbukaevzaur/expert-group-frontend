@@ -7,14 +7,15 @@ import {usePathname} from "next/navigation";
 
 interface Params{
     category: Category
+    customPathname?: string
 }
 
 export default function CategoryListItem(params: Params) {
-    const { category } = params;
+    const { category, customPathname } = params;
     const pathname = usePathname();
 
     return (
-        <Link href={`${pathname}/${category.slug}`} className="subcatalog__item">
+        <Link href={`${customPathname? customPathname : pathname}/${category.slug}`} className="subcatalog__item">
             <div className="subcatalog__info">
                 <h3 className="subcatalog__title">{category.name}</h3>
                 <h4 className="subcatalog__subtitle">{category.productCount} товара</h4>
