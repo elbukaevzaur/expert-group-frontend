@@ -178,7 +178,7 @@ export default function Home() {
                 <div className={styles.home_categories}>
                     {
                         popularCategories.content?.map((item, index) => {
-                            return <CategoryListItem key={index} category={item} />
+                            return <CategoryListItem key={index} category={item} customPathname="catalog"/>
                         })
                     }
                 </div>
