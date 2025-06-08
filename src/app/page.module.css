@@ -361,6 +361,7 @@ a.secondary {
   row-gap: 20px;
   grid-column-gap: 20px;
   column-gap: 20px;
+  max-height: 380px;
 }
 
 .list_images_img {
@@ -368,6 +369,18 @@ a.secondary {
   height: 180px;
   border-radius: 12px;
   object-fit: cover;
+}
+            
+@media (max-width: 900px) {
+  .list_images_img {
+  height: 182px;
+  }
+}
+            
+@media (max-width: 760px) {
+  .list_images_img {
+  height: 185px;
+  }
 }
 
 .description{
