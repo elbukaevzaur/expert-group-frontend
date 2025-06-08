@@ -24,7 +24,8 @@ export const FilterComponent = (props: FilterProps) => {
 
     const handleApplyFilter = () => {
         // dispatch(ADD_FILTER({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator}));
-        props.onChangeFilter({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator})
+        const values = valueTo && valueTo !== '' ? [valueFrom, valueTo] : [valueFrom]
+        props.onChangeFilter({field: props.filter.fieldName, value: values, operator: props.filter.operator})
     }
 
     const handleApplyInFilter = (val: number) => {
@@ -88,7 +89,7 @@ export const FilterComponent = (props: FilterProps) => {
                         <>
                             <div className={styles.filter_button_dropdown_container}>
                                 <div>
-                                    <h3 className={styles.filter_button_dropdown_text}>Мин. цена</h3>
+                                    <h3 className={styles.filter_button_dropdown_text}>Мин. {props.title}</h3>
                                     <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max}
@@ -100,7 +101,7 @@ export const FilterComponent = (props: FilterProps) => {
                                 </div>
                                 <div className={styles.filter_button_dropdown_line}></div>
                                 <div>
-                                    <h3 className={styles.filter_button_dropdown_text}>Макс. цена</h3>
+                                    <h3 className={styles.filter_button_dropdown_text}>Макс. {props.title}</h3>
                                     <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max} placeholder={props.filter.range.max?.toString()}

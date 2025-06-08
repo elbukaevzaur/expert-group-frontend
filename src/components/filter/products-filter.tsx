@@ -60,6 +60,7 @@ export default function ProductsFilter(props: Props){
     ]
 
     const handleUpdateFilter = (filter: FilterProperty) => {
+        console.log(filter)
         props.updateFilter(filter);
     }
 
