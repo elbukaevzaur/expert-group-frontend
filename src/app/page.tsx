@@ -7,29 +7,30 @@ import Image from 'next/image';
 import {Category, PageRequest, PageResponse, Products} from "@/lib/models";
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
-import VideoPlayer, {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
+import {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
 import {useEffect, useState} from "react";
-import {getPopularCategories, getPopularProducts, getPopularProjects} from "@/lib/http/popularRequest";
+import {
+    getPopularCategories,
+    getPopularProducts,
+    getPopularProjects,
+    getPopularShorts
+} from "@/lib/http/popularRequest";
 import {ProjectsListResponse} from "@/lib/models/projects";
+import {Shorts} from "@/lib/models/shorts";
 
 export default function Home() {
-    const [showVideoSource, setShowVideoSource] = useState('');
+    const [selectedShort, setSelectedShort] = useState<Shorts>({} as Shorts);
     const [isShowVideo, setIsShowVideo] = useState(false);
     const [popularProducts, setPopularProducts] = useState<PageResponse<Products>>({page: 0} as PageResponse<Products>);
     const [popularCategories, setPopularCategories] = useState<PageResponse<Category>>({page: 0} as PageResponse<Category>);
     const [popularProjects, setPopularProjects] = useState<PageResponse<ProjectsListResponse>>({page: 0} as PageResponse<ProjectsListResponse>);
-
-    const projects = [
-    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
-    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
-    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
-    {name: 'Дизайн интерьера в оттенках бургунди в Краснодарском крае', defaultImage: null, category: 'Фасадный декор', city: 'Грозный'},
-  ]
+    const [popularShorts, setPopularShorts] = useState<Shorts[]>([]);
 
     useEffect(() => {
         loadProducts();
         loadCategories();
         loadProjects();
+        loadShorts();
     }, []);
 
   const loadProducts = () => {
@@ -69,11 +70,16 @@ export default function Home() {
         }
 
         getPopularProjects(pageRequestProjects).then((resp) => {
-            console.log(resp.data.content[0].projectCategoryId)
             setPopularProjects({
                 ...resp.data,
                 content: resp.data.content
             })
+        })
+    }
+
+    const loadShorts = () => {
+        getPopularShorts().then((resp) => {
+            setPopularShorts(resp.data)
         })
     }
 
@@ -120,50 +126,29 @@ export default function Home() {
         {
             isShowVideo &&
             <VideoShowModal
-                src={showVideoSource}
-                onClose={() => {
+                src={`${process.env.NEXT_PUBLIC_API_URL}/shorts/video/${selectedShort.fileName}`}
+                projectLink={`${process.env.NEXT_PUBLIC_API_URL}/projects/${selectedShort.project.projectCategoryId}/details/${selectedShort.projectId}`}
+                isShow={isShowVideo}
+                description={selectedShort.description}
+                handleOnClose={() => {
                     setIsShowVideo(false);
-                    setShowVideoSource('')
+                    setSelectedShort({} as Shorts)
                 }}
             />
         }
-        <div className={styles.videos} style={{display: 'flex', flexDirection: 'row', gap: 20, marginTop: 20, marginBottom: 40}}>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
-            <div style={{width: 186}}>
-                <VideoPreview onShowVideo={() => {
-                    setShowVideoSource('http://localhost:8080/videos/video1.mp4')
-                    setIsShowVideo(true);
-                }}/>
-            </div>
+        <div className={styles.videos} style={{display: 'flex', flexDirection: 'row', gap: 20, paddingTop: 20, marginBottom: 40}}>
+            {
+                popularShorts.map((item, index) => {
+                    return <VideoPreview key={index}
+                                         posterSrc={item.previewImageName}
+                                         title={item.name}
+                                         onShowVideo={() => {
+                                            setSelectedShort(item);
+                                            setIsShowVideo(true);
+                                         }}
+                    />
+                })
+            }
         </div>
         {
             popularCategories.content?.length > 0 &&

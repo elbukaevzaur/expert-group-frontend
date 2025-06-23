@@ -1,132 +1,218 @@
 import React, {useEffect, useRef, useState} from "react";
-import PlaySvgComponent from "@/lib/icon-svg/media";
+import PlaySvgComponent from "@/lib/icon-svg/media"; // Убедитесь, что пути к SVG-компонентам верны
 import {CloseSvg} from "@/lib/icon-svg";
-import {motion} from "framer-motion";
+import {motion, AnimatePresence} from "framer-motion";
 
+// --- VideoPlayer Component ---
 interface VideoPlayerProps {
     src: string;
+    poster?: string; // Добавляем пропс для постера
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.load();
+            videoRef.current.play().catch(error => console.log("Video autoplay failed:", error));
+        }
+    }, [src]);
 
     return (
-        <div ref={containerRef}>
-            <video
-                style={{borderRadius: 8}}
-                ref={videoRef}
-                // poster="/images/image-poster.jpeg"
-                autoPlay={true}
-            >
-                <source src={src} type="video/mp4"/>
-                Ваш браузер не поддерживает видео.
-            </video>
-        </div>
+        <video
+            ref={videoRef}
+            poster={poster || "/images/image-poster.jpeg"}
+            autoPlay={true}
+            controls
+            // muted
+            loop
+            className="video-player-element"
+        >
+            <source src={src} type="video/mp4"/>
+            Ваш браузер не поддерживает видео.
+        </video>
     );
 };
 
 export default VideoPlayer;
 
+// --- VideoPreview Component ---
 interface VideoPreviewProps {
     onShowVideo: () => void;
+    posterSrc?: string; // Добавим пропс для постера
+    title?: string; // Добавим заголовок для превью
 }
 
-export const VideoPreview = (props: VideoPreviewProps) => {
-
-    const containerRef = useRef<HTMLDivElement>(null);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [showPoster, setShowPoster] = useState(true);
-
-    const togglePlay = () => {
-        props.onShowVideo();
-    }
-
-    return <div ref={containerRef} style={{position: 'relative'}}>
-        {showPoster && (
-            <img
-                style={{
-                    width: 186,
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                }}
-                src='/images/image-poster.jpeg'
-                alt="Видео превью"
-                className="absolute inset-0 w-full h-full object-cover rounded-xl"
-            />
-        )}
-
-        {/* Кнопка Play/Pause */}
-        {!isPlaying && (
-            <div style={{
-                border: '4px solid #21A038',
-                borderRadius: 8,
-                boxShadow: '0px 0px 10.9px 3px #21a03863',
-                position: 'absolute',
-                top: 0,
-                bottom: 0,
-                right: 0,
-                left: 0,
-                display: "flex",
-                justifyContent: 'center',
-            }}>
-                <button
-                    onClick={togglePlay}
-                    style={{backgroundColor: 'transparent', border: 'none', cursor: 'pointer'}}
-                >
-                    <PlaySvgComponent/>
-                </button>
+export const VideoPreview: React.FC<VideoPreviewProps> = ({ onShowVideo, posterSrc, title = "Видео" }) => {
+    return (
+        <div className="video-preview-item" onClick={onShowVideo}> {/* Клик по всей области */}
+            <div className="video-preview-image-wrapper">
+                <img
+                    src={posterSrc ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + posterSrc}` : '/images/image-poster.jpeg'}
+                    alt={`Превью ${title}`}
+                    className="video-preview-poster"
+                />
+                <div className="video-preview-overlay">
+                    <button
+                        className="video-preview-play-button"
+                        aria-label={`Начать воспроизведение ${title}`}
+                    >
+                        <PlaySvgComponent/>
+                    </button>
+                </div>
             </div>
-        )}
-    </div>
+            <h4 className="video-preview-title">{title}</h4>
+        </div>
+    );
+};
+
+// --- VideoCarousel Component ---
+interface VideoCarouselProps {
+    videos: {
+        src: string;
+        posterSrc?: string;
+        title?: string;
+    }[];
+    onVideoSelect: (src: string, posterSrc?: string) => void;
 }
 
-interface VideoShowModalProps {
-    src: string;
-    onClose: () => void
-}
+export const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos, onVideoSelect }) => {
+    const scrollContainerRef = useRef<HTMLDivElement>(null);
 
-export const VideoShowModal = (props: VideoShowModalProps) => {
-    const [isShow, setIsShow] = useState(false);
-    useEffect(() => {
-        if (props.src !== '') {
-            setIsShow(true)
-        }else {
-            setIsShow(false)
+    const scrollLeft = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({
+                left: -scrollContainerRef.current.offsetWidth * 0.8, // Прокрутка на 80% ширины контейнера
+                behavior: 'smooth'
+            });
         }
-    }, [props.src]);
+    };
 
-    const handleOnClose = () => {
-        setIsShow(false);
-        setTimeout(() => {
-            props.onClose();
-        }, 500)
-    }
+    const scrollRight = () => {
+        if (scrollContainerRef.current) {
+            scrollContainerRef.current.scrollBy({
+                left: scrollContainerRef.current.offsetWidth * 0.8, // Прокрутка на 80% ширины контейнера
+                behavior: 'smooth'
+            });
+        }
+    };
 
-    return <motion.div
-        initial={{opacity: 0}}
-        animate={isShow ? {opacity: 1} : {opacity: 0}}
-        transition={{duration: 0.5}}
-        className="video_show_modal"
-    >
-        <div className="modal_header_container">
-            <button onClick={handleOnClose} style={{background: 'transparent', border: 0, cursor: 'pointer'}}>
-                <CloseSvg/>
+    return (
+        <div className="video-carousel-wrapper">
+            <button onClick={scrollLeft} className="carousel-scroll-button carousel-scroll-button-left" aria-label="Прокрутить влево">
+                &lt;
+            </button>
+            <div className="video-carousel-container" ref={scrollContainerRef}>
+                {videos.map((video, index) => (
+                    <VideoPreview
+                        key={index}
+                        posterSrc={video.posterSrc}
+                        title={video.title}
+                        onShowVideo={() => onVideoSelect(video.src, video.posterSrc)}
+                    />
+                ))}
+            </div>
+            <button onClick={scrollRight} className="carousel-scroll-button carousel-scroll-button-right" aria-label="Прокрутить вправо">
+                &gt;
             </button>
         </div>
-        <div className="scroll_container">
-            <div className="video_container">
-                <VideoPlayer src={props.src}/>
-            </div>
-            <div className="modal_desc_container">
-                <span>Описание</span>
-                <span>Описание</span>
-                <span>Описание</span>
-                <span>Описание</span>
-                <span>Описание</span>
-            </div>
-        </div>
-    </motion.div>
+    );
+};
+
+// --- VideoShowModal Component ---
+interface VideoShowModalProps {
+    src: string;
+    isShow: boolean;
+    handleOnClose: () => void;
+    poster?: string;
+    description: string
+    projectLink?: string; // Добавляем опциональный пропс для ссылки на проект
 }
+
+export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, handleOnClose, poster, projectLink, description }) => {
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    // Обработка нажатия Esc и клика вне модального окна
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') {
+                handleOnClose();
+            }
+        };
+
+        const handleClickOutside = (event: MouseEvent) => {
+            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+                handleOnClose();
+            }
+        };
+
+        if (isShow) {
+            document.addEventListener('keydown', handleKeyDown);
+            document.addEventListener('mousedown', handleClickOutside); // Добавляем обработчик клика
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.body.style.overflow = '';
+        }
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.body.style.overflow = '';
+        };
+    }, [isShow, handleOnClose]);
+
+    return (
+        <AnimatePresence>
+            {isShow && (
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="video-show-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="video-modal-title"
+                    onClick={handleOnClose} // Клик по оверлею закрывает модальное окно
+                >
+                    <div
+                        className="modal-content-wrapper"
+                        ref={modalRef} // Привязываем ref к содержимому модального окна
+                        onClick={e => e.stopPropagation()} // Останавливаем всплытие клика, чтобы он не закрывал окно
+                    >
+                        <div className="modal-header-container">
+                            <h2 id="video-modal-title" className="visually-hidden">Видео</h2>
+                            <button
+                                onClick={handleOnClose}
+                                className="modal-close-button"
+                                aria-label="Закрыть видео"
+                            >
+                                <CloseSvg stroke="white" />
+                            </button>
+                        </div>
+                        <div className="scroll-container">
+                            <div className="video-container">
+                                <VideoPlayer src={src} poster={poster} />
+                            </div>
+                            <div className="modal-description-container">
+                                <h3>Описание видео</h3>
+                                <p>{description}</p>
+
+                                {projectLink && (
+                                    <div className="project-link-section">
+                                        <h4>Ссылка на проект:</h4>
+                                        <a href={projectLink} rel="noopener noreferrer" className="project-link">
+                                            {projectLink.replace(/^(https?:\/\/)?(www\.)?/,'').split('/')[0]}
+                                        </a>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    );
+};

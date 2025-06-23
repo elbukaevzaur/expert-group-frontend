@@ -24,3 +24,7 @@ export function getPopularProjects(pageRequest: PageRequest) {
     }
     return axiosInstance.get(`/popular/projects?${params}`);
 }
+
+export function getPopularShorts() {
+    return axiosInstance.get(`/shorts/popular`);
+}

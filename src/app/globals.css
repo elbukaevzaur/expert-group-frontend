@@ -181,58 +181,572 @@ a {
   width: 180px;
 }
 
-.video_show_modal {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: 999;
-  margin: 20px 100px;
+
+
+/* --- Общие стили и сбросы --- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
-@media (max-width: 760px) {
-  .video_show_modal {
-    margin: 20px 40px;
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #0a0a0a;
   }
 }
 
-@media (max-width: 460px) {
-  .video_show_modal {
-    margin: 20px 15px;
+html,
+body {
+  max-width: 1440px;
+  overflow-x: hidden;
+  margin: auto;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
   }
 }
 
-.video_container {
-  background-color: white;
-  text-align: center;
-  padding: 10px;
+.products{
+  width: 1214px;
+  margin: 20px auto 0;
 }
 
-.modal_header_container {
-  border-bottom: 1px solid #70707059;
-  background-color: white;
-  padding: 10px;
+@media (max-width: 1250px) {
+  .products {
+    width: calc(100% - 40px);
+  }
+}
+/** Суб-каталог **/
+
+.subcatalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(176px, 1fr));
+  margin: 27px 0 0;
+  column-gap: 24px;
+  row-gap: 30px;
+
+}
+
+.subcatalog__item {
+  background-color: #21a038;
+  width: 176px;
+  height: 147px;
+  border-radius: 10px;
+  position: relative;
+}
+
+.subcatalog__info {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  z-index: 2;
+}
+
+.subcatalog__title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 15px;
+  font-family: 'Roboto';
+  color: #fff;
+}
+
+.subcatalog__subtitle {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 11px;
+  font-family: 'Roboto';
+  color: #fff;
+  margin: 10px 0 0;
+}
+
+.subcatalog__image {
+  width: 100%;
+  height: auto;
+}
+
+/** Account **/
+
+.account {
   display: flex;
-  justify-content: end;
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
+  flex-direction: row;
+  width: 1214px;
+  margin: 50px auto 0;
 }
 
-.modal_desc_container {
-  border-top: 1px solid #70707059;
-  padding: 10px;
-  background-color: white;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
+@media (max-width: 1250px) {
+  .account {
+    width: calc(100% - 40px);
+  }
+}
+
+@media (max-width: 700px) {
+  .account {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.history {
+  width: 100%;
+  margin-left: 14px;
+}
+
+@media (max-width: 700px) {
+  .history {
+    margin-left: 0;
+  }
+}
+
+.table{
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding: 0 0 20px 0;
+  border-radius: 10px;
+}
+
+@media (max-width: 950px) {
+  .table {
+    display: none;
+  }
+}
+
+.table_title {
+  text-align: center;
+  font-family: 'Roboto';
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 16px;
+}
+
+.favorites {
+  margin: 0 0 0 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .favorites {
+    margin: 0;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 630px) {
+  .favorites {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    column-gap: 3px;
+  }
+}
+
+.table_img {
+  object-fit: contain;
+  width: 180px;
+}
+/* --- Общие стили и сбросы (продолжение) --- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+/* --- Стили для VideoPlayer --- */
+.video-player-element {
+  border-radius: 8px; /* Применяем border-radius здесь */
+  background-color: black; /* Для случаев, когда видео не загружено */
+}
+
+
+/* --- Стили для VideoPreview (Прямоугольные с большей высотой) --- */
+.video-preview-item {
+  flex-shrink: 0; /* Не сжимается в флекс-контейнере */
+  width: 153px;
+  height: 200px; /* Фиксированная высота для прямоугольного превью */
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: #000;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.scroll_container {
-  overflow-y: auto;
+.video-preview-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.video-preview-image-wrapper {
+  position: relative;
+  width: 100%;
+  /* Удаляем padding-bottom hack, так как задана фиксированная высота для .video-preview-item */
+  flex-grow: 1; /* Позволяет обертке изображения занять все доступное пространство */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Обрезает изображение, если оно выходит */
+}
+
+.video-preview-poster {
+  width: 100%;
   height: 100%;
-  padding-bottom: 30px;
+  object-fit: cover; /* Изображение будет покрывать всю область */
+  transition: transform 0.3s ease;
+}
+
+.video-preview-item:hover .video-preview-poster {
+  transform: scale(1.05);
+}
+
+.video-preview-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
+  transition: background-color 0.3s ease;
+}
+
+.video-preview-item:hover .video-preview-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.video-preview-play-button {
+  background-color: transparent;
+  border: 4px solid #21A038;
+  border-radius: 50%;
+  box-shadow: 0px 0px 10.9px 3px rgba(33, 160, 56, 0.39);
+  cursor: pointer;
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.video-preview-play-button:hover {
+  background-color: rgba(33, 160, 56, 0.2);
+  transform: scale(1.1);
+}
+
+.video-preview-play-button svg {
+  width: 36px;
+  height: 36px;
+  fill: #21A038;
+}
+
+.video-preview-title {
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 4px;
+  text-align: center;
+  background-color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+/* --- Стили для VideoCarousel (Горизонтальная прокрутка) --- */
+.video-carousel-wrapper {
+  position: relative;
+  width: 100%;
+  margin-top: 30px; /* Отступ сверху */
+  display: flex;
+  align-items: center;
+}
+
+.video-carousel-container {
+  display: flex;
+  overflow-x: auto; /* Горизонтальная прокрутка */
+  -webkit-overflow-scrolling: touch; /* Плавная прокрутка на iOS */
+  scroll-snap-type: x mandatory; /* Привязка к элементам при прокрутке */
+  gap: 20px; /* Расстояние между видео превью */
+  padding: 10px 0; /* Небольшой вертикальный отступ для теней/эффектов */
+  scrollbar-width: none; /* Скрыть скроллбар для Firefox */
+  -ms-overflow-style: none; /* Скрыть скроллбар для IE/Edge */
+}
+
+.video-carousel-container::-webkit-scrollbar {
+  display: none; /* Скрыть скроллбар для Webkit-браузеров */
+}
+
+.video-carousel-item {
+  scroll-snap-align: start; /* Привязывать к началу элемента при прокрутке */
+}
+
+.carousel-scroll-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0; /* Не сжимается */
+  margin: 0 10px;
+}
+
+.carousel-scroll-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-scroll-button-left {
+  /* Можно добавить стили для позиционирования, если они абсолютные */
+}
+
+.carousel-scroll-button-right {
+  /* Можно добавить стили для позиционирования, если они абсолютные */
+}
+
+
+/* --- Стили для VideoShowModal --- */
+
+/* Оверлей видео модального окна */
+.video-show-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.modal-content-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  height: 500px;
+}
+
+.modal-header-container {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px 15px;
+  background-color: #2a2a2a;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  flex-shrink: 0;
+}
+
+.modal-close-button {
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.modal-close-button:hover {
+  transform: scale(1.1);
+}
+
+.modal-close-button svg {
+  width: 28px;
+  height: 28px;
+  color: white;
+}
+
+.scroll-container {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 0;
+}
+
+/* Контейнер видео */
+.video-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  background-color: black;
+  flex-shrink: 0;
+}
+
+.video-container .video-player-element {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border: none;
+  border-radius: 0;
+}
+
+.modal-description-container {
+  color: #e0e0e0;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 20px;
+  background-color: #1a1a1a;
+  flex-shrink: 0;
+}
+
+.modal-description-container h3 {
+  color: #ffffff;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.modal-description-container p {
+  margin-bottom: 10px;
+}
+
+.project-link-section {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.project-link-section h4 {
+  color: #ffffff;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.project-link {
+  color: #21A038;
+  text-decoration: none;
+  word-wrap: break-word;
+  transition: color 0.2s ease;
+}
+
+.project-link:hover {
+  color: #2bd84d;
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  .modal-show-modal {
+    padding: 40px;
+  }
+
+  .modal-content-wrapper {
+    flex-direction: row;
+    max-width: 90%;
+    max-height: 90vh;
+  }
+
+  .modal-header-container {
+    display: none;
+  }
+
+  .modal-close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    z-index: 1002;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-close-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .scroll-container {
+    flex-direction: row;
+    overflow-y: hidden;
+  }
+
+  .video-container {
+    flex: 3;
+    min-width: 60%;
+    padding-bottom: 0;
+    height: auto;
+  }
+
+  .video-container .video-player-element {
+    border-radius: 0;
+  }
+
+  .modal-description-container {
+    flex: 2;
+    overflow-y: auto;
+    padding-left: 20px;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+
+@media (min-width: 1200px) {
+  .modal-content-wrapper {
+    max-width: 1600px;
+  }
+}
+
+.product_details_link_button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }
 
 .product_details_link_button {
