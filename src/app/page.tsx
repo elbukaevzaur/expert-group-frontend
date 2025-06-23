@@ -127,7 +127,7 @@ export default function Home() {
             isShowVideo &&
             <VideoShowModal
                 src={`${process.env.NEXT_PUBLIC_API_URL}/shorts/video/${selectedShort.fileName}`}
-                projectLink={`${process.env.NEXT_PUBLIC_API_URL}/projects/${selectedShort.project.projectCategoryId}/details/${selectedShort.projectId}`}
+                projectLink={`https://proeg.ru/projects/${selectedShort.project.projectCategoryId}/details/${selectedShort.projectId}`}
                 isShow={isShowVideo}
                 description={selectedShort.description}
                 handleOnClose={() => {
