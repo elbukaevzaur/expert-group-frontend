@@ -30,6 +30,8 @@ RUN npm install --production
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 
+COPY .env.production ./.env.production
+
 # Устанавливаем переменные окружения
 ENV NODE_ENV=production
 
