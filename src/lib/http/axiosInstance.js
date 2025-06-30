@@ -2,7 +2,7 @@ import axios from 'axios';
 import {loadFromLocalStorage} from "@/lib/storage/localStorageCustom";
 
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
+  baseURL: '/api/proxy',
   // timeout: 1000,
   headers: { 'Content-Type': 'application/json' }
 });
@@ -18,6 +18,20 @@ axiosInstance.interceptors.request.use(
   function (error) {
     return Promise.reject(error);
   }
+);
+
+axiosInstance.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response) {
+            console.error('API Response Error:', error.response.status, error.response.data);
+        } else if (error.request) {
+            console.error('API Request Error: No response received', error.request);
+        } else {
+            console.error('Error setting up request:', error.message);
+        }
+        return Promise.reject(error);
+    }
 );
 
 export default axiosInstance;
