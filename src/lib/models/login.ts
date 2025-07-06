@@ -8,5 +8,6 @@ export interface RegisterRequest{
     lastName: string,
     email: string,
     phoneNumber: string,
-    password: string
+    password: string,
+    captchaToken: string
 }

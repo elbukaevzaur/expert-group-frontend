@@ -6,6 +6,7 @@ import { RegisterRequest } from "@/lib/models/login";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import {useRouter} from "next/navigation";
+import {SmartCaptcha} from "@yandex/smart-captcha";
 
 interface IFormInput {
     firstName: string;
@@ -21,6 +22,8 @@ export default function Registration() {
     const { register, handleSubmit, formState: { errors }, control, watch } = useForm<IFormInput>();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+    const [token, setToken] = useState('');
+
 
     const onSubmit: SubmitHandler<IFormInput> = (data) => {
         setIsSubmitting(true);
@@ -30,6 +33,7 @@ export default function Registration() {
             email: data.email,
             phoneNumber: data.phoneNumber,
             password: data.password,
+            captchaToken: token
         };
 
         try {
@@ -54,6 +58,7 @@ export default function Registration() {
                         id="firstName"
                         placeholder="Имя"
                         {...register("firstName", {required: "Имя обязательно"})}
+                        value={"Ivan"}
                     />
                     {errors.firstName && <span className={styles.error}>{errors.firstName.message}</span>}
                 </div>
@@ -64,6 +69,7 @@ export default function Registration() {
                         id="lastName"
                         placeholder="Фамилия"
                         {...register("lastName", {required: "Фамилия обязательна"})}
+                        value={"Ivanov"}
                     />
                     {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
                 </div>
@@ -82,6 +88,7 @@ export default function Registration() {
                                 message: "Введите корректный email",
                             },
                         })}
+                        value={"elbukaevzaur@gmail.com"}
                     />
                     {errors.email && <span className={styles.error}>{errors.email.message}</span>}
                 </div>
@@ -98,6 +105,7 @@ export default function Registration() {
                                 message: "Введите корректный номер телефона",
                             },
                         })}
+                        value={"89289991111"}
                     />
                     {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber.message}</span>}
                 </div>
@@ -112,6 +120,7 @@ export default function Registration() {
                             {...register("consent", {
                                 required: "Вы должны согласиться на обработку данных"
                             })}
+                            checked={true}
                         />
                         <label htmlFor="registration__checkbox">
                             Я даю согласие на обработку персональных данных
@@ -137,6 +146,7 @@ export default function Registration() {
                                 message: "Только латинские буквы"
                             },
                         })}
+                        value={"password"}
                     />
                     {errors.password && <span className={styles.error}>{errors.password.message}</span>}
                 </div>
@@ -153,10 +163,12 @@ export default function Registration() {
                                 return password === value || "Пароли не совпадают";
                             },
                         })}
+                        value={"password"}
                     />
                     {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword.message}</span>}
                 </div>
             </div>
+            <SmartCaptcha sitekey="ysc1_PGtt7h20TVEO6e6al1oLezIe8Al8Z0FpJ8fJCY5F7edb713f" onSuccess={setToken} />
             <div style={{display: 'flex', justifyContent: 'end'}}>
                 <button type="submit" className={styles.registration__button} disabled={isSubmitting}>
                     {isSubmitting ? 'Загружается...' : 'Зарегистрироваться'}

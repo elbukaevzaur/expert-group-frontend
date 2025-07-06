@@ -1,4 +1,4 @@
-import ConfirmEmailComponentPage from "@/app/confirm-email/confirm-email-component";
+import ConfirmEmailComponentPage from "@/app/confirm-email/[token]/confirm-email-component";
 
 type tParams = Promise<{ token: string }>;
 
