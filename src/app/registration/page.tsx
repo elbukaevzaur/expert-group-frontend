@@ -167,6 +167,8 @@ export default function Registration() {
                     />
                     {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword.message}</span>}
                 </div>
+            </div>
+            <div className={styles.registration__wrapper}>
                 <div className={styles.registration__input_wrap}>
                     <SmartCaptcha sitekey="ysc1_PGtt7h20TVEO6e6al1oLezIe8Al8Z0FpJ8fJCY5F7edb713f" onSuccess={setToken} />
                 </div>
