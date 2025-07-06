@@ -167,8 +167,10 @@ export default function Registration() {
                     />
                     {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword.message}</span>}
                 </div>
+                <div className={styles.registration__input_wrap}>
+                    <SmartCaptcha sitekey="ysc1_PGtt7h20TVEO6e6al1oLezIe8Al8Z0FpJ8fJCY5F7edb713f" onSuccess={setToken} />
+                </div>
             </div>
-            <SmartCaptcha sitekey="ysc1_PGtt7h20TVEO6e6al1oLezIe8Al8Z0FpJ8fJCY5F7edb713f" onSuccess={setToken} />
             <div style={{display: 'flex', justifyContent: 'end'}}>
                 <button type="submit" className={styles.registration__button} disabled={isSubmitting}>
                     {isSubmitting ? 'Загружается...' : 'Зарегистрироваться'}
