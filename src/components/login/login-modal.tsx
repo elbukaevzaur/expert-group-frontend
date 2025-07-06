@@ -1,9 +1,10 @@
 import Image from "next/image";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {SIGN_IN_REQUEST, UPDATE_FOR_API} from "@/lib/reducers";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import styles from "./login-modal.module.css"
+import {SmartCaptcha} from "@yandex/smart-captcha";
 
 export function Login({onCloseModal = () => {}}) {
     const [login, setLogin] = useState('');
@@ -11,6 +12,7 @@ export function Login({onCloseModal = () => {}}) {
     const {isAuth, isAuthError } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [token, setToken] = useState("")
 
     useEffect(() => {
         if (isAuth){
@@ -23,7 +25,8 @@ export function Login({onCloseModal = () => {}}) {
         e.preventDefault();
         const request = {
             login: login,
-            password: password
+            password: password,
+            captchaToken: token
         }
         dispatch(SIGN_IN_REQUEST(request))
     }
@@ -55,6 +58,9 @@ export function Login({onCloseModal = () => {}}) {
                     </div>
                     <div className={styles.wrapper}>
                         <button className={styles.password}>Забыли пароль?</button>
+                    </div>
+                    <div className={styles.wrapper}>
+                        <SmartCaptcha sitekey="ysc1_PGtt7h20TVEO6e6al1oLezIe8Al8Z0FpJ8fJCY5F7edb713f" onSuccess={setToken} />
                     </div>
                     <button className={styles.button}>Войти</button>
                 </form>
