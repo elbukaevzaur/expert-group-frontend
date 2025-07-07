@@ -58,7 +58,6 @@ export default function Registration() {
                         id="firstName"
                         placeholder="Имя"
                         {...register("firstName", {required: "Имя обязательно"})}
-                        value={"Ivan"}
                     />
                     {errors.firstName && <span className={styles.error}>{errors.firstName.message}</span>}
                 </div>
@@ -69,7 +68,6 @@ export default function Registration() {
                         id="lastName"
                         placeholder="Фамилия"
                         {...register("lastName", {required: "Фамилия обязательна"})}
-                        value={"Ivanov"}
                     />
                     {errors.lastName && <span className={styles.error}>{errors.lastName.message}</span>}
                 </div>
@@ -88,7 +86,6 @@ export default function Registration() {
                                 message: "Введите корректный email",
                             },
                         })}
-                        value={"elbukaevzaur@gmail.com"}
                     />
                     {errors.email && <span className={styles.error}>{errors.email.message}</span>}
                 </div>
@@ -105,7 +102,6 @@ export default function Registration() {
                                 message: "Введите корректный номер телефона",
                             },
                         })}
-                        value={"89289991111"}
                     />
                     {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber.message}</span>}
                 </div>
@@ -120,7 +116,6 @@ export default function Registration() {
                             {...register("consent", {
                                 required: "Вы должны согласиться на обработку данных"
                             })}
-                            checked={true}
                         />
                         <label htmlFor="registration__checkbox">
                             Я даю согласие на обработку персональных данных
@@ -146,7 +141,6 @@ export default function Registration() {
                                 message: "Только латинские буквы"
                             },
                         })}
-                        value={"password"}
                     />
                     {errors.password && <span className={styles.error}>{errors.password.message}</span>}
                 </div>
@@ -163,7 +157,6 @@ export default function Registration() {
                                 return password === value || "Пароли не совпадают";
                             },
                         })}
-                        value={"password"}
                     />
                     {errors.confirmPassword && <span className={styles.error}>{errors.confirmPassword.message}</span>}
                 </div>
