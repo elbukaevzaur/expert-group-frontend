@@ -11,30 +11,31 @@
     z-index: 99;
   }
   
-  .conteiner {
+  .container {
     position: relative;
     display: flex;
     align-items: center;
     flex-direction: column;
     width: 554px;
-    height: 693px;
+    /*height: 693px;*/
     background-color: #fff;  
     border: 2px solid #21a038;
     border-radius: 10px;
     padding: 50px;
+    overflow: scroll;
   }
     
   @media (max-width: 620px) {
-    .conteiner {
+    .container {
       width: calc(100% - 40px);
       padding-left: 20px;
       padding-right: 20px;
-      height: 660px;
+      /*height: 660px;*/
     }
   }
     
   @media (max-width: 400px) {
-    .conteiner {
+    .container {
       width: 100%;
     }
   }

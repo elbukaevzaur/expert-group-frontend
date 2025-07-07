@@ -44,7 +44,7 @@ export function Login({onCloseModal = () => {}}) {
 
     return (
         <div className={styles.login} onClick={handleOverlayClick}>
-            <div className={styles.conteiner}>
+            <div className={styles.container}>
                 <button className={styles.close} onClick={onCloseModal}></button>
                 <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52}/>
                 <form onSubmit={handleSignIn} className={styles.form}>
