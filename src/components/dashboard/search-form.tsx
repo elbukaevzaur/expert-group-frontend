@@ -7,13 +7,16 @@ import {CloseSvg, SearchSvg} from "@/lib/icon-svg";
 import {motion} from "framer-motion";
 
 interface SearchProducts {
-    id: string,
-    name: string,
-    description: string,
+    id: string
+    name: string
+    description: string
+    slug: string
     category: {
-        id: number,
-        name: string,
+        id: number
+        name: string
+        slug: string
         parentId: number
+        parentSlug: string
     }
 }
 
@@ -97,7 +100,7 @@ export default function SearchForm() {
                         {/*<span>Total results: {searchResult.totalHits}</span>*/}
                         {searchResult.products.map((item, index) => {
                             return <Link
-                                href={`/catalog/${item.category.parentId}/${item.category.id}/details/${item.id}`}
+                                href={`/catalog/${item.category.slug}/${item.category.parentSlug}/details/${item.slug}`}
                                 key={index}
                                 className={styles.suggestion_item}
                                 onClick={() => handleSelectProduct(item.name)}
@@ -140,7 +143,7 @@ export default function SearchForm() {
                     {/*<span>Total results: {searchResult.totalHits}</span>*/}
                     {searchResult.products.map((item, index) => {
                         return <Link
-                            href={`/catalog/${item.category.parentId}/${item.category.id}/details/${item.id}`}
+                            href={`/catalog/${item.category.slug}/${item.category.parentSlug}/details/${item.slug}`}
                             key={index}
                             className={styles.suggestion_item}
                             onClick={() => handleSelectProduct(item.name)}
