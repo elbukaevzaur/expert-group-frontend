@@ -20,6 +20,7 @@ export interface ProductDetailsResponse {
     height: number,
     width: number,
     length: number,
+    lengthTo: number,
     thickness: number,
     outerDiameter: number,
     categoryId: number,

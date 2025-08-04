@@ -194,7 +194,7 @@ export default function ProductDetailsComponent(params: Params) {
                         }
                         {
                             details?.length > 0 &&
-                            <h3 className={styles.description_text}>Длина, мм: {details?.length}</h3>
+                            <h3 className={styles.description_text}>Длина, мм: {details?.length}{details?.lengthTo && details?.lengthTo > 0 && '-'+details?.lengthTo}</h3>
                         }
                         {
                             details?.thickness > 0 &&
