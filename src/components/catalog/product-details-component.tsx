@@ -4,16 +4,14 @@ import Image from "next/image";
 import React, {useEffect, useState} from "react";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
 import {
-    CHANGE_FAVORITES_REQUEST,
-    DETAILS_FETCH_REQUESTED,
+    CHANGE_FAVORITES_REQUEST
 } from "@/lib/reducers";
 import Link from "next/link";
-import {OrderItems, OrderItemsRequest, ProductDetailsResponse} from "@/lib/models";
-import {LikeSvg, ArrowLeftSvg} from "@/lib/icon-svg";
+import {OrderItems, ProductDetailsResponse} from "@/lib/models";
+import {LikeSvg} from "@/lib/icon-svg";
 import styles from "./product-details-component.module.css"
 import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/basket-actions";
 import {getModelsForProduct, getProductDetailsBySlug} from "@/lib/http/productsRequest";
-import {loadFromLocalStorage} from "@/lib/storage/localStorageCustom";
 import {HexagonModelSection} from "@/components/catalog/hexagon-model-section";
 import {getUnitTypeTitle} from "@/lib/consts";
 
@@ -194,7 +192,7 @@ export default function ProductDetailsComponent(params: Params) {
                         }
                         {
                             details?.length > 0 &&
-                            <h3 className={styles.description_text}>Длина, мм: {details?.length}{details?.lengthTo && details?.lengthTo > 0 && '-'+details?.lengthTo}</h3>
+                            <h3 className={styles.description_text}>Длина, мм: {details?.length} {details?.lengthTo > 0 && '-'+details?.lengthTo}</h3>
                         }
                         {
                             details?.thickness > 0 &&
