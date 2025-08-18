@@ -345,6 +345,10 @@ a.secondary {
   overflow: hidden;
 }
 
+.item_image_small {
+  max-height: 180px;
+}
+
 
 .item_image_img {
   width: 100%;
@@ -375,6 +379,10 @@ a.secondary {
   .list_images_img {
   height: 182px;
   }
+  
+.item_image_small {
+  max-height: 100% ;
+}
 }
             
 @media (max-width: 760px) {
@@ -414,7 +422,7 @@ a.secondary {
 
 .description_small {
   position: absolute;
-  bottom: 0;
+  top: 120px;
   height: 70px;
   right: 0;
   left: 0;

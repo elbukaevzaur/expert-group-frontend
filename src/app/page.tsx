@@ -89,11 +89,11 @@ export default function Home() {
             popularProjects.content?.length > 0 ?
                 <div className={styles.projects}>
                     <Link href={`/projects/${popularProjects.content[0].projectCategoryId}/details/${popularProjects.content[0].id}`} className={styles.item_image}>
-                        <img
+                        <Image
                             className={styles.item_image_img}
-                            width={100}
-                            height={100}
-                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + popularProjects.content[0]?.defaultImage}`}
+                            width={597}
+                            height={340}
+                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + popularProjects.content[0]?.defaultImage}`}
                             alt={popularProjects.content[0].name}
                         />
                         <div className={styles.description}>
@@ -104,11 +104,13 @@ export default function Home() {
                     <div className={styles.list_images}>
                         {
                             popularProjects.content.filter(filter => filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
-                                return <Link href={`/projects/${item.projectCategoryId}/details/${item.id}`} key={index} className={styles.item_image}>
-                                    <img
+                                return <Link href={`/projects/${item.projectCategoryId}/details/${item.id}`} key={index} className={`${styles.item_image} ${styles.item_image_small}`}>
+                                    <Image
                                        className={styles.list_images_img}
-                                       src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + item?.defaultImage}`}
+                                       src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + item?.defaultImage}`}
                                        alt={item.name}
+                                       width={597}
+                                       height={180}
                                     />
                                     {/* <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
                                            width={100} height={100}/> */}

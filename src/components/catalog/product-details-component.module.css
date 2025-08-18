@@ -55,6 +55,7 @@
     position: relative;
     max-width: 532px;
     max-height: 394px;
+    overflow: hidden;
   }
   
   @media (max-width: 720px) {
@@ -65,8 +66,8 @@
   }
   
   .image_details {
-    object-fit: contain;
-    max-width: 100%;
+    object-fit: cover;
+    width: 100%;
     max-height: 394px;
   }
 
@@ -522,8 +523,8 @@
     line-height: 1.6;
   }
 
-.models_section {
-}
+/* .models_section {
+} */
 
 .models_section h3 {
   font-size: 1.5rem;

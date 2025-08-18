@@ -14,6 +14,8 @@ import {AddToCartButton, CartItemQuantityDetails} from "@/components/basket/bask
 import {getModelsForProduct, getProductDetailsBySlug} from "@/lib/http/productsRequest";
 import {HexagonModelSection} from "@/components/catalog/hexagon-model-section";
 import {getUnitTypeTitle} from "@/lib/consts";
+import { ArrowLeftSvg } from "@/lib/icon-svg";
+import LoadingImage from "../loading/loading-image";
 
 interface Params {
     slug: string
@@ -28,6 +30,7 @@ export default function ProductDetailsComponent(params: Params) {
     const [details, setDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse);
     const dispatch = useAppDispatch();
     const [models, setModels] = useState<{id: number, name: string, type: string}[]>([]);
+      const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
          fetchData();
@@ -70,16 +73,26 @@ export default function ProductDetailsComponent(params: Params) {
         } else if (details?.images !== null && details?.images !== undefined){
             setSelectedImageIndex(0)
         }
+            console.log(details.images)
     }, [details?.defaultImage]);
+
+    const handleImageChange = (index: number) => {
+    if (index !== selectedImageIndex) {
+      setIsLoading(true);
+      setSelectedImageIndex(index);
+    }
+  };
 
     function handleShowPrevImage() {
         if (selectedImageIndex > 0) {
+            setIsLoading(true);
             setSelectedImageIndex(selectedImageIndex - 1);
         }
     }
 
     function handleShowNextImage() {
         if (selectedImageIndex < (details?.images.length - 1)) {
+            setIsLoading(true);
             setSelectedImageIndex(selectedImageIndex + 1);
         }
     }
@@ -90,18 +103,26 @@ export default function ProductDetailsComponent(params: Params) {
             <div className={styles.info}>
                 <div className={styles.container}>
                     <div className={styles.image_wrapper}>
+                        {isLoading && <LoadingImage/>}
                         {
                             details?.defaultImage ?
-                                <img
+                                <Image
                                     className={styles.image_details}
                                     src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + details?.images[selectedImageIndex]?.imagePath}`}
                                     alt={details?.name}
+                                    width={532}
+                                    height={394}
+                                    onLoadingComplete={() => {
+                                        setIsLoading(false);
+                                    }}
+                                    onError={() => {
+                                      setIsLoading(false);
+                                    }}
                                 />
                                 :
-                                <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
-                                       width={532} height={394}/>
+                                ''
                         }
-                        {/*                        {
+                                               {
                             selectedImageIndex > 0 &&
                             <div style={{cursor: 'pointer'}} onClick={handleShowPrevImage}>
                                 <ArrowLeftSvg className={styles.image_left} width={13} height={22}/>
@@ -113,7 +134,7 @@ export default function ProductDetailsComponent(params: Params) {
                                 <ArrowLeftSvg className={styles.image_right} width={13} height={22}/>
                             </div>
                         }
-                        {
+                        {/* {
                             selectedImageIndex !== null && details?.images?.length > 0 ?
                                 <img
                                     className={styles.image_details}
@@ -124,16 +145,16 @@ export default function ProductDetailsComponent(params: Params) {
                                 <Image className={styles.image} src={'/images/image_detalis.png'} alt="Карниз"
                                        width={532} height={394}/>
 
-                        }
+                        } */}
                         <div className={styles.mini}>
                             {
                                 details?.images?.map((item, index) => {
                                     return <div
                                         key={index}
-                                        onClick={() => setSelectedImageIndex(index)}
+                                        onClick={() => handleImageChange(index)}
                                         className={styles.selected_image}
                                     >
-                                        <img
+                                        <Image
                                         className={`${styles.mini_image} ${selectedImageIndex === index && styles.mini_image_active}`}
                                         width={50}
                                         height={50}
@@ -144,7 +165,7 @@ export default function ProductDetailsComponent(params: Params) {
                                 })
 
                             }
-                        </div>*/}
+                        </div>
                     </div>
                     <div className={styles.wrapper}>
                         {
@@ -205,7 +226,7 @@ export default function ProductDetailsComponent(params: Params) {
                     </div>
                     {
                         details.draftImage &&
-                        <img
+                        <Image
                             className={styles.description_image}
                             width={130}
                             height={178}
