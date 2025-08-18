@@ -167,7 +167,7 @@ export default function ProjectsList(props: Props) {
                     height={201}
                   />
                 ) : (
-                  <img
+                  <Image
                     className={styles.item_image}
                     width={286}
                     height={201}

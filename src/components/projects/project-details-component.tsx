@@ -90,11 +90,11 @@ export default function ProjectDetailsComponent(params: Params) {
                 <div className={styles.photo_wrapper}>
                     {
                         selectedImageIndex !== null && project?.images != undefined ?
-                            <img 
+                            <Image
                                 className={styles.photo_image} 
                                 width={1089} 
                                 height={1089}
-                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${project?.images[selectedImageIndex]?.imagePath}`}
+                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + project?.images[selectedImageIndex]?.imagePath}`}
                                 alt={project.name}
                             />
                             :
