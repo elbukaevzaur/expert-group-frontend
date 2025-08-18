@@ -19,8 +19,7 @@ const nextConfig: NextConfig = {
                 pathname: '/images/**',
             },
         ]
-    },
-    output: 'standalone'
+    }
 };
 
 export default nextConfig;
