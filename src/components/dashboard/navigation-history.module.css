@@ -37,6 +37,8 @@
     line-height: 20px;
     cursor: pointer;
     font-family: 'Roboto';
+      text-decoration: underline;
+      text-underline-offset: 4px;
   }
   
   .active_history_link{

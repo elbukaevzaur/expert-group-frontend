@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {useParams, usePathname, useRouter} from "next/navigation";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {useEffect, useState} from "react";
+import {Fragment, useEffect, useState} from "react";
 import {CURRENT_CATEGORY_FETCH_REQUESTED, CURRENT_SUB_CATEGORY_FETCH_REQUESTED} from "@/lib/reducers";
 import styles from "@/components/dashboard/navigation-history.module.css"
 import {getCategoryBySlug} from "@/lib/http/categoriesRequest";
@@ -16,43 +16,68 @@ export default function NavigationHistory() {
     const pathname = usePathname();
     const params = useParams();
     const dispatch = useAppDispatch();
-    const [category, setCategory] = useState<Category>({} as Category);
-    const [subCategory, setSubCategory] = useState<Category>({} as Category);
     const [productDetails, setProductDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse)
+    const [categories, setCategories] = useState<Category[]>([]);
+
+
+
+
+
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        if (params.categorySlug !== null && params.categorySlug !== undefined) {
-            loadCurrentCategory(String(params.categorySlug))
+        if (params.categorySlug) {
+            if (params && params?.categorySlug[params?.categorySlug?.length - 1].startsWith("product-")) {
+                getProductDetailsBySlug(String(params.categorySlug[params.categorySlug?.length - 1].replace("product-", ""))).then((resp) => {
+                    setProductDetails(resp.data);
+                })
+            }else {
+                setProductDetails({} as ProductDetailsResponse)
+            }
         }
+    }, [params]);
+
+    useEffect(() => {
+        // A function to fetch all categories in sequence
+        const fetchCategoriesSequentially = async () => {
+            setLoading(true);
+            setError(null);
+
+            const newCategories: Category[] = [];
+
+            // params.categorySlug can be null, check it before running the loop
+            if (params.categorySlug && params.categorySlug.length > 0) {
+                try {
+                    // A for...of loop ensures sequential execution
+                    for (const slug of params.categorySlug) {
+                        // Using a single API call would be better, but this handles the current structure
+                        if (!slug.startsWith("product-")) {
+                            const response = await getCategoryBySlug(slug);
+                            newCategories.push(response.data);
+                        }else {
+                            getProductDetailsBySlug(slug.replace("product-", "")).then((resp) => {
+                                setProductDetails(resp.data);
+                            })
+                        }
+                    }
+                    setCategories(newCategories);
+                } catch (err) {
+                    console.error("Failed to fetch categories:", err);
+                    setError("Failed to load categories. Please try again.");
+                    setCategories([]); // Clear state on error
+                } finally {
+                    setLoading(false);
+                }
+            } else {
+                // If there are no slugs, clear categories and finish loading
+                setCategories([]);
+                setLoading(false);
+            }
+        };
+
+        fetchCategoriesSequentially();
     }, [params.categorySlug]);
-
-    useEffect(() => {
-        if (params.subCategorySlug !== null && params.subCategorySlug !== undefined){
-            loadCurrentSubCategory(String(params.subCategorySlug))
-        }
-    }, [params.subCategorySlug]);
-
-    useEffect(() => {
-        if (params.productDetailsSlug !== null && params.productDetailsSlug !== undefined){
-            getProductDetailsBySlug(String(params.productDetailsSlug)).then((resp) => {
-                setProductDetails(resp.data);
-            })
-        }
-    }, [params.productDetailsSlug]);
-
-
-
-    const loadCurrentCategory = (slug: string) => {
-        getCategoryBySlug(slug).then((resp) => {
-            setCategory(resp.data);
-        })
-    }
-
-    const loadCurrentSubCategory = (slug: string) => {
-        getCategoryBySlug(slug).then((resp) => {
-            setSubCategory(resp.data);
-        })
-    }
 
     const isBack = (): boolean => {
         return pathname.split("/").length > 2;
@@ -93,8 +118,6 @@ export default function NavigationHistory() {
                     if (prev_path === 'catalog'){
                         title = `category`
                         prev_path = 'category'
-                    } else if (prev_path == 'category') {
-                        title = `subCategory`
                     } else if (prev_path == 'details') {
                         title = `productDetails`
                     } else {
@@ -114,6 +137,17 @@ export default function NavigationHistory() {
         }, [] as { path: string; title: string }[]);
     };
 
+
+    const getLink = (item: Category)=> {
+        let index = categories.indexOf(item)
+        let value = ''
+        for (;index  > -1;) {
+            value = categories[index].slug + '/' + value
+            index--
+        }
+        return value
+    }
+
     return (
         <div className={styles.navigator__wrapper}>
             {
@@ -128,15 +162,43 @@ export default function NavigationHistory() {
             <h3 className={styles.navigator__back_text}>
                 {
                     histories().map((value, index) => {
-                        return <Link key={index} href={value.path}>
-                            <u className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
-                                {value.title === 'category'?category?.name : value.title === 'subCategory' ? subCategory?.name : value.title === 'productDetails' ? productDetails?.name : value.title}
-                            </u>
-                            {
-                                index < (histories().length - 1) &&
-                                <span> / </span>
-                            }
-                        </Link>
+                        return <Fragment key={index}>
+                                {value.title === 'category' && !loading ?
+                                    categories?.map((item, indexCategory) => {
+                                        return <Fragment
+                                            key={indexCategory}
+                                        >
+                                            <Link
+                                                href={`/catalog/${getLink(item)}`}
+                                            >
+                                                <u
+                                                    className={indexCategory != (categories.length - 1) || productDetails.name ? styles.not_active_history_link: styles.active_history_link}
+                                                >
+
+                                                    {item.name}
+                                                </u>
+                                                {indexCategory < (categories.length - 1) && ' / '}
+                                            </Link>
+                                            {
+                                                ((categories.length - 1) == indexCategory && productDetails.name) &&
+                                                    <Fragment>
+                                                        <span> / </span>
+                                                        <u key={index} className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
+                                                            {productDetails.name}
+                                                        </u>
+                                                    </Fragment>
+                                            }
+                                        </Fragment>
+                                    })
+                                    :
+                                    <Link href={value.path}>
+                                        <u key={index} className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
+                                                {value.title}
+                                        </u>
+                                        <span> / </span>
+                                    </Link>
+                                }
+                            </Fragment>
                     })
                 }
             </h3>

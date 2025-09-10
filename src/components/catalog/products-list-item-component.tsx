@@ -1,13 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
-import {OrderItems, Products} from "@/lib/models";
+import {Category, OrderItems, Products} from "@/lib/models";
 import {useAppDispatch} from "@/lib/hooks";
 import {CHANGE_FAVORITES_REQUEST} from "@/lib/reducers";
 import {LikeSvg} from "@/lib/icon-svg";
 import styles from "./products-list-item-component.module.css"
 import {AddToCartButton, CartItemQuantity} from "@/components/basket/basket-actions";
 import {useRouter} from "next/navigation";
-import {getCategoryById} from "@/lib/http/categoriesRequest";
+import {getCategoryById, getCategoryHierarchyById} from "@/lib/http/categoriesRequest";
+import {AxiosResponse} from "axios";
 
 interface ProductsProps {
     key: number,
@@ -20,7 +21,7 @@ export const getCurrentUrlForProductDetails = async (product: {categoryId: numbe
     return  new Promise((resolve, reject) => {
         getCategoryById(product.categoryId).then((categoryResp) => {
             getCategoryById(product.parentCategoryId).then((subCategoryResp) => {
-                return resolve(`/catalog/${subCategoryResp.data.slug}/${categoryResp.data.slug}/details/${product.slug}`);
+                return resolve(`/catalog/${subCategoryResp.data.slug}/${categoryResp.data.slug}/product-${product.slug}`);
             }).catch((e) => {
                 reject();
             })
@@ -36,9 +37,13 @@ export function ProductsListItemComponent(props: ProductsProps) {
     const router = useRouter();
 
     function handleToProductDetails() {
-        getCurrentUrlForProductDetails(product).then((result) => {
-            router.push(result);
+        getCategoryHierarchyById(product.categoryId).then((resp: AxiosResponse<Category[]>) => {
+            console.log(resp.data, product.slug)
+            return router.push(`/catalog/${resp.data.reverse().map(m => m.slug).join("/")}/product-${product.slug}`);
         })
+        // getCurrentUrlForProductDetails(product).then((result) => {
+        //     router.push(result);
+        // })
     }
 
 
@@ -67,7 +72,7 @@ export function ProductsListItemComponent(props: ProductsProps) {
                 }
             </button>
             <div className={styles.info}>
-                <h3 className={styles.name}>{product.name}</h3>
+                <h3 className={styles.name}  onClick={() => handleToProductDetails()}>{product.name}</h3>
                 <div className={styles.wrraper}>
                     <div className={styles.content}>
                     <div className={styles.conteiner}>

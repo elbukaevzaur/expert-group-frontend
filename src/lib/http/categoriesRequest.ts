@@ -13,6 +13,10 @@ export function getCategoryById(categoryId: number) {
     return axiosInstance.get(`/categories/get?categoryId=${categoryId}`);
 }
 
+export function getCategoryHierarchyById(categoryId: number) {
+    return axiosInstance.get(`/categories/hierarchy?categoryId=${categoryId}`);
+}
+
 export function getCategoryBySlug(slug: string) {
     return axiosInstance.get(`/categories/get/slug?slug=${slug}`);
 }

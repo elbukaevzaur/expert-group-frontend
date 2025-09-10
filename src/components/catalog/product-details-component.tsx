@@ -73,7 +73,6 @@ export default function ProductDetailsComponent(params: Params) {
         } else if (details?.images !== null && details?.images !== undefined){
             setSelectedImageIndex(0)
         }
-            console.log(details.images)
     }, [details?.defaultImage]);
 
     const handleImageChange = (index: number) => {
