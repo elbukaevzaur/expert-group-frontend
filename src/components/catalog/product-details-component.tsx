@@ -16,6 +16,11 @@ import {HexagonModelSection} from "@/components/catalog/hexagon-model-section";
 import {getUnitTypeTitle} from "@/lib/consts";
 import { ArrowLeftSvg } from "@/lib/icon-svg";
 import LoadingImage from "../loading/loading-image";
+import dynamic from 'next/dynamic';
+const TiptapViewerNoSSR = dynamic(
+    () => import('../../components/TiptapViewer'),
+    { ssr: false }
+);
 
 interface Params {
     slug: string
@@ -190,9 +195,7 @@ export default function ProductDetailsComponent(params: Params) {
                     </div>
                     <div className={styles.description_container}>
                         <h3 className={styles.product_text_title}>Описание</h3>
-                        <p className={styles.product_text}>
-                            {details?.description}
-                        </p>
+                        <TiptapViewerNoSSR content={details?.description} />
                     </div>
                 </div>
                 <div className={styles.description}>
@@ -237,7 +240,7 @@ export default function ProductDetailsComponent(params: Params) {
                 <div className={styles.price}>
                     <div className={styles.price_buy}>
                         <div className={styles.price_buy_wrraper}>
-                            <div className={styles.price_buy_title}>{details?.price} &#8381;/{getUnitTypeTitle(details?.unitType)}</div>
+                            <div className={styles.price_buy_title}>{details?.price} &#8381;{details?.unitType && '/' + getUnitTypeTitle(details?.unitType)}</div>
                             {
                                 isAuth &&
                                 <button onClick={handleChangeFavorite} className={styles.price_buy_like}>
