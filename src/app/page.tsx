@@ -188,17 +188,6 @@ export default function Home() {
                 }
             </>
         }
-      <h2 className={styles.home__title}>Партнеры</h2>
-        <div className={styles.home__partners}>
-          <Image src={'/images/Home1.png'} alt='Docker' width={282} height={90}/>
-          <Image src={'/images/Home2.png'} alt='Grasaro' width={282} height={90}/>
-          <Image src={'/images/Home3.png'} alt='Grand Line' width={282} height={90}/>
-          <Image src={'/images/Home4.png'} alt='Brayer' width={282} height={90}/>
-          <Image src={'/images/Home5.png'} alt='Ariston' width={282} height={90}/>
-          <Image src={'/images/Home6.png'} alt='Denzel' width={282} height={90}/>
-          <Image src={'/images/Home7.png'} alt='Welte Home' width={282} height={90}/>
-          <Image src={'/images/Home8.png'} alt='Arya home' width={282} height={90}/>
-        </div>
     </div>
   );
 }
