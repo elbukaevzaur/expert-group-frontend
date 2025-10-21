@@ -71,13 +71,13 @@ a {
   border-radius: 10px;
   position: relative;
 }
-
+/* 
 .subcatalog__info {
   position: absolute;
-  top: 8px;
+  top: 0;
   left: 10px;
   z-index: 2;
-}
+} */
 
 .subcatalog__title {
   font-size: 13px;
@@ -266,13 +266,18 @@ a {
   height: 147px;
   border-radius: 10px;
   position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .subcatalog__info {
   position: absolute;
-  top: 8px;
-  left: 10px;
+  bottom: 0;
+  left: 0;
   z-index: 2;
+  padding: 8px 10px;
+  width: 100%;
+  background-color: rgba(25, 24, 24, 0.55);
 }
 
 .subcatalog__title {
@@ -289,7 +294,7 @@ a {
   line-height: 11px;
   font-family: 'Roboto';
   color: #fff;
-  margin: 10px 0 0;
+  margin: 5px 0 0;
 }
 
 .subcatalog__image {
