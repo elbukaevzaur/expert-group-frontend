@@ -34,8 +34,8 @@ export default function CategoryListItem(params: Params) {
                         className="subcatalog__image"
                         src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + category.defaultImage}`}
                         alt={category.name}
-                        width={296}
-                        height={150}
+                        // width={296}
+                        // height={150}
                         fill
                     />
             }
