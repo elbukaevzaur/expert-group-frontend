@@ -13,17 +13,11 @@ async function handleRequest(request) {
 
     const apiKey = process.env.API_PROEG_KEY;
     const externalApiBaseUrl = process.env.NEXT_PUBLIC_API_URL;
+
     if (!apiKey) {
-        console.error('Server Error: API_PROEG_KEY is missing on the server.');
+        console.error('Server Error: API key is missing on the server.');
         return NextResponse.json(
             { error: 'API key is missing on the server.' },
-            { status: 500 }
-        );
-    }
-    if (!externalApiBaseUrl) {
-        console.error('Server Error: NEXT_PUBLIC_API_URL is missing.');
-        return NextResponse.json(
-            { error: 'External API base URL is missing.' },
             { status: 500 }
         );
     }
@@ -37,6 +31,8 @@ async function handleRequest(request) {
 
         const requestHeaders = new Headers(request.headers);
         requestHeaders.set('X-API-Key', apiKey);
+        requestHeaders.set('Host', new URL(externalApiBaseUrl).host);
+        requestHeaders.set('Referer', externalApiBaseUrl);
 
         requestHeaders.delete('cookie');
         requestHeaders.delete('host');
@@ -51,18 +47,17 @@ async function handleRequest(request) {
         if (request.method !== 'GET' && request.method !== 'HEAD' && hasBody) {
             try {
                 if (contentType.includes('application/json')) {
-                    requestBody = JSON.stringify(await request.json());
+                    requestBody = await request.json();
+                    requestBody = JSON.stringify(requestBody);
                 } else if (contentType.includes('multipart/form-data')) {
                     requestBody = await request.formData();
                     requestHeaders.delete('content-type');
                     requestHeaders.delete('content-length');
                 } else if (contentType.includes('application/x-www-form-urlencoded') || contentType.includes('text/plain')) {
                     requestBody = await request.text();
-                } else {
-                    requestBody = request.body;
                 }
             } catch (e) {
-                console.warn(`Could not parse request body for Content-Type "${contentType}":`, e);
+                console.warn(`Could not parse request body with Content-Type "${contentType}":`, e);
                 requestBody = undefined;
             }
         }
@@ -71,40 +66,61 @@ async function handleRequest(request) {
             method: request.method,
             headers: requestHeaders,
             body: requestBody,
-            duplex: request.body ? 'half' : undefined,
         });
 
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`External API error: ${response.status} - ${errorText}`);
-            return new NextResponse(errorText, { status: response.status, headers: response.headers });
+            return new NextResponse(errorText, { status: response.status });
         }
 
+        if (response.status === 204 || response.status === 205) {
+            // Возвращаем пустой ответ с оригинальным статусом и заголовками
+            const responseHeaders = new Headers(response.headers);
+            // Удалите заголовки, которые могут конфликтовать с пустым телом
+            responseHeaders.delete('content-length');
+            responseHeaders.delete('content-type');
+
+            return new NextResponse(null, {
+                status: response.status,
+                headers: responseHeaders
+            });
+        }
+
+        const responseContentType = response.headers.get('content-type') || '';
         const responseHeaders = new Headers(response.headers);
+
         responseHeaders.delete('access-control-allow-origin');
         responseHeaders.delete('transfer-encoding');
         responseHeaders.delete('connection');
 
-        const responseContentType = response.headers.get('content-type') || 'application/octet-stream';
-
-        if (responseContentType.includes('image/') || responseContentType.includes('video/') || responseContentType.includes('audio/') || responseContentType.includes('application/pdf')) {
+        if (
+            responseContentType.startsWith('video/') ||
+            responseContentType.startsWith('image/') ||
+            responseContentType.includes('octet-stream')
+        ) {
+            // Бинарные данные (видео, изображение, файл)
             return new NextResponse(response.body, {
                 status: response.status,
                 headers: responseHeaders,
             });
-        } else if (responseContentType.includes('application/json')) {
-            const jsonResponse = await response.json();
-            return NextResponse.json(jsonResponse, {
-                status: response.status,
-                headers: responseHeaders,
-            });
-        } else {
-            const textResponse = await response.text();
-            return new NextResponse(textResponse, {
+        }
+
+// Попробуем безопасно определить JSON
+        if (responseContentType.includes('application/json')) {
+            const json = await response.json();
+            return NextResponse.json(json, {
                 status: response.status,
                 headers: responseHeaders,
             });
         }
+
+// Всё остальное считаем текстом
+        const text = await response.text();
+        return new NextResponse(text, {
+            status: response.status,
+            headers: responseHeaders,
+        });
 
     } catch (error) {
         console.error('Proxy request failed:', error);

@@ -128,7 +128,7 @@ export default function Home() {
         {
             isShowVideo &&
             <VideoShowModal
-                src={`${process.env.NEXT_PUBLIC_API_URL}/shorts/video/${selectedShort.fileName}`}
+                src={`/api/proxy/shorts/video/${selectedShort.fileName}`}
                 projectLink={`https://proeg.ru/projects/${selectedShort.project.projectCategoryId}/details/${selectedShort.projectId}`}
                 isShow={isShowVideo}
                 description={selectedShort.description}
