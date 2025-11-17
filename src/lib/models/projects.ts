@@ -19,5 +19,6 @@ export interface ProjectsDetailsResponse {
     images: ProductImages[],
     projectCategoryId: number,
     category: ProjectsCategories,
-    address: string
+    address: string,
+    youtubeUrl?: string
 }

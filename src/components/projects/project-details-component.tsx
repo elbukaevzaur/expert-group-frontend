@@ -58,6 +58,16 @@ export default function ProjectDetailsComponent(params: Params) {
     }
   }
 
+  function getYoutubeVideoId(url: string | undefined): string | null {
+    if (!url) return null;
+    
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  }
+
+  const youtubeVideoId = getYoutubeVideoId(project?.youtubeUrl);
+
   return (
     <div className={styles.details}>
       <h2 className={styles.title}>{project?.name}</h2>
@@ -163,6 +173,21 @@ export default function ProjectDetailsComponent(params: Params) {
         </div>
       ) : (
         ""
+      )}
+      {youtubeVideoId && (
+        <div className={styles.video}>
+          <h3 className={styles.video_title}>Видео</h3>
+          <div className={styles.video_wrapper}>
+            <iframe
+              className={styles.video_iframe}
+              src={`https://www.youtube.com/embed/${youtubeVideoId}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
       )}
     </div>
   );
