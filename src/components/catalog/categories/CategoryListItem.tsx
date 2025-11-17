@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {Category} from "@/lib/models";
 import {usePathname} from "next/navigation";
+import {getProductCountText} from "@/lib/consts";
 
 interface Params{
     category: Category
@@ -18,7 +19,7 @@ export default function CategoryListItem(params: Params) {
         <Link href={`${customPathname? customPathname : pathname}/${category.slug}`} className="subcatalog__item">
             <div className="subcatalog__info">
                 <h3 className="subcatalog__title">{category.name}</h3>
-                <h4 className="subcatalog__subtitle">{category.productCount} товара</h4>
+                <h4 className="subcatalog__subtitle">{getProductCountText(category.productCount)}</h4>
             </div>
             {
                 category.defaultImage == null ?

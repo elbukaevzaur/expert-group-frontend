@@ -48,3 +48,22 @@ export const getUnitTypeTitle = (value: string): string => {
     }
     return title;
 }
+
+export const getProductCountText = (count: number): string => {
+    const lastDigit = count % 10;
+    const lastTwoDigits = count % 100;
+    
+    if (lastTwoDigits >= 11 && lastTwoDigits <= 19) {
+        return `${count} товаров`;
+    }
+    
+    if (lastDigit === 1) {
+        return `${count} товар`;
+    }
+    
+    if (lastDigit >= 2 && lastDigit <= 4) {
+        return `${count} товара`;
+    }
+    
+    return `${count} товаров`;
+}
