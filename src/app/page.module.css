@@ -343,6 +343,11 @@ a.secondary {
   max-height: 380px;
   width: 100%;
   overflow: hidden;
+  border-radius: 12px;
+}
+
+.item_image .subcatalog__info {
+  border-radius: 0 0 12px 12px;
 }
 
 .item_image_small {
@@ -512,6 +517,10 @@ a.secondary {
     margin-bottom: 10px;
     height: 50px;
   }
+  .description_category_small {
+    font-size: 16px;
+    line-height: 20px;
+  }
   .description_name_small {
     font-size: 13px;
   }
@@ -519,6 +528,10 @@ a.secondary {
     padding: 0 10px;
     margin-bottom: 15px;
     height: 40px;
+  }
+  .description_category {
+    font-size: 24px;
+    line-height: 28px;
   }
   .description_name {
     font-size: 15px;

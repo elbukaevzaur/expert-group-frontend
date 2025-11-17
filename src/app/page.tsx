@@ -96,9 +96,9 @@ export default function Home() {
                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + popularProjects.content[0]?.defaultImage}`}
                             alt={popularProjects.content[0].name}
                         />
-                        <div className={styles.description}>
-                            <span className={styles.description_category}>{popularProjects.content[0].name}</span>
-                            <span className={styles.description_name}>{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</span>
+                        <div className="subcatalog__info">
+                            <h3 className="subcatalog__title">{popularProjects.content[0].name}</h3>
+                            <h4 className="subcatalog__subtitle">{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</h4>
                         </div>
                     </Link>
                     <div className={styles.list_images}>
@@ -114,9 +114,9 @@ export default function Home() {
                                     />
                                     {/* <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
                                            width={100} height={100}/> */}
-                                    <div className={styles.description_small}>
-                                        <span className={styles.description_category_small}>{item.name}</span>
-                                        <span className={styles.description_name_small}>{item.address}, {item.category.name}</span>
+                                    <div className="subcatalog__info">
+                                        <h3 className="subcatalog__title">{item.name}</h3>
+                                        <h4 className="subcatalog__subtitle">{item.address}, {item.category.name}</h4>
                                     </div>
                                 </Link>
                             })

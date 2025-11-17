@@ -3,7 +3,7 @@
 import ProductsFilter from "@/components/filter/products-filter";
 import { useAppSelector } from "@/lib/hooks";
 import { ProductsListItemComponent } from "@/components/catalog/products-list-item-component";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {Category, OrderItems, PageRequest, PageResponse, Products} from "@/lib/models";
 import CategoryTitle from "@/components/catalog/category-title-component";
 import ProductsPagination from "@/components/catalog/products-pagination-component";
@@ -30,7 +30,6 @@ export default function ProductsListComponent(props: Props) {
     });
     const [isShowMore, setIsShowMore] = useState(false);
     const [category, setCategory] = useState<Category>({} as Category)
-    const productsListRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         loadCategory();
@@ -48,12 +47,6 @@ export default function ProductsListComponent(props: Props) {
             getAll(pageRequest).then((resp) => {
                 if (!isShowMore){
                     setProductsPageResponse(resp.data);
-                    if (productsPageResponse) { // isShowMoreFlagRef - см. пояснения ниже
-                        productsListRef.current?.scrollIntoView({
-                            behavior: 'smooth', // Плавная прокрутка
-                            block: 'start'      // Прокрутка к началу элемента
-                        });
-                    }
                 }else {
                     // Показать еще
                     setProductsPageResponse({
@@ -80,7 +73,6 @@ export default function ProductsListComponent(props: Props) {
         <div className="products">
             <CategoryTitle category={category}/>
             <SubCategoriesListComponent parentCategoryId={category.id}/>
-            <div ref={productsListRef}/>
             {
                 category.id !== undefined &&
                 <>
