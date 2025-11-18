@@ -9,6 +9,8 @@ import {getAllFilters} from "@/lib/http/filtersRequest";
 
 interface Props {
     categoryId: string | string[] | undefined,
+    categoryIds?: number[],
+    onlyPopular?: boolean,
     productsPageResponse: PageResponse<Products>,
     pageRequest: PageRequest
     updateFilter: (filter: FilterProperty) => void,
@@ -23,10 +25,21 @@ export default function ProductsFilter(props: Props){
     const {pageRequest} = props;
 
     useEffect(() => {
-        getAllFilters(Number(props.categoryId)).then((resp) => {
+        // Не отправляем запрос, если нет ни categoryId, ни categoryIds
+        if (!props.categoryId && (!props.categoryIds || props.categoryIds.length === 0)) {
+            return;
+        }
+        
+        getAllFilters(
+            props.categoryId ? Number(props.categoryId) : undefined,
+            props.categoryIds,
+            props.onlyPopular
+        ).then((resp) => {
             setFilters(resp.data);
-        })
-    }, []);
+        }).catch((error) => {
+            console.error('Error loading filters:', error);
+        });
+    }, [props.categoryId, props.categoryIds, props.onlyPopular]);
 
     const handleApplySorted = (sort: OrderedPageRequest) => {
         props.updateSort(sort);

@@ -123,10 +123,12 @@ export default function ProductsListComponent(props: Props) {
             {
                 category.id !== undefined &&
                 <>
-                    <ProductsFilter
-                        categoryId={category.id.toString()}
-                        productsPageResponse={productsPageResponse}
-                        pageRequest={pageRequest}
+                    {
+                        !hasSubCategories &&
+                        <ProductsFilter
+                            categoryId={category.id.toString()}
+                            productsPageResponse={productsPageResponse}
+                            pageRequest={pageRequest}
                         updateFilter={(filter) => {
 
                             const index = pageRequest.filters.map(m => m.field).indexOf(filter.field);
@@ -162,22 +164,11 @@ export default function ProductsListComponent(props: Props) {
                             setPageRequest({...pageRequest, filters: filters})
                         }}
                         onRemoveAllFilter={() => {
-                            if (hasSubCategories && subCategoryIds.length > 0) {
-                                // Если есть подкатегории, восстанавливаем фильтр популярных товаров
-                                setPageRequest({
-                                    ...pageRequest,
-                                    filters: [
-                                        { field: 'categoryId', value: subCategoryIds.map(id => String(id)), operator: 'IN' },
-                                        { field: 'isPopular', value: ['true'], operator: 'EQUAL' }
-                                    ],
-                                    orderedColumns: [{ field: 'popularityScore', direction: 'DESC' }]
-                                });
-                            } else {
-                                // Если нет подкатегорий, восстанавливаем фильтр по категории
-                                setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field === 'categoryId')})
-                            }
+                            // Восстанавливаем фильтр по категории
+                            setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field === 'categoryId')})
                         }}
                     />
+                    }
                     <div className={styles.items}>
                         {
                             productsPageResponse.content.map((value, index) => {
