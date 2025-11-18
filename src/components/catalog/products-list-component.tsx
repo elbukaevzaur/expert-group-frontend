@@ -11,7 +11,7 @@ import ListNotContent from "@/components/ListNotContent";
 import styles from "./products-list-component.module.css"
 import SubCategoriesListComponent from "@/components/catalog/sub-categories-list-component";
 import {getAll} from "@/lib/http/productsRequest";
-import {getCategoryBySlug} from "@/lib/http/categoriesRequest";
+import {getCategoryBySlug, getAll as getAllCategories} from "@/lib/http/categoriesRequest";
 
 interface Props {
     slug: string,
@@ -30,15 +30,62 @@ export default function ProductsListComponent(props: Props) {
     });
     const [isShowMore, setIsShowMore] = useState(false);
     const [category, setCategory] = useState<Category>({} as Category)
+    const [hasSubCategories, setHasSubCategories] = useState(false);
+    const [subCategoryIds, setSubCategoryIds] = useState<number[]>([]);
 
     useEffect(() => {
         loadCategory();
     }, [props.slug])
 
     const loadCategory = () => {
+        // Сбрасываем состояние при загрузке новой категории
+        setIsShowMore(false);
+        setProductsPageResponse({
+            totalPages: 0,
+            page: 0,
+            perPage: 0,
+            content: [],
+            orderedColumns: []
+        });
+        
         getCategoryBySlug(props.slug).then((resp) => {
             setCategory(resp.data)
-            setPageRequest({...pageRequest, filters: [...pageRequest.filters, { field: 'categoryId', value: [String(resp.data.id)], operator: 'EQUAL' }]})
+            // Проверяем наличие подкатегорий
+            getAllCategories(resp.data.id).then((subCategoriesResp) => {
+                if (subCategoriesResp.data && subCategoriesResp.data.length > 0) {
+                    setHasSubCategories(true);
+                    const ids = subCategoriesResp.data.map(cat => cat.id);
+                    setSubCategoryIds(ids);
+                    // Загружаем популярные товары из подкатегорий
+                    const popularProductsRequest: PageRequest = {
+                        filters: [
+                            { field: 'categoryId', value: ids.map(id => String(id)), operator: 'IN' },
+                            { field: 'isPopular', value: ['true'], operator: 'EQUAL' }
+                        ],
+                        orderedColumns: [{ field: 'popularityScore', direction: 'DESC' }],
+                        page: 1
+                    };
+                    setPageRequest(popularProductsRequest);
+                } else {
+                    setHasSubCategories(false);
+                    setSubCategoryIds([]);
+                    // Загружаем обычные товары из категории
+                    setPageRequest({
+                        filters: [{ field: 'categoryId', value: [String(resp.data.id)], operator: 'EQUAL' }],
+                        orderedColumns: [],
+                        page: 1
+                    });
+                }
+            }).catch(() => {
+                // Если ошибка при загрузке подкатегорий, показываем обычные товары
+                setHasSubCategories(false);
+                setSubCategoryIds([]);
+                setPageRequest({
+                    filters: [{ field: 'categoryId', value: [String(resp.data.id)], operator: 'EQUAL' }],
+                    orderedColumns: [],
+                    page: 1
+                });
+            });
         })
     }
 
@@ -115,7 +162,20 @@ export default function ProductsListComponent(props: Props) {
                             setPageRequest({...pageRequest, filters: filters})
                         }}
                         onRemoveAllFilter={() => {
-                            setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field === 'categoryId')})
+                            if (hasSubCategories && subCategoryIds.length > 0) {
+                                // Если есть подкатегории, восстанавливаем фильтр популярных товаров
+                                setPageRequest({
+                                    ...pageRequest,
+                                    filters: [
+                                        { field: 'categoryId', value: subCategoryIds.map(id => String(id)), operator: 'IN' },
+                                        { field: 'isPopular', value: ['true'], operator: 'EQUAL' }
+                                    ],
+                                    orderedColumns: [{ field: 'popularityScore', direction: 'DESC' }]
+                                });
+                            } else {
+                                // Если нет подкатегорий, восстанавливаем фильтр по категории
+                                setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field === 'categoryId')})
+                            }
                         }}
                     />
                     <div className={styles.items}>
