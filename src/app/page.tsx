@@ -4,7 +4,7 @@ import styles from '@/app/page.module.css';
 import { ArrowLeftSvg } from '@/lib/icon-svg';
 import Link from 'next/link';
 import Image from 'next/image';
-import {Category, PageRequest, PageResponse, Products} from "@/lib/models";
+import {Category, OrderItems, PageRequest, PageResponse, Products} from "@/lib/models";
 import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {ProductsListItemComponent} from "@/components/catalog/products-list-item-component";
 import {VideoPreview, VideoShowModal} from "@/app/VideoPlayer";
@@ -17,8 +17,11 @@ import {
 } from "@/lib/http/popularRequest";
 import {ProjectsListResponse} from "@/lib/models/projects";
 import {Shorts} from "@/lib/models/shorts";
+import {useAppSelector} from "@/lib/hooks";
 
 export default function Home() {
+    const { orderItems } = useAppSelector((state) => state.basket);
+    const { allFavorites } = useAppSelector((state) => state.favorites);
     const [selectedShort, setSelectedShort] = useState<Shorts>({} as Shorts);
     const [isShowVideo, setIsShowVideo] = useState(false);
     const [popularProducts, setPopularProducts] = useState<PageResponse<Products>>({page: 0} as PageResponse<Products>);
@@ -178,7 +181,9 @@ export default function Home() {
               <div className={styles.home__products_list}>
                 {
                   popularProducts.content.map((item, index) => {
-                    return <ProductsListItemComponent key={index} product={item} basketItem={null} isFavorite={false} />
+                    const basketItem = orderItems.find((orderItem: OrderItems) => orderItem.productId === item.id) || null;
+                    const isFavorite = allFavorites.hasOwnProperty(item.id);
+                    return <ProductsListItemComponent key={index} product={item} basketItem={basketItem} isFavorite={isFavorite} />
                   })
                 }
               </div>

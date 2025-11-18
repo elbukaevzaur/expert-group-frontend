@@ -8,14 +8,15 @@ import styles from "./basket-actions.module.css"
 interface CartProps {
     orderItem: OrderItems | null;
     productId: number;
-    productQuantity: number
+    productQuantity: number;
+    allowOrderWithoutStock?: boolean;
 }
 
 export const AddToCartButton: React.FC<CartProps> = (props: CartProps) => {
     const {handleAddItem} = useCartActions();
 
     return <button className={styles.basket}
-                   onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity)}>
+                   onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}>
         <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/>
         <h3 className={styles.basket_text}>В корзину</h3>
     </button>
@@ -30,7 +31,7 @@ export const CartItemQuantity: React.FC<CartProps> = (props: CartProps) => {
                 <MinusSmall/>}</button>
             <h3 className={`${styles.basket_text} ${styles.basket_text_margin}`}>{props.orderItem?.quantity}</h3>
             <button className={styles.basket_button}
-                    onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity)}>{
+                    onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}>{
                 <PlusSmall/>}</button>
         </div>
     </div>
@@ -44,7 +45,7 @@ export const CartItemQuantityDetails: React.FC<CartProps> = (props: CartProps) =
             <Image src={'/images/Minus.png'} alt="Убрать" width={22} height={22}/>
         </button>
         <h3 className={styles.price_buy_text}>{props.orderItem?.quantity}</h3>
-        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity)}
+        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
                 className={styles.price_buy_like}>
             <Image src={'/images/Plus.png'} alt="Добавить" width={22} height={22}/>
         </button>
@@ -58,7 +59,7 @@ export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartPr
         <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.quantity_button}><MinusSmall/>
         </button>
         <h3 className={styles.quantity}>{props.orderItem?.quantity}</h3>
-        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity)}
+        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
                 className={styles.quantity_button}><PlusSmall/></button>
     </div>
 }
@@ -71,7 +72,7 @@ export const CartItemQuantityBasket: React.FC<CartProps> = (props: CartProps) =>
             {<GreenMinus width={19.5} height={19.5}/>}
         </button>
         <h4 className={styles.item_quantity_text}>{props.orderItem?.quantity}</h4>
-        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity)}
+        <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
                 className={styles.item_button}>
             {<GreenPlus/>}
         </button>

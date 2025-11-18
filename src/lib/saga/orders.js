@@ -11,6 +11,8 @@ function* createOrderWorker() {
         const response = yield call(createOrderRequest);
         yield put(CREATE_ORDER_RESPONSE_SUCCESS(response.data));
         yield put(BASKET_CLEAR());
+        // Обновляем список текущих заказов после создания нового заказа
+        yield put(CURRENT_ORDERS_REQUEST());
     } catch (e) {
 
     }

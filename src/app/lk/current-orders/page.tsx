@@ -3,24 +3,29 @@
 import {useEffect, useState} from "react";
 import OrderListItemView from "@/components/order/orderListItemViewComponent";
 import ListNotContent from "@/components/ListNotContent";
-import {findMeCurrentOrdersRequest} from "@/lib/http/ordersRequest";
-import {Orders} from "@/lib/models";
 import LoadingTableRow from "@/components/loading/loading-table-row";
+import {useAppDispatch, useAppSelector} from "@/lib/hooks";
+import {CURRENT_ORDERS_REQUEST} from "@/lib/reducers";
 
 export default function Page() {
-    const [allOrders, setAllOrders] = useState<Orders[]>([]);
+    const dispatch = useAppDispatch();
+    const { currentOrders } = useAppSelector((state) => state.orders);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        handleAllOrdersRequest();
-    }, []);
+        // Запрашиваем заказы через Redux
+        dispatch(CURRENT_ORDERS_REQUEST());
+        // Устанавливаем задержку для скрытия индикатора загрузки
+        const timer = setTimeout(() => setIsLoading(false), 500);
+        return () => clearTimeout(timer);
+    }, [dispatch]);
 
-    const handleAllOrdersRequest = () => {
-        findMeCurrentOrdersRequest().then((resp) => {
-            setAllOrders(resp.data);
-            setTimeout(() => setIsLoading(false), 500);
-        })
-    }
+    // Обновляем состояние загрузки при изменении Redux state
+    useEffect(() => {
+        if (currentOrders !== undefined) {
+            setIsLoading(false);
+        }
+    }, [currentOrders]);
 
     return (
         <div className="history">
@@ -34,8 +39,8 @@ export default function Page() {
             </div>
             {
                 !isLoading ?
-                    allOrders.length > 0 ?
-                        allOrders.map((item, index) => {
+                    currentOrders && currentOrders.length > 0 ?
+                        currentOrders.map((item, index) => {
                             return <OrderListItemView key={index} order={item}/>
                         })
                         :

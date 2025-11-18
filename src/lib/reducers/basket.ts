@@ -58,7 +58,8 @@ const basket = createSlice({
                     parentCategoryId: itemDetails.parentCategoryId,
                     categoryId: itemDetails.categoryId,
                     defaultImage: itemDetails.defaultImage,
-                    slug: itemDetails.slug
+                    slug: itemDetails.slug,
+                    allowOrderWithoutStock: itemDetails.allowOrderWithoutStock
                 };
                 return acc;
             }, {});

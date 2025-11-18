@@ -6,7 +6,8 @@ export interface Products {
     currentQuantity: number,
     categoryId: number,
     parentCategoryId: number,
-    defaultImage: string | null
+    defaultImage: string | null,
+    allowOrderWithoutStock?: boolean
 }
 
 interface Materials {
@@ -31,7 +32,8 @@ export interface ProductDetailsResponse {
     defaultImage: string,
     draftImage: string,
     images: ProductImages[],
-    modelLink: string
+    modelLink: string,
+    allowOrderWithoutStock?: boolean
 }
 
 export interface ProductImages{

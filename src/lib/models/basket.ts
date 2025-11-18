@@ -29,7 +29,8 @@ export interface OrderItemsDetails {
     categoryId: number,
     parentCategoryId: number,
     defaultImage: string,
-    slug: string
+    slug: string,
+    allowOrderWithoutStock?: boolean
 }
 
 export interface OrderItemsRequest {

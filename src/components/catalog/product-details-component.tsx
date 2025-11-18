@@ -251,16 +251,22 @@ export default function ProductDetailsComponent(params: Params) {
                         </div>
                         <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>
                             {
-                                details?.currentQuantity > 0 && basketItem?.quantity > 0 ?
+                                (details?.currentQuantity > 0 || details?.allowOrderWithoutStock) && basketItem?.quantity > 0 ?
                                     <CartItemQuantityDetails productId={details.id} orderItem={basketItem}
-                                                             productQuantity={details.currentQuantity}/>
+                                                             productQuantity={details.currentQuantity}
+                                                             allowOrderWithoutStock={details.allowOrderWithoutStock}/>
                                     :
                                     <AddToCartButton productId={details.id} orderItem={basketItem}
-                                                     productQuantity={details.currentQuantity}/>
+                                                     productQuantity={details.currentQuantity}
+                                                     allowOrderWithoutStock={details.allowOrderWithoutStock}/>
                             }
                             <div style={{textAlign: 'right'}}>
                                 <h2 className={styles.price_buy_subtitle}>
-                                    {details?.currentQuantity != undefined && details?.currentQuantity > 0 ? `Есть в наличии: ${details?.currentQuantity}` : 'Нет в наличии'}
+                                    {details?.currentQuantity != undefined && details?.currentQuantity > 0 
+                                        ? `Есть в наличии: ${details?.currentQuantity}` 
+                                        : details?.allowOrderWithoutStock 
+                                            ? '' 
+                                            : 'Нет в наличии'}
                                 </h2>
                             </div>
                         </div>

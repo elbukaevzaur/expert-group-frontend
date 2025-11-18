@@ -96,7 +96,7 @@ export default function Basket() {
                                 </button>
                                 <div className={styles.item_content}>
                                 <div className={styles.item_wrapper}>
-                                    <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity}/>
+                                    <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
                                     <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
                                 </div>
                                 <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>

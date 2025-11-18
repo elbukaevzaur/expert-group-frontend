@@ -76,7 +76,13 @@ export function ProductsListItemComponent(props: ProductsProps) {
                 <div className={styles.wrraper}>
                     <div className={styles.content}>
                     <div className={styles.conteiner}>
-                        <h3 className={styles.text}>{product.currentQuantity > 0 ? 'В наличии' : 'Нет в наличии'}</h3>
+                        <h3 className={styles.text}>
+                            {product.currentQuantity > 0 
+                                ? 'В наличии' 
+                                : product.allowOrderWithoutStock 
+                                    ? '' 
+                                    : 'Нет в наличии'}
+                        </h3>
                         <h2 className={styles.price}>{product.price} &#8381;</h2>
                     </div>
                     <button onClick={handleChangeFavorite} className={styles.like}>
@@ -89,9 +95,9 @@ export function ProductsListItemComponent(props: ProductsProps) {
                     
                         {
                             props.basketItem == null ?
-                                <AddToCartButton productId={product.id} orderItem={basketItem} productQuantity={product.currentQuantity}/>
+                                <AddToCartButton productId={product.id} orderItem={basketItem} productQuantity={product.currentQuantity} allowOrderWithoutStock={product.allowOrderWithoutStock}/>
                                 :
-                                <CartItemQuantity orderItem={basketItem} productId={product.id} productQuantity={product.currentQuantity}/>
+                                <CartItemQuantity orderItem={basketItem} productId={product.id} productQuantity={product.currentQuantity} allowOrderWithoutStock={product.allowOrderWithoutStock}/>
                         }
                     </div>
                 </div>

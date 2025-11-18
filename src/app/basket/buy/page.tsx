@@ -7,20 +7,35 @@ import {
     ORDER_ITEMS_DETAILS_REQUEST
 } from "@/lib/reducers";
 import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {OrderItemsDetails} from "@/lib/models";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
+import {Login} from "@/components/login/login-modal";
 
 export default function Buy() {
     const dispatch = useAppDispatch();
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
+    const { isAuth } = useAppSelector((state) => state.auth);
     const router = useRouter();
+    const [isLoginVisible, setIsLoginVisible] = useState(false);
+    const [pendingOrder, setPendingOrder] = useState(false);
 
     useEffect(() => {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
     }, []);
+
+    useEffect(() => {
+        // Если пользователь авторизовался и был запрос на оформление заказа
+        if (isAuth && pendingOrder) {
+            setPendingOrder(false);
+            setIsLoginVisible(false);
+            // Продолжаем оформление заказа
+            dispatch(CREATE_ORDER_REQUEST());
+            router.push('/lk/current-orders');
+        }
+    }, [isAuth, pendingOrder, dispatch, router]);
 
     const getTotalPrice = (): string => {
         let totalSum: number = 0;
@@ -32,6 +47,14 @@ export default function Buy() {
     }
 
     function handleCreateOrder() {
+        // Проверяем авторизацию
+        if (!isAuth) {
+            // Сохраняем намерение создать заказ и показываем модальное окно авторизации
+            setPendingOrder(true);
+            setIsLoginVisible(true);
+            return;
+        }
+        // Если авторизован, создаем заказ
         dispatch(CREATE_ORDER_REQUEST());
         router.push('/lk/current-orders')
     }
@@ -113,6 +136,10 @@ export default function Buy() {
                     <button onClick={handleCreateOrder} className={styles.total_button}>Оформить заказ</button>
                 </div>
                 </div>
+            {isLoginVisible && <Login onCloseModal={() => {
+                setIsLoginVisible(false);
+                setPendingOrder(false);
+            }} />}
         </div>
     )
 }
