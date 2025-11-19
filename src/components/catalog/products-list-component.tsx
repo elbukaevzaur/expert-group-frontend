@@ -54,15 +54,15 @@ export default function ProductsListComponent(props: Props) {
             getAllCategories(resp.data.id).then((subCategoriesResp) => {
                 if (subCategoriesResp.data && subCategoriesResp.data.length > 0) {
                     setHasSubCategories(true);
-                    const ids = subCategoriesResp.data.map(cat => cat.id);
+                    const ids = subCategoriesResp.data.map((cat: Category) => cat.id);
                     setSubCategoryIds(ids);
                     // Загружаем популярные товары из подкатегорий
                     const popularProductsRequest: PageRequest = {
                         filters: [
-                            { field: 'categoryId', value: ids.map(id => String(id)), operator: 'IN' },
+                            { field: 'categoryId', value: ids.map((id: number) => String(id)), operator: 'IN' },
                             { field: 'isPopular', value: ['true'], operator: 'EQUAL' }
                         ],
-                        orderedColumns: [{ field: 'popularityScore', direction: 'DESC' }],
+                        orderedColumns: [{ columnName: 'popularityScore', orderDirection: 'DESC' }],
                         page: 1
                     };
                     setPageRequest(popularProductsRequest);
