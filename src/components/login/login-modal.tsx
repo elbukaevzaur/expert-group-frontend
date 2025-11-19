@@ -5,10 +5,12 @@ import React, {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import styles from "./login-modal.module.css"
 import {SmartCaptcha} from "@yandex/smart-captcha";
+import { Eye, EyeOff } from "lucide-react";
 
 export function Login({onCloseModal = () => {}}) {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const {isAuth, isAuthError } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const router = useRouter();
@@ -54,7 +56,23 @@ export function Login({onCloseModal = () => {}}) {
                     </div>
                     <div className={`${styles.content} ${styles.content_margin}`}>
                         <h3 className={styles.input_text}>Пароль</h3>
-                        <input id="password" value={password} onChange={(e) => setPassword(e.target.value)} className={`${styles.input} ${isAuthError && styles.auth_error}`} type="password"/>
+                        <div className={styles.password_wrapper}>
+                            <input 
+                                id="password" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                className={`${styles.input} ${styles.password_input} ${isAuthError && styles.auth_error}`} 
+                                type={showPassword ? "text" : "password"}
+                            />
+                            <button 
+                                type="button"
+                                className={styles.password_toggle}
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Скрыть пароль" : "Показать пароль"}
+                            >
+                                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                            </button>
+                        </div>
                     </div>
                     <div className={styles.wrapper}>
                         <button className={styles.password}>Забыли пароль?</button>

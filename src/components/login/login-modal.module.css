@@ -102,6 +102,35 @@
     font-weight: 400;
     line-height: 23px;
   }
+
+  .password_wrapper {
+    position: relative;
+    width: 100%;
+  }
+
+  .password_input {
+    padding-right: 45px;
+  }
+
+  .password_toggle {
+    all: unset;
+    cursor: pointer;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    transition: color 0.2s;
+    height: 40px;
+    width: 30px;
+  }
+
+  .password_toggle:hover {
+    color: #21a038;
+  }
   
   .input.auth_error {
     border: 1px solid red;
