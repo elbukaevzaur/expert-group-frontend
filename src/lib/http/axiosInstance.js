@@ -10,7 +10,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   function (config) {
     const token = loadFromLocalStorage('authToken');
-    if (token) {
+    if (token && token.accessToken) {
         config.headers.Authorization = token.accessToken;
     }
     return config;
