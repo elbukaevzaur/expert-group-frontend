@@ -12,3 +12,4 @@ export * from '@/lib/icon-svg/location';
 export * from '@/lib/icon-svg/menu';
 export * from '@/lib/icon-svg/contacts';
 export * from '@/lib/icon-svg/orders';
+export * from '@/lib/icon-svg/vector';

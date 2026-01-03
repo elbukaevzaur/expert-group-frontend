@@ -1,20 +1,42 @@
 export function BasketSvg(props) {
     return (
-        <svg
-            width={28}
-            height={28}
-            viewBox="0 0 28 28"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M1 1h2.889l.578 2.889m0 0H27l-5.778 11.555H6.778M4.467 3.89l2.31 11.555m0 0l-3.311 3.313c-.91.91-.266 2.465 1.02 2.465h16.736m0 0a2.889 2.889 0 100 5.777 2.889 2.889 0 000-5.777zm-11.555 2.89a2.889 2.889 0 11-5.778 0 2.889 2.889 0 015.778 0z"
-                stroke={props.stroke || "#21A038"}
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            />
-            <path d="M12 16l-5-.5-1.913-11L26.5 4 21 15.5l-9 .5z" fill="none" {...props}/>
-        </svg>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    fill="none"
+    viewBox="0 0 24 24"
+    {...props}
+  >
+    <defs>
+      <filter id="pixso_custom_mask_type_alpha">
+        <feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0"></feColorMatrix>
+      </filter>
+    </defs>
+    <mask
+      id="mask_1"
+      width="24"
+      height="24"
+      x="0"
+      y="0"
+      maskUnits="userSpaceOnUse"
+    >
+      <g filter="url(#pixso_custom_mask_type_alpha)">
+        <g id="clip0_152_1823">
+          <path id="Rectangle 1" fill="#272323" d="M0 0h24v24H0z"></path>
+        </g>
+      </g>
+    </mask>
+    <g id="clip path group" mask="url(#mask_1)">
+      <g id="Group 2">
+        <path
+          id="Vector 23"
+          fill="#272323"
+          fillRule="evenodd"
+          d="M23.34 7.14c-.48-.54-1.14-.9-1.86-.9h-9.24c-.3 0-.6.24-.6.6s.3.6.6.6h9.24c.36 0 .72.18.96.42.24.3.36.66.24 1.02l-.54 3h-6.6c-.3 0-.6.24-.6.6s.3.6.6.6h6.42l-.54 2.88c-.06.42-.48.72-.9.72H9c-.42 0-.78-.3-.9-.72L5.76 2.94c-.06-.3-.3-.48-.6-.48H.54c-.3 0-.6.24-.6.6s.3.6.6.6h4.14l2.28 12.6c.12.84.72 1.44 1.5 1.68-.3.42-.54.96-.54 1.56 0 1.5 1.2 2.7 2.7 2.7s2.7-1.2 2.7-2.7c0-.54-.18-1.08-.48-1.5h3.66c-.3.42-.48.96-.48 1.5 0 1.5 1.2 2.7 2.7 2.7s2.7-1.2 2.7-2.7c0-.6-.18-1.14-.48-1.56.78-.18 1.44-.84 1.62-1.68l1.32-7.08c.12-.72-.06-1.44-.54-2.04m-11.22 12.3c0 .84-.66 1.5-1.5 1.5s-1.5-.66-1.5-1.5.66-1.5 1.5-1.5 1.5.66 1.5 1.5m6.66 1.5c-.84 0-1.5-.66-1.5-1.5s.66-1.5 1.5-1.5 1.5.66 1.5 1.5-.66 1.5-1.5 1.5"
+        ></path>
+      </g>
+    </g>
+  </svg>
     )
 }

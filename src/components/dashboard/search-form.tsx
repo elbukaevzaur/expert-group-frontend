@@ -129,7 +129,7 @@ export default function SearchForm() {
                 }}
                 type="search"
                 className={styles.search_input}
-                placeholder="Поиск"
+                placeholder="Поиск товаров"
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Даем время на клик
 
