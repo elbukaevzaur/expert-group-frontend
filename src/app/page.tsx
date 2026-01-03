@@ -89,37 +89,37 @@ export default function Home() {
   return (
     <div className={styles.home}>
         {
-            popularProjects.content?.length > 0 ?
+            popularProjects.content?.length > 0 && popularProjects.content[0] ?
                 <div className={styles.projects}>
-                    <Link href={`/projects/${popularProjects.content[0].projectCategoryId}/details/${popularProjects.content[0].id}`} className={styles.item_image}>
+                    <Link href={`/projects/${popularProjects.content[0]?.projectCategoryId || ''}/details/${popularProjects.content[0]?.id || ''}`} className={styles.item_image}>
                         <Image
                             className={styles.item_image_img}
                             width={597}
                             height={340}
-                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + popularProjects.content[0]?.defaultImage}`}
-                            alt={popularProjects.content[0].name}
+                            src={`${process.env.NEXT_PUBLIC_API_URL || ''}/images/get/product?name=${'large_' + (popularProjects.content[0]?.defaultImage || '')}`}
+                            alt={popularProjects.content[0]?.name || ''}
                         />
                         <div className="subcatalog__info">
-                            <h3 className="subcatalog__title">{popularProjects.content[0].name}</h3>
-                            <h4 className="subcatalog__subtitle">{popularProjects.content[0].address}, {popularProjects.content[0].category.name}</h4>
+                            <h3 className="subcatalog__title">{popularProjects.content[0]?.name || ''}</h3>
+                            <h4 className="subcatalog__subtitle">{popularProjects.content[0]?.address || ''}{popularProjects.content[0]?.category?.name ? `, ${popularProjects.content[0].category.name}` : ''}</h4>
                         </div>
                     </Link>
                     <div className={styles.list_images}>
                         {
-                            popularProjects.content.filter(filter => filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
-                                return <Link href={`/projects/${item.projectCategoryId}/details/${item.id}`} key={index} className={`${styles.item_image} ${styles.item_image_small}`}>
+                            popularProjects.content.filter(filter => filter?.defaultImage && popularProjects.content[0]?.defaultImage && filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
+                                return <Link href={`/projects/${item?.projectCategoryId || ''}/details/${item?.id || ''}`} key={index} className={`${styles.item_image} ${styles.item_image_small}`}>
                                     <Image
                                        className={styles.list_images_img}
-                                       src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'large_' + item?.defaultImage}`}
-                                       alt={item.name}
+                                       src={`${process.env.NEXT_PUBLIC_API_URL || ''}/images/get/product?name=${'large_' + (item?.defaultImage || '')}`}
+                                       alt={item?.name || ''}
                                        width={597}
                                        height={180}
                                     />
                                     {/* <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
                                            width={100} height={100}/> */}
                                     <div className="subcatalog__info">
-                                        <h3 className="subcatalog__title">{item.name}</h3>
-                                        <h4 className="subcatalog__subtitle">{item.address}, {item.category.name}</h4>
+                                        <h3 className="subcatalog__title">{item?.name || ''}</h3>
+                                        <h4 className="subcatalog__subtitle">{item?.address || ''}{item?.category?.name ? `, ${item.category.name}` : ''}</h4>
                                     </div>
                                 </Link>
                             })

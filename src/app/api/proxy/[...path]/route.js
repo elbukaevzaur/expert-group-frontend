@@ -4,7 +4,18 @@ export async function GET(request) { return handleRequest(request); }
 export async function POST(request) { return handleRequest(request); }
 export async function PUT(request) { return handleRequest(request); }
 export async function DELETE(request) { return handleRequest(request); }
-export async function OPTIONS(request) { return handleRequest(request); }
+export async function OPTIONS(request) { 
+    // Handle CORS preflight requests
+    return new NextResponse(null, {
+        status: 200,
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+            'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-API-Key',
+            'Access-Control-Max-Age': '86400',
+        },
+    });
+}
 
 async function handleRequest(request) {
     const { pathname, searchParams } = new URL(request.url);
@@ -18,6 +29,14 @@ async function handleRequest(request) {
         console.error('Server Error: API key is missing on the server.');
         return NextResponse.json(
             { error: 'API key is missing on the server.' },
+            { status: 500 }
+        );
+    }
+
+    if (!externalApiBaseUrl) {
+        console.error('Server Error: NEXT_PUBLIC_API_URL is missing on the server.');
+        return NextResponse.json(
+            { error: 'API URL is missing on the server.' },
             { status: 500 }
         );
     }
@@ -77,6 +96,10 @@ async function handleRequest(request) {
         if (response.status === 204 || response.status === 205) {
             // Возвращаем пустой ответ с оригинальным статусом и заголовками
             const responseHeaders = new Headers(response.headers);
+            // Add CORS headers
+            responseHeaders.set('Access-Control-Allow-Origin', '*');
+            responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+            responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-Key');
             // Удалите заголовки, которые могут конфликтовать с пустым телом
             responseHeaders.delete('content-length');
             responseHeaders.delete('content-type');
@@ -90,7 +113,11 @@ async function handleRequest(request) {
         const responseContentType = response.headers.get('content-type') || '';
         const responseHeaders = new Headers(response.headers);
 
-        responseHeaders.delete('access-control-allow-origin');
+        // Add CORS headers
+        responseHeaders.set('Access-Control-Allow-Origin', '*');
+        responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+        responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-API-Key');
+        
         responseHeaders.delete('transfer-encoding');
         responseHeaders.delete('connection');
 
