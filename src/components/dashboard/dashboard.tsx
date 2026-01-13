@@ -24,6 +24,7 @@ import {
   CloseSvg,
   ArrowLeftSvg,
   VectorSvg,
+  FavoriteSvg,
 } from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
 import { motion } from "framer-motion";
@@ -92,19 +93,16 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}
               >
-                {/* <Image
-                src={"/images/Catalog_green.png"}
-                alt="Каталог"
-                width={17}
-                height={10}
-              /> */}
                 <MenuSvg width={24} height={24} />
                 <Link href="/catalog">
                   <h3 className={`${styles.navigator__text}`}>Каталог</h3>
                 </Link>
                 <VectorSvg />
                 <div className={styles.dropdown_catalog_content}>
-                  <CatalogModal />
+                  <div className={styles.triangle_with_shadow}></div>
+                  <div className={styles.dropdown_catalog_wrapper}>
+                    <CatalogModal />
+                  </div>
                 </div>
               </div>
               <div
@@ -115,11 +113,14 @@ export default function Dashboard() {
                   styles.navigator__container_active
                 }`}
               >
+                
                 <Link className={styles.link} href={"/about-us"}>
                   <h3 className={styles.navigator__text}>О Компании</h3>
                   <VectorSvg />
                 </Link>
-                <div className={styles.dropdown_green}>
+                <div className={styles.dropdown_catalog_content}>
+                  <div className={styles.triangle_with_shadow}></div>
+                  <div className={styles.dropdown_catalog_wrapper}>
                   <Link href={"/about-us"}>
                     <div className={styles.dropdown_green_wrapper}>
                       <h3
@@ -159,6 +160,7 @@ export default function Dashboard() {
                   </Link>
                 </div>
               </div>
+              </div>
 
               <div
                 className={`${styles.navigator__container} ${
@@ -172,7 +174,9 @@ export default function Dashboard() {
                   <h3 className={styles.navigator__text}>Проекты</h3>
                   <VectorSvg />
                 </Link>
-                <div className={styles.dropdown_green}>
+                <div className={styles.dropdown_catalog_content}>
+                  <div className={styles.triangle_with_shadow}></div>
+                  <div className={styles.dropdown_catalog_wrapper}>
                   {allProjectsCategories.map((value, index) => {
                     return (
                       <Link href={`/projects/${value.id}`} key={index}>
@@ -190,6 +194,7 @@ export default function Dashboard() {
                       </Link>
                     );
                   })}
+                </div>
                 </div>
               </div>
               <div
@@ -265,6 +270,17 @@ export default function Dashboard() {
                 <h2 className={styles.user__text}>Кабинет</h2>
               </Link>
             )}
+            <div>
+              <div
+                className={styles.dashboar__basket}
+              >
+                <FavoriteSvg
+                />
+                <div className={styles.dashboar__basket_container}>
+                  <h2 className={styles.dashboar__bascet_text}>Избранное</h2>
+                </div>
+              </div>
+            </div>
             <div>
               <div
                 onClick={() => setIsShowPreviewBasket(!isShowPreviewBasket)}
@@ -353,6 +369,13 @@ export function Burger({
   return (
     <div ref={burgerRef}>
       <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: isClose ? 0 : 1 }}
+    transition={{ duration: 0.2 }}
+    className={styles.burger_overlay}
+    onClick={handleIsClose}
+  />
+      <motion.div
         initial={{ right: isClose ? 0 : -280 }}
         animate={{ right: isClose ? -280 : 0 }}
         transition={{ duration: 0.2 }}
@@ -364,9 +387,57 @@ export function Burger({
         className={styles.burger}
       >
         <button className={styles.burger_close} onClick={handleIsClose}>
-          <CloseSvg fill={"#fff"} width={25} height={25} />
+          <CloseSvg width={24} height={24} />
         </button>
+        
         <div className={styles.burger_nav}>
+           {!isAuth ? (
+            <div
+              className={styles.burger_wrapper}
+              onClick={() => {
+                toggleLogin();
+                handleIsClose();
+              }}
+            >
+              <UserSvg  width={24} height={24} />
+              <h4 className={styles.burger_text}>Вход</h4>
+            </div>
+          ) : (
+            <Link
+              href={"/lk/current-orders"}
+              className={styles.burger_wrapper}
+              onClick={handleIsClose}
+            >
+              <UserSvg width={24} height={24} />
+              <h4 className={styles.burger_text}>Кабинет</h4>
+            </Link>
+          )}
+          <Link
+            href={"/basket"}
+            className={styles.burger_wrapper}
+            onClick={handleIsClose}
+          >
+            <div className={styles.burger_basket}>
+              <FavoriteSvg  width={24} height={24} />
+              {orderItems.length > 0 && 
+              <div className={styles.burger_basket_wrapper}>
+              </div> }
+            </div>
+            <h4 className={styles.burger_text}>Избранное</h4>
+          </Link>
+          <Link
+            href={"/basket"}
+            className={styles.burger_wrapper}
+            onClick={handleIsClose}
+          >
+            <div className={styles.burger_basket}>
+              <BasketSvg width={24} height={24} />
+              {orderItems.length > 0 && 
+              <div className={styles.burger_basket_wrapper}>
+              </div> }
+            </div>
+            <h4 className={styles.burger_text}>Корзина</h4>
+          </Link>
           <Link
             className={styles.burger_link}
             href="/catalog"
@@ -395,13 +466,13 @@ export function Burger({
           >
             Как купить
           </Link>
-          <Link
+          {/* <Link
             className={styles.burger_link}
             href="/gallery"
             onClick={handleIsClose}
           >
             Галерея
-          </Link>
+          </Link> */}
           <Link
             className={styles.burger_link}
             href="/contacts"
@@ -411,61 +482,11 @@ export function Burger({
           </Link>
         </div>
         <div className={styles.burger_contacts}>
-          {!isAuth ? (
-            <div
-              className={styles.burger_wrapper}
-              onClick={() => {
-                toggleLogin();
-                handleIsClose();
-              }}
-            >
-              <UserSvg stroke={"#fff"} width={26} height={26} />
-              <h4 className={styles.burger_text}>Вход</h4>
-            </div>
-          ) : (
-            <Link
-              href={"/lk/current-orders"}
-              className={styles.burger_wrapper}
-              onClick={handleIsClose}
-            >
-              <UserSvg stroke={"#fff"} width={26} height={26} />
-              <h4 className={styles.burger_text}>Кабинет</h4>
-            </Link>
-          )}
-          <Link
-            href={"/basket"}
-            className={styles.burger_wrapper}
-            onClick={handleIsClose}
-          >
-            <div className={styles.burger_basket}>
-              <BasketSvg stroke={"#fff"} width={26} height={26} />
-              <div className={styles.burger_basket_wrapper}>
-                <h5 className={styles.burger_basket_text}>
-                  {orderItems.length}
-                </h5>
-              </div>
-            </div>
-            <h4 className={styles.burger_text}>Корзина</h4>
-          </Link>
-          <div className={styles.burger_wrapper}>
-            <LocationSvg stroke={"#fff"} />
-            <h4 className={styles.burger_text}>Грозный</h4>
-          </div>
-          <div className={styles.burger_wrapper}>
-            <WatsappSvg fill={"#fff"} />
-            <a
-              href="https://wa.me/+79389032666"
-              target="_blank"
-              className={styles.burger_text}
-            >
-              +7 (938) 903-26-66
-            </a>
-          </div>
-          <Link href="https://go.2gis.com/R1lEi" target="_blank">
-            <h4 className={styles.burger_text}>
-              Россия, г. Грозный, Назарбаева 79
-            </h4>
-          </Link>
+          <Link href={'https://vk.com/id769027474'} className={styles.burger__contacts_text} target="_blank">В контакте</Link>
+          <Link href={'https://www.instagram.com/expertgroup_official'} className={styles.burger__contacts_text} target="_blank">Инстаграм</Link>
+          <Link href={'https://t.me/EXPERTGROUPHOLDING'} className={styles.burger__contacts_text} target="_blank">Телеграм</Link>
+          <Link href={'https://www.youtube.com/@ExpertGroupgips/shorts'} className={styles.burger__contacts_text} target="_blank">Ютуб</Link>
+          <h4 className={styles.footer}>Присоединяйтесь к нам в социальных сетях</h4>
         </div>
       </motion.div>
     </div>

@@ -55,16 +55,16 @@ export default function SearchForm() {
 
     return<>
         <div className={styles.search}>
-            <div onClick={() => setIsShowMobileSearch(true)}>
-                <SearchSvg className={styles.search__icon}/>
-            </div>
+            {/* <div className={styles.search__icon_mob} onClick={() => setIsShowMobileSearch(true)}>
+                <SearchSvg />
+            </div> */}
             <motion.div
                 initial={{display: "none", translateY: -53}}
                 animate={{display: isShowMobileSearch ? 'initial' : 'none', translateY: isShowMobileSearch ? 0 : -53}}
                 className={styles.mobile_search_container}
                 transition={{duration: 0.3}}
             >
-                <div style={{position: 'relative'}}>
+                {/* <div style={{position: 'relative'}}>
                     <input
                         value={searchText}
                         onChange={(event) => {
@@ -86,7 +86,7 @@ export default function SearchForm() {
                     >
                         <CloseSvg/>
                     </div>
-                </div>
+                </div> */}
                 <motion.div
                     initial={{display: 'none', opacity: 0}}
                     animate={{
@@ -134,6 +134,8 @@ export default function SearchForm() {
                 onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Даем время на клик
 
             />
+            <button className={styles.search__button}>
+                <SearchSvg color='#fff' width='24' height='24' />Найти</button>
             <motion.div
                 initial={{display: 'none', opacity: 0}}
                 animate={{display: isShowSearchResult() ? 'initial' : 'none', opacity: isShowSearchResult() ? 1 : 0}}

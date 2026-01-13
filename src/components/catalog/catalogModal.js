@@ -34,9 +34,9 @@ export const CatalogModal = () => {
             allCategories.map((value, index) => {
                 return <div className={styles.dropdown_catalog_wrapper} key={index}>
                     <button className={styles.dropdown_catalog} onClick={() => changeCategory(value)} key={index}>{value.name}</button>
-                    <div className={styles.dropdown_catalog_quantity}>
+                    {/* <div className={styles.dropdown_catalog_quantity}>
                         <h4 className={styles.dropdown_catalog_quantity_text}>{value.productCount}</h4>
-                    </div>
+                    </div> */}
                     </div>
             })
         }

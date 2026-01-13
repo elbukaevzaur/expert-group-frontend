@@ -1,20 +1,20 @@
 .dropdown_catalog {
     all: unset;
-    width: 230px;
-    height: 55px;
+    width: 195px;
+    height: 35px;
     margin: 0;
-    color: #21a038;
-    font-size: 16px;
-    font-weight: 600;
+    color: rgba(39, 35, 35, 1);
+    font-size: 18px;
+    font-weight: 400;
     line-height: 19px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-family: 'Inter';
+    font-family: 'Roboto';
   } 
   
   .dropdown_catalog:hover {
-    font-size: 18px;
+    font-size: 19px;
   }
   
   .dropdown_catalog_wrapper {
