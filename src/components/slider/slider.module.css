@@ -1,0 +1,135 @@
+.slider {
+  position: relative;
+  width: 100%;
+}
+
+.slider__image {
+  width: 100%;
+  max-height: 850px;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1450px) {
+  .slider__image {
+    height: 635px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .slider__image {
+    height: 565px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .slider__image {
+    height: 450px;
+  }
+}
+
+@media (max-width: 950px) {
+  .slider__image {
+    height: 340px;
+  }
+}
+
+@media (max-width: 650px) {
+  .slider__image {
+    height: 500px;
+  }
+}
+
+.slider__wrapper {
+  position: absolute;
+  top: 110px;
+  left: 0;
+  background-color: rgba(33, 160, 56, 0.9);
+  border-radius: 0px 8px 8px 0px;
+  padding: 30px 30px 30px 70px;
+  max-width: 750px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 1300px) {
+  .slider__wrapper {
+    width: 635px;
+    padding-left: 50px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .slider__wrapper {
+    width: 555px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 650px) {
+  .slider__wrapper {
+    width: 555px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 950px) {
+  .slider__wrapper {
+    width: 475px;
+    top: 70px;
+  }
+}
+
+@media (max-width: 650px) {
+  .slider__wrapper {
+    width: 385px;
+  }
+}
+
+@media (max-width: 430px) {
+  .slider__wrapper {
+    width: 100%;
+  }
+}
+
+.slider__title {
+  font-family: "Montserrat";
+  color: rgba(255, 255, 255, 1);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 37px;
+}
+
+@media (max-width: 1100px) {
+  .slider__title {
+    font-size: 27px;
+    line-height: 33px;
+  }
+}
+
+@media (max-width: 950px) {
+  .slider__title {
+    font-size: 24px;
+    line-height: 29px;
+  }
+}
+
+.slider__button {
+  border: 2px solid rgba(255, 255, 255, 1);
+  border-radius: 6px;
+  width: 214px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: transparent;
+  color: rgba(255, 255, 255, 1);
+  cursor: pointer;
+  font-family: "Montserrat";
+  font-style: SemiBold;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+}

@@ -17,10 +17,6 @@ export default function CategoryListItem(params: Params) {
 
     return (
         <Link href={`${customPathname? customPathname : pathname}/${category.slug}`} className="subcatalog__item">
-            <div className="subcatalog__info">
-                <h3 className="subcatalog__title">{category.name}</h3>
-                <h4 className="subcatalog__subtitle">{getProductCountText(category.productCount)}</h4>
-            </div>
             {
                 category.defaultImage == null ?
                     <Image 
@@ -39,7 +35,11 @@ export default function CategoryListItem(params: Params) {
                         // height={150}
                         fill
                     />
-            }
+                }
+            {/* <div className="subcatalog__info"> */}
+                <h3 className="subcatalog__title">{category.name}</h3>
+                <h4 className="subcatalog__subtitle">{getProductCountText(category.productCount)}</h4>
+            {/* </div> */}
         </Link>
     )
 }

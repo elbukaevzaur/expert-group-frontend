@@ -1,7 +1,7 @@
 "use client"
 
 import styles from '@/app/page.module.css';
-import { ArrowLeftSvg } from '@/lib/icon-svg';
+import { ArrowLeftSvg, ArrowNewSvg } from '@/lib/icon-svg';
 import Link from 'next/link';
 import Image from 'next/image';
 import {Category, OrderItems, PageRequest, PageResponse, Products} from "@/lib/models";
@@ -18,6 +18,7 @@ import {
 import {ProjectsListResponse} from "@/lib/models/projects";
 import {Shorts} from "@/lib/models/shorts";
 import {useAppSelector} from "@/lib/hooks";
+import SliderComponent from '@/components/slider/slider';
 
 export default function Home() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -28,6 +29,29 @@ export default function Home() {
     const [popularCategories, setPopularCategories] = useState<PageResponse<Category>>({page: 0} as PageResponse<Category>);
     const [popularProjects, setPopularProjects] = useState<PageResponse<ProjectsListResponse>>({page: 0} as PageResponse<ProjectsListResponse>);
     const [popularShorts, setPopularShorts] = useState<Shorts[]>([]);
+    const [windowWidth, setWindowWidth] = useState(0);
+  
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+  
+  const filteredProjects = popularProjects.content?.filter(filter => 
+    filter?.defaultImage && 
+    popularProjects.content[0]?.defaultImage && 
+    filter.defaultImage !== popularProjects.content[0].defaultImage
+  ) || [];
+  
+  // Определяем количество карточек в зависимости от ширины экрана
+  const projectsToShow = windowWidth <= 1100 
+    ? filteredProjects.slice(0, 2) 
+    : filteredProjects.slice(0, 4);
 
     useEffect(() => {
         loadProducts();
@@ -88,6 +112,28 @@ export default function Home() {
 
   return (
     <div className={styles.home}>
+        <div className={styles.slider}>
+            <SliderComponent/>
+        </div>
+        <div className={styles.wrapper}>
+        <h2 className={styles.title}>Cторисы</h2>
+        <div className={styles.videos}>
+            {
+                popularShorts.map((item, index) => {
+                    return <VideoPreview key={index}
+                                         posterSrc={item.previewImageName}
+                                         title={item.name}
+                                         onShowVideo={() => {
+                                            setSelectedShort(item);
+                                            setIsShowVideo(true);
+                                         }}
+                    />
+                })
+            }
+        </div>
+        
+        <h2 className={styles.title}>Наши проекты</h2>
+        <Link  href={"/projects"} className={styles.subtitle}>Смотреть все <ArrowNewSvg/></Link>
         {
             popularProjects.content?.length > 0 && popularProjects.content[0] ?
                 <div className={styles.projects}>
@@ -100,13 +146,13 @@ export default function Home() {
                             alt={popularProjects.content[0]?.name || ''}
                         />
                         <div className="subcatalog__info">
-                            <h3 className="subcatalog__title">{popularProjects.content[0]?.name || ''}</h3>
-                            <h4 className="subcatalog__subtitle">{popularProjects.content[0]?.address || ''}{popularProjects.content[0]?.category?.name ? `, ${popularProjects.content[0].category.name}` : ''}</h4>
+                            <h3 className={styles.projects__title}>{popularProjects.content[0]?.name || ''}</h3>
+                            <h4 className={styles.projects__title}>{popularProjects.content[0]?.address || ''}{popularProjects.content[0]?.category?.name ? `, ${popularProjects.content[0].category.name}` : ''}</h4>
                         </div>
                     </Link>
                     <div className={styles.list_images}>
                         {
-                            popularProjects.content.filter(filter => filter?.defaultImage && popularProjects.content[0]?.defaultImage && filter.defaultImage !== popularProjects.content[0].defaultImage).map((item, index) => {
+                            projectsToShow.map((item, index) => {
                                 return <Link href={`/projects/${item?.projectCategoryId || ''}/details/${item?.id || ''}`} key={index} className={`${styles.item_image} ${styles.item_image_small}`}>
                                     <Image
                                        className={styles.list_images_img}
@@ -118,8 +164,8 @@ export default function Home() {
                                     {/* <Image layout="responsive" className={styles.list_images_img} src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + item?.defaultImage}`} alt="test"
                                            width={100} height={100}/> */}
                                     <div className="subcatalog__info">
-                                        <h3 className="subcatalog__title">{item?.name || ''}</h3>
-                                        <h4 className="subcatalog__subtitle">{item?.address || ''}{item?.category?.name ? `, ${item.category.name}` : ''}</h4>
+                                        <h3 className={styles.projects__title_small}>{item?.name || ''}</h3>
+                                        <h4 className={styles.projects__title_small}>{item?.address || ''}{item?.category?.name ? `, ${item.category.name}` : ''}</h4>
                                     </div>
                                 </Link>
                             })
@@ -141,33 +187,15 @@ export default function Home() {
                 }}
             />
         }
-        <div className={styles.videos} style={{display: 'flex', flexDirection: 'row', gap: 20, paddingTop: 20, marginBottom: 40}}>
-            {
-                popularShorts.map((item, index) => {
-                    return <VideoPreview key={index}
-                                         posterSrc={item.previewImageName}
-                                         title={item.name}
-                                         onShowVideo={() => {
-                                            setSelectedShort(item);
-                                            setIsShowVideo(true);
-                                         }}
-                    />
-                })
-            }
-        </div>
+        
         {
             popularCategories.content?.length > 0 &&
             <>
-                <div className={styles.home__wrapper}>
-                    <h2 className={styles.home__title}>Популярные категории</h2>
-                    <Link href={"/catalog"} className={styles.home__title_link}>
-                        <p className={styles.home__title_subtitle}>Весь каталог</p>
-                        <ArrowLeftSvg className={styles.home_svg} fill={'#21A038'} width={9} height={16}/>
-                    </Link>
-                </div>
-                <div className={styles.home_categories}>
+                    <h2 className={styles.title}>Популярные категории</h2>
+                    <Link  href={"/catalog"} className={styles.subtitle}>Смотреть все <ArrowNewSvg/></Link>
+                    <div className={styles.home_categories}>
                     {
-                        popularCategories.content?.map((item, index) => {
+                        popularCategories.content?.slice(0, windowWidth >= 1100 ? 4 : windowWidth >= 700 ? 3 : 2).map((item, index) => {
                             return <CategoryListItem key={index} category={item} customPathname="catalog"/>
                         })
                     }
@@ -177,22 +205,24 @@ export default function Home() {
         {
             popularProducts.content?.length > 0 &&
             <>
-              <h2 className={styles.home__title}>Популярные товары</h2>
+              <h2 className={styles.title}>Популярные товары</h2>
+                {/* <Link  href={"/projects"} className={styles.subtitle}>Смотреть все <ArrowNewSvg/></Link> */}
               <div className={styles.home__products_list}>
                 {
-                  popularProducts.content.map((item, index) => {
+                  popularProducts.content.slice(0, 5).map((item, index) => {
                     const basketItem = orderItems.find((orderItem: OrderItems) => orderItem.productId === item.id) || null;
                     const isFavorite = allFavorites.hasOwnProperty(item.id);
                     return <ProductsListItemComponent key={index} product={item} basketItem={basketItem} isFavorite={isFavorite} />
                   })
                 }
               </div>
-                {
+                {/* {
                     popularProducts.page < popularProducts.totalPages &&
                     <button onClick={loadProducts} className={styles.home_button}>Показать еще</button>
-                }
+                } */}
             </>
         }
+        </div>
     </div>
   );
 }

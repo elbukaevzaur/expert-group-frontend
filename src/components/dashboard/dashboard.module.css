@@ -841,10 +841,10 @@ padding-left: 22px;
 
 .burger_basket_wrapper {
   position: absolute;
-  top: -5px;
-  right: -5px;
-  width: 18px;
-  height: 18px;
+  top: -1px;
+  right: -6px;
+  width: 10px;
+  height: 10px;
   background-color: rgba(33, 160, 56, 1);
   border-radius: 50%;
   display: flex;

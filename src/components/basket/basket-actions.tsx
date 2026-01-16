@@ -2,7 +2,7 @@ import Image from "next/image";
 import React from "react";
 import {OrderItems} from "@/lib/models";
 import {useCartActions} from "@/lib/hooks/useCartActions";
-import {CloseSmall, GreenMinus, GreenPlus, MinusSmall, PlusSmall} from "@/lib/icon-svg";
+import {CloseSmall, GreenMinus, GreenPlus, MinusSmall, PlusSmall, TrashSvg} from "@/lib/icon-svg";
 import styles from "./basket-actions.module.css"
 
 interface CartProps {
@@ -17,7 +17,7 @@ export const AddToCartButton: React.FC<CartProps> = (props: CartProps) => {
 
     return <button className={styles.basket}
                    onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}>
-        <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/>
+        {/* <Image src={'/images/Basket_white.png'} alt="Корзина" width={28} height={26}/> */}
         <h3 className={styles.basket_text}>В корзину</h3>
     </button>
 }
@@ -25,15 +25,15 @@ export const AddToCartButton: React.FC<CartProps> = (props: CartProps) => {
 export const CartItemQuantity: React.FC<CartProps> = (props: CartProps) => {
     const {handleAddItem, handleRemoveItem} = useCartActions();
 
-    return <div className={`${styles.basket} ${styles.basket_cursor}`}>
-        <div className={styles.wrapper}>
+    // return <div className={`${styles.basket} ${styles.basket_cursor}`}>
+        return <div className={styles.wrapper}>
             <button className={styles.basket_button} onClick={() => handleRemoveItem(props.orderItem)}>{
-                <MinusSmall/>}</button>
+                <MinusSmall width={20} height={20}/>}</button>
             <h3 className={`${styles.basket_text} ${styles.basket_text_margin}`}>{props.orderItem?.quantity}</h3>
             <button className={styles.basket_button}
                     onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}>{
-                <PlusSmall/>}</button>
-        </div>
+                <PlusSmall width={20} height={20}/>}</button>
+        {/* </div> */}
     </div>
 }
 
@@ -56,11 +56,11 @@ export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartPr
     const {handleAddItem, handleRemoveItem} = useCartActions();
 
     return <div className={styles.name}>
-        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.quantity_button}><MinusSmall/>
+        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.quantity_button}><MinusSmall width={18} height={18} color='#fff'/>
         </button>
         <h3 className={styles.quantity}>{props.orderItem?.quantity}</h3>
         <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
-                className={styles.quantity_button}><PlusSmall/></button>
+                className={styles.quantity_button}><PlusSmall width={18} height={18} color='#fff'/></button>
     </div>
 }
 
@@ -89,7 +89,9 @@ export const RemoveAllPreviewBasket: React.FC = () => {
 export const RemoveItemPreviewBasket: React.FC<{productId: string}> = (props: {productId: string}) => {
     const {handleRemoveItemFromBasket} = useCartActions();
 
-    return <button onClick={() => handleRemoveItemFromBasket(props.productId)} className={styles.delete}>{<CloseSmall/>}</button>
+    return <button onClick={() => handleRemoveItemFromBasket(props.productId)} className={styles.delete}>
+        Удалить товар<TrashSvg/>
+    </button>
 }
 
 export const RemoveItemBasket: React.FC<{productId: string}> = (props: {productId: string}) => {

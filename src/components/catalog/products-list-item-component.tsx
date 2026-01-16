@@ -56,7 +56,7 @@ export function ProductsListItemComponent(props: ProductsProps) {
 
     return (
         <div className={styles.item}>
-            <button className="product_details_link_button" onClick={() => handleToProductDetails()}>
+            <button className={styles.button} onClick={() => handleToProductDetails()}>
                 {
                     product.defaultImage == null ?
                         // <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
@@ -73,8 +73,6 @@ export function ProductsListItemComponent(props: ProductsProps) {
             </button>
             <div className={styles.info}>
                 <h3 className={styles.name}  onClick={() => handleToProductDetails()}>{product.name}</h3>
-                <div className={styles.wrraper}>
-                    <div className={styles.content}>
                     <div className={styles.conteiner}>
                         <h3 className={styles.text}>
                             {product.currentQuantity > 0 
@@ -87,10 +85,9 @@ export function ProductsListItemComponent(props: ProductsProps) {
                     </div>
                     <button onClick={handleChangeFavorite} className={styles.like}>
                             {
-                                <LikeSvg width={28} height={24} fill={isFavorite ? '#21A038' : 'none'}/>
+                                <LikeSvg width={28} height={24} stroke='#fff' fill={isFavorite ? '#ffffff' : 'none'}/>
                             }
                         </button>
-                        </div>
                     <div className={styles.action}>
                     
                         {
@@ -100,7 +97,6 @@ export function ProductsListItemComponent(props: ProductsProps) {
                                 <CartItemQuantity orderItem={basketItem} productId={product.id} productQuantity={product.currentQuantity} allowOrderWithoutStock={product.allowOrderWithoutStock}/>
                         }
                     </div>
-                </div>
             </div>
         </div>
     )

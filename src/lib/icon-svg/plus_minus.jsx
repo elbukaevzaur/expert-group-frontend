@@ -62,7 +62,7 @@ export function GreenPlus (){
   );
   }
 
-  export function PlusSmall() {
+  export function PlusSmall(props) {
     return (
       <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -70,26 +70,27 @@ export function GreenPlus (){
       height="10"
       fill="none"
       viewBox="0 0 10 10"
+      {...props}
     >
       <path
         id="Vector 8"
-        stroke="#21A038"
+        stroke={props.color ||"#21A038"}
         strokeOpacity="1"
-        strokeWidth="1.747"
+        strokeWidth="1.3"
         d="M5 0v10"
       ></path>
       <path
         id="Vector 9"
-        stroke="#21A038"
+        stroke={props.color ||"#21A038"}
         strokeOpacity="1"
-        strokeWidth="1.747"
+        strokeWidth="1.3"
         d="M0 5h10"
       ></path>
     </svg>
     )
   }
 
-  export function MinusSmall() {
+  export function MinusSmall(props) {
     return (
       <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -97,12 +98,13 @@ export function GreenPlus (){
     height="1.746"
     fill="none"
     viewBox="0 0 10.131 1.746"
+    {...props}
   >
     <path
       id="Vector 9"
-      stroke="#21A038"
+      stroke={props.color ||"#21A038"}
       strokeOpacity="1"
-      strokeWidth="1.747"
+      strokeWidth="1.3"
       d="M0 .87h10.13"
     ></path>
   </svg>

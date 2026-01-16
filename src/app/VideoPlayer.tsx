@@ -54,15 +54,15 @@ export const VideoPreview: React.FC<VideoPreviewProps> = ({ onShowVideo, posterS
                     className="video-preview-poster"
                 />
                 <div className="video-preview-overlay">
-                    <button
+                    {/* <button
                         className="video-preview-play-button"
                         aria-label={`Начать воспроизведение ${title}`}
                     >
                         <PlaySvgComponent/>
-                    </button>
+                    </button> */}
                 </div>
             </div>
-            <h4 className="video-preview-title">{title}</h4>
+            {/* <h4 className="video-preview-title">{title}</h4> */}
         </div>
     );
 };

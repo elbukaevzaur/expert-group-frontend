@@ -1,0 +1,45 @@
+.paginationContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.dot {
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.3s ease-in-out;
+    border-radius: 9999px; 
+}
+
+.dot.inactive {
+    width: 10px;
+    height: 10px;
+    background-color: #d1d5db; 
+}
+
+.dot.inactive:hover {
+    background-color: #9ca3af;
+}
+
+.dot.inactive:first-child,
+.dot.inactive:last-child {
+    width: 8px;
+    height: 8px;
+}
+
+.dot.active {
+    width: 35px; 
+    height: 10px;
+    background-color: #16a34a;
+}
+
+.dot:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.dot:focus:not(:focus-visible) {
+    outline: none;
+}

@@ -201,18 +201,6 @@ export default function Dashboard() {
                 className={`${styles.navigator__container} ${
                   styles.dropdown__catalog
                 } ${
-                  containCurrentPage("/stores") &&
-                  styles.navigator__container_active
-                }`}
-              >
-                <Link className={styles.link} href={"/stores"}>
-                  <h3 className={styles.navigator__text}>Где купить</h3>
-                </Link>
-              </div>
-              <div
-                className={`${styles.navigator__container} ${
-                  styles.dropdown__catalog
-                } ${
                   containCurrentPage("/contacts") &&
                   styles.navigator__container_active
                 }`}
@@ -419,9 +407,6 @@ export function Burger({
           >
             <div className={styles.burger_basket}>
               <FavoriteSvg  width={24} height={24} />
-              {orderItems.length > 0 && 
-              <div className={styles.burger_basket_wrapper}>
-              </div> }
             </div>
             <h4 className={styles.burger_text}>Избранное</h4>
           </Link>
