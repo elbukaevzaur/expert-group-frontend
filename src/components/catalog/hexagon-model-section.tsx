@@ -3,6 +3,8 @@
 import type React from "react"
 import { useState } from "react"
 import { CuboidIcon as Cube, Layers, PenTool, Package, Box, FileText, Download } from "lucide-react"
+import { DownloadSvg } from "@/lib/icon-svg"
+import { wrap } from "module"
 
 // Типы для пропсов
 interface ModelSectionProps {
@@ -13,8 +15,8 @@ interface ModelSectionProps {
 // Стили для гексагонального дизайна
 const styles = {
   section: {
-    padding: "3rem 2rem",
-    margin: "2rem 0",
+    // padding: "3rem 2rem",
+    // margin: "2rem 0",
     position: "relative" as const,
     overflow: "hidden" as const,
   },
@@ -38,11 +40,12 @@ const styles = {
   },
 
   grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))",
-    gap: "2rem",
-    justifyContent: "center",
-    maxWidth: "1200px",
+    display: "flex" as const,
+    // gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+    gap: "10px",
+    justifyContent: "flex-start" as const,
+    flexWrap: 'wrap'  as const,
+    maxWidth: "100%",
     margin: "0 auto",
   },
 
@@ -54,22 +57,21 @@ const styles = {
   button: {
     position: "relative" as const,
     width: "140px",
-    height: "160px",
-    background: "#f8f9fa",
-    clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)",
+    height: "67px",
+    background: "rgba(246, 246, 246, 1)",
     display: "flex",
-    flexDirection: "column" as const,
+    // flexDirection: "column" as const,
     alignItems: "center",
     justifyContent: "center",
     cursor: "pointer",
     transition: "all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)",
     border: "none",
     padding: "0",
-    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.1)",
+    gap: '5px'
   },
 
   buttonHover: {
-    transform: "translateY(-10px)",
+    // transform: "translateY(-10px)",
     boxShadow: "0 15px 30px rgba(0, 0, 0, 0.15)",
   },
 
@@ -90,20 +92,20 @@ const styles = {
   },
 
   iconWrapper: {
-    position: "relative" as const,
+    // position: "relative" as const,
     zIndex: 1,
     transition: "all 0.3s ease",
-    marginBottom: "0.5rem",
+    // marginBottom: "0.5rem",
   },
 
   icon: {
-    color: "#4caf50",
+    // color: "#4caf50",
     transition: "all 0.3s ease",
   },
 
-  iconHover: {
-    color: "white",
-    transform: "scale(1.2)",
+  wrapper: {
+    display: 'flex' as const,
+    flexDirection: "column" as const,
   },
 
   formatName: {
@@ -115,10 +117,6 @@ const styles = {
     transition: "all 0.3s ease",
   },
 
-  formatNameHover: {
-    color: "white",
-  },
-
   downloadIcon: {
     position: "absolute" as const,
     bottom: "15%",
@@ -128,11 +126,6 @@ const styles = {
     zIndex: 1,
   },
 
-  downloadIconHover: {
-    opacity: 1,
-    transform: "translateY(5px)",
-  },
-
   formatLabel: {
     position: "relative" as const,
     zIndex: 1,
@@ -140,10 +133,6 @@ const styles = {
     color: "#666",
     marginTop: "0.25rem",
     transition: "all 0.3s ease",
-  },
-
-  formatLabelHover: {
-    color: "rgba(255, 255, 255, 0.8)",
   },
 }
 
@@ -157,42 +146,42 @@ export const HexagonModelSection: React.FC<ModelSectionProps> = ({ title, files 
       type: '3ds',
       name: "3ds Max",
       shortName: "3ds",
-      icon: Cube,
+      icon: DownloadSvg,
       description: "3D модель",
     },
     {
       type: 'max',
       name: "Max",
       shortName: "max",
-      icon: Layers,
+      icon: DownloadSvg,
       description: "3D модель",
     },
     {
       type: 'dwg',
       name: "AutoCAD",
       shortName: "dwg",
-      icon: PenTool,
+      icon: DownloadSvg,
       description: "Чертеж",
     },
     {
       type: 'obj',
       name: "OBJ",
       shortName: "obj",
-      icon: Package,
+      icon: DownloadSvg,
       description: "3D объект",
     },
     {
       type: 'fbx',
       name: "FBX",
       shortName: "fbx",
-      icon: Box,
+      icon: DownloadSvg,
       description: "3D модель",
     },
     {
       type: 'pdf',
       name: "PDF",
       shortName: "pdf",
-      icon: FileText,
+      icon: DownloadSvg,
       description: "Документ",
     },
   ]
@@ -244,33 +233,30 @@ export const HexagonModelSection: React.FC<ModelSectionProps> = ({ title, files 
               <button
                 style={{
                   ...styles.button,
-                  ...(isHovered ? styles.buttonHover : {}),
                 }}
                 onMouseEnter={() => setHoveredItem(format.id)}
                 onMouseLeave={() => setHoveredItem(null)}
                 onClick={() => handleDownload(format.name)}
               >
-                <div
+                {/* <div
                   style={{
                     ...styles.buttonBg,
-                    ...(isHovered ? styles.buttonBgHover : {}),
                   }}
-                ></div>
+                ></div> */}
 
                 <div style={styles.iconWrapper}>
                   <Icon
-                    size={36}
+                    size={24}
                     style={{
                       ...styles.icon,
-                      ...(isHovered ? styles.iconHover : {}),
                     }}
                   />
                 </div>
+                  <div style={styles.wrapper}>
 
                 <span
                   style={{
                     ...styles.formatName,
-                    ...(isHovered ? styles.formatNameHover : {}),
                   }}
                 >
                   {shortName}
@@ -279,19 +265,18 @@ export const HexagonModelSection: React.FC<ModelSectionProps> = ({ title, files 
                 <span
                   style={{
                     ...styles.formatLabel,
-                    ...(isHovered ? styles.formatLabelHover : {}),
                   }}
                 >
                   {description}
                 </span>
+                  </div>
 
-                <Download
+                {/* <Download
                   size={18}
                   style={{
                     ...styles.downloadIcon,
-                    ...(isHovered ? styles.downloadIconHover : {}),
                   }}
-                />
+                /> */}
               </button>
             </div>
           )

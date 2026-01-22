@@ -1,6 +1,6 @@
 .navigator__wrapper{
     display: flex;
-    max-width: 1214px;
+    max-width: calc(100% - 100px);
     margin: 20px auto 0;
   }
 
@@ -28,7 +28,8 @@
     line-height: 20px;
     margin: 0 0 0 7px;
     cursor: pointer;
-    font-family: 'Roboto';
+    font-family: 'Montserrat';
+    color: rgba(39, 35, 35, 1);
   }
 
   .not_active_history_link{
@@ -36,11 +37,12 @@
     font-weight: 500;
     line-height: 20px;
     cursor: pointer;
-    font-family: 'Roboto';
-      text-decoration: underline;
+    font-family: 'Montserrat';
+      text-decoration: none;
       text-underline-offset: 4px;
   }
   
   .active_history_link{
     all: unset;
+    color: rgba(141, 141, 141, 1);
   }

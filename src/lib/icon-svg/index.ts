@@ -16,3 +16,4 @@ export * from '@/lib/icon-svg/vector';
 export * from '@/lib/icon-svg/favorite';
 export * from '@/lib/icon-svg/trash';
 export * from '@/lib/icon-svg/arrow_new';
+export * from '@/lib/icon-svg/download';

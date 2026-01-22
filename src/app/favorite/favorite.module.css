@@ -1,0 +1,39 @@
+.page {
+    max-width: calc(100% - 100px);
+    margin: 20px auto 0;
+}
+
+@media(max-width: 1250px) {
+    .page {
+    max-width: calc(100% - 40px);
+}
+}
+
+.title {
+    color:  rgba(39, 35, 35, 1);
+font-family: Montserrat;
+font-size: 28px;
+font-weight: 700;
+line-height: 34px;
+}
+
+.favorites {
+  margin: 30px 0 0 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(274px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .favorites {
+    margin: 0;
+    gap: 20px;
+  }
+}
+            
+@media (max-width: 630px) {
+  .favorites {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    column-gap: 3px;
+  }
+}

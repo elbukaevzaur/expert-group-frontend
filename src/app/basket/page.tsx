@@ -14,6 +14,7 @@ import ListNotContent from "@/components/ListNotContent";
 import {CartItemQuantityBasket, RemoveAllBasket, RemoveItemBasket} from "@/components/basket/basket-actions";
 import {OrderItemsDetails} from "@/lib/models";
 import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
+import { CloseSvg } from "@/lib/icon-svg";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
@@ -34,8 +35,12 @@ export default function Basket() {
             orderItems.forEach((value) => {
                 totalSum += Number((value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2));
             })
-        return totalSum.toFixed(2);
+        return totalSum.toLocaleString();
     }
+
+    const getTotalProductsQuantity = (): number => {
+    return orderItems.reduce((sum, item) => sum + item.quantity, 0);
+}
 
     function handleCreateOrder() {
         router.push('/basket/buy')
@@ -51,10 +56,10 @@ export default function Basket() {
 
     return (
         <div className={styles.basket}>
-            <div className={styles.title}>
+            {/* <div className={styles.title}>
                 <h1 className={styles.title_text}>Корзина</h1>
                 <p className={styles.title_quantity}>/ {orderItems.length} шт.</p>
-            </div>
+            </div> */}
             <div className={styles.content}>
                 <div className={styles.items_content}>
                     <div className={styles.items_wrapper}>
@@ -62,7 +67,7 @@ export default function Basket() {
                             <h2 className={styles.items_title}>{orderItems.length > 0 && 'Товары в корзине'}</h2>
                             {
                                 orderItems.length === 0 &&
-                                <ListNotContent text="Вы пока ничего не добавили в корзину"/>
+                                <ListNotContent text="Ваша корзина пуста"/>
                             }
                             {
                                 orderItems.length === 0 || orderItemsDetails.length === 0 &&
@@ -93,13 +98,15 @@ export default function Basket() {
                                 <div className={styles.item_container}>
                                 <button className={styleText.join(" ")} onClick={() => handleToProductDetails(orderItemsDetails[value.productId])}>
                                     <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
+                                    <div className={styles.item__summ} onClick={(e) => e.stopPropagation()} >
+                                    <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toLocaleString()} &#8381;</h3>
+                                        <div className={styles.item__display_mobile}>
+                                            <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
+                                        </div>
+                                    </div>
                                 </button>
-                                <div className={styles.item_content}>
-                                <div className={styles.item_wrapper}>
+                                <div className={styles.item__display}>
                                     <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
-                                    <h4 className={styles.item_quantity_sum}>{orderItemsDetails[value.productId]?.price} &#8381; /шт</h4>
-                                </div>
-                                <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toFixed(2)} &#8381;</h3>
                                 </div>
                                     <RemoveItemBasket productId={value.productId.toString()}/>
                                 </div>
@@ -111,11 +118,28 @@ export default function Basket() {
                     orderItems.length > 0 &&
                     <div className={styles.buy}>
                         <div className={styles.buy_total}>
-                            <h2 className={styles.buy_title}>Итого:</h2>
-                            <h2 className={styles.buy_sum}>{getTotalPrice()} &#8381;/шт</h2>
+                            <h2 className={styles.buy_title}>Итого</h2>
+                            {/* <h2 className={styles.buy_sum}>{getTotalPrice()} &#8381;/шт</h2> */}
+                        </div>
+                        <div className={styles.buy_wrapper}>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Количество товара</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_subtitle}>{getTotalProductsQuantity()} шт.</h4>
+                            </div>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Доставка</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_subtitle}>Бесплатно</h4>
+                            </div>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Итоговая сумма</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_title}>{getTotalPrice()}&#8381;</h4>
+                            </div>
                         </div>
                         <button onClick={handleCreateOrder} className={styles.buy_button}>
-                            <h3 className={styles.buy_text}>Перейти к оформлению</h3>
+                            <h3 className={styles.buy_text}>К оформлению</h3>
                         </button>
                         {/*<button className={`${styles.buy_button} ${styles.buy_button_white}`}>*/}
                         {/*    <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>*/}

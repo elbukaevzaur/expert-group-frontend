@@ -150,7 +150,7 @@ export default function NavigationHistory() {
 
     return (
         <div className={styles.navigator__wrapper}>
-            {
+            {/* {
                 isBack() &&
                 <div className={styles.navigator__back} onClick={router.back}>
                     <button className={styles.navigator__back_button}>
@@ -158,7 +158,7 @@ export default function NavigationHistory() {
                     </button>
                     <u className={styles.navigator__back_text}>Назад</u>
                 </div>
-            }
+            } */}
             <h3 className={styles.navigator__back_text}>
                 {
                     histories().map((value, index) => {

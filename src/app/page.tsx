@@ -209,7 +209,7 @@ export default function Home() {
                 {/* <Link  href={"/projects"} className={styles.subtitle}>Смотреть все <ArrowNewSvg/></Link> */}
               <div className={styles.home__products_list}>
                 {
-                  popularProducts.content.slice(0, 5).map((item, index) => {
+                  popularProducts.content.slice(0, windowWidth >= 1550 ? 5 : windowWidth >= 1250 ? 4 : 3).map((item, index) => {
                     const basketItem = orderItems.find((orderItem: OrderItems) => orderItem.productId === item.id) || null;
                     const isFavorite = allFavorites.hasOwnProperty(item.id);
                     return <ProductsListItemComponent key={index} product={item} basketItem={basketItem} isFavorite={isFavorite} />

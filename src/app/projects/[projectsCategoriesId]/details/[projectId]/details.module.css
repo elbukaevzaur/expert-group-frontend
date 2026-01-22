@@ -1,20 +1,16 @@
 .details {
-  width: 1214px;
+  width: 100%;
   margin: 45px auto 0;
 }
 
-@media (max-width: 1250px) {
-  .details {
-    width: 100%;
-  }
-}
-
 .title {
-  font-family: "Roboto";
+  font-family: "Montserrat";
   font-weight: 700;
-  font-size: 30px;
-  line-height: 38px;
-  margin-bottom: 40px;
+  font-size: 28px;
+  line-height: 34px;
+  margin-bottom: 20px;
+  width: calc(100% - 100px);
+  margin-inline: auto;
 }
 
 @media (max-width: 550px) {
@@ -34,6 +30,7 @@
 .description {
   position: relative;
   display: flex;
+  flex-direction: column;
 }
 
 @media (max-width: 1250px) {
@@ -64,25 +61,24 @@
 }
 
 .description_container {
-  margin: 27px 0 0 38px;
+  margin: 20px auto 0;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  width: calc(100% - 100px);
 }
 
 @media (max-width: 950px) {
   .description_container {
-    max-width: 540px;
-    margin: 20px 0 0 0;
+    width: 100%;
+    height: auto;
   }
 }
 
 .description_paragraph {
   font-family: "Roboto";
   font-weight: 400;
-  font-size: 19px;
-  line-height: 22px;
-  max-width: 407px;
+  font-size: 18px;
+  line-height: 21px;
+  max-width: 900px;
 }
 
 .description_wrapper {
@@ -128,10 +124,8 @@
 }
 
 .photo {
-  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
-  padding: 40px 0;
-  box-sizing: border-box;
-  margin-top: 50px;
+  width: 100%;
+  height: auto;
 }
 
 .photo_title {
@@ -150,44 +144,20 @@
 
 .photo_image {
   width: 100%;
-  height: 524px;
+  height: auto;
   object-fit: contain;
   border-radius: 5px;
-}
-
-@media (max-width: 1150px) {
-  .photo_image {
-    height: 460px;
-  }
-}
-
-@media (max-width: 800px) {
-  .photo_image {
-    height: 350px;
-  }
-}
-
-@media (max-width: 550px) {
-  .photo_image {
-    height: 215px;
-  }
-}
-
-@media (max-width: 400px) {
-  .photo_image {
-    height: 150px;
-  }
 }
 
 .photo_button_left {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: 0;
-  width: 56px;
-  height: 86px;
-  background-color: rgba(33, 160, 56, 0.49);
-  border-radius: 0 8px 8px 0;
+  left: 50px;
+  width: 90px;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
   border: 0;
   cursor: pointer;
 }
@@ -196,26 +166,17 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: 0;
-  width: 56px;
-  height: 86px;
-  background-color: rgba(33, 160, 56, 0.49);
-  border-radius: 8px 0 0 8px;
+  right: 50px;
+  width: 90px;
+  height: 90px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
   border: 0;
   cursor: pointer;
 }
 
 .swipe {
-  width: auto;
-  height: 16px;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2px;
+  margin-top: 20px;
 }
 
 .swipe_circle {
@@ -260,4 +221,12 @@
   width: 100%;
   height: 100%;
   border-radius: 5px;
+}
+
+.vector_right {
+  transform: rotate(-90deg);
+}
+
+.vector_left {
+  transform: rotate(90deg);
 }

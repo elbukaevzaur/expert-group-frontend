@@ -252,14 +252,14 @@ export default function Dashboard() {
                 {
                   <UserSvg
                     className={styles.user__icon}
-                    fill={pathname.startsWith("/lk")}
+                    // fill={pathname.startsWith("/lk")}
                   />
                 }
                 <h2 className={styles.user__text}>Кабинет</h2>
               </Link>
             )}
             <div>
-              <div
+              <Link href={'/favorite'}
                 className={styles.dashboar__basket}
               >
                 <FavoriteSvg
@@ -267,7 +267,7 @@ export default function Dashboard() {
                 <div className={styles.dashboar__basket_container}>
                   <h2 className={styles.dashboar__bascet_text}>Избранное</h2>
                 </div>
-              </div>
+              </Link>
             </div>
             <div>
               <div

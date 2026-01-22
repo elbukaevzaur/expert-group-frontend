@@ -1,7 +1,12 @@
 .price_buy_wrraper {
+    width: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    height: 45px;
+    align-items: center;
+    background-color: rgba(246, 246, 246, 1);
+    border-radius: 4px;
+    padding-inline: 20px;
 }
 
 .price_buy_width{
@@ -17,6 +22,8 @@
     font-size: 23px;
     font-weight: 500;
     line-height: 27px;
+    color: rgba(33, 160, 56, 1);
+    font-family: 'Montserrat';
 }
 
 
@@ -117,22 +124,28 @@
 
 .item_quantity {
     display: flex;
-    width: 80px;
-    justify-content: space-between;
-    margin-top: 22px;
+    align-items: center;
+    gap: 10px;
 }
 
 .item_button {
     all: unset;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(33, 160, 56, 1);
+    border-radius: 50%;
 }
 
 .item_quantity_text {
-    font-size: 20px;
-    font-weight: 500;
-    line-height: 23px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 21px;
     font-family: 'Roboto';
-    color: #21a038;
+    color: rgba(39, 35, 35, 1);
 }
 
 .clear {
@@ -163,18 +176,17 @@
 
 .item_delete {
     all: unset;
-    width: 6px;
-    height: 6px;
+    width: 20px;
+    height: 20px;
     cursor: pointer;
-    margin: 22px 0 0 0;
+    position: absolute;
+    top: 25px;
+    right: 0;
 }
 
-@media (max-width: 760px) {
+@media (max-width: 650px) {
     .item_delete {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        margin: 0;
+        top: 0;
 
     }
 }
@@ -184,12 +196,18 @@
     display: flex;
     cursor: pointer;
     align-items: center;
+    gap: 5px;
 }
 
 .items_clear_text {
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 14px;
-    margin-right: 10px;
-    font-family: 'Roboto';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    font-family: 'Montserrat';
+}
+
+@media (max-width: 500px) {
+    .items_clear_text {
+        display: none;
+    }
 }

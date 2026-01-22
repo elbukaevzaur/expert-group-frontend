@@ -8,13 +8,14 @@ export function VectorSvg(props) {
     viewBox="0 0 20 20"
     {...props}
   >
-    <path id="icn / CaretDown" d="M0 0h20v20H0z"></path>
-    <path
-      id="Vector 2"
-      fill="#000"
-      fillRule="nonzero"
-      d="m16.692 7.942-6.25 6.25a.626.626 0 0 1-.884 0l-6.25-6.25a.625.625 0 0 1 .884-.884L10 12.866l5.808-5.808a.625.625 0 0 1 .884.884"
-    ></path>
+     <path
+        d="M5 7.5L10 12.5L15 7.5"
+        stroke={props.color || "#000"}
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+    />
   </svg>
     )
 }

@@ -83,7 +83,7 @@ export default function ProjectsList(props: Props) {
             </button>
           );
         })}
-        <div className={styles.mobileFilterWrapper} ref={mobileSelectRef}>
+        {/* <div className={styles.mobileFilterWrapper} ref={mobileSelectRef}>
           <button
             className={`${styles.mobileFilterButton} ${
               isMobileOpen ? styles.mobileFilterButtonOpen : ""
@@ -143,7 +143,7 @@ export default function ProjectsList(props: Props) {
               ))}
             </div>
           )}
-        </div>
+        </div> */}
       </div>
       {projects.length == 0 ? (
         <div style={{ marginTop: 20 }}>

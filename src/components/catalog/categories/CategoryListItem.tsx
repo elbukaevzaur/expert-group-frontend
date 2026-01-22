@@ -24,7 +24,7 @@ export default function CategoryListItem(params: Params) {
                         src={'/images/Subcatalog__2.png'}
                         alt={category.name}
                         layout="fill" 
-                        objectFit="contain"
+                        objectFit="cover"
                     />
                     :
                     <Image 

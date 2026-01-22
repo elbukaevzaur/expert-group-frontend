@@ -322,38 +322,44 @@ a.secondary {
 .home__products_list {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
+  gap: 20px;
   /* width: 1214px; */
   margin-top: 30px;
 }   
 
+@media (max-width: 1550px) {
+  .home__products_list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+            
 @media (max-width: 1250px) {
   .home__products_list {
-    width: 100%;
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
             
-@media (max-width: 900px) {
+ @media (max-width: 920px) {
   .home__products_list {
-    width: calc(100% - 80px);
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding: 10px 0;
+    
+    /* Скрываем стандартный скроллбар */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
   }
 }
-            
-@media (max-width: 760px) {
-  .home__products_list {
-    width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-
-  }
-}
-            
+/*            
 @media (max-width: 460px) {
   .home__products_list {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     column-gap: 3px;
   }
-}
+} */
 
 .home_button {
   all: unset;

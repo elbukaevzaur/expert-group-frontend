@@ -4,6 +4,7 @@ import CategoryListItem from "@/components/catalog/categories/CategoryListItem";
 import {useEffect, useState} from "react";
 import {getAll} from "@/lib/http/categoriesRequest";
 import {Category} from "@/lib/models";
+import styles from './catalog.module.css'
 
 export default function ProductsPage() {
 
@@ -16,8 +17,8 @@ export default function ProductsPage() {
     }, []);
 
     return (
-        <div className="products">
-            <div className="subcatalog">
+        <div className={styles.catalog}>
+            <div className={styles.list}>
                 {
                     categories.map((value, index) => {
                         return <CategoryListItem key={index} category={value}/>
