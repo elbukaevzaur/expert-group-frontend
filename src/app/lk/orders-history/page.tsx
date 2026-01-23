@@ -33,6 +33,7 @@ export default function Page() {
         <div className='table_title'>Оплата</div>
         <div className='table_title'>Сумма</div>
         <div className='table_title'>Статус</div>
+        <div className='table_title'>Действие</div>
       </div>
       {
         !isLoading ?

@@ -1,10 +1,10 @@
 .history__table {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 20px 0 20px 0;
-  box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  margin-bottom: 20px;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: rgba(246, 246, 246, 1);
+  border-radius: 16px;
 }
 
 @media (max-width: 950px) {
@@ -12,6 +12,12 @@
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     padding: 10px;
+  }
+}
+
+@media (max-width: 800px) {
+  .history__table {
+    display: none;
   }
 }
 
@@ -24,11 +30,11 @@
 }
 
 .history__table_row {
-  text-align: center;
-  font-family: "Roboto";
+  text-align: left;
+  font-family: "Montserrat";
   font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
+  font-weight: 500;
+  line-height: 17px;
 }
 
 .history__table_row_color {
@@ -38,9 +44,10 @@
 .history__table_link {
   color: #21a038;
   text-decoration: underline;
+  text-align: right;
 }
 
-.history__table_span{
+.history__table_span {
   display: none;
   color: black;
 }
@@ -49,4 +56,59 @@
   .history__table_span {
     display: inline;
   }
+}
+
+.mobile {
+  display: none;
+}
+
+@media (max-width: 800px) {
+  .mobile {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+}
+
+.mobile__title {
+  font-family: "Montserrat";
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 29px;
+}
+
+.mobile__wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid rgba(215, 213, 212, 1);
+  height: 40px;
+}
+
+.mobile__text {
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+@media (max-width: 450px) {
+  .mobile__text {
+    font-size: 14px;
+  }
+}
+.mobile__button {
+  all: unset;
+  display: flex;
+  width: 100%;
+  padding-block: 12px;
+  justify-content: center;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #fff;
+  background-color: #21a038;
+  border-radius: 4px;
 }

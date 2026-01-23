@@ -11,6 +11,7 @@ import {
   HistorySvg,
   FavoritesSvg,
   ExitSvg,
+  UserSvg,
 } from "@/lib/icon-svg";
 
 export default function LkDashboard() {
@@ -68,48 +69,17 @@ export default function LkDashboard() {
   const activePage = getActivePage();
 
   return (
-    <ul>
       <div className={styles.lk_dashboard}>
-        {/* Mobile header */}
-        <div
-          className={styles.mobile_header}
-          onClick={() => setIsOpen(!isOpen)}
-        >
-          <div className={styles.mobile_header_content}>
-            {activePage.icon && (
-              <div className={styles.mobile_header_icon}>{activePage.icon}</div>
-            )}
-            <span>{activePage.name}</span>
-          </div>
-          <svg
-            className={`${styles.arrow} ${isOpen ? styles.arrow_open : ""}`}
-            width="16"
-            height="10"
-            viewBox="0 0 16 10"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M15 1.5L8 8.5L1 1.5"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
 
         <div
-          className={`${styles.menu_items} ${
-            isOpen ? styles.menu_items_open : ""
-          }`}
+          className={`${styles.menu_items} `}
         >
           <Link href={"/lk/current-orders"}>
             <li
-              className={`${styles.lk_dashboard__button_first} ${
+              className={` ${
                 styles.lk_dashboard__button
               } ${
-                containCurrentPage("/lk/current-orders") && styles.active__first
+                containCurrentPage("/lk/current-orders") && styles.active
               }`}
             >
               <div className={styles.lk_dashboard__icon}>
@@ -125,7 +95,7 @@ export default function LkDashboard() {
               }`}
             >
               <div className={styles.lk_dashboard__icon}>
-                <PersonalDataSVG />
+                <UserSvg />
               </div>
               Личные данные
             </li>
@@ -154,18 +124,6 @@ export default function LkDashboard() {
               История заказов
             </li>
           </Link>
-          <Link href={"/lk/favorites"}>
-            <li
-              className={`${styles.lk_dashboard__button} ${
-                containCurrentPage("/lk/favorites") && styles.active
-              }`}
-            >
-              <div className={styles.lk_dashboard__icon}>
-                <FavoritesSvg />
-              </div>
-              Избранные товары
-            </li>
-          </Link>
           <button
             onClick={handleSignOut}
             className={`${styles.lk_dashboard__button} ${styles.lk_dashboard__exit}`}
@@ -177,6 +135,5 @@ export default function LkDashboard() {
           </button>
         </div>
       </div>
-    </ul>
   );
 }

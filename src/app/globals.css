@@ -128,7 +128,7 @@ a {
 
 /** Account **/
 
-.account {
+/* .account {
   display: flex;
   flex-direction: row;
   width: 1214px;
@@ -146,24 +146,19 @@ a {
     flex-direction: column;
     gap: 20px;
   }
-}
+} */
 
 .history {
   width: 100%;
-  margin-left: 14px;
-}
-
-@media (max-width: 700px) {
-  .history {
-    margin-left: 0;
-  }
+  margin-top: 20px;
 }
 
 .table{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  padding: 0 0 20px 0;
+  padding: 15px;
   border-radius: 10px;
+  margin-bottom: 10px;
 }
 
 @media (max-width: 950px) {
@@ -173,11 +168,15 @@ a {
 }
 
 .table_title {
-    text-align: center;
-    font-family: 'Roboto';
+    text-align: left;
+    font-family: 'Montserrat';
     font-size: 16px;
     font-weight: 600;
-    line-height: 16px;
+    line-height: 20px;
+}
+
+.table_title:last-of-type {
+  text-align: right;
 }
 
 .favorites {
@@ -270,8 +269,8 @@ a {
 /** Суб-каталог **/
 
 .subcatalog {
-  display: flex;
-  /* grid-template-columns: repeat(auto-fill, minmax(176px, 1fr)); */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   margin: 27px 0 0;
   column-gap: 20px;
   row-gap: 20px;
@@ -280,7 +279,7 @@ a {
 }
 
 .subcatalog__item {
-  width: 440px;
+  max-width: 440px;
   /* height: 440px; */
   border-radius: 4px;
   /* position: relative; */
@@ -337,9 +336,9 @@ a {
 
 .account {
   display: flex;
-  flex-direction: row;
-  width: 1214px;
-  margin: 50px auto 0;
+  flex-direction: column;
+  width: calc(100% - 100px);
+  margin: 20px auto 0;
 }
 
 @media (max-width: 1250px) {
@@ -348,14 +347,14 @@ a {
   }
 }
 
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
   .account {
     flex-direction: column;
     gap: 20px;
   }
-}
+} */
 
-.history {
+/* .history {
   width: 100%;
   margin-left: 14px;
 }
@@ -364,9 +363,9 @@ a {
   .history {
     margin-left: 0;
   }
-}
+} */
 
-.table{
+/* .table{
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   padding: 0 0 20px 0;
@@ -385,7 +384,7 @@ a {
   font-size: 16px;
   font-weight: 600;
   line-height: 16px;
-}
+} */
 
 .favorites {
   margin: 0 0 0 10px;
