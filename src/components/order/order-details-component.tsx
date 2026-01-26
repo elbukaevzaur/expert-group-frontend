@@ -54,8 +54,12 @@ export default function OrderDetailsComponent(props: Props) {
         return totalSum.toFixed(2);
     }
 
+    const getTotalProductsQuantity = (): number => {
+    return orderItems.reduce((sum, item) => sum + item.quantity, 0);
+    }
 
-    return <div className={styles.buy}>
+
+    return <div className={styles.page}>
         {
             isLoadingOrder ?
                 <div>
@@ -64,13 +68,10 @@ export default function OrderDetailsComponent(props: Props) {
                 <>
                     <h1 className={styles.order_title}>Заказ №{orderId}</h1>
                     <div className={styles.order}>
+                        <h4 className={styles.order_text}>Дата заказа: <span
+                            className={styles.order_span}>{moment(order.createdAt).format("DD.MM.YYYY HH:mm")}</span></h4>
                         <h4 className={styles.order_text}>Статус заказа: <span
                             className={styles.order_span}>{getStatusInfo(order.status).title}</span></h4>
-                        <h4 className={styles.order_text}>Дата заказа: {moment(order.createdAt).format("DD.MM.YYYY HH:mm")}</h4>
-                    </div>
-                    <div className={styles.title_wrapper}>
-                        <h2 className={styles.title}>Товары в заказе</h2>
-                        <p className={styles.subtitle}>/{orderItems.length} шт.</p>
                     </div>
                 </>
         }
@@ -85,7 +86,7 @@ export default function OrderDetailsComponent(props: Props) {
                                 height={100}/>
                             <div className={styles.item_wrapper}>
                                 <h3 className={styles.item_name}>{item.product.name}</h3>
-                                <h3 className={styles.item_name}>{item.quantity} шт</h3>
+                                {/* <h3 className={styles.item_name}>{item.quantity} шт</h3> */}
                                 <h3 className={styles.item_summ}>{item.quantity * item.price} &#8381;</h3>
                             </div>
                         </div>
@@ -97,38 +98,40 @@ export default function OrderDetailsComponent(props: Props) {
                             <LoadingTableRow rowCount={3}/>
                         </div>
                 }
+            </div>
                 {
                     !isLoadingOrderItems ?
-                        <div className={styles.total}>
-                            <div className={styles.total_wrapper}>
-                                <h3 className={styles.total_title}>Итого:</h3>
-                                <h3 className={`${styles.total_title} ${styles.total_title_color}`}>{getTotalPrice()} &#8381;/шт
-                                </h3>
+                    <div className={styles.buy}>
+                        <div className={styles.buy_total}>
+                            <h2 className={styles.buy_title}>Итого</h2>
+                        </div>
+                        <div className={styles.buy_wrapper}>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Количество товара</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_subtitle}>{getTotalProductsQuantity()} шт.</h4>
                             </div>
-                            <div className={`${styles.total_wrapper} ${styles.total_wrapper_margin}`}>
-                                <h3 className={styles.total_text}>Товаров на:</h3>
-                                <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>{getTotalPrice()} &#8381;/шт</h3>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Доставка</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_subtitle}>Бесплатно</h4>
                             </div>
-                            <div className={`${styles.total_wrapper} ${styles.total_wrapper_margin}`}>
-                                <h3 className={styles.total_text}>Доставка:</h3>
-                                <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>Бесплатно</h3>
+                            <div className={styles.buy_contain}>
+                                <h4 className={styles.buy_subtitle}>Итоговая сумма</h4>
+                                <span className={styles.dots}>............................................................................</span>
+                                <h4 className={styles.buy_title}>{getTotalPrice()}&#8381;</h4>
                             </div>
-                            <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>Оплата:</h3>
-                            <h3 className={`${styles.total_text} ${styles.total_text_weight} ${styles.total_wrapper_margin}`}>Банковской
-                                картой онлайн</h3>
-                            <h3 className={`${styles.total_text} ${styles.total_text_weight}`}>Доставка:</h3>
-                            <h3 className={`${styles.total_text} ${styles.total_text_weight} ${styles.total_title_color}`}>Самовывоз</h3>
-                            {
+                        </div>
+                        {
                                 getStatusInfo(order.status).actions.map((item, index) => {
                                     return <button key={index}
-                                                   className={styles.total_button} onClick={() => handleChangeOrderStatus(item)}>{getStatusInfo(item).actionTitle}</button>
+                                                   className={styles.buy_button} onClick={() => handleChangeOrderStatus(item)}>{getStatusInfo(item).actionTitle}</button>
                                 })
                             }
-                        </div>
+                    </div>
                         :
                         <LoadingCard/>
                 }
-            </div>
         </div>
     </div>
 }

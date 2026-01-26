@@ -13,14 +13,12 @@ const YandexMap: React.FC = () => {
     };
 
     return (
-        <div style={mapWrapperStyle}>
             <iframe
                 src={iframeSrc}
                 width="100%"
-                height="500"
+                height="100%"
                 style={mapIframeStyle}
             ></iframe>
-        </div>
     );
 };
 

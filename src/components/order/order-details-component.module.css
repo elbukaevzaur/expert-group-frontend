@@ -1,50 +1,30 @@
-.buy {
+.page {
   width: 100%;
-  margin-left: 20px;
-}
-
-@media (max-width: 700px) {
-  .buy {
-    margin: 0;
-  }
+  margin-top: 20px;
 }
 
 .order_title {
-  font-family: "Roboto";
+  color: rgba(39, 35, 35, 1);
+  font-family: "Montserrat";
+  font-size: 28px;
   font-weight: 700;
-  font-size: 30px;
-  line-height: 35px;
+  line-height: 34px;
 }
 
 .order {
-  margin-top: 20px;
+  margin-top: 15px;
   width: 100%;
-  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
-  border-radius: 10px;
   display: flex;
-  margin-bottom: 15px;
-  gap: 50px;
-  padding: 20px;
-  box-sizing: border-box;
-}
-
-@media (max-width: 450px) {
-  .order {
-    gap: 30px;
-  }
+  gap: 10px;
+  flex-direction: column;
 }
 
 .order_text {
-  font-family: "Roboto";
+  color: rgba(141, 141, 141, 1);
+  font-family: "Montserrat";
+  font-size: 16px;
   font-weight: 600;
-  font-size: 18px;
   line-height: 20px;
-}
-
-@media (max-width: 900px) {
-  .order_text {
-    max-width: 130px;
-  }
 }
 
 .order_span {
@@ -75,47 +55,64 @@
 
 .wrapper {
   display: flex;
-  flex-direction: column;
   margin-top: 10px;
   gap: 15px;
   position: relative;
+  justify-content: space-between;
+}
+
+@media (max-width: 1200px) {
+  .wrapper {
+    flex-direction: column;
+  }
 }
 
 .items {
-  width: 100%;
+  max-width: 790px;
   position: relative;
 }
 
 .item {
   width: 100%;
   height: auto;
-  box-shadow: 0 0 5px 0 rgba(34, 60, 80, 0.5);
-  border-radius: 10px;
   display: flex;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+
+@media (max-width: 600px) {
+  .item {
+    gap: 10px;
+  }
+}
+
+@media (max-width: 470px) {
+  .item {
+    flex-direction: column;
+  }
 }
 
 .item_image {
-  background-color: #21a038;
-  width: 283px;
-  height: 100px;
+  background-color: rgba(246, 246, 246, 1);
+  width: 200px;
+  height: 150px;
   object-fit: contain;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 
-@media (max-width: 970px) {
+@media (max-width: 600px) {
   .item_image {
-    width: 110px;
-    height: 130px;
+    width: 160px;
+    height: 120px;
   }
 }
 
 .item_wrapper {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: start;
   width: 100%;
-  padding: 15px 45px 15px 20px;
+  padding: 20px 0 20px;
   box-sizing: border-box;
   gap: 10px;
 }
@@ -134,46 +131,26 @@
 }
 
 .item_name {
-  font-family: "Roboto";
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 20px;
-  max-width: 293px;
-  min-width: 60px;
+  color: rgba(39, 35, 35, 1);
+  font-family: "Montserrat";
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 29px;
 }
 
 @media (max-width: 950px) {
-  .item_name {
-    max-width: 237px;
-  }
-}
-
-@media (max-width: 950px) {
-  .item_name {
-    min-width: 40px;
-  }
-}
-
-@media (max-width: 430px) {
   .item_name {
     font-size: 16px;
+    line-height: 20px;
   }
 }
 
 .item_summ {
-  font-family: "Roboto";
+  color: rgba(33, 160, 56, 1);
+  font-family: "Montserrat";
+  font-size: 24px;
   font-weight: 600;
-  font-size: 20px;
-  line-height: 33px;
-  color: #21a038;
-  min-width: 100px;
-  text-align: end;
-}
-
-@media (max-width: 950px) {
-  .item_summ {
-    min-width: auto;
-  }
+  line-height: 29px;
 }
 
 .total {
@@ -246,4 +223,98 @@
   display: flex;
   flex-direction: column;
   margin: 20px 0;
+}
+
+.buy {
+  display: flex;
+  flex-direction: column;
+  width: 285px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  gap: 20px;
+  position: absolute;
+  top: -90px;
+  right: 0;
+}
+
+@media (max-width: 1200px) {
+  .buy {
+    position: static;
+    margin-top: 15px;
+    width: 382px;
+  }
+}
+
+@media (max-width: 600px) {
+  .buy {
+    width: 100%;
+  }
+}
+
+.buy_total {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.buy_title {
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 29px;
+  font-family: "Montserrat";
+}
+
+.buy_wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.buy_contain {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dots {
+  flex-grow: 1;
+  overflow: hidden;
+  color: rgba(39, 35, 35, 1);
+  letter-spacing: 2px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.buy_subtitle {
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 17px;
+  color: rgba(39, 35, 35, 1);
+  text-wrap: nowrap;
+}
+
+.buy_sum {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 38px;
+  color: #21a038;
+  font-family: "Inter";
+}
+
+.buy_button {
+  width: 100%;
+  height: 45px;
+  background-color: rgba(217, 22, 46, 1);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 1);
+  font-family: Montserrat;
+  font-style: SemiBold;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
 }

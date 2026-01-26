@@ -56,10 +56,6 @@ export default function Basket() {
 
     return (
         <div className={styles.basket}>
-            {/* <div className={styles.title}>
-                <h1 className={styles.title_text}>Корзина</h1>
-                <p className={styles.title_quantity}>/ {orderItems.length} шт.</p>
-            </div> */}
             <div className={styles.content}>
                 <div className={styles.items_content}>
                     <div className={styles.items_wrapper}>
@@ -119,7 +115,6 @@ export default function Basket() {
                     <div className={styles.buy}>
                         <div className={styles.buy_total}>
                             <h2 className={styles.buy_title}>Итого</h2>
-                            {/* <h2 className={styles.buy_sum}>{getTotalPrice()} &#8381;/шт</h2> */}
                         </div>
                         <div className={styles.buy_wrapper}>
                             <div className={styles.buy_contain}>
@@ -141,9 +136,6 @@ export default function Basket() {
                         <button onClick={handleCreateOrder} className={styles.buy_button}>
                             <h3 className={styles.buy_text}>К оформлению</h3>
                         </button>
-                        {/*<button className={`${styles.buy_button} ${styles.buy_button_white}`}>*/}
-                        {/*    <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>*/}
-                        {/*</button>*/}
                     </div>
                 }
             </div>
