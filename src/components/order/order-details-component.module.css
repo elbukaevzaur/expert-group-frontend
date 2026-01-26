@@ -70,6 +70,7 @@
 .items {
   max-width: 790px;
   position: relative;
+  margin-top: 20px;
 }
 
 .item {
