@@ -12,7 +12,7 @@ interface FilterProps {
 }
 
 export const FilterComponent = (props: FilterProps) => {
-    const [isShow, setIsShow] = useState(false);
+    const [isShow, setIsShow] = useState(true);
     const [valueFrom, setValueFrom] = useState('');
     const [valueTo, setValueTo] = useState('');
     const [valueValid, setValueValid] = useState(true);
@@ -64,21 +64,15 @@ export const FilterComponent = (props: FilterProps) => {
     };
 
     return (
-        <div style={{position:'relative'}}
-             onMouseEnter={handleFilterHover}
-             onMouseLeave={handleFilterHover}
-             className={styles.filter__wrraper}
+        <div style={{position:'relative', marginTop: '20px'}}
+            //  onMouseEnter={handleFilterHover}
+            //  onMouseLeave={handleFilterHover}
+            //  className={styles.modal__wrraper}
         >
-            <h3 className={styles.filter__text}>{props.title}</h3>
-            <button className={styles.filter_button}>
-            </button>
+            <h3 className={styles.modal__text}>{props.title}</h3>
+            {/* <button className={styles.filter_button}>
+            </button> */}
             <div className={`${styles.filter_button_dropdown} ${styles.filter_button_dropdown_srollbar} ${!valueValid && 'validate_error'}`}
-                 style={{
-                     position: 'absolute',
-                     zIndex: 999,
-                     display: isShow ? 'block' : 'none',
-                     flexDirection: 'column'
-                 }}
             >
                 {/*<div className="filter_button_dropdown_range">*/}
                 {/*    <input className="filter_button_dropdown_range_input" type="range" />*/}
@@ -88,8 +82,8 @@ export const FilterComponent = (props: FilterProps) => {
                     props.filter.operator === 'LESS_GREATER' ?
                         <>
                             <div className={styles.filter_button_dropdown_container}>
-                                <div>
-                                    <h3 className={styles.filter_button_dropdown_text}>Мин. {props.title}</h3>
+                                <div className={styles.modal__wrraper}>
+                                    <h3 className={styles.filter_button_dropdown_text}>От</h3>
                                     <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max}
@@ -99,9 +93,9 @@ export const FilterComponent = (props: FilterProps) => {
                                            title="От"
                                     />
                                 </div>
-                                <div className={styles.filter_button_dropdown_line}></div>
-                                <div>
-                                    <h3 className={styles.filter_button_dropdown_text}>Макс. {props.title}</h3>
+                                {/* <div className={styles.filter_button_dropdown_line}></div> */}
+                                <div className={styles.modal__wrraper}>
+                                    <h3 className={styles.filter_button_dropdown_text}>До</h3>
                                     <input className={styles.filter_button_dropdown_input}
                                            min={props.filter.range.min}
                                            max={props.filter.range.max} placeholder={props.filter.range.max?.toString()}
@@ -111,11 +105,11 @@ export const FilterComponent = (props: FilterProps) => {
                                     />
                                 </div>
                             </div>
-                            <div>
+                            {/* <div>
                                 <button className={styles.filter_button_dropdown_botton}
                                         onClick={handleApplyFilter}>Применить
                                 </button>
-                            </div>
+                            </div> */}
                         </> :
                         props.filter.value.map((item) => {
                             return <div key={item.id} className={styles.filter_button_dropdown_content}>

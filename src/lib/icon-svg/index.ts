@@ -18,3 +18,4 @@ export * from '@/lib/icon-svg/trash';
 export * from '@/lib/icon-svg/arrow_new';
 export * from '@/lib/icon-svg/download';
 export * from '@/lib/icon-svg/bus';
+export * from '@/lib/icon-svg/filter';

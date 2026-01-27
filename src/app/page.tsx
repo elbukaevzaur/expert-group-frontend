@@ -147,7 +147,7 @@ export default function Home() {
                         />
                         <div className="subcatalog__info">
                             <h3 className={styles.projects__title}>{popularProjects.content[0]?.name || ''}</h3>
-                            <h4 className={styles.projects__title}>{popularProjects.content[0]?.address || ''}{popularProjects.content[0]?.category?.name ? `, ${popularProjects.content[0].category.name}` : ''}</h4>
+                            {/* <h4 className={styles.projects__title}>{popularProjects.content[0]?.address || ''}{popularProjects.content[0]?.category?.name ? `, ${popularProjects.content[0].category.name}` : ''}</h4> */}
                         </div>
                     </Link>
                     <div className={styles.list_images}>
@@ -165,7 +165,7 @@ export default function Home() {
                                            width={100} height={100}/> */}
                                     <div className="subcatalog__info">
                                         <h3 className={styles.projects__title_small}>{item?.name || ''}</h3>
-                                        <h4 className={styles.projects__title_small}>{item?.address || ''}{item?.category?.name ? `, ${item.category.name}` : ''}</h4>
+                                        {/* <h4 className={styles.projects__title_small}>{item?.address || ''}{item?.category?.name ? `, ${item.category.name}` : ''}</h4> */}
                                     </div>
                                 </Link>
                             })

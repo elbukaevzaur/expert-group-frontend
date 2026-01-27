@@ -11,7 +11,7 @@ export function VectorSvg(props) {
      <path
         d="M5 7.5L10 12.5L15 7.5"
         stroke={props.color || "#000"}
-        strokeWidth="3"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
         fill="none"

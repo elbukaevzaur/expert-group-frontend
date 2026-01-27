@@ -706,6 +706,10 @@
   display: none;
 }
 
+.description_container_desct {
+  max-width: 594px;
+}
+
 @media (max-width: 1100px) {
   .description_container_desct {
     display: none;
