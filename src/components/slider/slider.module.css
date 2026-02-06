@@ -133,3 +133,11 @@
   font-weight: 600;
   line-height: 20px;
 }
+ .slider__button:hover {
+  background-color: #fff;
+  color: rgba(33, 160, 56, 0.9);
+ }
+
+ .slider__button_icon:hover {
+  stroke: rgba(33, 160, 56, 0.9);
+ }

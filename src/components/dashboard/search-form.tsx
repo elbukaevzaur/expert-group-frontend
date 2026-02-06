@@ -134,8 +134,8 @@ export default function SearchForm() {
                 onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Даем время на клик
 
             />
-            <button className={styles.search__button}>
-                <SearchSvg color='#fff' width='24' height='24' />Найти</button>
+            <Link href={'/search'} className={styles.search__button}>
+                <SearchSvg color='#fff' width='24' height='24' />Найти</Link>
             <motion.div
                 initial={{display: 'none', opacity: 0}}
                 animate={{display: isShowSearchResult() ? 'initial' : 'none', opacity: isShowSearchResult() ? 1 : 0}}

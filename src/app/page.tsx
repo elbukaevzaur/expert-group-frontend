@@ -110,10 +110,25 @@ export default function Home() {
         })
     }
 
+    const slidesData = [
+  {
+    image: '/images/slider.png',
+    title: 'Воплощение мастерства и надежности в мире архитектуры, дизайна и строительства'
+  },
+  {
+    image: '/images/slider2.png',
+    title: 'Элитная лепнина и декор для дома в одном каталоге'
+  },
+  {
+    image: '/images/slider3.png',
+    title: 'Лепнина, молдинги, декор — подберите идеальный вариант'
+  },
+];
+
   return (
     <div className={styles.home}>
         <div className={styles.slider}>
-            <SliderComponent/>
+            <SliderComponent slides={slidesData}/>
         </div>
         <div className={styles.wrapper}>
         <h2 className={styles.title}>Cторисы</h2>

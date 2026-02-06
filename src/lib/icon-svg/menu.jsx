@@ -11,7 +11,7 @@ export function MenuSvg(props) {
     <path
       id="icn"
       strokeOpacity="1"
-      stroke={props.stroke || "#21A038"}
+      stroke={'currentColor' || "#21A038"}
       strokeWidth="2"
       d="M17 3h18m0 10.5H1M17 24H1"
     ></path>
