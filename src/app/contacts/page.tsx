@@ -12,13 +12,13 @@ export default function PageContacts(){
                     <AddressPointSvg/>
                     <span>Россия, г. Грозный, Назарбаева 79, 2-этаж</span>
                 </Link>
-                <Link href="tel:+7(938)903-26-66" target="_blank" className={styles.phone}>
+                <Link href="tel:+7(929)898-41-66" target="_blank" className={styles.phone}>
                     <PhoneNumberSvg/>
-                    <span>+7 (938) 903-26-66</span>
+                    <span>+7 (929) 898-41-66</span>
                 </Link>
-                <Link href="mailto:support@expertgroupholding.ru" target="_blank" className={styles.email}>
+                <Link href="mailto:office@proeg.ru" target="_blank" className={styles.email}>
                     <MailSvg/>
-                    <span>support@expertgroupholding.ru</span>
+                    <span>office@proeg.ru</span>
                 </Link>
             </div>
             <div className={styles.map_container}>

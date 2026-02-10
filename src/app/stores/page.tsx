@@ -12,7 +12,7 @@ export default function PageStores(){
                     <AddressPointSvg/>
                     <span>Россия, г. Грозный, Назарбаева 79, 2-этаж</span>
                 </Link>
-                <Link href="tel:+7(938)903-26-66" target="_blank" className={styles.phone}>
+                <Link href="tel:+7(929)898-41-66" target="_blank" className={styles.phone}>
                     <div className={styles.time_icon}>
                         <ClockSvg width="auto" height="auto"/>
                     </div>

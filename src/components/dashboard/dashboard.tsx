@@ -18,7 +18,6 @@ import {
   UserSvg,
   BasketSvg,
   SearchSvg,
-  WatsappSvg,
   LocationSvg,
   MenuSvg,
   CloseSvg,
@@ -219,11 +218,11 @@ export default function Dashboard() {
                 <h3 className={styles.location__text}>Грозный</h3>
               </div>
               <Link
-                href="tel:+79389032666"
+                href="tel:+79298984166"
                 target="_blank"
                 className={styles.number}
               >
-                <h3 className={styles.number__text}>+7 (938) 903-26-66</h3>
+                <h3 className={styles.number__text}>+7 (929) 898-41-66</h3>
               </Link>
             </div>
           </div>
@@ -468,7 +467,6 @@ export function Burger({
         </div>
         <div className={styles.burger_contacts}>
           <Link href={'https://vk.com/id769027474'} className={styles.burger__contacts_text} target="_blank">В контакте</Link>
-          <Link href={'https://www.instagram.com/expertgroup_official'} className={styles.burger__contacts_text} target="_blank">Инстаграм</Link>
           <Link href={'https://t.me/EXPERTGROUPHOLDING'} className={styles.burger__contacts_text} target="_blank">Телеграм</Link>
           <Link href={'https://www.youtube.com/@ExpertGroupgips/shorts'} className={styles.burger__contacts_text} target="_blank">Ютуб</Link>
           <h4 className={styles.footer}>Присоединяйтесь к нам в социальных сетях</h4>

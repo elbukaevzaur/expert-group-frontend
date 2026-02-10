@@ -1,5 +1,4 @@
 import Image from "next/image";
-import {YoutubeSvg, VkSvg, TelegramSvg, InstagramSvg} from "@/lib/icon-svg";
 import styles from "@/components/footer.module.css"
 import Link from "next/link";
 import { CatalogModal } from "./catalog/catalogModal";
@@ -82,8 +81,8 @@ export default function Footer() {
                 <div className={`${styles.info} ${styles.info_absolute}`}>
                     <h2 className={styles.info_title}>Контакты</h2>
                     <div className={styles.info_wrraper}>
-                        <Link href="tel:+7(938)903-26-66" target="_blank">
-                            <h3 className={styles.info_title}>+7 (938) 903-26-66</h3>
+                        <Link href="tel:+7(929)898-41-66" target="_blank">
+                            <h3 className={styles.info_title}>+7 (929) 898-41-66</h3>
                         <p className={styles.info__subtitle}>Заказать звонок</p>
                         </Link>
                         <div className={styles.contact_social}>
@@ -91,12 +90,9 @@ export default function Footer() {
                                 <h4 className={styles.contact__link}>В контакте</h4>
                             </Link>
                             <Link href="https://t.me/EXPERTGROUPHOLDING" target="_blank">
-                                <h4 className={styles.contact__link}>Инстаграм</h4>
-                            </Link>
-                            <Link href="https://www.youtube.com/@ExpertGroupgips/shorts" target="_blank">
                                 <h4 className={styles.contact__link}>Телеграм</h4>
                             </Link>
-                            <Link href="https://www.instagram.com/expertgroup_official" target="_blank">
+                            <Link href="https://www.youtube.com/@ExpertGroupgips/shorts" target="_blank">
                                 <h4 className={styles.contact__link}>Ютуб</h4>
                             </Link>
                         </div>
