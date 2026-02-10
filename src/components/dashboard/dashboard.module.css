@@ -664,10 +664,12 @@ padding-left: 22px;
 
 .dropdown_green_wrapper:hover .dropdown_green_text {
   font-size: 17px;
+  color: rgba(33, 160, 56, 1);
 }
 
 .dropdown_green_text.dropdown_green_text_active {
   font-size: 17px;
+  color: rgba(33, 160, 56, 1);
 }
 
 .suggestions_list {
