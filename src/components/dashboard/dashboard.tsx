@@ -45,6 +45,15 @@ export default function Dashboard() {
   const pathname = usePathname();
   const params = useParams();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
+  const [selectedCity, setSelectedCity] = useState("Грозный");
+  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+
+  const cities = ["Грозный", "Москва", "Санкт-Петербург", "Пятигорск"];
+
+  const handleCitySelect = (city: string) => {
+    setSelectedCity(city);
+    setIsCityDropdownOpen(false);
+  };
 
   const handleMenuClick = () => {
     setIsBurgerOpen(!isBurgerOpen);
@@ -213,12 +222,36 @@ export default function Dashboard() {
               </div>
             </div>
             <div className={styles.wrapper}>
-              <div className={styles.location}>
+              <div
+                className={styles.location}
+                onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
+              >
                 <LocationSvg
                   stroke="rgba(0, 0, 0, 1)"
                   className={styles.location__icon}
                 />
-                <h3 className={styles.location__text}>Грозный</h3>
+                <h3 className={styles.location__text}>{selectedCity}</h3>
+                <VectorSvg
+                  className={`${styles.location__vector} ${
+                    isCityDropdownOpen ? styles.vector_active : ""
+                  }`}
+                />
+                {isCityDropdownOpen && (
+                  <div className={styles.city_dropdown}>
+                    {cities.map((city) => (
+                      <div
+                        key={city}
+                        className={styles.city_item}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleCitySelect(city);
+                        }}
+                      >
+                        {city}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
               <Link
                 href="tel:+79298984166"

@@ -90,6 +90,48 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  cursor: pointer;
+  position: relative;
+}
+
+.location:hover .location__text {
+  color: rgba(33, 160, 56, 1);
+}
+
+.location__vector {
+  width: 10px;
+  height: 6px;
+  transition: transform 0.2s ease;
+}
+
+.vector_active {
+  transform: rotate(180deg);
+}
+
+.city_dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  z-index: 100;
+  min-width: 150px;
+  margin-top: 10px;
+  overflow: hidden;
+}
+
+.city_item {
+  padding: 10px 15px;
+  font-size: 14px;
+  font-family: "Montserrat";
+  color: #000;
+  transition: background-color 0.2s;
+}
+
+.city_item:hover {
+  background-color: rgba(33, 160, 56, 0.1);
+  color: rgba(33, 160, 56, 1);
 }
 
 @media (max-width: 1250px) {
@@ -155,6 +197,11 @@
   font-weight: 500;
   line-height: 20px;
   font-family: "Montserrat";
+  transition: color 0.2s ease;
+}
+
+.number:hover .number__text {
+  color: rgba(33, 160, 56, 1);
 }
 
 .number__icon {
