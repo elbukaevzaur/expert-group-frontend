@@ -1,207 +1,177 @@
-"use client"
+"use client";
 
 import Link from "next/link";
-import Image from "next/image";
-import {useParams, usePathname, useRouter} from "next/navigation";
-import {useAppDispatch, useAppSelector} from "@/lib/hooks";
-import {Fragment, useEffect, useState} from "react";
-import {CURRENT_CATEGORY_FETCH_REQUESTED, CURRENT_SUB_CATEGORY_FETCH_REQUESTED} from "@/lib/reducers";
-import styles from "@/components/dashboard/navigation-history.module.css"
-import {getCategoryBySlug} from "@/lib/http/categoriesRequest";
-import {Category, ProductDetailsResponse} from "@/lib/models";
-import {getProductDetailsBySlug} from "@/lib/http/productsRequest";
+import { useParams, usePathname } from "next/navigation";
+import { Fragment, useEffect, useMemo, useState } from "react";
+import styles from "@/components/dashboard/navigation-history.module.css";
+import { getCategoryBySlug } from "@/lib/http/categoriesRequest";
+import { Category, ProductDetailsResponse } from "@/lib/models";
+import { getProductDetailsBySlug } from "@/lib/http/productsRequest";
+
+const STATIC_TITLES: Record<string, string> = {
+  "": "Главная",
+  basket: "Корзина",
+  catalog: "Каталог",
+  lk: "Личный кабинет",
+  buy: "Оформление заказа",
+  favorite: "Избранное",
+  "about-us": "О компании",
+  projects: "Проекты",
+  contacts: "Контакты",
+  vacancy: "Вакансии",
+  certificate: "Сертификаты",
+  politics: "Политика конфиденциальности",
+  requisites: "Реквизиты",
+  "orders-history": "История заказов",
+  "current-orders": "Текущие заказы",
+  "personal-data": "Личные данные",
+  "change-password": "Сменить пароль",
+  favorites: "Избранные товары",
+};
 
 export default function NavigationHistory() {
-    const router = useRouter()
-    const pathname = usePathname();
-    const params = useParams();
-    const dispatch = useAppDispatch();
-    const [productDetails, setProductDetails] = useState<ProductDetailsResponse>({} as ProductDetailsResponse)
-    const [categories, setCategories] = useState<Category[]>([]);
+  const pathname = usePathname();
+  const params = useParams();
 
+  const [productDetails, setProductDetails] = useState<ProductDetailsResponse | null>(null);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
+  const categorySlugs = params.categorySlug as string[] | undefined;
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!categorySlugs || categorySlugs.length === 0) {
+        setCategories([]);
+        setProductDetails(null);
+        return;
+      }
 
+      setLoading(true);
+      try {
+        const lastSlug = categorySlugs[categorySlugs.length - 1];
+        const isProduct = lastSlug.startsWith("product-");
 
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (params.categorySlug) {
-            if (params && params?.categorySlug[params?.categorySlug?.length - 1].startsWith("product-")) {
-                getProductDetailsBySlug(String(params.categorySlug[params.categorySlug?.length - 1].replace("product-", ""))).then((resp) => {
-                    setProductDetails(resp.data);
-                })
-            }else {
-                setProductDetails({} as ProductDetailsResponse)
-            }
+        if (isProduct) {
+          const productSlug = lastSlug.replace("product-", "");
+          const productResp = await getProductDetailsBySlug(productSlug);
+          setProductDetails(productResp.data);
+        } else {
+          setProductDetails(null);
         }
-    }, [params]);
 
-    useEffect(() => {
-        // A function to fetch all categories in sequence
-        const fetchCategoriesSequentially = async () => {
-            setLoading(true);
-            setError(null);
-
-            const newCategories: Category[] = [];
-
-            // params.categorySlug can be null, check it before running the loop
-            if (params.categorySlug && params.categorySlug.length > 0) {
-                try {
-                    // A for...of loop ensures sequential execution
-                    for (const slug of params.categorySlug) {
-                        // Using a single API call would be better, but this handles the current structure
-                        if (!slug.startsWith("product-")) {
-                            const response = await getCategoryBySlug(slug);
-                            newCategories.push(response.data);
-                        }else {
-                            getProductDetailsBySlug(slug.replace("product-", "")).then((resp) => {
-                                setProductDetails(resp.data);
-                            })
-                        }
-                    }
-                    setCategories(newCategories);
-                } catch (err) {
-                    console.error("Failed to fetch categories:", err);
-                    setError("Failed to load categories. Please try again.");
-                    setCategories([]); // Clear state on error
-                } finally {
-                    setLoading(false);
-                }
-            } else {
-                // If there are no slugs, clear categories and finish loading
-                setCategories([]);
-                setLoading(false);
-            }
-        };
-
-        fetchCategoriesSequentially();
-    }, [params.categorySlug]);
-
-    const isBack = (): boolean => {
-        return pathname.split("/").length > 2;
-    }
-
-    const histories = (): { path: string; title: string }[] => {
-        const parts = pathname.split("/").filter(Boolean);
-        if (parts.length !== 0 && parts[0].length > 1){
-            parts.unshift('')
-        }
-        let prev_path = '';
-        return parts.reduce((acc, value, index) => {
-            let title = value;
-            let isAdd = true;
-            switch (value) {
-                case '':
-                    title = 'Главная';
-                    break;
-                case 'basket':
-                    prev_path = value;
-                    title = 'Корзина';
-                    break;
-                case 'catalog':
-                    prev_path = value;
-                    title = 'Каталог';
-                    break;
-                case 'details':
-                    prev_path = value;
-                    isAdd = false;
-                    break;
-                case 'lk':
-                    title = 'Личный кабинет'
-                    break;
-                case 'buy':
-                    title = 'Оформление заказа'
-                    break;
-                default:
-                    if (prev_path === 'catalog'){
-                        title = `category`
-                        prev_path = 'category'
-                    } else if (prev_path == 'details') {
-                        title = `productDetails`
-                    } else {
-                        isAdd = false
-                    }
-                    break;
-            }
-            if (isAdd){
-                if (parts.length > 1 && index === 0){
-                    acc.push({ path: `/`, title });
-                }else {
-                    const fullPath = parts.slice(0, index + 1).join("/");
-                    acc.push({ path: `${fullPath}`, title });
-                }
-            }
-            return acc;
-        }, [] as { path: string; title: string }[]);
+        const slugsToFetch = isProduct ? categorySlugs.slice(0, -1) : categorySlugs;
+        const categoryPromises = slugsToFetch.map((slug) => getCategoryBySlug(slug));
+        const responses = await Promise.all(categoryPromises);
+        setCategories(responses.map((r) => r.data));
+      } catch (err) {
+        console.error("Failed to fetch navigation data:", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
+    fetchData();
+  }, [categorySlugs]);
 
-    const getLink = (item: Category)=> {
-        let index = categories.indexOf(item)
-        let value = ''
-        for (;index  > -1;) {
-            value = categories[index].slug + '/' + value
-            index--
-        }
-        return value
+  const breadcrumbs = useMemo(() => {
+    const parts = pathname.split("/").filter(Boolean);
+    const crumbs: { path: string; title: string; isActive: boolean }[] = [];
+
+    // Always start with Home
+    crumbs.push({ path: "/", title: STATIC_TITLES[""], isActive: pathname === "/" });
+
+    let currentPath = "";
+    let isHandled = false;
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+      currentPath += `/${part}`;
+      const isLast = i === parts.length - 1;
+
+      // Special handling for catalog and its dynamic categories/products
+      if (part === "catalog" && categorySlugs) {
+        crumbs.push({
+          path: "/catalog",
+          title: STATIC_TITLES.catalog,
+          isActive: categorySlugs.length === 0,
+        });
+
+        categorySlugs.forEach((slug, slugIndex) => {
+          const isProduct = slug.startsWith("product-");
+          const slugPath = `/catalog/${categorySlugs
+            .slice(0, slugIndex + 1)
+            .join("/")}`;
+          const isLastSlug = slugIndex === categorySlugs.length - 1;
+
+          let title = slug;
+          if (isProduct) {
+            title = productDetails?.name || slug.replace("product-", "");
+          } else {
+            const cat = categories.find((c) => c.slug === slug);
+            title = cat?.name || slug;
+          }
+
+          crumbs.push({
+            path: slugPath,
+            title: title,
+            isActive: isLastSlug,
+          });
+        });
+        isHandled = true;
+        break;
+      }
+
+      // Special handling for personal account (lk) nested pages
+      if (part === "lk") {
+        crumbs.push({
+          path: "/lk/current-orders",
+          title: STATIC_TITLES.lk,
+          isActive: isLast,
+        });
+        continue;
+      }
+
+      // Handle standard static titles
+      if (STATIC_TITLES[part]) {
+        crumbs.push({
+          path: currentPath,
+          title: STATIC_TITLES[part],
+          isActive: isLast,
+        });
+      } else if (!isHandled) {
+        // Fallback for unknown segments (like IDs or slugs not in catalog)
+        // Capitalize for better look
+        const title = part.charAt(0).toUpperCase() + part.slice(1);
+        crumbs.push({
+          path: currentPath,
+          title: title.replace(/-/g, " "),
+          isActive: isLast,
+        });
+      }
     }
 
-    return (
-        <div className={styles.navigator__wrapper}>
-            {/* {
-                isBack() &&
-                <div className={styles.navigator__back} onClick={router.back}>
-                    <button className={styles.navigator__back_button}>
-                        <Image src={'/images/Back_button.png'} alt="Назад" width={18} height={14}/>
-                    </button>
-                    <u className={styles.navigator__back_text}>Назад</u>
-                </div>
-            } */}
-            <h3 className={styles.navigator__back_text}>
-                {
-                    histories().map((value, index) => {
-                        return <Fragment key={index}>
-                                {value.title === 'category' && !loading ?
-                                    categories?.map((item, indexCategory) => {
-                                        return <Fragment
-                                            key={indexCategory}
-                                        >
-                                            <Link
-                                                href={`/catalog/${getLink(item)}`}
-                                            >
-                                                <u
-                                                    className={indexCategory != (categories.length - 1) || productDetails.name ? styles.not_active_history_link: styles.active_history_link}
-                                                >
+    return crumbs;
+  }, [pathname, categorySlugs, categories, productDetails, params]);
 
-                                                    {item.name}
-                                                </u>
-                                                {indexCategory < (categories.length - 1) && ' / '}
-                                            </Link>
-                                            {
-                                                ((categories.length - 1) == indexCategory && productDetails.name) &&
-                                                    <Fragment>
-                                                        <span> / </span>
-                                                        <u key={index} className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
-                                                            {productDetails.name}
-                                                        </u>
-                                                    </Fragment>
-                                            }
-                                        </Fragment>
-                                    })
-                                    :
-                                    <Link href={value.path}>
-                                        <u key={index} className={index != (histories().length - 1) ? styles.not_active_history_link: styles.active_history_link}>
-                                                {value.title}
-                                        </u>
-                                        <span> / </span>
-                                    </Link>
-                                }
-                            </Fragment>
-                    })
-                }
-            </h3>
-        </div>
-    )
+  if (pathname === "/" || breadcrumbs.length <= 2) {
+    return <div className={styles.navigator__spacer}></div>;
+  }
+
+  return (
+    <div className={styles.navigator__wrapper}>
+      <h3 className={styles.navigator__back_text}>
+        {breadcrumbs.map((crumb, index) => (
+          <Fragment key={crumb.path + index}>
+            <Link href={crumb.path}>
+              <u className={crumb.isActive ? styles.active_history_link : styles.not_active_history_link}>
+                {crumb.title}
+              </u>
+            </Link>
+            {index < breadcrumbs.length - 1 && <span> / </span>}
+          </Fragment>
+        ))}
+      </h3>
+    </div>
+  );
 }

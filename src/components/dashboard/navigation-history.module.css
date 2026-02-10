@@ -46,3 +46,7 @@
     all: unset;
     color: rgba(141, 141, 141, 1);
   }
+
+  .navigator__spacer {
+    height: 20px;
+  }
