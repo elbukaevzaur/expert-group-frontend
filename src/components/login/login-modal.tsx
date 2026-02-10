@@ -6,8 +6,14 @@ import {useRouter} from "next/navigation";
 import styles from "./login-modal.module.css"
 import {SmartCaptcha} from "@yandex/smart-captcha";
 import { Eye, EyeOff } from "lucide-react";
+import { CloseSvg } from "@/lib/icon-svg";
+import { motion } from "framer-motion";
 
-export function Login({onCloseModal = () => {}}) {
+interface LoginProps {
+    onCloseModal?: () => void;
+}
+
+export const Login: React.FC<LoginProps> = ({onCloseModal = () => {}}) => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +27,7 @@ export function Login({onCloseModal = () => {}}) {
             dispatch(UPDATE_FOR_API())
             onCloseModal();
         }
-    }, [isAuth]);
+    }, [isAuth, dispatch, onCloseModal]);
 
     const handleSignIn = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -38,21 +44,39 @@ export function Login({onCloseModal = () => {}}) {
         onCloseModal();
     }
 
-    const handleOverlayClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            onCloseModal();
-        }
-    };
-
     return (
-        <div className={styles.login} onClick={handleOverlayClick}>
-            <div className={styles.container}>
-                <button className={styles.close} onClick={onCloseModal}></button>
-                <Image src={"/images/Logo.png"} alt="Логотип" width={251} height={52}/>
+        <div className={styles.login}>
+            <motion.div
+                className={styles.modal__overlay}
+                onClick={onCloseModal}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+            />
+            <motion.div
+                className={styles.container}
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ type: "spring", damping: 25, stiffness: 200 }}
+            >
+                <button className={styles.close} onClick={onCloseModal}>
+                    <CloseSvg />
+                </button>
+                <div style={{ marginBottom: '20px' }}>
+                    <Image src={"/images/Logo.png"} alt="Логотип" width={200} height={42} style={{ objectFit: 'contain' }}/>
+                </div>
                 <form onSubmit={handleSignIn} className={styles.form}>
                     <div className={styles.content}>
                         <h3 className={styles.input_text}>Логин</h3>
-                        <input id="name" value={login} onChange={(e) => setLogin(e.target.value)} className={`${styles.input} ${isAuthError && styles.auth_error}`} type="text"/>
+                        <input 
+                            id="name" 
+                            value={login} 
+                            onChange={(e) => setLogin(e.target.value)} 
+                            className={`${styles.input} ${isAuthError && styles.auth_error}`} 
+                            type="text"
+                            placeholder="Введите ваш логин"
+                        />
                     </div>
                     <div className={`${styles.content} ${styles.content_margin}`}>
                         <h3 className={styles.input_text}>Пароль</h3>
@@ -63,6 +87,7 @@ export function Login({onCloseModal = () => {}}) {
                                 onChange={(e) => setPassword(e.target.value)} 
                                 className={`${styles.input} ${styles.password_input} ${isAuthError && styles.auth_error}`} 
                                 type={showPassword ? "text" : "password"}
+                                placeholder="Введите ваш пароль"
                             />
                             <button 
                                 type="button"
@@ -97,7 +122,7 @@ export function Login({onCloseModal = () => {}}) {
                         <span className={styles.registration_span}>Зарегистрироваться</span>
                     </button>
                 </h3>
-            </div>
+            </motion.div>
         </div>
-    )
-}
+    );
+};

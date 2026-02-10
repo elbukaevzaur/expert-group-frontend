@@ -7,6 +7,7 @@ import styles from "@/components/filter/filter.module.css"
 import {useEffect, useState} from "react";
 import {getAllFilters} from "@/lib/http/filtersRequest";
 import { CloseSmall, CloseSvg, FilterSvg } from "@/lib/icon-svg";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface Props {
     categoryId: string | string[] | undefined,
@@ -148,35 +149,49 @@ export default function ProductsFilter(props: Props){
                     </div>
                 }
             </div>
-            {
-                isOpen && 
-                <div className={styles.modal}>
-                    <div className={styles.modal__overlay} onClick={() => setIsOpen(false)}></div>
-                    <div className={styles.modal__content}>
-                        <button onClick={()=>setIsOpen(false)} className={styles.modal__close}>
-                            <CloseSvg/>
-                        </button>
-                        <h2 className={styles.modal__title}>Фильтры</h2>
-                        <div className={styles.modal__body}>
-                            {
-                                filters.map((value, index) => {
-                                    return <FilterComponent
-                                        key={index}
-                                        title={getTitleByField(value.fieldName)}
-                                        filter={value}
-                                        applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
-                                        onChangeFilter={handleUpdateFilter}
-                                    />
-                                })
-                            }
-                        </div>
-                        <div className={styles.modal__buttons}>
-                            <button className={styles.modal__button} onClick={() => setIsOpen(false)}>Показать</button>
-                            <button onClick={handleRemoveAllFilter} className={`${styles.modal__button} ${styles.modal__button_color}`}>Сбросить</button>
-                        </div>
+            <AnimatePresence>
+                {
+                    isOpen && 
+                    <div className={styles.modal}>
+                        <motion.div 
+                            className={styles.modal__overlay} 
+                            onClick={() => setIsOpen(false)}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                        />
+                        <motion.div 
+                            className={styles.modal__content}
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
+                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        >
+                            <button onClick={()=>setIsOpen(false)} className={styles.modal__close}>
+                                <CloseSvg/>
+                            </button>
+                            <h2 className={styles.modal__title}>Фильтры</h2>
+                            <div className={styles.modal__body}>
+                                {
+                                    filters.map((value, index) => {
+                                        return <FilterComponent
+                                            key={index}
+                                            title={getTitleByField(value.fieldName)}
+                                            filter={value}
+                                            applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
+                                            onChangeFilter={handleUpdateFilter}
+                                        />
+                                    })
+                                }
+                            </div>
+                            <div className={styles.modal__buttons}>
+                                <button className={styles.modal__button} onClick={() => setIsOpen(false)}>Показать</button>
+                                <button onClick={handleRemoveAllFilter} className={`${styles.modal__button} ${styles.modal__button_color}`}>Сбросить</button>
+                            </div>
+                        </motion.div>
                     </div>
-                </div>
-            }
+                }
+            </AnimatePresence>
         </div>
     )
 }

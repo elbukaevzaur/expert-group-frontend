@@ -30,7 +30,7 @@ import {
   YoutubeSvg,
 } from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LoadingCircle from "@/components/loading/loading-circle";
 import { ArrowLeft } from "lucide-react";
 
@@ -337,9 +337,11 @@ export default function Dashboard() {
         </div>
       </div>
       <NavigationHistory />
-      {isLoginVisible && (
-        <Login onCloseModal={() => setIsLoginVisible(false)} />
-      )}
+      <AnimatePresence>
+        {isLoginVisible && (
+          <Login onCloseModal={() => setIsLoginVisible(false)} />
+        )}
+      </AnimatePresence>
       {isBurgerOpen && (
         <Burger
           onClose={() => setIsBurgerOpen(false)}
