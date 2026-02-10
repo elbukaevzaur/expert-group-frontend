@@ -68,33 +68,21 @@
   }
 }
 
-.wrraper {
-  display: flex;
-  margin: 7px 0 0 0;
-  justify-content: space-between;
-}
-
-@media (max-width: 760px) {
-  .wrraper {
-    flex-direction: column;
-  }
-}
-/* 
-@media (max-width: 460px) {
-  .wrraper {
-    flex-direction: row;
-    align-items: center;
-  }
-} */
-
-
-
-.text{
+.availability {
   font-size: 14px;
   font-weight: 400;
   line-height: 23px;
   color: #21a038;
   font-family: 'Inter';
+  margin-top: 10px;
+}
+
+.price_action_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  gap: 15px;
 }
 
 .price{
@@ -103,12 +91,25 @@
   line-height: 29px;
   color: rgba(39, 35, 35, 1);
   font-family: 'Montserrat';
-  margin-top: 10px;
+  margin: 0;
 }
 
 .action {
   display: flex;
-  margin-top: 20px;
+  flex: 1;
+  max-width: 160px;
+}
+
+@media (max-width: 480px) {
+  .price_action_row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .action {
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 

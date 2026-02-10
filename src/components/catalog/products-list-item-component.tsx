@@ -73,23 +73,16 @@ export function ProductsListItemComponent(props: ProductsProps) {
             </button>
             <div className={styles.info}>
                 <h3 className={styles.name}  onClick={() => handleToProductDetails()}>{product.name}</h3>
-                    <div className={styles.conteiner}>
-                        <h3 className={styles.text}>
-                            {product.currentQuantity > 0 
-                                ? 'В наличии' 
-                                : product.allowOrderWithoutStock 
-                                    ? '' 
-                                    : 'Нет в наличии'}
-                        </h3>
-                        <h2 className={styles.price}>{product.price} &#8381;</h2>
-                    </div>
-                    <button onClick={handleChangeFavorite} className={styles.like}>
-                            {
-                                <LikeSvg width={28} height={24} stroke='#fff' fill={isFavorite ? '#ffffff' : 'none'}/>
-                            }
-                        </button>
+                <h3 className={styles.availability}>
+                    {product.currentQuantity > 0 
+                        ? 'В наличии' 
+                        : product.allowOrderWithoutStock 
+                            ? '' 
+                            : 'Нет в наличии'}
+                </h3>
+                <div className={styles.price_action_row}>
+                    <h2 className={styles.price}>{product.price.toLocaleString()} &#8381;</h2>
                     <div className={styles.action}>
-                    
                         {
                             props.basketItem == null ?
                                 <AddToCartButton productId={product.id} orderItem={basketItem} productQuantity={product.currentQuantity} allowOrderWithoutStock={product.allowOrderWithoutStock}/>
@@ -97,6 +90,10 @@ export function ProductsListItemComponent(props: ProductsProps) {
                                 <CartItemQuantity orderItem={basketItem} productId={product.id} productQuantity={product.currentQuantity} allowOrderWithoutStock={product.allowOrderWithoutStock}/>
                         }
                     </div>
+                </div>
+                <button onClick={handleChangeFavorite} className={styles.like}>
+                    <LikeSvg width={28} height={24} stroke='#fff' fill={isFavorite ? '#ffffff' : 'none'}/>
+                </button>
             </div>
         </div>
     )

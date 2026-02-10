@@ -55,26 +55,29 @@ export const CartItemQuantityDetails: React.FC<CartProps> = (props: CartProps) =
 export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartProps) => {
     const {handleAddItem, handleRemoveItem} = useCartActions();
 
-    return <div className={styles.name}>
-        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.quantity_button}><MinusSmall width={18} height={18} color='#fff'/>
+    return <div className={styles.wrapper} style={{ width: '120px', height: '35px', paddingInline: '10px' }}>
+        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.basket_button}>
+            <MinusSmall width={14} height={14} color='#21A038'/>
         </button>
-        <h3 className={styles.quantity}>{props.orderItem?.quantity}</h3>
+        <h3 className={styles.basket_text_margin} style={{ fontSize: '16px' }}>{props.orderItem?.quantity}</h3>
         <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
-                className={styles.quantity_button}><PlusSmall width={18} height={18} color='#fff'/></button>
+                className={styles.basket_button}>
+            <PlusSmall width={14} height={14} color='#21A038'/>
+        </button>
     </div>
 }
 
 export const CartItemQuantityBasket: React.FC<CartProps> = (props: CartProps) => {
     const {handleAddItem, handleRemoveItem} = useCartActions();
 
-    return <div className={styles.item_quantity}>
-        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.item_button}>
-            <MinusSmall width={18} height={18} color='#fff'/>
+    return <div className={styles.wrapper} style={{ width: '140px' }}>
+        <button onClick={() => handleRemoveItem(props.orderItem)} className={styles.basket_button}>
+            <MinusSmall width={18} height={18} color='#21A038'/>
         </button>
-        <h4 className={styles.item_quantity_text}>{props.orderItem?.quantity}</h4>
+        <h4 className={styles.basket_text_margin}>{props.orderItem?.quantity}</h4>
         <button onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
-                className={styles.item_button}>
-            <PlusSmall width={18} height={18} color='#fff'/>
+                className={styles.basket_button}>
+            <PlusSmall width={18} height={18} color='#21A038'/>
         </button>
     </div>
 }
@@ -89,8 +92,8 @@ export const RemoveAllPreviewBasket: React.FC = () => {
 export const RemoveItemPreviewBasket: React.FC<{productId: string}> = (props: {productId: string}) => {
     const {handleRemoveItemFromBasket} = useCartActions();
 
-    return <button onClick={() => handleRemoveItemFromBasket(props.productId)} className={styles.delete}>
-        Удалить товар<TrashSvg/>
+    return <button onClick={() => handleRemoveItemFromBasket(props.productId)} className={styles.item_delete} style={{ position: 'static' }}>
+        <CloseSvg width={18} height={18} />
     </button>
 }
 

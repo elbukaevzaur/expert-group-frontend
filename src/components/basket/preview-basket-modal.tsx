@@ -107,18 +107,16 @@ export default function PreviewBasketModal(props: Props) {
                                                 <button className="product_details_link_button" onClick={() => handleToProductDetails(details)}>
                                                     <h2 className={styles.text}>{details.name}</h2>
                                                 </button>
+                                                <RemoveItemPreviewBasket productId={item.productId.toString()}/>
                                             </div>
-                                            <div className={styles.name}>
+                                            <div className={styles.controls_row}>
                                                 <CartItemQuantityPreviewBasket 
                                                     productId={item.productId} 
                                                     orderItem={item} 
                                                     productQuantity={details.currentQuantity} 
                                                     allowOrderWithoutStock={details.allowOrderWithoutStock}
                                                 />
-                                            </div>
-                                            <div className={styles.name}>
                                                 <h3 className={styles.summ}>{(item.quantity * details.price).toLocaleString()} ₽</h3>
-                                                <RemoveItemPreviewBasket productId={item.productId.toString()}/>
                                             </div>
                                         </div>
                                     </div>
