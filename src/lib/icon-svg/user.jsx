@@ -27,12 +27,12 @@ export function UserSvg(props) {
           </g>
         </g>
       </mask>
-      <path id="icn / profile" d="M0 0h24v24H0z"></path>
+      <path id="icn / profile" d="M0 0h24v24H0z" fill="none"></path>
       <g id="clip path group" mask="url(#mask_0)">
         <g id="Group 4">
           <path
             id="Vector 24"
-            fill="currentColor"
+            fill={props.fill || "currentColor"}
             fillRule="evenodd"
             d="M16.46 12.249A5.97 5.97 0 0 0 18 8.25c0-3.308-2.692-6-6-6s-6 2.692-6 6 2.692 6 6 6c1.166 0 2.252-.34 3.175-.918A8.98 8.98 0 0 1 20.969 21H3.032a9 9 0 0 1 3.058-6.038.75.75 0 1 0-.985-1.131A10.5 10.5 0 0 0 1.5 21.75c0 .415.336.75.75.75h19.5a.75.75 0 0 0 .75-.75c0-4.114-2.385-7.789-6.04-9.501M7.5 8.25c0-2.482 2.018-4.5 4.5-4.5s4.5 2.018 4.5 4.5-2.018 4.5-4.5 4.5a4.505 4.505 0 0 1-4.5-4.5"
           ></path>

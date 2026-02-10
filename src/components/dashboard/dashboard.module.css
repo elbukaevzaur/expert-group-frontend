@@ -446,6 +446,11 @@
   font-weight: 500;
   line-height: 19px;
   font-family: "Montserrat";
+  transition: color 0.2s ease;
+}
+
+.user_text_active {
+  color: #21a038 !important;
 }
 
 @media (max-width: 1250px) {
@@ -503,6 +508,11 @@
   font-weight: 500;
   line-height: 19px;
   font-family: "Montserrat";
+  transition: color 0.2s ease;
+}
+
+.dashboar__bascet_text_active {
+  color: #21a038 !important;
 }
 
 .dashboar__bascet_info {

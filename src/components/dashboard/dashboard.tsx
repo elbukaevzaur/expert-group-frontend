@@ -280,8 +280,8 @@ export default function Dashboard() {
               </div>
             ) : !isAuth ? (
               <div className={styles.user} onClick={toggleLogin}>
-                {<UserSvg className={styles.user__icon} />}
-                <h2 className={styles.user__text}>Войти</h2>
+                {<UserSvg className={styles.user__icon} fill={isLoginVisible ? "#21a038" : undefined} />}
+                <h2 className={`${styles.user__text} ${isLoginVisible ? styles.user_text_active : ""}`}>Войти</h2>
               </div>
             ) : (
               <Link href={"/lk/current-orders"} className={styles.user}>
@@ -291,7 +291,7 @@ export default function Dashboard() {
                     fill={pathname.startsWith("/lk") ? "#21a038" : undefined}
                   />
                 }
-                <h2 className={styles.user__text}>Кабинет</h2>
+                <h2 className={`${styles.user__text} ${pathname.startsWith("/lk") ? styles.user_text_active : ""}`}>Кабинет</h2>
               </Link>
             )}
             <div>
@@ -299,9 +299,10 @@ export default function Dashboard() {
                 className={styles.dashboar__basket}
               >
                 <FavoriteSvg
+                  fill={pathname === "/favorite" ? "#21a038" : undefined}
                 />
                 <div className={styles.dashboar__basket_container}>
-                  <h2 className={styles.dashboar__bascet_text}>Избранное</h2>
+                  <h2 className={`${styles.dashboar__bascet_text} ${pathname === "/favorite" ? styles.dashboar__bascet_text_active : ""}`}>Избранное</h2>
                 </div>
               </Link>
             </div>
@@ -312,10 +313,10 @@ export default function Dashboard() {
               >
                 <BasketSvg
                   className={styles.dashboar__bascet_icon}
-                  fill={pathname.startsWith("/basket") ? "#21a038" : undefined}
+                  fill={(pathname === "/basket" || isShowPreviewBasket) ? "#21a038" : undefined}
                 />
                 <div className={styles.dashboar__basket_container}>
-                  <h2 className={styles.dashboar__bascet_text}>Корзина</h2>
+                  <h2 className={`${styles.dashboar__bascet_text} ${(pathname === "/basket" || isShowPreviewBasket) ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h2>
                   {/* <h3 className={styles.dashboar__bascet_info}>
                     {orderItems.length > 0 ? orderItems.length : "пусто"}
                   </h3> */}
