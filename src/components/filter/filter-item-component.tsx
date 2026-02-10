@@ -1,5 +1,5 @@
 import {FilterProperty, FiltersResponse} from "@/lib/models";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useAppDispatch} from "@/lib/hooks";
 import {ADD_FILTER} from "@/lib/reducers";
 import styles from "@/components/filter/filter.module.css"
@@ -18,14 +18,23 @@ export const FilterComponent = (props: FilterProps) => {
     const [valueValid, setValueValid] = useState(true);
     const dispatch = useAppDispatch();
 
+    useEffect(() => {
+        if (props.filter.operator === 'LESS_GREATER') {
+            if (props.applyFilterValues && props.applyFilterValues.length >= 2) {
+                setValueFrom(props.applyFilterValues[0]);
+                setValueTo(props.applyFilterValues[1]);
+            } else if (props.applyFilterValues && props.applyFilterValues.length === 1) {
+                setValueFrom(props.applyFilterValues[0]);
+                setValueTo('');
+            } else {
+                setValueFrom('');
+                setValueTo('');
+            }
+        }
+    }, [props.applyFilterValues, props.filter.operator]);
+
     const handleFilterHover = () => {
         setIsShow(!isShow);
-    }
-
-    const handleApplyFilter = () => {
-        // dispatch(ADD_FILTER({field: props.filter.fieldName, value: [valueFrom, valueTo], operator: props.filter.operator}));
-        const values = valueTo && valueTo !== '' ? [valueFrom, valueTo] : [valueFrom]
-        props.onChangeFilter({field: props.filter.fieldName, value: values, operator: props.filter.operator})
     }
 
     const handleApplyInFilter = (val: number) => {
@@ -50,6 +59,17 @@ export const FilterComponent = (props: FilterProps) => {
     const onChangeValueTo = (val: string) => {
         setValueTo(val);
         validate(val);
+    }
+
+    const handleBlur = () => {
+        const minVal = valueFrom === '' ? props.filter.range.min.toString() : valueFrom;
+        const maxVal = valueTo === '' ? props.filter.range.max.toString() : valueTo;
+        
+        props.onChangeFilter({
+            field: props.filter.fieldName, 
+            value: [minVal, maxVal], 
+            operator: props.filter.operator
+        })
     }
 
     const validate = (val: string) => {
@@ -90,6 +110,7 @@ export const FilterComponent = (props: FilterProps) => {
                                            placeholder={props.filter.range.min?.toString()}
                                            value={valueFrom}
                                            onChange={(val) => onChangeValueFrom(val.target.value)}
+                                           onBlur={handleBlur}
                                            title="От"
                                     />
                                 </div>
@@ -101,15 +122,11 @@ export const FilterComponent = (props: FilterProps) => {
                                            max={props.filter.range.max} placeholder={props.filter.range.max?.toString()}
                                            value={valueTo}
                                            onChange={(val) => onChangeValueTo(val.target.value)}
+                                           onBlur={handleBlur}
                                            title="До"
                                     />
                                 </div>
                             </div>
-                            {/* <div>
-                                <button className={styles.filter_button_dropdown_botton}
-                                        onClick={handleApplyFilter}>Применить
-                                </button>
-                            </div> */}
                         </> :
                         props.filter.value.map((item) => {
                             return <div key={item.id} className={styles.filter_button_dropdown_content}>

@@ -28,9 +28,36 @@ function* fetchAll() {
 }
 
 function* fetchAllFavoriteProductsWorker() {
+  const { isAuth } = yield select((state) => state.auth);
   try {
-    const response = yield call(getAllFavoriteProducts);
-    yield put(FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS(response.data))
+    if (isAuth) {
+      const response = yield call(getAllFavoriteProducts);
+      yield put(FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS(response.data))
+    } else {
+      const { allFavorites } = yield select((state) => state.favorites);
+      const productIds = Object.keys(allFavorites);
+      
+      if (productIds.length > 0) {
+        const pageRequest = {
+          filters: [
+            { field: 'id', value: productIds, operator: 'IN' }
+          ],
+          orderedColumns: [],
+          page: 1,
+          perPage: 1000 // Show all favorites
+        };
+        const response = yield call(getAll, pageRequest);
+        yield put(FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS(response.data))
+      } else {
+        yield put(FAVORITE_PRODUCTS_FETCH_RESPONSE_SUCCESS({
+          content: [],
+          totalPages: 0,
+          totalResult: 0,
+          page: 1,
+          perPage: 10
+        }))
+      }
+    }
   } catch (e) {
   }
 }

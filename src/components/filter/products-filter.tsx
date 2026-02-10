@@ -6,7 +6,7 @@ import {getTitleByField} from "@/lib/consts";
 import styles from "@/components/filter/filter.module.css"
 import {useEffect, useState} from "react";
 import {getAllFilters} from "@/lib/http/filtersRequest";
-import { CloseSvg, FilterSvg } from "@/lib/icon-svg";
+import { CloseSmall, CloseSvg, FilterSvg } from "@/lib/icon-svg";
 
 interface Props {
     categoryId: string | string[] | undefined,
@@ -79,6 +79,19 @@ export default function ProductsFilter(props: Props){
         props.updateFilter(filter);
     }
 
+    const getActiveFilterNames = (filter: FilterProperty) => {
+        if (filter.operator === 'LESS_GREATER') {
+            return `От ${filter.value[0]} до ${filter.value[1]}`;
+        }
+        const filterDef = filters.find(f => f.fieldName === filter.field);
+        if (!filterDef) return filter.value.join(', ');
+        
+        return filter.value.map(valId => {
+            const item = filterDef.value.find(v => v.id.toString() === valId);
+            return item ? item.name : valId;
+        }).join(', ');
+    }
+
     return(
         <div>
             <div className={styles.filter}>
@@ -109,110 +122,61 @@ export default function ProductsFilter(props: Props){
                             }
                         </div>
                     </div>
-                    {/* <div className={styles.filter__container_wrraper}>
-                        {
-                            filters.map((value, index) => {
-                                return <FilterComponent
-                                    key={index}
-                                    title={getTitleByField(value.fieldName)}
-                                    filter={value}
-                                    applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
-                                    onChangeFilter={handleUpdateFilter}
-                                />
-                            })
-                        }
-                    </div> */}
-                    {/* <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
-                        <h3 className={styles.filter__text}>Показать {props.productsPageResponse.perPage}</h3>
-                        <button className={styles.filter_button}>
-                        </button>
-                        <div className={styles.sorted_container}>
-                            {
-                                perPageValues.map((value, index) => {
-                                    return <button
-                                        key={index}
-                                        className={`${styles.sorted_container_botton} ${value === props.productsPageResponse.perPage && styles.sorted_container_botton_active}`}
-                                        onClick={() => handleApplyPerPage(value)}
-                                    >
-                                        {value}
-                                    </button>
-                                })
-                            }
-                        </div>
-                    </div> */}
-                    {/* <div className={`${styles.filter__wrraper} ${styles.products__sorted}`}>
-                        <h3 className={styles.filter__text}>
-                            Сортировка
-                        </h3>
-                        <button className={styles.filter_button}>
-                        </button>
-                        <div className={styles.sorted_container}>
-                            {
-                                orderedColumnsValues.map((item, index) => {
-                                    return <button
-                                        key={index}
-                                        className={styles.sorted_container_botton}
-                                        onClick={() => handleApplySorted(item)}
-                                    >
-                                        {item.title}
-                                    </button>
-                                })
-                            }
-                        </div>
-                    </div> */}
                 </div>
-                {/* {
+                {
                     pageRequest.filters.filter(f => f.field !== 'categoryId').length > 0 &&
                     <div className={styles.filter__info_wrraper}>
                         {
                             pageRequest.filters.filter(f => f.field !== 'categoryId').map((value, index) => {
                                 return <div key={index} className={styles.filter__info}>
-                                    <div className={styles.filter__info_text}>{value.field}: {
-                                        value.operator == 'LESS_GREATER' ? `От ${value.value[0]} до ${value.value[1]}` : value.value.join(', ')
-                                    }</div>
+                                    <div className={styles.filter__info_text}>
+                                        {getTitleByField(value.field)}: {getActiveFilterNames(value)}
+                                    </div>
                                     <button onClick={() => handleRemoveFilter(value)}
                                             className={styles.filter_button_list}>
-                                        <Image src={'/images/Delete_button.png'} alt="Удалить" width={16} height={16}/>
+                                        <CloseSmall stroke="#fff" />
                                     </button>
                                 </div>
                             })
                         }
                         <div className={`${styles.filter__info} ${styles.filter__info_delete}`}>
-                        <div className={styles.filter__info_text}>Очистить всё</div>
-                        <button onClick={handleRemoveAllFilter} className={styles.filter_button_list}>
-                            <Image src={'/images/Delete_button_grey.png'} alt="Удалить" width={16} height={16}/>
+                            <div className={styles.filter__info_text}>Очистить всё</div>
+                            <button onClick={handleRemoveAllFilter} className={styles.filter_button_list}>
+                                <CloseSmall stroke="#fff" />
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+            {
+                isOpen && 
+                <div className={styles.modal}>
+                    <div className={styles.modal__overlay} onClick={() => setIsOpen(false)}></div>
+                    <div className={styles.modal__content}>
+                        <button onClick={()=>setIsOpen(false)} className={styles.modal__close}>
+                            <CloseSvg/>
                         </button>
+                        <h2 className={styles.modal__title}>Фильтры</h2>
+                        <div className={styles.modal__body}>
+                            {
+                                filters.map((value, index) => {
+                                    return <FilterComponent
+                                        key={index}
+                                        title={getTitleByField(value.fieldName)}
+                                        filter={value}
+                                        applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
+                                        onChangeFilter={handleUpdateFilter}
+                                    />
+                                })
+                            }
+                        </div>
+                        <div className={styles.modal__buttons}>
+                            <button className={styles.modal__button} onClick={() => setIsOpen(false)}>Показать</button>
+                            <button onClick={handleRemoveAllFilter} className={`${styles.modal__button} ${styles.modal__button_color}`}>Сбросить</button>
+                        </div>
                     </div>
                 </div>
-            } */}
-        </div>
-        {
-            isOpen && 
-            <div className={styles.modal}>
-    <div className={styles.modal__overlay} onClick={() => setIsOpen(false)}></div>
-            <div className={styles.modal__content}>
-                <button onClick={()=>setIsOpen(false)} className={styles.modal__close}>
-                    <CloseSvg/>
-                </button>
-                <h2 className={styles.modal__title}>Фильтры</h2>
-                {
-                            filters.map((value, index) => {
-                                return <FilterComponent
-                                    key={index}
-                                    title={getTitleByField(value.fieldName)}
-                                    filter={value}
-                                    applyFilterValues={pageRequest.filters.find(f => f.field == value.fieldName)?.value}
-                                    onChangeFilter={handleUpdateFilter}
-                                />
-                            })
-                        }
-                    <div className={styles.modal__buttons}>
-                <button className={styles.modal__button}>Показать</button>
-                <button  onClick={handleRemoveAllFilter} className={`${styles.modal__button} ${styles.modal__button_color}`}>Сбросить</button>
-                    </div>
-            </div>
-        </div>
-        }
+            }
         </div>
     )
 }

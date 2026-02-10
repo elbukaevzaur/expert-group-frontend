@@ -11,7 +11,8 @@ import {
     UPDATE_STORAGE,
     UPDATE_FOR_API,
     ORDER_ITEMS_DETAILS_REQUEST,
-    ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS
+    ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS,
+    SIGN_OUT
 } from '../reducers'
 import {
     loadFromLocalStorage,
@@ -42,7 +43,9 @@ function* incrementQuantityWorker(action) {
         }
         yield put(ORDER_ITEMS_INCREMENT_SUCCESS(request))
     } catch (e) {
-
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -59,7 +62,9 @@ function* decrementQuantityWorker(action) {
         }
         yield put(ORDER_ITEMS_DECREMENT_SUCCESS(request))
     } catch (e) {
-
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -79,6 +84,9 @@ function* updateForApi() {
         }
         yield put(INITIAL_BASKET());
     } catch (e){
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -98,6 +106,9 @@ function* initialStorage() {
             }
         }
     } catch (e) {
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -107,6 +118,9 @@ function* orderItemsDetailsRequestWorker() {
         const response = yield call(getAllBasketItemsDetails, {productIds: orderItems.map(m => m.productId)});
         yield put(ORDER_ITEMS_DETAILS_RESPONSE_SUCCESS(response.data))
     } catch (e) {
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -117,6 +131,9 @@ function* removeByProductIdRequestWorker(action) {
             yield call(removeByProductId, action.payload);
         yield put(UPDATE_STORAGE())
     } catch (e) {
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 
@@ -127,6 +144,9 @@ function* basketCleanWorker() {
             yield call(basketCleanRequest);
         yield call(clearFromLocalStorage, basketStorageKey);
     } catch (e) {
+        if (e.response && e.response.status === 401) {
+            yield put(SIGN_OUT());
+        }
     }
 }
 

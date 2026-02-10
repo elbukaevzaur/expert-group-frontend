@@ -24,6 +24,11 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response) {
+            if (error.response.status === 401) {
+                // Clear token on 401
+                localStorage.removeItem('authToken');
+                // Optional: window.location.href = '/'; 
+            }
             console.error('API Response Error:', error.response.status, error.response.data);
         } else if (error.request) {
             console.error('API Request Error: No response received', error.request);

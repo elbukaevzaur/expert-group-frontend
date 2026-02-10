@@ -28,8 +28,8 @@ function* initialToken() {
         const data = yield call(loadFromLocalStorage, authStorageKey);
         if (data) {
             yield put(SIGN_IN_RESPONSE_SUCCESS(data));
-            yield put(ALL_FAVORITES_REQUEST())
         }
+        yield put(ALL_FAVORITES_REQUEST())
         yield put(INITIAL_BASKET())
         yield put(INITIAL_TOKEN_SUCCESS())
     } catch (e) {

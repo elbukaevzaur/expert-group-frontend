@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   INITIAL_TOKEN,
   PROJECTS_CATEGORIES_FETCH_REQUESTED,
+  ALL_FAVORITES_REQUEST,
 } from "@/lib/reducers";
 import { Login } from "@/components/login/login-modal";
 import styles from "@/components/dashboard/dashboard.module.css";

@@ -364,12 +364,21 @@
   background-color: #fff;
   padding: 40px;
   position: relative;
-  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal__body {
+  flex: 1;
+  overflow-y: auto;
+  margin-top: 20px;
+  padding-right: 5px;
+  /* hide scrollbar */
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
 
-.modal__content::-webkit-scrollbar {
+.modal__body::-webkit-scrollbar {
   display: none;
 }
 
@@ -379,6 +388,7 @@
   position: absolute;
   top: 40px;
   left: 40px;
+  z-index: 10;
 }
 
 .modal__title {
@@ -388,6 +398,7 @@
   font-weight: 600;
   line-height: 29px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .modal__wrraper {
@@ -413,6 +424,9 @@
   justify-content: space-between;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
+  margin-top: 20px;
+  background-color: #fff;
 }
 
 .modal__button {

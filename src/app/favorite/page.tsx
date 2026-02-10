@@ -23,9 +23,10 @@ export default function FavoritePage() {
         dispatch(ALL_FAVORITES_REQUEST());
     }, []);
 
-    function findBasketItemByProductId(productId: number): OrderItems | null{
-        const index = orderItems.map(m => m.productId).indexOf(productId);
-        if (index === -1){
+    function findBasketItemByProductId(productId: any): OrderItems | null {
+        // Сравниваем ID как строки для поддержки UUID
+        const index = orderItems.findIndex(m => String(m.productId) === String(productId));
+        if (index === -1) {
             return null;
         }
         return orderItems[index]

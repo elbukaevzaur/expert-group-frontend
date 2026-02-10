@@ -130,26 +130,18 @@ export default function ProductsListComponent(props: Props) {
                             productsPageResponse={productsPageResponse}
                             pageRequest={pageRequest}
                         updateFilter={(filter) => {
-
                             const index = pageRequest.filters.map(m => m.field).indexOf(filter.field);
+                            let newFilters = [...pageRequest.filters];
                             if (index !== -1){
-                                if (filter.operator === 'IN'){
-                                    if (pageRequest.filters[index].value.length == 1 && pageRequest.filters[index].value
-                                        .filter(f => filter.value.indexOf(f) !== -1).length === 0){
-                                        setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field !== filter.field)})
-
-                                    }else {
-                                        let filters = pageRequest.filters;
-                                        filters[index].value = filter.value;
-                                        setPageRequest({...pageRequest, filters: filters})
-                                    }
-                                }else {
-                                    let filters = pageRequest.filters;
-                                    filters[index].value = filter.value;
-                                    setPageRequest({...pageRequest, filters: filters})
+                                if (filter.value.length === 0) {
+                                    newFilters.splice(index, 1);
+                                } else {
+                                    newFilters[index] = { ...newFilters[index], value: filter.value };
                                 }
-                            } else
-                                setPageRequest({...pageRequest, filters: [...pageRequest.filters, filter]})
+                            } else {
+                                newFilters.push(filter);
+                            }
+                            setPageRequest({...pageRequest, filters: newFilters})
                         }}
                         updateSort={(sort) => {
                             setPageRequest({...pageRequest, orderedColumns: [sort]});
@@ -158,14 +150,16 @@ export default function ProductsListComponent(props: Props) {
                             setPageRequest({...pageRequest, perPage: perPage});
                         }}
                         handleRemoveFilter={(filter) => {
-                            const index = pageRequest.filters.map(m => m.field).indexOf(filter.field);
-                            const filters = pageRequest.filters;
-                            filters.splice(index, 1);
-                            setPageRequest({...pageRequest, filters: filters})
+                            setPageRequest({
+                                ...pageRequest, 
+                                filters: pageRequest.filters.filter(f => f.field !== filter.field)
+                            })
                         }}
                         onRemoveAllFilter={() => {
-                            // Восстанавливаем фильтр по категории
-                            setPageRequest({...pageRequest, filters: pageRequest.filters.filter(f => f.field === 'categoryId')})
+                            setPageRequest({
+                                ...pageRequest, 
+                                filters: pageRequest.filters.filter(f => f.field === 'categoryId')
+                            })
                         }}
                     />
                     }
