@@ -25,6 +25,8 @@ export default function Buy() {
   const router = useRouter();
   const [isLoginVisible, setIsLoginVisible] = useState(false);
   const [pendingOrder, setPendingOrder] = useState(false);
+  const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'delivery'>('pickup');
+  const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
 
   useEffect(() => {
     dispatch(ORDER_ITEMS_DETAILS_REQUEST());
@@ -81,9 +83,13 @@ export default function Buy() {
 
   return (
     <div className={styles.buy}>
+      <Link href="/basket" className={styles.back_link}>
+        <span style={{ marginRight: '8px' }}>←</span> Вернуться в корзину
+      </Link>
       <div className={styles.wrapper}>
         <div className={styles.contain}>
-          <h1 className={styles.title}>Укажите ваши данные</h1>
+          <h1 className={styles.title}>Оформление заказа</h1>
+          <div className={styles.section_title}>1. Контактные данные</div>
           <div className={styles.grid}>
             <input className={styles.input} type="text" placeholder="ФИО" />
             <input className={styles.input} type="text" placeholder="Телефон" />
@@ -94,11 +100,14 @@ export default function Buy() {
             />
             <input className={styles.input} type="text" placeholder="Город" />
           </div>
-          <h1 className={styles.title}>Способ получения заказа</h1>
+          <div className={styles.section_title}>2. Способ получения</div>
           <div className={styles.buttons}>
-            <button className={styles.button}>
+            <button 
+              className={`${styles.button} ${deliveryMethod === 'pickup' ? styles.button_active : ''}`}
+              onClick={() => setDeliveryMethod('pickup')}
+            >
               <LocationSvg
-                stroke="rgba(39, 35, 35, 1)"
+                stroke={deliveryMethod === 'pickup' ? "#21a038" : "rgba(39, 35, 35, 1)"}
                 width={20}
                 height={20}
               />
@@ -107,8 +116,11 @@ export default function Buy() {
                 <p className={styles.button_subtitle}>Бесплатно</p>
               </div>
             </button>
-            <button className={styles.button}>
-              <BusSVG />
+            <button 
+              className={`${styles.button} ${deliveryMethod === 'delivery' ? styles.button_active : ''}`}
+              onClick={() => setDeliveryMethod('delivery')}
+            >
+              <BusSVG color={deliveryMethod === 'delivery' ? "#21a038" : undefined} />
               <div className={styles.button_wrapper}>
                 <h4 className={styles.button_title}>Доставка</h4>
                 <p className={styles.button_subtitle}>от 1000 ₽</p>
@@ -122,11 +134,14 @@ export default function Buy() {
           <div className={styles.map}>
             <YandexMap />
           </div>
-          <h1 className={styles.title}>Способ оплаты</h1>
+          <div className={styles.section_title}>3. Способ оплаты</div>
           <div className={styles.buttons}>
-            <button className={styles.button}>
+            <button 
+              className={`${styles.button} ${paymentMethod === 'online' ? styles.button_active : ''}`}
+              onClick={() => setPaymentMethod('online')}
+            >
               <LocationSvg
-                stroke="rgba(39, 35, 35, 1)"
+                stroke={paymentMethod === 'online' ? "#21a038" : "rgba(39, 35, 35, 1)"}
                 width={20}
                 height={20}
               />
@@ -134,8 +149,11 @@ export default function Buy() {
                 <h4 className={styles.button_title}>Оплата онлайн</h4>
               </div>
             </button>
-            <button className={styles.button}>
-              <BusSVG />
+            <button 
+              className={`${styles.button} ${paymentMethod === 'cash' ? styles.button_active : ''}`}
+              onClick={() => setPaymentMethod('cash')}
+            >
+              <BusSVG color={paymentMethod === 'cash' ? "#21a038" : undefined} />
               <div className={styles.button_wrapper}>
                 <h4 className={styles.button_title}>Наличный расчет</h4>
               </div>
@@ -144,36 +162,41 @@ export default function Buy() {
         </div>
         <div className={styles.total}>
           <div className={styles.total_total}>
-            <h2 className={styles.total_title}>Итого</h2>
+            <h2 className={styles.total_title}>Ваш заказ</h2>
           </div>
           <div className={styles.total_wrapper}>
-            <div className={styles.total_contain}>
-              <h4 className={styles.total_subtitle}>Количество товара</h4>
-              <span className={styles.dots}>
-                ........................................................................................................
-              </span>
-              <h4 className={styles.total_subtitle}>
-                {" "}
-                {getTotalProductsQuantity()} шт.
-              </h4>
+            <div className={styles.total_items_list}>
+              {orderItems.map((item, index) => {
+                const details = orderItemsDetails[item.productId];
+                if (!details) return null;
+                return (
+                  <div key={index} className={styles.total_item}>
+                    <div className={styles.total_item_info}>
+                      <span className={styles.total_item_name}>{details.name}</span>
+                      <span className={styles.total_item_quantity}>{item.quantity} шт.</span>
+                    </div>
+                    <span className={styles.total_item_price}>{(item.quantity * details.price).toLocaleString()} ₽</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className={styles.total_contain} style={{ marginTop: '10px' }}>
+              <h4 className={styles.total_subtitle}>Товары ({getTotalProductsQuantity()})</h4>
+              <h4 className={styles.total_subtitle}>{Number(getTotalPrice()).toLocaleString()} ₽</h4>
             </div>
             <div className={styles.total_contain}>
               <h4 className={styles.total_subtitle}>Доставка</h4>
-              <span className={styles.dots}>
-                ........................................................................................................
-              </span>
-              <h4 className={styles.total_subtitle}>Бесплатно</h4>
+              <h4 className={styles.total_subtitle}>{deliveryMethod === 'pickup' ? 'Бесплатно' : 'от 1000 ₽'}</h4>
             </div>
-            <div className={styles.total_contain}>
-              <h4 className={styles.total_subtitle}>Итоговая сумма</h4>
-              <span className={styles.dots}>
-                ........................................................................................................
-              </span>
-              <h4 className={styles.total_title}>{getTotalPrice()}&#8381;</h4>
+            <div className={styles.total_contain} style={{ marginTop: '15px', borderTop: '1px solid #E8E8E8', paddingTop: '15px' }}>
+              <h2 className={styles.total_title} style={{ fontSize: '20px' }}>Итого</h2>
+              <h2 className={styles.total_title} style={{ fontSize: '22px', color: '#21a038' }}>
+                {(Number(getTotalPrice()) + (deliveryMethod === 'delivery' ? 1000 : 0)).toLocaleString()} ₽
+              </h2>
             </div>
           </div>
           <button onClick={handleCreateOrder} className={styles.total_button}>
-            <h3 className={styles.total_text}>К оформлению</h3>
+            <h3 className={styles.total_text}>Оформить заказ</h3>
           </button>
         </div>
       </div>
