@@ -36,10 +36,10 @@ export default function CategoryListItem(params: Params) {
                         fill
                     />
                 }
-            {/* <div className="subcatalog__info"> */}
+            <div className="subcatalog__info">
                 <h3 className="subcatalog__title">{category.name}</h3>
                 <h4 className="subcatalog__subtitle">{getProductCountText(category.productCount)}</h4>
-            {/* </div> */}
+            </div>
         </Link>
     )
 }
