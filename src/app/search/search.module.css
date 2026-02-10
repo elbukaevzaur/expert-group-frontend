@@ -81,3 +81,16 @@
     column-gap: 3px;
   }
 }
+
+.loading {
+    padding: 50px;
+    text-align: center;
+    font-size: 18px;
+    color: #666;
+}
+
+.pagination_container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}

@@ -769,6 +769,32 @@ padding-left: 22px;
 .suggestion_text_container {
   display: flex;
   flex-direction: column;
+  flex: 1;
+}
+
+.suggestion_name_price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.suggestion_price {
+  font-weight: 700;
+  color: #21a038;
+  font-size: 14px;
+}
+
+.loading_text, .no_results {
+  padding: 20px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+.search__button_stick_link {
+  text-decoration: none;
+  display: block;
 }
 
 .overlay {
