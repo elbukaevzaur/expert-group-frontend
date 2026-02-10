@@ -24,6 +24,9 @@ import {
   ArrowLeftSvg,
   VectorSvg,
   FavoriteSvg,
+  VkSvg,
+  TelegramSvg,
+  YoutubeSvg,
 } from "@/lib/icon-svg";
 import SearchForm from "@/components/dashboard/search-form";
 import { motion } from "framer-motion";
@@ -466,9 +469,17 @@ export function Burger({
           </Link>
         </div>
         <div className={styles.burger_contacts}>
-          <Link href={'https://vk.com/id769027474'} className={styles.burger__contacts_text} target="_blank">В контакте</Link>
-          <Link href={'https://t.me/EXPERTGROUPHOLDING'} className={styles.burger__contacts_text} target="_blank">Телеграм</Link>
-          <Link href={'https://www.youtube.com/@ExpertGroupgips/shorts'} className={styles.burger__contacts_text} target="_blank">Ютуб</Link>
+          <div className={styles.burger_social_icons}>
+            <Link href={'https://vk.com/id769027474'} target="_blank">
+              <VkSvg />
+            </Link>
+            <Link href={'https://t.me/EXPERTGROUPHOLDING'} target="_blank">
+              <TelegramSvg />
+            </Link>
+            <Link href={'https://www.youtube.com/@ExpertGroupgips/shorts'} target="_blank">
+              <YoutubeSvg />
+            </Link>
+          </div>
           <h4 className={styles.footer}>Присоединяйтесь к нам в социальных сетях</h4>
         </div>
       </motion.div>

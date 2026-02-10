@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {YoutubeSvg, VkSvg, TelegramSvg} from "@/lib/icon-svg";
 import styles from "@/components/footer.module.css"
 import Link from "next/link";
 import { CatalogModal } from "./catalog/catalogModal";
@@ -87,13 +88,13 @@ export default function Footer() {
                         </Link>
                         <div className={styles.contact_social}>
                              <Link href="https://vk.com/id769027474" target="_blank">
-                                <h4 className={styles.contact__link}>В контакте</h4>
+                                <VkSvg />
                             </Link>
                             <Link href="https://t.me/EXPERTGROUPHOLDING" target="_blank">
-                                <h4 className={styles.contact__link}>Телеграм</h4>
+                                <TelegramSvg />
                             </Link>
                             <Link href="https://www.youtube.com/@ExpertGroupgips/shorts" target="_blank">
-                                <h4 className={styles.contact__link}>Ютуб</h4>
+                                <YoutubeSvg />
                             </Link>
                         </div>
                         <p className={styles.info__subtitle}>Присоединяйтесь к нам в социальных сетях</p>
