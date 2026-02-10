@@ -85,7 +85,7 @@ export default function ProductsFilter(props: Props){
                 <div className={styles.filter__container}>
                     <button onClick={()=>setIsOpen(true)} className={`${styles.filter__wrraper}`}>
                         <h3 className={styles.filter__text}>
-                            Фильтр
+                            Фильтры
                         </h3>
                         <FilterSvg/>
                     </button>
@@ -194,7 +194,7 @@ export default function ProductsFilter(props: Props){
                 <button onClick={()=>setIsOpen(false)} className={styles.modal__close}>
                     <CloseSvg/>
                 </button>
-                <h2 className={styles.modal__title}>Фильтр</h2>
+                <h2 className={styles.modal__title}>Фильтры</h2>
                 {
                             filters.map((value, index) => {
                                 return <FilterComponent

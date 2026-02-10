@@ -254,7 +254,7 @@ export default function Dashboard() {
                 {
                   <UserSvg
                     className={styles.user__icon}
-                    // fill={pathname.startsWith("/lk")}
+                    fill={pathname.startsWith("/lk") ? "#21a038" : undefined}
                   />
                 }
                 <h2 className={styles.user__text}>Кабинет</h2>
@@ -278,7 +278,7 @@ export default function Dashboard() {
               >
                 <BasketSvg
                   className={styles.dashboar__bascet_icon}
-                  fill={pathname.startsWith("/basket")}
+                  fill={pathname.startsWith("/basket") ? "#21a038" : undefined}
                 />
                 <div className={styles.dashboar__basket_container}>
                   <h2 className={styles.dashboar__bascet_text}>Корзина</h2>

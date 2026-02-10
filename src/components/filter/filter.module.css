@@ -41,6 +41,18 @@
   min-width: 200px;
   justify-content: center;
   background-color: #fff;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  color: #000;
+}
+
+.filter__wrraper:hover {
+  background-color: rgba(33, 160, 56, 1);
+  color: #fff;
+}
+
+.filter__wrraper:hover .filter_button {
+  filter: brightness(0) invert(1);
 }
 
 .filter__text {
@@ -49,6 +61,8 @@
   font-weight: 500;
   line-height: 20px;
   font-family: "Montserrat";
+  color: inherit;
+  transition: color 0.2s ease-in-out;
 }
 
 .filter__info_wrraper {
@@ -273,13 +287,14 @@
   position: absolute;
   width: 263px;
   border-radius: 4px;
-  padding: 10px;
+  padding: 0;
   box-sizing: border-box;
   top: 50px;
   right: 0;
   background-color: #fff;
   z-index: 100;
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.07);
+  overflow: hidden;
 }
 
 .sorted_container_botton {
@@ -289,13 +304,22 @@
   font-weight: 400;
   line-height: 18px;
   font-family: "Roboto";
-  margin-bottom: 2px;
-  padding: 10px 0;
+  padding: 15px 20px;
+  transition: all 0.2s ease-in-out;
+  color: #000;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sorted_container_botton:hover {
+  background-color: #1fa038;
+  color: #fff;
 }
 
 .sorted_container_botton_active {
   color: #1fa038;
   font-weight: bold;
+  background-color: rgba(33, 160, 56, 0.05);
 }
 
 .sorted_container_botton:last-of-type {
