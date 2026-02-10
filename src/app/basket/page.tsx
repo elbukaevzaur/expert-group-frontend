@@ -92,18 +92,20 @@ export default function Basket() {
                                         />
                                 }
                                 <div className={styles.item_container}>
-                                <button className={styleText.join(" ")} onClick={() => handleToProductDetails(orderItemsDetails[value.productId])}>
-                                    <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
-                                    <div className={styles.item__summ} onClick={(e) => e.stopPropagation()} >
-                                    <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toLocaleString()} &#8381;</h3>
-                                        <div className={styles.item__display_mobile}>
-                                            <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
+                                    <div className={styles.item_text_link}>
+                                        <button className="product_details_link_button" onClick={() => handleToProductDetails(orderItemsDetails[value.productId])}>
+                                            <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
+                                        </button>
+                                        <div className={styles.item__summ}>
+                                            <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toLocaleString()} &#8381;</h3>
+                                            <div className={styles.item__display_mobile}>
+                                                <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
+                                            </div>
                                         </div>
                                     </div>
-                                </button>
-                                <div className={styles.item__display}>
-                                    <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
-                                </div>
+                                    <div className={styles.item__display}>
+                                        <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
+                                    </div>
                                     <RemoveItemBasket productId={value.productId.toString()}/>
                                 </div>
                             </div>

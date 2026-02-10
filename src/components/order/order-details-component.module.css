@@ -94,11 +94,9 @@
 }
 
 .item_image {
-  background-color: rgba(246, 246, 246, 1);
   width: 200px;
   height: 150px;
   object-fit: contain;
-  border-radius: 4px;
 }
 
 @media (max-width: 600px) {

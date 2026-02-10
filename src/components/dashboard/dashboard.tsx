@@ -328,11 +328,13 @@ export default function Dashboard() {
                 </div>
               </div>
             </div>
-            {isShowPreviewBasket && (
-              <PreviewBasketModal
-                onClose={() => setIsShowPreviewBasket(false)}
-              />
-            )}
+            <AnimatePresence>
+              {isShowPreviewBasket && (
+                <PreviewBasketModal
+                  onClose={() => setIsShowPreviewBasket(false)}
+                />
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
