@@ -9,7 +9,7 @@ export enum OrderStatusEnum {
 }
 
 export interface OrderItems {
-    productId: number,
+    productId: number | string,
     quantity: number
 }
 

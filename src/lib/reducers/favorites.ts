@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface FavoriteState {
-    allFavorites: { [key: number]: number };
+    allFavorites: { [key: string | number]: any };
 }
 
 const initialState: FavoriteState = {

@@ -14,6 +14,8 @@ interface SearchProducts {
     slug: string
     price: number
     defaultImage: string
+    currentQuantity: number
+    allowOrderWithoutStock: boolean
     category: {
         id: number
         name: string

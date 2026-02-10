@@ -1,5 +1,5 @@
 export interface Products {
-    id: number,
+    id: number | string,
     name: string,
     slug: string,
     price: number,

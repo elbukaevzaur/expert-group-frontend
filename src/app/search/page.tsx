@@ -36,9 +36,11 @@ function SearchContent() {
             // Преобразуем данные из Elasticsearch для совместимости с ProductsListItemComponent
             const mappedProducts = resp.data.products.map((p: any) => ({
                 ...p,
-                id: Number(p.id),
+                id: p.id, // Сохраняем оригинальный ID (может быть UUID строкой)
                 categoryId: p.category.id,
-                parentCategoryId: p.category.parentId
+                parentCategoryId: p.category.parentId,
+                currentQuantity: p.currentQuantity || 0,
+                allowOrderWithoutStock: p.allowOrderWithoutStock ?? true
             }))
             setResults({ products: mappedProducts, totalHits: resp.data.totalHits })
         } catch (error) {
@@ -48,8 +50,9 @@ function SearchContent() {
         }
     }
 
-    function findBasketItemByProductId(productId: number): OrderItems | null {
-        const index = orderItems.map(m => m.productId).indexOf(productId);
+    function findBasketItemByProductId(productId: any): OrderItems | null {
+        // Сравниваем ID как строки для поддержки UUID
+        const index = orderItems.findIndex(m => String(m.productId) === String(productId));
         if (index === -1) {
             return null;
         }

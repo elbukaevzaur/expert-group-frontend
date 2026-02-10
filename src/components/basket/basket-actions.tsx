@@ -7,7 +7,7 @@ import styles from "./basket-actions.module.css"
 
 interface CartProps {
     orderItem: OrderItems | null;
-    productId: number;
+    productId: number | string;
     productQuantity: number;
     allowOrderWithoutStock?: boolean;
 }

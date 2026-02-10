@@ -1,7 +1,7 @@
 export interface ChangeFavoriteRequest {
-    productId: number,
+    productId: number | string,
 }
 
 export interface FavoritesResponse {
-    productId: number,
+    productId: number | string,
 }

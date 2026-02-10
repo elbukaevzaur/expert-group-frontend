@@ -5,7 +5,7 @@ import {OrderItems} from "@/lib/models";
 export const useCartActions = () => {
     const dispatch = useDispatch();
 
-    const handleAddItem = (orderItem: OrderItems | null, productId: number, productQuantity: number, allowOrderWithoutStock?: boolean) => {
+    const handleAddItem = (orderItem: OrderItems | null, productId: number | string, productQuantity: number, allowOrderWithoutStock?: boolean) => {
         // Разрешаем добавление, если товар есть в наличии или разрешен заказ без наличия
         const canAdd = productQuantity > 0 || allowOrderWithoutStock === true;
         
