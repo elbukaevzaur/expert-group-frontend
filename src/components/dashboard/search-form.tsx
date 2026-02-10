@@ -5,6 +5,7 @@ import {getProductsFullTextSearch} from "@/lib/http/productsRequest";
 import React, {useState, useEffect, useCallback} from "react";
 import {CloseSvg, SearchSvg} from "@/lib/icon-svg";
 import {motion} from "framer-motion";
+import {useSearchParams, useRouter, usePathname} from "next/navigation";
 
 interface SearchProducts {
     id: string
@@ -28,14 +29,22 @@ interface SearchResult {
 }
 
 export default function SearchForm() {
-    const [searchText, setSearchText] = useState("");
+    const searchParams = useSearchParams();
+    const router = useRouter();
+    const pathname = usePathname();
+    const query = searchParams.get('query') || "";
+    const [searchText, setSearchText] = useState(query);
     const [searchResult, setSearchResult] = useState<SearchResult>({totalHits: 0, products: []});
     const [isFocused, setIsFocused] = useState<boolean>(false);
     const [isFocusedMobile, setIsFocusedMobile] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    useEffect(() => {
+        setSearchText(query);
+    }, [query]);
+
     const handleFullTextSearch = useCallback((text: string) => {
-        if (!text.trim()) {
+        if (!text.trim() || pathname === '/search') {
             setSearchResult({totalHits: 0, products: []});
             return;
         }
@@ -45,33 +54,46 @@ export default function SearchForm() {
         }).finally(() => {
             setIsLoading(false);
         });
-    }, []);
+    }, [pathname]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            if (searchText) {
-                handleFullTextSearch(searchText);
+            if (pathname === '/search') {
+                if (searchText !== query) {
+                    router.push(searchText ? `/search?query=${encodeURIComponent(searchText)}` : '/search', { scroll: false });
+                }
             } else {
-                setSearchResult({totalHits: 0, products: []});
+                if (searchText) {
+                    handleFullTextSearch(searchText);
+                } else {
+                    setSearchResult({totalHits: 0, products: []});
+                }
             }
         }, 300);
 
         return () => clearTimeout(timer);
-    }, [searchText, handleFullTextSearch]);
+    }, [searchText, handleFullTextSearch, pathname, router, query]);
 
-    function handleSelectProduct(name: string) {
-        setSearchText("")
-        setIsShowMobileSearch(false)
+    const handleSelectProduct = (item: SearchProducts) => {
+        setSearchText("");
+        setIsShowMobileSearch(false);
+    }
+
+    const getProductUrl = (item: SearchProducts) => {
+        const categoryPath = item.category.parentSlug 
+            ? `${item.category.parentSlug}/${item.category.slug}`
+            : item.category.slug;
+        return `/catalog/${categoryPath}/product-${item.slug}`;
     }
 
     const [isShowMobileSearch, setIsShowMobileSearch] = useState(false)
 
     const isShowSearchResult = (): boolean => {
-        return !!(isFocused && searchText.length > 0 && searchResult.totalHits);
+        return !!(isFocused && searchText.length > 0 && pathname !== '/search');
     }
 
     const isShowMobileSearchResult = (): boolean => {
-        return !!(isFocusedMobile && searchText.length > 0 && searchResult.totalHits);
+        return !!(isFocusedMobile && searchText.length > 0 && pathname !== '/search');
     }
 
     return<>
@@ -118,34 +140,40 @@ export default function SearchForm() {
                     style={{marginTop: 0}}
                 >
                     <div className={styles.suggestions_list_container}>
-                        {/*<span>Total results: {searchResult.totalHits}</span>*/}
+                        {isLoading && <div className={styles.loading_text}>Загрузка...</div>}
+                        {!isLoading && searchResult.products.length === 0 && (
+                            <div className={styles.no_results}>Ничего не найдено</div>
+                        )}
                         {searchResult.products.map((item, index) => {
                             return <Link
-                                href={`/catalog/${item.category.slug}/${item.category.parentSlug}/details/${item.slug}`}
+                                href={getProductUrl(item)}
                                 key={index}
                                 className={styles.suggestion_item}
-                                onClick={() => handleSelectProduct(item.name)}
+                                onClick={() => handleSelectProduct(item)}
                             >
                                 <div className={styles.suggestion_item_image_container}>
                                     <Image className={styles.suggestion_item_image}
-                                           src={item.defaultImage || '/images/Subcatalog__2.png'}
+                                           src={item.defaultImage ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=small_${item.defaultImage}` : '/images/Subcatalog__2.png'}
                                            layout="fill" objectFit="contain" alt="search image"/>
                                 </div>
                                 <div style={{width: 10}}/>
                                 <div className={styles.suggestion_text_container}>
                                     <div className={styles.suggestion_name_price}>
-                                        <HighlightText text={`${item.name}`} query={searchText}/>
+                                        <HighlightText text={item.name} query={searchText}/>
                                         {item.price && <span className={styles.suggestion_price}>{item.price} ₽</span>}
                                     </div>
-                                    <HighlightText fontSize={13} text={`${item.description || ''}`} query={searchText}/>
-                                    <HighlightText fontSize={13} text={`${item.category.name}`} query={searchText}/>
+                                    <div className={styles.suggestion_category}>
+                                        <HighlightText fontSize={12} text={item.category.name} query={searchText}/>
+                                    </div>
                                 </div>
                             </Link>
                         })}
                     </div>
-                    <Link href={`/search?query=${searchText}`} className={styles.search__button_stick_link}>
-                        <button className={styles.search__button_stick}>Все результаты ({searchResult.totalHits})</button>
-                    </Link>
+                    {searchResult.totalHits > 0 && (
+                        <Link href={`/search?query=${searchText}`} className={styles.search__button_stick_link}>
+                            <button className={styles.search__button_stick}>Все результаты ({searchResult.totalHits})</button>
+                        </Link>
+                    )}
                 </motion.div>
             </motion.div>
             <input
@@ -158,6 +186,20 @@ export default function SearchForm() {
                 onBlur={() => setTimeout(() => setIsFocused(false), 200)} // Даем время на клик
 
             />
+            {searchText && (
+                <div
+                    className={styles.search_clear}
+                    onClick={() => {
+                        setSearchText("");
+                        setSearchResult({totalHits: 0, products: []});
+                        if (pathname === '/search') {
+                            router.push('/search');
+                        }
+                    }}
+                >
+                    <CloseSvg width={18} height={18} color="#888" />
+                </div>
+            )}
             <Link href={`/search?query=${searchText}`} className={styles.search__button}>
                 <SearchSvg color='#fff' width='24' height='24' />Найти</Link>
             <motion.div
@@ -167,36 +209,39 @@ export default function SearchForm() {
             >
                 <div className={styles.suggestions_list_container}>
                     {isLoading && <div className={styles.loading_text}>Загрузка...</div>}
-                    {!isLoading && searchResult.products.length === 0 && searchText && (
+                    {!isLoading && searchResult.products.length === 0 && (
                         <div className={styles.no_results}>Ничего не найдено</div>
                     )}
                     {searchResult.products.map((item, index) => {
                         return <Link
-                            href={`/catalog/${item.category.slug}/${item.category.parentSlug}/details/${item.slug}`}
+                            href={getProductUrl(item)}
                             key={index}
                             className={styles.suggestion_item}
-                            onClick={() => handleSelectProduct(item.name)}
+                            onClick={() => handleSelectProduct(item)}
                         >
                             <div className={styles.suggestion_item_image_container}>
                                 <Image className={styles.suggestion_item_image}
-                                       src={item.defaultImage || '/images/Subcatalog__2.png'}
+                                       src={item.defaultImage ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=small_${item.defaultImage}` : '/images/Subcatalog__2.png'}
                                        layout="fill" objectFit="contain" alt="search image"/>
                             </div>
                             <div style={{width: 10}}/>
                             <div className={styles.suggestion_text_container}>
                                 <div className={styles.suggestion_name_price}>
-                                    <HighlightText text={`${item.name}`} query={searchText}/>
+                                    <HighlightText text={item.name} query={searchText}/>
                                     {item.price && <span className={styles.suggestion_price}>{item.price} ₽</span>}
                                 </div>
-                                <HighlightText fontSize={13} text={`${item.description || ''}`} query={searchText}/>
-                                <HighlightText fontSize={13} text={`${item.category.name}`} query={searchText}/>
+                                <div className={styles.suggestion_category}>
+                                    <HighlightText fontSize={12} text={item.category.name} query={searchText}/>
+                                </div>
                             </div>
                         </Link>
                     })}
                 </div>
-                <Link href={`/search?query=${searchText}`} className={styles.search__button_stick_link}>
-                    <button className={styles.search__button_stick}>Все результаты ({searchResult.totalHits})</button>
-                </Link>
+                {searchResult.totalHits > 0 && (
+                    <Link href={`/search?query=${searchText}`} className={styles.search__button_stick_link}>
+                        <button className={styles.search__button_stick}>Все результаты ({searchResult.totalHits})</button>
+                    </Link>
+                )}
             </motion.div>
         </div>
     </>

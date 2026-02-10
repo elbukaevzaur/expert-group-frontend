@@ -1,6 +1,5 @@
 'use client'
 
-import { SearchSvg } from '@/lib/icon-svg'
 import styles from './search.module.css'
 import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
@@ -14,7 +13,6 @@ import ProductsPagination from '@/components/catalog/products-pagination-compone
 function SearchContent() {
     const searchParams = useSearchParams()
     const query = searchParams.get('query') || ''
-    const [searchText, setSearchText] = useState(query)
     const [results, setResults] = useState<{ products: Products[], totalHits: number }>({ products: [], totalHits: 0 })
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
@@ -26,6 +24,8 @@ function SearchContent() {
     useEffect(() => {
         if (query) {
             handleSearch(query, page)
+        } else {
+            setResults({ products: [], totalHits: 0 })
         }
     }, [query, page])
 
@@ -33,12 +33,14 @@ function SearchContent() {
         setLoading(true)
         try {
             const resp = await getProductsFullTextSearch(q, p - 1, perPage)
-            // Преобразуем id из string в number для совместимости с компонентами
-            const productsWithNumberId = resp.data.products.map((p: any) => ({
+            // Преобразуем данные из Elasticsearch для совместимости с ProductsListItemComponent
+            const mappedProducts = resp.data.products.map((p: any) => ({
                 ...p,
-                id: Number(p.id)
+                id: Number(p.id),
+                categoryId: p.category.id,
+                parentCategoryId: p.category.parentId
             }))
-            setResults({ products: productsWithNumberId, totalHits: resp.data.totalHits })
+            setResults({ products: mappedProducts, totalHits: resp.data.totalHits })
         } catch (error) {
             console.error('Search error:', error)
         } finally {
@@ -56,23 +58,11 @@ function SearchContent() {
 
     return (
         <div className={styles.page}>
-            <h2 className={styles.title}>Поиск: {query}</h2>
-            <div className={styles.wrapper}>
-                <form className={styles.search} onSubmit={(e) => {
-                    e.preventDefault()
-                    window.location.href = `/search?query=${searchText}`
-                }}>
-                    <input 
-                        type="search" 
-                        className={styles.search__input} 
-                        placeholder='Поиск товаров...' 
-                        value={searchText}
-                        onChange={(e) => setSearchText(e.target.value)}
-                    />
-                    <button type="submit" style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-                        <SearchSvg width={24} height={24} color='rgba(39, 35, 35, 1)' />
-                    </button>
-                </form>
+            <div className={styles.header}>
+                <h2 className={styles.title}>{query}</h2>
+                {!loading && results.totalHits > 0 && (
+                    <span className={styles.count}>Найдено: {results.totalHits}</span>
+                )}
             </div>
             
             {loading ? (

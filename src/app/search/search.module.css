@@ -17,47 +17,25 @@
   line-height: 34px;
 }
 
-.wrapper {
-  width: 100%;
+.header {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 20px;
+  align-items: baseline;
+  gap: 20px;
+  margin-bottom: 10px;
 }
 
-@media (max-width: 1000px) {
-    .wrapper {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-}
-.search {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--prime, rgba(33, 160, 56, 1));
-  width: 438px;
-  padding-bottom: 10px;
-}
-
-@media (max-width: 1000px) {
-    .search {
-        width: 100%;
-    }
-}
-
-.search__input {
-  width: 100%;
-  border: none;
-  color: rgba(39, 35, 35, 1);
-  font-family: Montserrat;
-  font-style: Medium;
-  font-size: 14px;
+.count {
+  font-family: "Montserrat";
+  font-size: 16px;
+  color: #888;
   font-weight: 500;
-  line-height: 17px;
 }
 
-.search__input:focus {
-  outline: none;
+@media (max-width: 600px) {
+  .header {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 .grid {
