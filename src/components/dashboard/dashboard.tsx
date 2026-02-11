@@ -49,6 +49,27 @@ export default function Dashboard() {
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
   const { selectedCity } = useAppSelector((state) => state.app);
   const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const cityDropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const handleClickOutsideCity = (event: MouseEvent) => {
+    if (
+      cityDropdownRef.current &&
+      !cityDropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsCityDropdownOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isCityDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutsideCity);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideCity);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideCity);
+    };
+  }, [isCityDropdownOpen]);
 
   const cities = ["Грозный", "Москва", "Санкт-Петербург", "Пятигорск"];
 
@@ -223,6 +244,7 @@ export default function Dashboard() {
             </div>
             <div className={styles.wrapper}>
               <div
+                ref={cityDropdownRef}
                 className={styles.location}
                 onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
               >
