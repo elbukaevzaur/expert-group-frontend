@@ -42,12 +42,6 @@ export default function LkDashboard() {
         icon: <PersonalDataSVG />,
       };
     }
-    if (containCurrentPage("/lk/change-password")) {
-      return {
-        name: "Сменить пароль",
-        icon: <PasswordSVG />,
-      };
-    }
     if (containCurrentPage("/lk/orders-history")) {
       return {
         name: "История заказов",
@@ -98,18 +92,6 @@ export default function LkDashboard() {
                 <UserSvg />
               </div>
               Личные данные
-            </li>
-          </Link>
-          <Link href={"/lk/change-password"}>
-            <li
-              className={`${styles.lk_dashboard__button} ${
-                containCurrentPage("/lk/change-password") && styles.active
-              }`}
-            >
-              <div className={styles.lk_dashboard__icon}>
-                <PasswordSVG />
-              </div>
-              Сменить пароль
             </li>
           </Link>
           <Link href={"/lk/orders-history"}>

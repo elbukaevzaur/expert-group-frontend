@@ -90,7 +90,22 @@ async function handleRequest(request) {
         if (!response.ok) {
             const errorText = await response.text();
             console.error(`External API error: ${response.status} - ${errorText}`);
-            return new NextResponse(errorText, { status: response.status });
+            
+            const responseHeaders = new Headers();
+            const contentType = response.headers.get('content-type') || 'application/json';
+            responseHeaders.set('Content-Type', contentType);
+            responseHeaders.set('Access-Control-Allow-Origin', '*');
+
+            let finalBody = errorText;
+            // Если текст пустой, но статус 400, создаем тело ошибки вручную
+            if (!errorText && response.status === 400) {
+                finalBody = JSON.stringify({ message: "Неверный запрос или данные" });
+            }
+
+            return new NextResponse(finalBody, { 
+                status: response.status,
+                headers: responseHeaders
+            });
         }
 
         if (response.status === 204 || response.status === 205) {
