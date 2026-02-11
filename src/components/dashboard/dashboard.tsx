@@ -5,7 +5,7 @@ import Image from "next/image";
 import { CatalogModal } from "../catalog/catalogModal";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import NavigationHistory from "@/components/dashboard/navigation-history";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import {
   INITIAL_TOKEN,
   PROJECTS_CATEGORIES_FETCH_REQUESTED,
@@ -34,6 +34,15 @@ import SearchForm from "@/components/dashboard/search-form";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingCircle from "@/components/loading/loading-circle";
 import { ArrowLeft } from "lucide-react";
+
+const containCurrentPage = (pathname: string, path: string): boolean => {
+  return pathname.startsWith(path);
+};
+
+const isAboutCompanyActive = (pathname: string): boolean => {
+  const aboutPaths = ["/about-us", "/vacancy", "/certificate", "/politics", "/requisites"];
+  return aboutPaths.some(path => pathname.startsWith(path));
+};
 
 export default function Dashboard() {
   const { orderItems } = useAppSelector((state) => state.basket);
@@ -95,15 +104,6 @@ export default function Dashboard() {
     setIsLoginVisible(!isLoginVisible);
   };
 
-  const containCurrentPage = (path: string): boolean => {
-    return pathname.startsWith(path);
-  };
-
-  const isAboutCompanyActive = (): boolean => {
-    const aboutPaths = ["/about-us", "/vacancy", "/certificate", "/politics", "/requisites"];
-    return aboutPaths.some(path => pathname.startsWith(path));
-  };
-
   return (
     <header className={styles.header}>
       <div className={styles.dashboar_wrapper}>
@@ -134,11 +134,11 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}
               >
-                <MenuSvg width={24} height={24} fill={containCurrentPage("/catalog") ? "#21a038" : undefined} />
+                <MenuSvg width={24} height={24} fill={containCurrentPage(pathname, "/catalog") ? "#21a038" : undefined} />
                 <Link href="/catalog">
-                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/catalog") ? styles.navigator__text_active : ""}`}>Каталог</h3>
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage(pathname, "/catalog") ? styles.navigator__text_active : ""}`}>Каталог</h3>
                 </Link>
-                <VectorSvg color={containCurrentPage("/catalog") ? "#21a038" : undefined} />
+                <VectorSvg color={containCurrentPage(pathname, "/catalog") ? "#21a038" : undefined} />
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
                   <div className={styles.dropdown_catalog_wrapper}>
@@ -153,8 +153,8 @@ export default function Dashboard() {
               >
                 
                 <Link className={styles.link} href={"/about-us"}>
-                  <h3 className={`${styles.navigator__text} ${isAboutCompanyActive() ? styles.navigator__text_active : ""}`}>О Компании</h3>
-                  <VectorSvg color={isAboutCompanyActive() ? "#21a038" : undefined} />
+                  <h3 className={`${styles.navigator__text} ${isAboutCompanyActive(pathname) ? styles.navigator__text_active : ""}`}>О Компании</h3>
+                  <VectorSvg color={isAboutCompanyActive(pathname) ? "#21a038" : undefined} />
                 </Link>
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
@@ -206,8 +206,8 @@ export default function Dashboard() {
                 }`}
               >
                 <Link className={styles.link} href={"/projects"}>
-                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/projects") ? styles.navigator__text_active : ""}`}>Проекты</h3>
-                  <VectorSvg color={containCurrentPage("/projects") ? "#21a038" : undefined} />
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage(pathname, "/projects") ? styles.navigator__text_active : ""}`}>Проекты</h3>
+                  <VectorSvg color={containCurrentPage(pathname, "/projects") ? "#21a038" : undefined} />
                 </Link>
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
@@ -238,7 +238,7 @@ export default function Dashboard() {
                 }`}
               >
                 <Link className={styles.link} href={"/contacts"}>
-                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/contacts") ? styles.navigator__text_active : ""}`}>Контакты</h3>
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage(pathname, "/contacts") ? styles.navigator__text_active : ""}`}>Контакты</h3>
                 </Link>
               </div>
             </div>
@@ -290,7 +290,9 @@ export default function Dashboard() {
           </button>
         </div>
         <div className={styles.search__wrapper}>
-          <SearchForm />
+          <Suspense fallback={<div className={styles.search_form_placeholder} />}>
+            <SearchForm />
+          </Suspense>
           <div className={styles.icons}>
             {isAuthLoading ? (
               <div className={styles.user}>
@@ -486,21 +488,21 @@ export function Burger({
             <h4 className={`${styles.burger_text} ${pathname.startsWith("/basket") ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h4>
           </Link>
           <Link
-            className={`${styles.burger_link} ${containCurrentPage("/catalog") ? styles.navigator__text_active : ""}`}
+            className={`${styles.burger_link} ${containCurrentPage(pathname, "/catalog") ? styles.navigator__text_active : ""}`}
             href="/catalog"
             onClick={handleIsClose}
           >
             Каталог
           </Link>
           <Link
-            className={`${styles.burger_link} ${isAboutCompanyActive() ? styles.navigator__text_active : ""}`}
+            className={`${styles.burger_link} ${isAboutCompanyActive(pathname) ? styles.navigator__text_active : ""}`}
             href="/about-us"
             onClick={handleIsClose}
           >
             О компании
           </Link>
           <Link
-            className={`${styles.burger_link} ${containCurrentPage("/projects") ? styles.navigator__text_active : ""}`}
+            className={`${styles.burger_link} ${containCurrentPage(pathname, "/projects") ? styles.navigator__text_active : ""}`}
             href="/projects"
             onClick={handleIsClose}
           >
@@ -521,7 +523,7 @@ export function Burger({
             Галерея
           </Link> */}
           <Link
-            className={`${styles.burger_link} ${containCurrentPage("/contacts") ? styles.navigator__text_active : ""}`}
+            className={`${styles.burger_link} ${containCurrentPage(pathname, "/contacts") ? styles.navigator__text_active : ""}`}
             href="/contacts"
             onClick={handleIsClose}
           >

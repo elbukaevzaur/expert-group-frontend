@@ -19,7 +19,7 @@ const orders = createSlice({
     name: 'orders',
     initialState,
     reducers: {
-        CREATE_ORDER_REQUEST: () => {},
+        CREATE_ORDER_REQUEST: (state, action) => {},
         CREATE_ORDER_RESPONSE_SUCCESS: (state, action) => {
             state.lastCreatedOrder = action.payload;
         },

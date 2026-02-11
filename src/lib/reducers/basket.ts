@@ -3,12 +3,12 @@ import {OrderItems, OrderItemsDetails} from '@/lib/models';
 
 interface BasketState {
     orderItems: OrderItems[];
-    orderItemsDetails: OrderItemsDetails[];
+    orderItemsDetails: Record<number | string, OrderItemsDetails>;
 }
 
 const initialState: BasketState = {
     orderItems: [],
-    orderItemsDetails: []
+    orderItemsDetails: {}
 };
 
 const basket = createSlice({

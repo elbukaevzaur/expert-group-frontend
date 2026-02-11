@@ -84,7 +84,7 @@ export default function Basket() {
                                 <ListNotContent text="Ваша корзина пуста"/>
                             }
                             {
-                                orderItems.length === 0 || orderItemsDetails.length === 0 &&
+                                orderItems.length === 0 || Object.keys(orderItemsDetails).length === 0 &&
                                 <div style={{paddingTop: '25px', paddingBottom: '25px'}}>
                                     <Link href={'/catalog'}><h4 style={{color: '#1fa038'}}>Перейти в каталог товаров</h4></Link>
                                 </div>

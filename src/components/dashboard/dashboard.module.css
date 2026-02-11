@@ -448,6 +448,12 @@
   }
 }
 
+.search_form_placeholder {
+  height: 46px;
+  flex: 1;
+  max-width: 700px;
+}
+
 .user {
   display: flex;
   cursor: pointer;

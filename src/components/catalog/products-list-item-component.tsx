@@ -12,7 +12,7 @@ import {AxiosResponse} from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface ProductsProps {
-    key: number,
+    key: number | string,
     product: Products,
     basketItem: OrderItems | null,
     isFavorite: boolean
