@@ -106,7 +106,11 @@ export default function Home() {
 
     const loadShorts = () => {
         getPopularShorts().then((resp) => {
-            setPopularShorts(resp.data)
+            if (resp.data && Array.isArray(resp.data)) {
+                setPopularShorts(resp.data);
+            }
+        }).catch(err => {
+            console.error("Failed to load shorts:", err);
         })
     }
 
@@ -131,21 +135,26 @@ export default function Home() {
             <SliderComponent slides={slidesData}/>
         </div>
         <div className={styles.wrapper}>
-        <h2 className={styles.title}>Cторисы</h2>
-        <div className={styles.videos}>
-            {
-                popularShorts.map((item, index) => {
-                    return <VideoPreview key={index}
-                                         posterSrc={item.previewImageName}
-                                         title={item.name}
-                                         onShowVideo={() => {
-                                            setSelectedShort(item);
-                                            setIsShowVideo(true);
-                                         }}
-                    />
-                })
-            }
-        </div>
+        {popularShorts.length > 0 && (
+            <>
+                <h2 className={styles.title}>Сторисы</h2>
+                <div className={styles.videos}>
+                    {
+                        popularShorts.map((item, index) => {
+                            return <VideoPreview key={index}
+                                                 posterSrc={item.previewImageName}
+                                                 title={item.name}
+                                                 projectName={item.project?.name}
+                                                 onShowVideo={() => {
+                                                    setSelectedShort(item);
+                                                    setIsShowVideo(true);
+                                                 }}
+                            />
+                        })
+                    }
+                </div>
+            </>
+        )}
         
         <h2 className={styles.title}>Наши проекты</h2>
         <Link  href={"/projects"} className={styles.subtitle}>Смотреть все <ArrowNewSvg/></Link>
@@ -190,12 +199,11 @@ export default function Home() {
         }
 
         {
-            isShowVideo &&
+            isShowVideo && selectedShort?.fileName &&
             <VideoShowModal
-                src={`/api/proxy/shorts/video/${selectedShort.fileName}`}
-                projectLink={`https://proeg.ru/projects/${selectedShort.project.projectCategoryId}/details/${selectedShort.projectId}`}
+                shorts={popularShorts}
+                initialIndex={popularShorts.findIndex(s => s.id === selectedShort.id)}
                 isShow={isShowVideo}
-                description={selectedShort.description}
                 handleOnClose={() => {
                     setIsShowVideo(false);
                     setSelectedShort({} as Shorts)

@@ -1,7 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import PlaySvgComponent from "@/lib/icon-svg/media"; // Убедитесь, что пути к SVG-компонентам верны
-import {CloseSvg} from "@/lib/icon-svg";
+import {CloseSvg, ArrowLeftSvg, ArrowRightSvg} from "@/lib/icon-svg";
 import {motion, AnimatePresence} from "framer-motion";
+
+import { Shorts } from "@/lib/models/shorts";
 
 // --- VideoPlayer Component ---
 interface VideoPlayerProps {
@@ -22,7 +24,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
     return (
         <video
             ref={videoRef}
-            poster={poster || "/images/image-poster.jpeg"}
+            poster={poster ? `/api/proxy/images/get/product?name=${poster}` : "/images/image-poster.jpeg"}
             autoPlay={true}
             controls
             // muted
@@ -42,27 +44,35 @@ interface VideoPreviewProps {
     onShowVideo: () => void;
     posterSrc?: string; // Добавим пропс для постера
     title?: string; // Добавим заголовок для превью
+    projectName?: string; // Добавим название проекта
 }
 
-export const VideoPreview: React.FC<VideoPreviewProps> = ({ onShowVideo, posterSrc, title = "Видео" }) => {
+export const VideoPreview: React.FC<VideoPreviewProps> = ({ onShowVideo, posterSrc, title = "Видео", projectName }) => {
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
+    
     return (
-        <div className="video-preview-item" onClick={onShowVideo}> {/* Клик по всей области */}
-            <div className="video-preview-image-wrapper">
-                <img
-                    src={posterSrc ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'' + posterSrc}` : '/images/image-poster.jpeg'}
-                    alt={`Превью ${title}`}
-                    className="video-preview-poster"
-                />
-                <div className="video-preview-overlay">
-                    {/* <button
-                        className="video-preview-play-button"
-                        aria-label={`Начать воспроизведение ${title}`}
-                    >
-                        <PlaySvgComponent/>
-                    </button> */}
+        <div className="video-preview-wrapper" onClick={onShowVideo}>
+            <div className="video-preview-item">
+                <div className="video-preview-image-wrapper">
+                    <img
+                        src={posterSrc ? `/api/proxy/images/get/product?name=${posterSrc}` : '/images/image-poster.jpeg'}
+                        alt={`Превью ${title}`}
+                        className="video-preview-poster"
+                        onError={(e) => {
+                            if (posterSrc && !e.currentTarget.src.includes(apiBaseUrl) && apiBaseUrl) {
+                                e.currentTarget.src = `${apiBaseUrl}/images/get/product?name=${posterSrc}`;
+                            } else {
+                                e.currentTarget.src = '/images/image-poster.jpeg';
+                            }
+                        }}
+                    />
+                    <div className="video-preview-overlay" />
                 </div>
             </div>
-            {/* <h4 className="video-preview-title">{title}</h4> */}
+            <div className="video-preview-info">
+                <h4 className="video-preview-title">{title}</h4>
+                {projectName && <span className="video-preview-project">{projectName}</span>}
+            </div>
         </div>
     );
 };
@@ -122,22 +132,46 @@ export const VideoCarousel: React.FC<VideoCarouselProps> = ({ videos, onVideoSel
 
 // --- VideoShowModal Component ---
 interface VideoShowModalProps {
-    src: string;
+    shorts: Shorts[];
+    initialIndex: number;
     isShow: boolean;
     handleOnClose: () => void;
-    poster?: string;
-    description: string
-    projectLink?: string; // Добавляем опциональный пропс для ссылки на проект
 }
 
-export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, handleOnClose, poster, projectLink, description }) => {
+export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialIndex, isShow, handleOnClose }) => {
+    const [currentIndex, setCurrentIndex] = useState(initialIndex);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    // Обработка нажатия Esc и клика вне модального окна
+    const currentShort = shorts[currentIndex];
+    const projectLink = currentShort?.project ? `https://proeg.ru/projects/${currentShort.project.projectCategoryId}/details/${currentShort.projectId}` : undefined;
+
+    const handleNext = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        if (currentIndex < shorts.length - 1) {
+            setCurrentIndex(currentIndex + 1);
+        } else {
+            setCurrentIndex(0);
+        }
+    };
+
+    const handlePrev = (e?: React.MouseEvent) => {
+        e?.stopPropagation();
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 1);
+        } else {
+            setCurrentIndex(shorts.length - 1);
+        }
+    };
+
+    // Обработка нажатия Esc, стрелок и клика вне модального окна
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 handleOnClose();
+            } else if (event.key === 'ArrowRight') {
+                handleNext();
+            } else if (event.key === 'ArrowLeft') {
+                handlePrev();
             }
         };
 
@@ -149,7 +183,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, han
 
         if (isShow) {
             document.addEventListener('keydown', handleKeyDown);
-            document.addEventListener('mousedown', handleClickOutside); // Добавляем обработчик клика
+            document.addEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = 'hidden';
         } else {
             document.removeEventListener('keydown', handleKeyDown);
@@ -161,7 +195,9 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, han
             document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = '';
         };
-    }, [isShow, handleOnClose]);
+    }, [isShow, handleOnClose, currentIndex]);
+
+    if (!currentShort) return null;
 
     return (
         <AnimatePresence>
@@ -174,16 +210,29 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, han
                     className="video-show-modal"
                     role="dialog"
                     aria-modal="true"
-                    aria-labelledby="video-modal-title"
-                    onClick={handleOnClose} // Клик по оверлею закрывает модальное окно
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) {
+                            handleOnClose();
+                        }
+                    }}
                 >
+                    <button 
+                        className="modal-nav-button prev" 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handlePrev();
+                        }} 
+                        aria-label="Предыдущее видео"
+                    >
+                        <ArrowLeftSvg />
+                    </button>
+
                     <div
                         className="modal-content-wrapper"
-                        ref={modalRef} // Привязываем ref к содержимому модального окна
-                        onClick={e => e.stopPropagation()} // Останавливаем всплытие клика, чтобы он не закрывал окно
+                        ref={modalRef}
+                        onClick={e => e.stopPropagation()}
                     >
                         <div className="modal-header-container">
-                            <h2 id="video-modal-title" className="visually-hidden">Видео</h2>
                             <button
                                 onClick={handleOnClose}
                                 className="modal-close-button"
@@ -194,23 +243,53 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ src, isShow, han
                         </div>
                         <div className="scroll-container">
                             <div className="video-container">
-                                <VideoPlayer src={src} poster={poster} />
+                                <VideoPlayer 
+                                    src={`/api/proxy/shorts/video/${currentShort.fileName}`} 
+                                    poster={currentShort.previewImageName} 
+                                />
                             </div>
                             <div className="modal-description-container">
-                                <h3>Описание видео</h3>
-                                <p>{description}</p>
-
-                                {projectLink && (
-                                    <div className="project-link-section">
-                                        <h4>Ссылка на проект:</h4>
-                                        <a href={projectLink} rel="noopener noreferrer" className="project-link">
-                                            {projectLink.replace(/^(https?:\/\/)?(www\.)?/,'').split('/')[0]}
-                                        </a>
+                                <div className="modal-description-header">
+                                    <div>
+                                        <h3 id="video-modal-title">{currentShort.name}</h3>
+                                        {currentShort.project && (
+                                            <span className="modal-project-badge">{currentShort.project.name}</span>
+                                        )}
                                     </div>
-                                )}
+                                    <button
+                                        onClick={handleOnClose}
+                                        className="modal-close-button-inner"
+                                        aria-label="Закрыть"
+                                    >
+                                        <CloseSvg stroke="white" />
+                                    </button>
+                                </div>
+                                <div className="modal-description-content">
+                                    <p>{currentShort.description}</p>
+
+                                    {projectLink && (
+                                        <div className="project-link-section">
+                                            <h4>Ссылка на проект:</h4>
+                                            <a href={projectLink} rel="noopener noreferrer" className="project-link">
+                                                Перейти к проекту
+                                            </a>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
+
+                    <button 
+                        className="modal-nav-button next" 
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleNext();
+                        }} 
+                        aria-label="Следующее видео"
+                    >
+                        <ArrowRightSvg />
+                    </button>
                 </motion.div>
             )}
         </AnimatePresence>
