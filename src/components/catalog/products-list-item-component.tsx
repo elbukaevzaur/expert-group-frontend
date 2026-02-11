@@ -59,13 +59,10 @@ export function ProductsListItemComponent(props: ProductsProps) {
             <button className={styles.button} onClick={() => handleToProductDetails()}>
                 {
                     product.defaultImage == null ?
-                        // <Image className={styles.image} src={'/images/image.png'} alt="Карниз" width={295} height={149} />
                         ''
                         :
-                        <Image
+                        <img
                             className={styles.image}
-                            width={295}
-                            height={149}
                             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + product.defaultImage}`}
                             alt={product.name}
                         />

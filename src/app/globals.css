@@ -281,7 +281,6 @@ a {
 .subcatalog__item {
   max-width: 440px;
   height: 280px;
-  border-radius: 4px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -422,7 +421,6 @@ a {
 
 /* --- Стили для VideoPlayer --- */
 .video-player-element {
-  border-radius: 8px; /* Применяем border-radius здесь */
   background-color: black; /* Для случаев, когда видео не загружено */
 }
 
