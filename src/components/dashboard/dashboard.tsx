@@ -75,8 +75,12 @@ export default function Dashboard() {
   };
 
   const containCurrentPage = (path: string): boolean => {
-    containCurrentPage;
     return pathname.startsWith(path);
+  };
+
+  const isAboutCompanyActive = (): boolean => {
+    const aboutPaths = ["/about-us", "/vacancy", "/certificate", "/politics", "/requisites"];
+    return aboutPaths.some(path => pathname.startsWith(path));
   };
 
   return (
@@ -109,11 +113,11 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${styles.navigator__container_white} ${styles.dropdown__catalog}`}
               >
-                <MenuSvg width={24} height={24} />
+                <MenuSvg width={24} height={24} fill={containCurrentPage("/catalog") ? "#21a038" : undefined} />
                 <Link href="/catalog">
-                  <h3 className={`${styles.navigator__text}`}>Каталог</h3>
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/catalog") ? styles.navigator__text_active : ""}`}>Каталог</h3>
                 </Link>
-                <VectorSvg />
+                <VectorSvg color={containCurrentPage("/catalog") ? "#21a038" : undefined} />
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
                   <div className={styles.dropdown_catalog_wrapper}>
@@ -124,15 +128,12 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${
                   styles.dropdown__catalog
-                } ${
-                  containCurrentPage("/about-us") &&
-                  styles.navigator__container_active
                 }`}
               >
                 
                 <Link className={styles.link} href={"/about-us"}>
-                  <h3 className={styles.navigator__text}>О Компании</h3>
-                  <VectorSvg />
+                  <h3 className={`${styles.navigator__text} ${isAboutCompanyActive() ? styles.navigator__text_active : ""}`}>О Компании</h3>
+                  <VectorSvg color={isAboutCompanyActive() ? "#21a038" : undefined} />
                 </Link>
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
@@ -141,7 +142,7 @@ export default function Dashboard() {
                     <div className={styles.dropdown_green_wrapper}>
                       <h3
                         className={`${styles.dropdown_green_text} ${
-                          containCurrentPage("/about-us") &&
+                          pathname === "/about-us" &&
                           styles.dropdown_green_text_active
                         }`}
                       >
@@ -151,12 +152,12 @@ export default function Dashboard() {
                   </Link>
                   <Link href={"/vacancy"}>
                     <div className={styles.dropdown_green_wrapper}>
-                      <h3 className={styles.dropdown_green_text}>Вакансии</h3>
+                      <h3 className={`${styles.dropdown_green_text} ${pathname === "/vacancy" ? styles.dropdown_green_text_active : ""}`}>Вакансии</h3>
                     </div>
                   </Link>
                   <Link href={"/certificate"}>
                     <div className={styles.dropdown_green_wrapper}>
-                      <h3 className={styles.dropdown_green_text}>
+                      <h3 className={`${styles.dropdown_green_text} ${pathname === "/certificate" ? styles.dropdown_green_text_active : ""}`}>
                         Сертификаты
                       </h3>
                     </div>
@@ -166,12 +167,12 @@ export default function Dashboard() {
                   </div>
                   <Link href={"/politics"}>
                     <div className={styles.dropdown_green_wrapper}>
-                      <h3 className={styles.dropdown_green_text}>Политика</h3>
+                      <h3 className={`${styles.dropdown_green_text} ${pathname === "/politics" ? styles.dropdown_green_text_active : ""}`}>Политика</h3>
                     </div>
                   </Link>
                   <Link href={"/requisites"}>
                     <div className={styles.dropdown_green_wrapper}>
-                      <h3 className={styles.dropdown_green_text}>Реквизиты</h3>
+                      <h3 className={`${styles.dropdown_green_text} ${pathname === "/requisites" ? styles.dropdown_green_text_active : ""}`}>Реквизиты</h3>
                     </div>
                   </Link>
                 </div>
@@ -181,14 +182,11 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${
                   styles.dropdown__catalog
-                } ${
-                  containCurrentPage("/projects") &&
-                  styles.navigator__container_active
                 }`}
               >
                 <Link className={styles.link} href={"/projects"}>
-                  <h3 className={styles.navigator__text}>Проекты</h3>
-                  <VectorSvg />
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/projects") ? styles.navigator__text_active : ""}`}>Проекты</h3>
+                  <VectorSvg color={containCurrentPage("/projects") ? "#21a038" : undefined} />
                 </Link>
                 <div className={styles.dropdown_catalog_content}>
                   <div className={styles.triangle_with_shadow}></div>
@@ -216,13 +214,10 @@ export default function Dashboard() {
               <div
                 className={`${styles.navigator__container} ${
                   styles.dropdown__catalog
-                } ${
-                  containCurrentPage("/contacts") &&
-                  styles.navigator__container_active
                 }`}
               >
                 <Link className={styles.link} href={"/contacts"}>
-                  <h3 className={styles.navigator__text}>Контакты</h3>
+                  <h3 className={`${styles.navigator__text} ${containCurrentPage("/contacts") ? styles.navigator__text_active : ""}`}>Контакты</h3>
                 </Link>
               </div>
             </div>
@@ -469,28 +464,28 @@ export function Burger({
             <h4 className={`${styles.burger_text} ${pathname.startsWith("/basket") ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h4>
           </Link>
           <Link
-            className={styles.burger_link}
+            className={`${styles.burger_link} ${containCurrentPage("/catalog") ? styles.navigator__text_active : ""}`}
             href="/catalog"
             onClick={handleIsClose}
           >
             Каталог
           </Link>
           <Link
-            className={styles.burger_link}
+            className={`${styles.burger_link} ${isAboutCompanyActive() ? styles.navigator__text_active : ""}`}
             href="/about-us"
             onClick={handleIsClose}
           >
             О компании
           </Link>
           <Link
-            className={styles.burger_link}
+            className={`${styles.burger_link} ${containCurrentPage("/projects") ? styles.navigator__text_active : ""}`}
             href="/projects"
             onClick={handleIsClose}
           >
             Проекты
           </Link>
           <Link
-            className={styles.burger_link}
+            className={`${styles.burger_link} ${pathname === "/catalog" ? styles.navigator__text_active : ""}`}
             href="/catalog"
             onClick={handleIsClose}
           >
@@ -504,7 +499,7 @@ export function Burger({
             Галерея
           </Link> */}
           <Link
-            className={styles.burger_link}
+            className={`${styles.burger_link} ${containCurrentPage("/contacts") ? styles.navigator__text_active : ""}`}
             href="/contacts"
             onClick={handleIsClose}
           >

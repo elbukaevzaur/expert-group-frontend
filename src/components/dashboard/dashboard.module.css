@@ -691,6 +691,11 @@ padding-left: 22px;
   color: rgba(39, 35, 35, 1);
   margin: 0;
   font-family: "Montserrat";
+  transition: color 0.2s ease;
+}
+
+.navigator__text_active {
+  color: rgba(33, 160, 56, 1) !important;
 }
 
 .navigator__container .navigator__text:hover {
