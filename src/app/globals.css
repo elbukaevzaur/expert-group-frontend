@@ -801,6 +801,17 @@ a {
   cursor: pointer;
 }
 
+/* Lightbox Thumbnails Custom Styles */
+:root {
+  --yarl__thumbnails_thumbnail_active_border_color: #21a038;
+  --yarl__thumbnails_thumbnail_border_radius: 4px;
+  --yarl__thumbnails_thumbnail_active_border_width: 2px;
+}
+
+.yarl__thumbnails_thumbnail_active {
+  border: 2px solid #21a038 !important;
+}
+
 .product_details_link_button {
   border: none;
   background: transparent;

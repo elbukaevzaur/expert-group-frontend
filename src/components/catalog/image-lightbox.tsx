@@ -40,6 +40,11 @@ export default function ImageLightbox({
       on={{
         view: ({ index }) => onIndexChange?.(index),
       }}
+      styles={{
+        root: { "--yarl__thumbnails_thumbnail_active_border_color": "#21a038" } as React.CSSProperties,
+        thumbnailsContainer: { backgroundColor: "rgba(0, 0, 0, 0.7)" },
+        thumbnail: { borderRadius: "4px" },
+      }}
       render={{
         buttonPrev: images.length <= 1 ? () => null : undefined,
         buttonNext: images.length <= 1 ? () => null : undefined,

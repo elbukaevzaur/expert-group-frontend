@@ -99,6 +99,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: opacity 0.2s ease;
+}
+
+.main_image_container:hover {
+  opacity: 0.9;
 }
 
 /*@media (max-width: 970px) {*/
@@ -149,11 +154,21 @@
   width: 50px;
   height: 50px;
   object-fit: cover;
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  border-radius: 4px;
 }
 
 .mini_image_active {
-  border: 1px solid #fff;
+  border: 2px solid #21a038;
+}
+
+.selected_image:hover .mini_image {
+  border-color: rgba(33, 160, 56, 0.5);
+}
+
+.selected_image:hover .mini_image_active {
+  border-color: #21a038;
 }
 
 .wrapper {
