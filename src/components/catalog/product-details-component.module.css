@@ -92,6 +92,15 @@
   height: auto;
 }
 
+.main_image_container {
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /*@media (max-width: 970px) {*/
 /*  .image_details {*/
 /*    width: 373px;*/

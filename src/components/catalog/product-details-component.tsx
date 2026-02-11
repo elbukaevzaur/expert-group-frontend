@@ -22,6 +22,8 @@ import { ArrowLeftSvg } from "@/lib/icon-svg";
 import LoadingImage from "../loading/loading-image";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
+import ImageLightbox from "./image-lightbox";
+
 const TiptapViewerNoSSR = dynamic(
   () => import("../../components/TiptapViewer"),
   { ssr: false },
@@ -37,6 +39,7 @@ export default function ProductDetailsComponent(params: Params) {
   const [basketItem, setBasketItem] = useState<OrderItems>({} as OrderItems);
   const { allFavorites } = useAppSelector((state) => state.favorites);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [details, setDetails] = useState<ProductDetailsResponse>(
     {} as ProductDetailsResponse,
   );
@@ -203,19 +206,24 @@ export default function ProductDetailsComponent(params: Params) {
             <div className={styles.image_wrapper}>
               {isLoading && <LoadingImage />}
               {details?.defaultImage ? (
-                <Image
-                  className={`${styles.image_details} ${details.draftImage ? styles.image_details_padding : ""}`}
-                  src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"large_" + details?.images[selectedImageIndex]?.imagePath}`}
-                  alt={details?.name}
-                  width={532}
-                  height={394}
-                  onLoadingComplete={() => {
-                    setIsLoading(false);
-                  }}
-                  onError={() => {
-                    setIsLoading(false);
-                  }}
-                />
+                <div
+                  className={styles.main_image_container}
+                  onClick={() => setIsLightboxOpen(true)}
+                >
+                  <Image
+                    className={`${styles.image_details} ${details.draftImage ? styles.image_details_padding : ""}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"large_" + details?.images[selectedImageIndex]?.imagePath}`}
+                    alt={details?.name}
+                    width={532}
+                    height={394}
+                    onLoadingComplete={() => {
+                      setIsLoading(false);
+                    }}
+                    onError={() => {
+                      setIsLoading(false);
+                    }}
+                  />
+                </div>
               ) : (
                 ""
               )}
@@ -388,6 +396,13 @@ export default function ProductDetailsComponent(params: Params) {
         <div className={`${styles.price} ${styles.price_desk}`}>
           {renderPriceBlock(details, basketItem, handleChangeFavorite)}
         </div>
+        <ImageLightbox
+          open={isLightboxOpen}
+          close={() => setIsLightboxOpen(false)}
+          images={details?.images || []}
+          currentIndex={selectedImageIndex}
+          onIndexChange={setSelectedImageIndex}
+        />
         {/* <div className={styles.price}>
                     <div className={styles.price_buy}>
                         <div className={styles.price_buy_wrraper}>
