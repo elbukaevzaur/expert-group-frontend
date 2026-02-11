@@ -202,8 +202,16 @@ export default function SearchForm() {
                     <CloseSvg width={18} height={18} color="#888" />
                 </div>
             )}
-            <Link href={`/search?query=${searchText}`} className={styles.search__button}>
-                <SearchSvg color='#fff' width='24' height='24' />Найти</Link>
+            <Link 
+                href={`/search?query=${searchText}`} 
+                className={`${styles.search__button} ${pathname === '/search' ? styles.search__button_active : ""}`}
+            >
+                <SearchSvg 
+                    width='24' 
+                    height='24' 
+                />
+                Найти
+            </Link>
             <motion.div
                 initial={{display: 'none', opacity: 0}}
                 animate={{display: isShowSearchResult() ? 'initial' : 'none', opacity: isShowSearchResult() ? 1 : 0}}

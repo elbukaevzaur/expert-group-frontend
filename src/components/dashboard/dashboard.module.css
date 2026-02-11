@@ -377,18 +377,25 @@
   margin-left: -3px;
   width: 105px;
   height: 46px;
-  background-color: #21a038;
+  background-color: rgba(245, 245, 245, 1);
   border-radius: 0 4px 4px 0;
-  border-color: #21a038;
-  border-style: solid;
-  color: #ffffff;
+  border: 1px solid rgba(245, 245, 245, 1);
+  color: #21a038;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: all 0.3s ease;
   font-size: 14px;
   font-weight: 500;
   line-height: 17px;
   font-family: "Montserrat";
   z-index: 10;
+  text-decoration: none;
+}
+
+.search__button:hover,
+.search__button_active {
+  background-color: #21a038;
+  border-color: #21a038;
+  color: #ffffff;
 }
 
 .search_clear {
