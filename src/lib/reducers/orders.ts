@@ -4,13 +4,15 @@ import {Orders} from '@/lib/models';
 interface OrdersState {
     orders: Orders[];
     currentOrders: Orders[],
-    allOrders: Orders[]
+    allOrders: Orders[],
+    lastCreatedOrder: Orders | null
 }
 
 const initialState: OrdersState = {
     orders: [],
     currentOrders: [],
-    allOrders: []
+    allOrders: [],
+    lastCreatedOrder: null
 };
 
 const orders = createSlice({
@@ -19,6 +21,7 @@ const orders = createSlice({
     reducers: {
         CREATE_ORDER_REQUEST: () => {},
         CREATE_ORDER_RESPONSE_SUCCESS: (state, action) => {
+            state.lastCreatedOrder = action.payload;
         },
         CURRENT_ORDERS_REQUEST: () => {},
         CURRENT_ORDERS_RESPONSE_SUCCESS: (state, action) => {

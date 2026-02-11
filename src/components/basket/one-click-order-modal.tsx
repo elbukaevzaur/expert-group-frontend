@@ -19,6 +19,7 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
     const router = useRouter();
     const { user, isAuth } = useAppSelector((state) => state.auth);
     const { selectedCity } = useAppSelector((state) => state.app);
+    const { lastCreatedOrder } = useAppSelector((state) => state.orders);
     
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
@@ -168,7 +169,7 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
                                         <path d="M44 24L28 40L20 32" stroke="#21a038" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
                                     </svg>
                                 </div>
-                                <h2 className={styles.success_title}>Заказ оформлен!</h2>
+                                <h2 className={styles.success_title}>Заказ №{lastCreatedOrder?.id} оформлен!</h2>
                                 <p className={styles.success_text}>
                                     Спасибо за ваш заказ. Мы получили вашу заявку и уже начали её обрабатывать.
                                 </p>
