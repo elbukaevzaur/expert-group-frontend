@@ -6,13 +6,15 @@ import { CloseSvg } from '@/lib/icon-svg';
 import styles from './one-click-order-modal.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { OrderItems } from '@/lib/models';
 
 interface OneClickOrderModalProps {
     isOpen: boolean;
     onClose: () => void;
+    items: OrderItems[];
 }
 
-export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, onClose }) => {
+export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, onClose, items }) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { user, isAuth } = useAppSelector((state) => state.auth);
@@ -53,10 +55,11 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
                 comment,
                 city: user?.city || selectedCity,
                 pickupPointId: null,
-                deliveryAddress: null
+                deliveryAddress: null,
+                items: items
             }));
             onClose();
-            router.push('/lk/current-orders');
+            router.push('/basket');
         }
     };
 
@@ -139,7 +142,7 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
                             </div>
 
                             <button type="submit" className={styles.submit_button}>
-                                Оформить заказ
+                                Отправить
                             </button>
                         </form>
                     </motion.div>

@@ -146,7 +146,7 @@ export default function Basket() {
                     </div>
                 }
             </div>
-            <OneClickOrderModal isOpen={isOneClickModalOpen} onClose={() => setIsOneClickModalOpen(false)} />
+            <OneClickOrderModal isOpen={isOneClickModalOpen} onClose={() => setIsOneClickModalOpen(false)} items={orderItems} />
         </div>
     )
 }
