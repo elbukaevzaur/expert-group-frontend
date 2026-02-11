@@ -91,10 +91,46 @@
   object-fit: cover;
   flex-shrink: 0;
   display: block;
+  transition: transform 0.3s ease;
+}
+
+.item_image_container {
+  position: relative;
+  width: 240px;
+  height: 160px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.item_image_container:hover .item_image {
+  transform: scale(1.05);
+}
+
+.loupe_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.item_image_container:hover .loupe_overlay {
+  opacity: 1;
 }
 
 @media (max-width: 700px) {
   .item_image {
+    height: 100px;
+    width: 140px;
+  }
+  .item_image_container {
     height: 100px;
     width: 140px;
   }

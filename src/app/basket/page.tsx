@@ -12,16 +12,22 @@ import styles from "./basket.module.css"
 import {useRouter} from "next/navigation";
 import ListNotContent from "@/components/ListNotContent";
 import {CartItemQuantityBasket, RemoveAllBasket, RemoveItemBasket} from "@/components/basket/basket-actions";
-import {OrderItemsDetails} from "@/lib/models";
+import {OrderItemsDetails, ProductImages} from "@/lib/models";
 import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
-import { CloseSvg } from "@/lib/icon-svg";
+import { CloseSvg, SearchSvg } from "@/lib/icon-svg";
 import { OneClickOrderModal } from "@/components/basket/one-click-order-modal";
+import ImageLightbox from "@/components/catalog/image-lightbox";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [isOneClickModalOpen, setIsOneClickModalOpen] = React.useState(false);
+    const [lightboxState, setLightboxState] = React.useState<{isOpen: boolean, images: ProductImages[], index: number}>({
+        isOpen: false,
+        images: [],
+        index: 0
+    });
 
     useEffect(() => {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
@@ -52,6 +58,16 @@ export default function Basket() {
         getCurrentUrlForProductDetails(value).then((result) => {
             router.push(result);
         })
+    }
+
+    const openLightbox = (details: OrderItemsDetails) => {
+        if (details.defaultImage) {
+            setLightboxState({
+                isOpen: true,
+                images: [{ imagePath: details.defaultImage } as ProductImages],
+                index: 0
+            });
+        }
     }
 
     const styleText = [styles.item_text_link, 'product_details_link_button']
@@ -86,11 +102,19 @@ export default function Basket() {
                                     orderItemsDetails[value.productId]?.defaultImage == null ?
                                         <img className={styles.item_image} src={'/images/Basket_image.png'} alt="No image" />
                                         :
-                                        <img 
-                                            className={styles.item_image} 
-                                            src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} 
-                                            alt={orderItemsDetails[value.productId].name}
-                                        />
+                                        <div 
+                                            className={styles.item_image_container}
+                                            onClick={() => openLightbox(orderItemsDetails[value.productId])}
+                                        >
+                                            <img 
+                                                className={styles.item_image} 
+                                                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + orderItemsDetails[value.productId].defaultImage}`} 
+                                                alt={orderItemsDetails[value.productId].name}
+                                            />
+                                            <div className={styles.loupe_overlay}>
+                                                <SearchSvg width={32} height={32} color="#fff" />
+                                            </div>
+                                        </div>
                                 }
                                 <div className={styles.item_container}>
                                     <div className={styles.item_text_link}>
@@ -118,22 +142,13 @@ export default function Basket() {
                     <div className={styles.buy}>
                         <div className={styles.buy_total}>
                             <h2 className={styles.buy_title}>Итого</h2>
+                            <h2 className={styles.buy_title}>{getTotalPrice()} &#8381;</h2>
                         </div>
                         <div className={styles.buy_wrapper}>
                             <div className={styles.buy_contain}>
                                 <h4 className={styles.buy_subtitle}>Количество товара</h4>
                                 <span className={styles.dots}>............................................................................</span>
                                 <h4 className={styles.buy_subtitle}>{getTotalProductsQuantity()} шт.</h4>
-                            </div>
-                            <div className={styles.buy_contain}>
-                                <h4 className={styles.buy_subtitle}>Доставка</h4>
-                                <span className={styles.dots}>............................................................................</span>
-                                <h4 className={styles.buy_subtitle}>Бесплатно</h4>
-                            </div>
-                            <div className={styles.buy_contain}>
-                                <h4 className={styles.buy_subtitle}>Итоговая сумма</h4>
-                                <span className={styles.dots}>............................................................................</span>
-                                <h4 className={styles.buy_title}>{getTotalPrice()}&#8381;</h4>
                             </div>
                         </div>
                         <button onClick={handleCreateOrder} className={styles.buy_button}>
