@@ -40,6 +40,7 @@ export default function ProductDetailsComponent(params: Params) {
   const { allFavorites } = useAppSelector((state) => state.favorites);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number>(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [isDraftLightboxOpen, setIsDraftLightboxOpen] = useState(false);
   const [details, setDetails] = useState<ProductDetailsResponse>(
     {} as ProductDetailsResponse,
   );
@@ -356,13 +357,21 @@ export default function ProductDetailsComponent(params: Params) {
               )}
             </div>
             {details.draftImage ? (
-              <Image
-                className={styles.description_image}
-                width={130}
-                height={178}
-                src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"thumbnail_" + details.draftImage}`}
-                alt="Характеристики"
-              />
+              <div
+                className={styles.draft_image_container}
+                onClick={() => setIsDraftLightboxOpen(true)}
+              >
+                <Image
+                  className={styles.description_image}
+                  width={130}
+                  height={178}
+                  src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"thumbnail_" + details.draftImage}`}
+                  alt="Характеристики"
+                />
+                <div className={styles.loupe_overlay_small}>
+                  <SearchSvg width={24} height={24} color="#fff" />
+                </div>
+              </div>
             ) : (
               <div className={styles.description_container}>
                 <div
@@ -405,6 +414,16 @@ export default function ProductDetailsComponent(params: Params) {
           images={details?.images || []}
           currentIndex={selectedImageIndex}
           onIndexChange={setSelectedImageIndex}
+        />
+        <ImageLightbox
+          open={isDraftLightboxOpen}
+          close={() => setIsDraftLightboxOpen(false)}
+          images={
+            details?.draftImage
+              ? [{ imagePath: details.draftImage } as any]
+              : []
+          }
+          currentIndex={0}
         />
         {/* <div className={styles.price}>
                     <div className={styles.price_buy}>
