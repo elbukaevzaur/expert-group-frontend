@@ -21,6 +21,7 @@ import { getUnitTypeTitle } from "@/lib/consts";
 import { ArrowLeftSvg } from "@/lib/icon-svg";
 import LoadingImage from "../loading/loading-image";
 import dynamic from "next/dynamic";
+import { motion, AnimatePresence } from "framer-motion";
 const TiptapViewerNoSSR = dynamic(
   () => import("../../components/TiptapViewer"),
   { ssr: false },
@@ -160,23 +161,36 @@ export default function ProductDetailsComponent(params: Params) {
           />
         )}
       </div>
-      <button
+      <motion.button
         onClick={handleFavoriteProp}
         className={`${styles.price_button} ${styles.price_button_color}`}
+        whileHover={{ backgroundColor: '#f0f0f0' }}
+        whileTap={{ scale: 0.98 }}
       >
         {allFavorites.hasOwnProperty(detailsProp?.id || 0)
           ? "В избранном"
           : "В избранное"}
-        <LikeSvg
-          width={24}
-          height={22}
-          fill={
-            allFavorites.hasOwnProperty(detailsProp?.id || 0)
-              ? "#21A038"
-              : "none"
-          }
-        />
-      </button>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={allFavorites.hasOwnProperty(detailsProp?.id || 0) ? 'active' : 'inactive'}
+            initial={{ scale: 0.7, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.7, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <LikeSvg
+              width={24}
+              height={22}
+              fill={
+                allFavorites.hasOwnProperty(detailsProp?.id || 0)
+                  ? "#21A038"
+                  : "none"
+              }
+            />
+          </motion.div>
+        </AnimatePresence>
+      </motion.button>
     </div>
   );
 

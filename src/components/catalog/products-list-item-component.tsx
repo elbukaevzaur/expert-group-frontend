@@ -9,6 +9,7 @@ import {AddToCartButton, CartItemQuantity} from "@/components/basket/basket-acti
 import {useRouter} from "next/navigation";
 import {getCategoryById, getCategoryHierarchyById} from "@/lib/http/categoriesRequest";
 import {AxiosResponse} from "axios";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface ProductsProps {
     key: number,
@@ -88,9 +89,24 @@ export function ProductsListItemComponent(props: ProductsProps) {
                         }
                     </div>
                 </div>
-                <button onClick={handleChangeFavorite} className={styles.like}>
-                    <LikeSvg width={28} height={24} stroke='#fff' fill={isFavorite ? '#ffffff' : 'none'}/>
-                </button>
+                <motion.button 
+                    onClick={handleChangeFavorite} 
+                    className={styles.like}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.9 }}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={isFavorite ? 'active' : 'inactive'}
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                            transition={{ duration: 0.2 }}
+                        >
+                            <LikeSvg width={28} height={24} stroke='#fff' fill={isFavorite ? '#ffffff' : 'none'}/>
+                        </motion.div>
+                    </AnimatePresence>
+                </motion.button>
             </div>
         </div>
     )
