@@ -91,14 +91,12 @@ export default function PreviewBasketModal(props: Props) {
                                         <button onClick={() => handleToProductDetails(details)} className={styleImage.join(" ")}>
                                             {
                                                 details.defaultImage == null ?
-                                                    <Image src={"/images/image.png"} alt="image" width={100} height={100} style={{ objectFit: 'contain' }}/>
+                                                    <img src={"/images/image.png"} className={styles.item_img} alt="image" />
                                                     :
                                                     <img 
-                                                        width={100} 
-                                                        height={100}
+                                                        className={styles.item_img}
                                                         src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${'small_' + details.defaultImage}`}
                                                         alt={details.name}
-                                                        style={{ objectFit: 'contain' }}
                                                     />
                                             }
                                         </button>
