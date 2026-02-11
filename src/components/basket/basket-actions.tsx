@@ -169,10 +169,10 @@ export const RemoveAllPreviewBasket: React.FC = () => {
     return <motion.button 
                 onClick={handleRemoveAllItems} 
                 className={styles.clear}
-                whileHover={{ opacity: 0.7 }}
+                whileHover={{ color: '#eb4034' }}
                 whileTap={{ scale: 0.95 }}
             >
-        Очистить {<CloseSmall stroke={'#7B7B7B'}/>}
+        Очистить {<CloseSmall />}
     </motion.button>
 }
 
@@ -183,7 +183,7 @@ export const RemoveItemPreviewBasket: React.FC<{productId: string}> = (props: {p
                 onClick={() => handleRemoveItemFromBasket(props.productId)} 
                 className={styles.item_delete} 
                 style={{ position: 'static' }}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, color: '#eb4034' }}
                 whileTap={{ scale: 0.9 }}
             >
         <CloseSvg width={18} height={18} />
@@ -196,7 +196,7 @@ export const RemoveItemBasket: React.FC<{productId: string}> = (props: {productI
     return <motion.button 
                 className={styles.item_delete} 
                 onClick={() => handleRemoveItemFromBasket(props.productId)}
-                whileHover={{ scale: 1.1 }}
+                whileHover={{ scale: 1.1, color: '#eb4034' }}
                 whileTap={{ scale: 0.9 }}
             >
         <CloseSvg/>
@@ -209,7 +209,7 @@ export const RemoveAllBasket: React.FC = () => {
     return <motion.button 
                 className={styles.items_clear} 
                 onClick={handleRemoveAllItems}
-                whileHover={{ opacity: 0.8 }}
+                whileHover={{ color: '#eb4034' }}
                 whileTap={{ scale: 0.98 }}
             >
         <h3 className={styles.items_clear_text}>Очистить корзину</h3>

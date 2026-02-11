@@ -300,10 +300,10 @@ export default function Dashboard() {
                 className={styles.dashboar__basket}
               >
                 <FavoriteSvg
-                  fill={pathname === "/favorite" ? "#21a038" : undefined}
+                  fill={pathname.startsWith("/favorite") ? "#21a038" : undefined}
                 />
                 <div className={styles.dashboar__basket_container}>
-                  <h2 className={`${styles.dashboar__bascet_text} ${pathname === "/favorite" ? styles.dashboar__bascet_text_active : ""}`}>Избранное</h2>
+                  <h2 className={`${styles.dashboar__bascet_text} ${pathname.startsWith("/favorite") ? styles.dashboar__bascet_text_active : ""}`}>Избранное</h2>
                 </div>
               </Link>
             </div>
@@ -314,10 +314,10 @@ export default function Dashboard() {
               >
                 <BasketSvg
                   className={styles.dashboar__bascet_icon}
-                  fill={(pathname === "/basket" || isShowPreviewBasket) ? "#21a038" : undefined}
+                  fill={(pathname.startsWith("/basket") || isShowPreviewBasket) ? "#21a038" : undefined}
                 />
                 <div className={styles.dashboar__basket_container}>
-                  <h2 className={`${styles.dashboar__bascet_text} ${(pathname === "/basket" || isShowPreviewBasket) ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h2>
+                  <h2 className={`${styles.dashboar__bascet_text} ${(pathname.startsWith("/basket") || isShowPreviewBasket) ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h2>
                   {/* <h3 className={styles.dashboar__bascet_info}>
                     {orderItems.length > 0 ? orderItems.length : "пусто"}
                   </h3> */}
@@ -443,14 +443,14 @@ export function Burger({
             </Link>
           )}
           <Link
-            href={"/basket"}
+            href={"/favorite"}
             className={styles.burger_wrapper}
             onClick={handleIsClose}
           >
             <div className={styles.burger_basket}>
-              <FavoriteSvg  width={24} height={24} />
+              <FavoriteSvg  width={24} height={24} fill={pathname.startsWith("/favorite") ? "#21a038" : undefined} />
             </div>
-            <h4 className={styles.burger_text}>Избранное</h4>
+            <h4 className={`${styles.burger_text} ${pathname.startsWith("/favorite") ? styles.dashboar__bascet_text_active : ""}`}>Избранное</h4>
           </Link>
           <Link
             href={"/basket"}
@@ -458,12 +458,12 @@ export function Burger({
             onClick={handleIsClose}
           >
             <div className={styles.burger_basket}>
-              <BasketSvg width={24} height={24} />
+              <BasketSvg width={24} height={24} fill={pathname.startsWith("/basket") ? "#21a038" : undefined} />
               {orderItems.length > 0 && 
               <div className={styles.burger_basket_wrapper}>
               </div> }
             </div>
-            <h4 className={styles.burger_text}>Корзина</h4>
+            <h4 className={`${styles.burger_text} ${pathname.startsWith("/basket") ? styles.dashboar__bascet_text_active : ""}`}>Корзина</h4>
           </Link>
           <Link
             className={styles.burger_link}
