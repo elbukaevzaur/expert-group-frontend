@@ -161,6 +161,13 @@ export default function Basket() {
                 }
             </div>
             <OneClickOrderModal isOpen={isOneClickModalOpen} onClose={() => setIsOneClickModalOpen(false)} items={orderItems} />
+            <ImageLightbox 
+                open={lightboxState.isOpen}
+                close={() => setLightboxState(prev => ({...prev, isOpen: false}))}
+                images={lightboxState.images}
+                currentIndex={lightboxState.index}
+                autoFullscreen={true}
+            />
         </div>
     )
 }

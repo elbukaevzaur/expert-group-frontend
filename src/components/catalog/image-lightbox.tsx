@@ -17,6 +17,7 @@ interface ImageLightboxProps {
   images: ProductImages[];
   currentIndex: number;
   onIndexChange?: (index: number) => void;
+  autoFullscreen?: boolean;
 }
 
 export default function ImageLightbox({
@@ -25,6 +26,7 @@ export default function ImageLightbox({
   images,
   currentIndex,
   onIndexChange,
+  autoFullscreen = false,
 }: ImageLightboxProps) {
   const slides = images.map((img) => ({
     src: `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=large_${img.imagePath}`,
@@ -37,6 +39,7 @@ export default function ImageLightbox({
       index={currentIndex}
       slides={slides}
       plugins={[Zoom, Thumbnails, Counter, Fullscreen, Slideshow]}
+      fullscreen={{ auto: autoFullscreen }}
       on={{
         view: ({ index }) => onIndexChange?.(index),
       }}
