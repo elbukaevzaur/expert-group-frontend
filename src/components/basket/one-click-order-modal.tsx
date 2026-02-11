@@ -25,6 +25,7 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
     const [email, setEmail] = useState('');
     const [comment, setComment] = useState('');
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [isSubmitted, setIsSubmitted] = useState(false);
 
     useEffect(() => {
         if (isAuth && user) {
@@ -33,6 +34,13 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
             setEmail(user.email || '');
         }
     }, [isAuth, user]);
+
+    useEffect(() => {
+        if (!isOpen) {
+            // Сбрасываем состояние при закрытии
+            setTimeout(() => setIsSubmitted(false), 300);
+        }
+    }, [isOpen]);
 
     const validate = () => {
         const newErrors: { [key: string]: string } = {};
@@ -58,10 +66,14 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
                 deliveryAddress: null,
                 items: items
             }));
-            onClose();
-            router.push('/basket');
+            setIsSubmitted(true);
         }
     };
+
+    const handleCloseAfterSuccess = () => {
+        onClose();
+        router.push('/basket');
+    }
 
     return (
         <AnimatePresence>
@@ -85,66 +97,89 @@ export const OneClickOrderModal: React.FC<OneClickOrderModalProps> = ({ isOpen, 
                             <CloseSvg />
                         </button>
                         
-                        <div className={styles.header}>
-                            <div style={{ marginBottom: '20px' }}>
-                                <Image src={"/images/Logo.png"} alt="Логотип" width={200} height={42} style={{ objectFit: 'contain' }}/>
-                            </div>
-                            <h2 className={styles.title}>Купить в 1 клик</h2>
-                            <p className={styles.subtitle}>Оставьте ваши контакты, и наш менеджер свяжется с вами для уточнения деталей заказа.</p>
-                        </div>
+                        {!isSubmitted ? (
+                            <>
+                                <div className={styles.header}>
+                                    <div style={{ marginBottom: '20px' }}>
+                                        <Image src={"/images/Logo.png"} alt="Логотип" width={200} height={42} style={{ objectFit: 'contain' }}/>
+                                    </div>
+                                    <h2 className={styles.title}>Купить в 1 клик</h2>
+                                    <p className={styles.subtitle}>Оставьте ваши контакты, и наш менеджер свяжется с вами для уточнения деталей заказа.</p>
+                                </div>
 
-                        <form onSubmit={handleSubmit} className={styles.form}>
-                            <div className={styles.input_group}>
-                                <label className={styles.label}>Ф.И.О. *</label>
-                                <input
-                                    type="text"
-                                    value={fullName}
-                                    onChange={(e) => setFullName(e.target.value)}
-                                    className={`${styles.input} ${errors.fullName ? styles.input_error : ''}`}
-                                    placeholder="Иванов Иван Иванович"
-                                />
-                                {errors.fullName && <span className={styles.error_text}>{errors.fullName}</span>}
-                            </div>
+                                <form onSubmit={handleSubmit} className={styles.form}>
+                                    <div className={styles.input_group}>
+                                        <label className={styles.label}>Ф.И.О. *</label>
+                                        <input
+                                            type="text"
+                                            value={fullName}
+                                            onChange={(e) => setFullName(e.target.value)}
+                                            className={`${styles.input} ${errors.fullName ? styles.input_error : ''}`}
+                                            placeholder="Иванов Иван Иванович"
+                                        />
+                                        {errors.fullName && <span className={styles.error_text}>{errors.fullName}</span>}
+                                    </div>
 
-                            <div className={styles.input_group}>
-                                <label className={styles.label}>Телефон *</label>
-                                <input
-                                    type="tel"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    className={`${styles.input} ${errors.phone ? styles.input_error : ''}`}
-                                    placeholder="+7 (999) 000-00-00"
-                                />
-                                {errors.phone && <span className={styles.error_text}>{errors.phone}</span>}
-                            </div>
+                                    <div className={styles.input_group}>
+                                        <label className={styles.label}>Телефон *</label>
+                                        <input
+                                            type="tel"
+                                            value={phone}
+                                            onChange={(e) => setPhone(e.target.value)}
+                                            className={`${styles.input} ${errors.phone ? styles.input_error : ''}`}
+                                            placeholder="+7 (999) 000-00-00"
+                                        />
+                                        {errors.phone && <span className={styles.error_text}>{errors.phone}</span>}
+                                    </div>
 
-                            <div className={styles.input_group}>
-                                <label className={styles.label}>Электронный адрес *</label>
-                                <input
-                                    type="email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className={`${styles.input} ${errors.email ? styles.input_error : ''}`}
-                                    placeholder="example@mail.ru"
-                                />
-                                {errors.email && <span className={styles.error_text}>{errors.email}</span>}
-                            </div>
+                                    <div className={styles.input_group}>
+                                        <label className={styles.label}>Электронный адрес *</label>
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className={`${styles.input} ${errors.email ? styles.input_error : ''}`}
+                                            placeholder="example@mail.ru"
+                                        />
+                                        {errors.email && <span className={styles.error_text}>{errors.email}</span>}
+                                    </div>
 
-                            <div className={styles.input_group}>
-                                <label className={styles.label}>Комментарий к заказу</label>
-                                <textarea
-                                    value={comment}
-                                    onChange={(e) => setComment(e.target.value)}
-                                    className={styles.textarea}
-                                    placeholder="Напишите ваши пожелания к заказу"
-                                    rows={4}
-                                />
-                            </div>
+                                    <div className={styles.input_group}>
+                                        <label className={styles.label}>Комментарий к заказу</label>
+                                        <textarea
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                            className={styles.textarea}
+                                            placeholder="Напишите ваши пожелания к заказу"
+                                            rows={4}
+                                        />
+                                    </div>
 
-                            <button type="submit" className={styles.submit_button}>
-                                Отправить
-                            </button>
-                        </form>
+                                    <button type="submit" className={styles.submit_button}>
+                                        Отправить
+                                    </button>
+                                </form>
+                            </>
+                        ) : (
+                            <div className={styles.success_view}>
+                                <div className={styles.success_icon}>
+                                    <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="32" cy="32" r="32" fill="#21a038" fillOpacity="0.1"/>
+                                        <path d="M44 24L28 40L20 32" stroke="#21a038" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
+                                    </svg>
+                                </div>
+                                <h2 className={styles.success_title}>Заказ оформлен!</h2>
+                                <p className={styles.success_text}>
+                                    Спасибо за ваш заказ. Мы получили вашу заявку и уже начали её обрабатывать.
+                                </p>
+                                <p className={styles.success_note}>
+                                    Наш менеджер свяжется с вами по телефону в ближайшее время для уточнения деталей.
+                                </p>
+                                <button onClick={handleCloseAfterSuccess} className={styles.submit_button}>
+                                    Вернуться в корзину
+                                </button>
+                            </div>
+                        )}
                     </motion.div>
                 </div>
             )}
