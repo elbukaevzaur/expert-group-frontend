@@ -474,6 +474,18 @@
   font-weight: 600;
 }
 
+.call_link {
+  color: #21a038;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s ease;
+}
+
+.call_link:hover {
+  text-decoration: underline;
+  opacity: 0.8;
+}
+
 .navigator {
   margin: 80px auto 0;
   display: flex;

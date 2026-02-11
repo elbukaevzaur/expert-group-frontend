@@ -139,11 +139,11 @@ export default function ProductDetailsComponent(params: Params) {
           Доставим ваш товар:
         </h2>
         <h2 className={styles.price_info_text}>
-          По Москве – 500 руб. (1-2 дня)
+          По городу от – 1000 руб. (1-2 дня)
         </h2>
         <h2 className={styles.price_info_text}>БЕСПЛАТНО – от 5000 руб.</h2>
         <h2 className={styles.price_info_text}>
-          По России (Спросить у менеджера)
+          По России <Link href="tel:+79298984166" className={styles.call_link}>(Спросить у менеджера)</Link>
         </h2>
       </div>
       <div className={`${styles.price_buy_wrraper} ${styles.price_buy_margin}`}>

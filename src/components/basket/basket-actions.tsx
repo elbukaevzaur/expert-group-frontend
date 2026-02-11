@@ -37,6 +37,7 @@ export const CartItemQuantity: React.FC<CartProps> = (props: CartProps) => {
             <motion.button 
                 className={styles.basket_button} 
                 onClick={() => handleRemoveItem(props.orderItem)}
+                whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
             >
                 <MinusSmall width={20} height={20}/>
@@ -56,6 +57,7 @@ export const CartItemQuantity: React.FC<CartProps> = (props: CartProps) => {
             <motion.button 
                 className={styles.basket_button}
                 onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
+                whileHover={{ scale: 1.2 }}
                 whileTap={{ scale: 0.8 }}
             >
                 <PlusSmall width={20} height={20}/>
@@ -70,6 +72,7 @@ export const CartItemQuantityDetails: React.FC<CartProps> = (props: CartProps) =
         <motion.button 
             onClick={() => handleRemoveItem(props.orderItem)} 
             className={styles.price_buy_like}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <MinusSmall width={18} height={18} color='rgba(33, 160, 56, 1)'/>
@@ -78,9 +81,9 @@ export const CartItemQuantityDetails: React.FC<CartProps> = (props: CartProps) =
             <motion.h3 
                 key={props.orderItem?.quantity}
                 className={styles.price_buy_text}
-                initial={{ y: 5, opacity: 0 }}
+                initial={{ y: 2, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -5, opacity: 0 }}
+                exit={{ y: -2, opacity: 0 }}
                 transition={{ duration: 0.1 }}
             >
                 {props.orderItem?.quantity}
@@ -89,6 +92,7 @@ export const CartItemQuantityDetails: React.FC<CartProps> = (props: CartProps) =
         <motion.button 
             onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
             className={styles.price_buy_like}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <PlusSmall width={18} height={18} color='rgba(33, 160, 56, 1)'/>
@@ -103,6 +107,7 @@ export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartPr
         <motion.button 
             onClick={() => handleRemoveItem(props.orderItem)} 
             className={styles.basket_button}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <MinusSmall width={14} height={14} color='#21A038'/>
@@ -112,9 +117,9 @@ export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartPr
                 key={props.orderItem?.quantity}
                 className={styles.basket_text_margin} 
                 style={{ fontSize: '16px' }}
-                initial={{ y: 5, opacity: 0 }}
+                initial={{ y: 2, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -5, opacity: 0 }}
+                exit={{ y: -2, opacity: 0 }}
                 transition={{ duration: 0.1 }}
             >
                 {props.orderItem?.quantity}
@@ -123,6 +128,7 @@ export const CartItemQuantityPreviewBasket: React.FC<CartProps> = (props: CartPr
         <motion.button 
             onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
             className={styles.basket_button}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <PlusSmall width={14} height={14} color='#21A038'/>
@@ -137,6 +143,7 @@ export const CartItemQuantityBasket: React.FC<CartProps> = (props: CartProps) =>
         <motion.button 
             onClick={() => handleRemoveItem(props.orderItem)} 
             className={styles.basket_button}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <MinusSmall width={18} height={18} color='#21A038'/>
@@ -145,9 +152,9 @@ export const CartItemQuantityBasket: React.FC<CartProps> = (props: CartProps) =>
             <motion.h4 
                 key={props.orderItem?.quantity}
                 className={styles.basket_text_margin}
-                initial={{ y: 5, opacity: 0 }}
+                initial={{ y: 2, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -5, opacity: 0 }}
+                exit={{ y: -2, opacity: 0 }}
                 transition={{ duration: 0.1 }}
             >
                 {props.orderItem?.quantity}
@@ -156,6 +163,7 @@ export const CartItemQuantityBasket: React.FC<CartProps> = (props: CartProps) =>
         <motion.button 
             onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
             className={styles.basket_button}
+            whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.8 }}
         >
             <PlusSmall width={18} height={18} color='#21A038'/>
