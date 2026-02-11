@@ -84,12 +84,14 @@
   object-fit: contain;
   width: 100%;
   height: 100%;
+  transition: transform 0.3s ease;
 }
 
 .image_details_padding {
   object-fit: contain;
   width: 90%;
   height: auto;
+  transition: transform 0.3s ease;
 }
 
 .main_image_container {
@@ -99,11 +101,32 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: opacity 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.main_image_container:hover {
-  opacity: 0.9;
+.main_image_container:hover .image_details,
+.main_image_container:hover .image_details_padding {
+  transform: scale(1.05);
+}
+
+.loupe_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.main_image_container:hover .loupe_overlay {
+  opacity: 1;
 }
 
 /*@media (max-width: 970px) {*/

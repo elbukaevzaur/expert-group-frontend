@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { CHANGE_FAVORITES_REQUEST } from "@/lib/reducers";
 import Link from "next/link";
 import { OrderItems, ProductDetailsResponse } from "@/lib/models";
-import { LikeSvg } from "@/lib/icon-svg";
+import { LikeSvg, SearchSvg } from "@/lib/icon-svg";
 import styles from "./product-details-component.module.css";
 import {
   AddToCartButton,
@@ -223,6 +223,9 @@ export default function ProductDetailsComponent(params: Params) {
                       setIsLoading(false);
                     }}
                   />
+                  <div className={styles.loupe_overlay}>
+                    <SearchSvg width={48} height={48} color="#fff" />
+                  </div>
                 </div>
               ) : (
                 ""
