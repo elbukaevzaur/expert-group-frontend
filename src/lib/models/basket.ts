@@ -1,4 +1,5 @@
 import {Products} from "@/lib/models/products";
+import { PickupPoint } from "@/lib/http/pickupPointsRequest";
 
 export enum OrderStatusEnum {
     PENDING = "PENDING",
@@ -42,7 +43,14 @@ export interface Orders {
     id: number,
     total: number,
     status: OrderStatusEnum,
-    createdAt: string
+    createdAt: string,
+    pickupPoint?: PickupPoint,
+    deliveryAddress?: string,
+    fullName?: string,
+    phone?: string,
+    email?: string,
+    city?: string,
+    comment?: string
 }
 
 export interface ChangeOrderStatusRequest{

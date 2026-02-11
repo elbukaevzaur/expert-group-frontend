@@ -10,6 +10,7 @@ import {
   INITIAL_TOKEN,
   PROJECTS_CATEGORIES_FETCH_REQUESTED,
   ALL_FAVORITES_REQUEST,
+  SET_SELECTED_CITY,
 } from "@/lib/reducers";
 import { Login } from "@/components/login/login-modal";
 import styles from "@/components/dashboard/dashboard.module.css";
@@ -46,13 +47,13 @@ export default function Dashboard() {
   const pathname = usePathname();
   const params = useParams();
   const [isBurgerOpen, setIsBurgerOpen] = useState(false);
-  const [selectedCity, setSelectedCity] = useState("Грозный");
+  const { selectedCity } = useAppSelector((state) => state.app);
   const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
 
   const cities = ["Грозный", "Москва", "Санкт-Петербург", "Пятигорск"];
 
   const handleCitySelect = (city: string) => {
-    setSelectedCity(city);
+    dispatch(SET_SELECTED_CITY(city));
     setIsCityDropdownOpen(false);
   };
 

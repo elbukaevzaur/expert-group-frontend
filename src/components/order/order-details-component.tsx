@@ -72,6 +72,24 @@ export default function OrderDetailsComponent(props: Props) {
                             className={styles.order_span}>{moment(order.createdAt).format("DD.MM.YYYY HH:mm")}</span></h4>
                         <h4 className={styles.order_text}>Статус заказа: <span
                             className={styles.order_span}>{getStatusInfo(order.status).title}</span></h4>
+                        {order.pickupPoint && (
+                            <div className={styles.pickup_info}>
+                                <h4 className={styles.order_text} style={{ color: '#272323', marginBottom: '5px' }}>Пункт самовывоза:</h4>
+                                <h4 className={styles.order_text} style={{ fontSize: '15px' }}>{order.pickupPoint.name}</h4>
+                                <p className={styles.order_text} style={{ fontSize: '14px', fontWeight: 400 }}>{order.pickupPoint.address}</p>
+                                {order.pickupPoint.workingHours && (
+                                    <p className={styles.order_text} style={{ fontSize: '13px', fontWeight: 500, color: '#21a038', marginTop: '5px' }}>
+                                        {order.pickupPoint.workingHours}
+                                    </p>
+                                )}
+                            </div>
+                        )}
+                        {order.deliveryAddress && (
+                            <div className={styles.pickup_info} style={{ borderLeftColor: '#3D9BFF' }}>
+                                <h4 className={styles.order_text} style={{ color: '#272323', marginBottom: '5px' }}>Адрес доставки:</h4>
+                                <p className={styles.order_text} style={{ fontSize: '15px', fontWeight: 500 }}>{order.deliveryAddress}</p>
+                            </div>
+                        )}
                     </div>
                 </>
         }

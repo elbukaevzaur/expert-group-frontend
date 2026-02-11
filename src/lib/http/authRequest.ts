@@ -12,3 +12,7 @@ export function registerRequest(request: RegisterRequest) {
 export function confirmRequest(token: string) {
     return axiosInstance.get(`/auth/confirm?token=${token}`);
 }
+
+export function getMeRequest() {
+    return axiosInstance.get('/auth/me');
+}

@@ -7,9 +7,11 @@ import {
     SIGN_IN_RESPONSE_ERROR,
     SIGN_IN_RESPONSE_SUCCESS,
     SIGN_OUT,
-    SIGN_OUT_SUCCESS
+    SIGN_OUT_SUCCESS,
+    GET_ME_REQUEST,
+    GET_ME_RESPONSE_SUCCESS
 } from '../reducers'
-import {signIn} from "@/lib/http/authRequest";
+import {signIn, getMeRequest} from "@/lib/http/authRequest";
 import {loadFromLocalStorage, clearFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
 import {authStorageKey} from "@/lib/config";
 
@@ -18,8 +20,17 @@ function* signInWorker(action) {
         const response = yield call(signIn, action.payload);
         yield call(saveToLocalStorage, response.data, authStorageKey);
         yield put(SIGN_IN_RESPONSE_SUCCESS(response.data))
+        yield put(GET_ME_REQUEST())
     } catch (e) {
         yield put(SIGN_IN_RESPONSE_ERROR())
+    }
+}
+
+function* getMeWorker() {
+    try {
+        const response = yield call(getMeRequest);
+        yield put(GET_ME_RESPONSE_SUCCESS(response.data))
+    } catch (e) {
     }
 }
 
@@ -28,6 +39,7 @@ function* initialToken() {
         const data = yield call(loadFromLocalStorage, authStorageKey);
         if (data) {
             yield put(SIGN_IN_RESPONSE_SUCCESS(data));
+            yield put(GET_ME_REQUEST())
         }
         yield put(ALL_FAVORITES_REQUEST())
         yield put(INITIAL_BASKET())
@@ -50,6 +62,7 @@ export default function* authSaga() {
     yield all([
         yield takeEvery(SIGN_IN_REQUEST, signInWorker),
         yield takeEvery(INITIAL_TOKEN, initialToken),
-        yield takeEvery(SIGN_OUT, signOutWorker)
+        yield takeEvery(SIGN_OUT, signOutWorker),
+        yield takeEvery(GET_ME_REQUEST, getMeWorker),
     ])
 }

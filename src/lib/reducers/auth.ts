@@ -1,12 +1,22 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+interface AuthState {
+    isAuth: boolean;
+    isAuthError: boolean;
+    isAuthLoading: boolean;
+    user: any | null;
+}
+
+const initialState: AuthState = {
+    isAuth: false,
+    isAuthError: false,
+    isAuthLoading: true,
+    user: null
+};
+
 const auth = createSlice({
     name: 'auth',
-    initialState: {
-        isAuth: false,
-        isAuthError: false,
-        isAuthLoading: true
-    },
+    initialState,
     reducers: {
         SIGN_IN_REQUEST: (state, action) => {
             state.isAuthLoading = true
@@ -25,12 +35,17 @@ const auth = createSlice({
         },
         SIGN_OUT_SUCCESS: (state) => {
             state.isAuth = false;
+            state.user = null;
         },
         INITIAL_TOKEN: (state) => {
             state.isAuthLoading = true
         },
         INITIAL_TOKEN_SUCCESS: (state) => {
             state.isAuthLoading = false
+        },
+        GET_ME_REQUEST: () => {},
+        GET_ME_RESPONSE_SUCCESS: (state, action) => {
+            state.user = action.payload;
         }
     }
 });
@@ -42,6 +57,8 @@ export const {
     INITIAL_TOKEN,
     SIGN_OUT,
     SIGN_OUT_SUCCESS,
-    INITIAL_TOKEN_SUCCESS
+    INITIAL_TOKEN_SUCCESS,
+    GET_ME_REQUEST,
+    GET_ME_RESPONSE_SUCCESS
 } = auth.actions;
 export default auth.reducer;

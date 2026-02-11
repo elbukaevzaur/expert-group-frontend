@@ -9,6 +9,7 @@ import {
     favoritesReducer,
     ordersReducer,
     productsReducer, projectCategories,
+    appReducer,
 } from '@/lib/reducers';
 import projectsCategoriesSaga from "@/lib/saga/projects-categories";
 
@@ -35,7 +36,8 @@ export const store = () => {
             auth: authReducer,
             orders: ordersReducer,
             favorites: favoritesReducer,
-            projectsCategories: projectCategories
+            projectsCategories: projectCategories,
+            app: appReducer
         },
         middleware: (getDefaultMiddleware) =>
             getDefaultMiddleware().concat([sagaMiddleware]),

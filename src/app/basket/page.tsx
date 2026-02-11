@@ -15,11 +15,13 @@ import {CartItemQuantityBasket, RemoveAllBasket, RemoveItemBasket} from "@/compo
 import {OrderItemsDetails} from "@/lib/models";
 import {getCurrentUrlForProductDetails} from "@/components/catalog/products-list-item-component";
 import { CloseSvg } from "@/lib/icon-svg";
+import { OneClickOrderModal } from "@/components/basket/one-click-order-modal";
 
 export default function Basket() {
     const { orderItems, orderItemsDetails } = useAppSelector((state) => state.basket);
     const dispatch = useAppDispatch();
     const router = useRouter();
+    const [isOneClickModalOpen, setIsOneClickModalOpen] = React.useState(false);
 
     useEffect(() => {
         dispatch(ORDER_ITEMS_DETAILS_REQUEST())
@@ -138,9 +140,13 @@ export default function Basket() {
                         <button onClick={handleCreateOrder} className={styles.buy_button}>
                             <h3 className={styles.buy_text}>К оформлению</h3>
                         </button>
+                        <button onClick={() => setIsOneClickModalOpen(true)} className={`${styles.buy_button} ${styles.buy_button_white}`}>
+                            <h3 className={`${styles.buy_text} ${styles.buy_text_green}`}>Купить в 1 клик</h3>
+                        </button>
                     </div>
                 }
             </div>
+            <OneClickOrderModal isOpen={isOneClickModalOpen} onClose={() => setIsOneClickModalOpen(false)} />
         </div>
     )
 }

@@ -15,33 +15,46 @@ import { getCurrentUrlForProductDetails } from "@/components/catalog/products-li
 import { Login } from "@/components/login/login-modal";
 import { BusSVG, LocationSvg } from "@/lib/icon-svg";
 import YandexMap from "@/components/maps/YandexMap";
+import { getActivePickupPointsRequest, PickupPoint } from "@/lib/http/pickupPointsRequest";
 
 export default function Buy() {
   const dispatch = useAppDispatch();
   const { orderItems, orderItemsDetails } = useAppSelector(
     (state) => state.basket,
   );
-  const { isAuth } = useAppSelector((state) => state.auth);
+  const { isAuth, user } = useAppSelector((state) => state.auth);
+  const { selectedCity } = useAppSelector((state) => state.app);
   const router = useRouter();
   const [isLoginVisible, setIsLoginVisible] = useState(false);
-  const [pendingOrder, setPendingOrder] = useState(false);
   const [deliveryMethod, setDeliveryMethod] = useState<'pickup' | 'delivery'>('pickup');
   const [paymentMethod, setPaymentMethod] = useState<'online' | 'cash'>('online');
+  const [pickupPoints, setPickupPoints] = useState<PickupPoint[]>([]);
+  const [selectedPickupPointId, setSelectedPickupPointId] = useState<number | null>(null);
+  const [deliveryAddress, setDeliveryAddress] = useState('');
+  const [cityName, setCityName] = useState(selectedCity);
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     dispatch(ORDER_ITEMS_DETAILS_REQUEST());
-  }, []);
+    getActivePickupPointsRequest().then(res => {
+      setPickupPoints(res.data);
+      if (res.data.length > 0) {
+        setSelectedPickupPointId(res.data[0].id);
+      }
+    });
+  }, [dispatch]);
 
   useEffect(() => {
-    // Если пользователь авторизовался и был запрос на оформление заказа
-    if (isAuth && pendingOrder) {
-      setPendingOrder(false);
-      setIsLoginVisible(false);
-      // Продолжаем оформление заказа
-      dispatch(CREATE_ORDER_REQUEST());
-      router.push("/lk/current-orders");
+    if (user) {
+      if (!fullName) setFullName(user.fullName || '');
+      if (!phone) setPhone(user.phoneNumber || '');
+      if (!email) setEmail(user.email || '');
+      if (user.city && (!cityName || cityName === selectedCity)) setCityName(user.city);
     }
-  }, [isAuth, pendingOrder, dispatch, router]);
+  }, [user, selectedCity, fullName, phone, email, cityName]);
 
   const getTotalPrice = (): string => {
     let totalSum: number = 0;
@@ -63,13 +76,19 @@ export default function Buy() {
   function handleCreateOrder() {
     // Проверяем авторизацию
     if (!isAuth) {
-      // Сохраняем намерение создать заказ и показываем модальное окно авторизации
-      setPendingOrder(true);
       setIsLoginVisible(true);
       return;
     }
     // Если авторизован, создаем заказ
-    dispatch(CREATE_ORDER_REQUEST());
+    dispatch(CREATE_ORDER_REQUEST({ 
+      pickupPointId: deliveryMethod === 'pickup' ? selectedPickupPointId : null,
+      deliveryAddress: deliveryMethod === 'delivery' ? deliveryAddress : null,
+      fullName,
+      phone,
+      email,
+      city: cityName,
+      comment
+    }));
     router.push("/lk/current-orders");
   }
 
@@ -79,7 +98,7 @@ export default function Buy() {
     });
   }
 
-  const styleImage = [styles.item_image, "product_details_link_button"];
+  const selectedPoint = pickupPoints.find(p => p.id === selectedPickupPointId);
 
   return (
     <div className={styles.buy}>
@@ -91,14 +110,44 @@ export default function Buy() {
           <h1 className={styles.title}>Оформление заказа</h1>
           <div className={styles.section_title}>1. Контактные данные</div>
           <div className={styles.grid}>
-            <input className={styles.input} type="text" placeholder="ФИО" />
-            <input className={styles.input} type="text" placeholder="Телефон" />
+            <input 
+              className={styles.input} 
+              type="text" 
+              placeholder="ФИО" 
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+            <input 
+              className={styles.input} 
+              type="text" 
+              placeholder="Телефон" 
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
             <input
               className={styles.input}
               type="email"
               placeholder="Электронный адрес"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
-            <input className={styles.input} type="text" placeholder="Город" />
+            <input
+              className={styles.input}
+              type="text"
+              placeholder="Город"
+              value={cityName}
+              onChange={(e) => setCityName(e.target.value)}
+            />
+          </div>
+          <div className={styles.comment_section}>
+            <h4 className={styles.label_simple}>Комментарий к заказу</h4>
+            <textarea
+              className={styles.textarea_simple}
+              placeholder="Напишите ваши пожелания к заказу"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              rows={3}
+            />
           </div>
           <div className={styles.section_title}>2. Способ получения</div>
           <div className={styles.buttons}>
@@ -127,13 +176,53 @@ export default function Buy() {
               </div>
             </button>
           </div>
-          <h5 className={styles.address}>
-            ​г.Грозный,улица Нурсултана Назарбаева, 79
-          </h5>
-          <h5 className={styles.address}>Ежедневно с 09:00 до 18:00</h5>
-          <div className={styles.map}>
-            <YandexMap />
-          </div>
+
+          {deliveryMethod === 'pickup' ? (
+            <div className={styles.pickup_selection}>
+              <h4 className={styles.select_title}>Выберите пункт самовывоза:</h4>
+              <div className={styles.pickup_list}>
+                {pickupPoints.map(point => (
+                  <div 
+                    key={point.id} 
+                    className={`${styles.pickup_item} ${selectedPickupPointId === point.id ? styles.pickup_item_active : ''}`}
+                    onClick={() => setSelectedPickupPointId(point.id)}
+                  >
+                    <div className={styles.pickup_info}>
+                      <h5 className={styles.pickup_name}>{point.name}</h5>
+                      <p className={styles.pickup_address}>{point.address}</p>
+                      {point.workingHours && <p className={styles.pickup_hours}>{point.workingHours}</p>}
+                    </div>
+                    <div className={styles.pickup_radio}>
+                      <div className={styles.radio_outer}>
+                        {selectedPickupPointId === point.id && <div className={styles.radio_inner} />}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {pickupPoints.length === 0 && <p className={styles.no_points}>Пункты самовывоза не найдены</p>}
+              </div>
+            </div>
+          ) : (
+            <div className={styles.delivery_address_container}>
+              <h4 className={styles.select_title}>Укажите адрес доставки:</h4>
+              <textarea 
+                className={styles.textarea} 
+                placeholder="Улица, дом, квартира/офис, подъезд, этаж"
+                value={deliveryAddress}
+                onChange={(e) => setDeliveryAddress(e.target.value)}
+              />
+              <p className={styles.delivery_note}>Стоимость доставки будет уточнена менеджером (от 1000 ₽)</p>
+            </div>
+          )}
+          
+          {deliveryMethod === 'pickup' && (
+            <div className={styles.map}>
+              <YandexMap 
+                latitude={selectedPoint?.latitude} 
+                longitude={selectedPoint?.longitude} 
+              />
+            </div>
+          )}
           <div className={styles.section_title}>3. Способ оплаты</div>
           <div className={styles.buttons}>
             <button 
@@ -204,7 +293,6 @@ export default function Buy() {
         <Login
           onCloseModal={() => {
             setIsLoginVisible(false);
-            setPendingOrder(false);
           }}
         />
       )}

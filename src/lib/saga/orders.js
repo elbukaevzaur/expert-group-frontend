@@ -6,9 +6,9 @@ import {
 } from '@/lib/reducers'
 import {createOrderRequest, findMeAllOrdersRequest, findMeCurrentOrdersRequest} from "@/lib/http/ordersRequest";
 
-function* createOrderWorker() {
+function* createOrderWorker(action) {
     try {
-        const response = yield call(createOrderRequest);
+        const response = yield call(createOrderRequest, action.payload);
         yield put(CREATE_ORDER_RESPONSE_SUCCESS(response.data));
         yield put(BASKET_CLEAR());
         // Обновляем список текущих заказов после создания нового заказа

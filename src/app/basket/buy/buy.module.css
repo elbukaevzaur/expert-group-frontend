@@ -18,6 +18,42 @@
   margin-bottom: 30px;
 }
 
+.comment_section {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label_simple {
+    font-family: "Montserrat";
+    font-size: 15px;
+    font-weight: 600;
+    color: #272323;
+}
+
+.textarea_simple {
+    padding: 16px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background-color: rgba(245, 245, 245, 1);
+    color: #272323;
+    font-family: "Montserrat";
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    transition: all 0.2s ease;
+    resize: vertical;
+    min-height: 80px;
+}
+
+.textarea_simple:focus {
+    outline: none;
+    background-color: #fff;
+    border-color: #21a038;
+    box-shadow: 0 0 0 4px rgba(33, 160, 56, 0.1);
+}
+
 .section_title {
   font-family: "Montserrat";
   font-weight: 600;
@@ -201,6 +237,144 @@
   font-weight: 500;
   line-height: 17px;
   margin-top: 2px;
+}
+
+.pickup_selection {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.select_title {
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: 600;
+  color: #272323;
+}
+
+.pickup_list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pickup_item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background-color: #F5F5F5;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pickup_item:hover {
+  background-color: #EEEEEE;
+}
+
+.pickup_item_active {
+  background-color: #fff;
+  border-color: #21a038;
+}
+
+.pickup_info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pickup_name {
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-weight: 600;
+  color: #272323;
+}
+
+.pickup_address {
+  font-family: "Montserrat";
+  font-size: 14px;
+  color: rgba(39, 35, 35, 0.7);
+}
+
+.pickup_hours {
+  font-family: "Montserrat";
+  font-size: 13px;
+  color: #21a038;
+  font-weight: 500;
+}
+
+.radio_outer {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #E8E8E8;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.pickup_item_active .radio_outer {
+  border-color: #21a038;
+}
+
+.radio_inner {
+  width: 10px;
+  height: 10px;
+  background-color: #21a038;
+  border-radius: 50%;
+}
+
+.delivery_address_container {
+  margin-top: 20px;
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 16px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background-color: rgba(245, 245, 245, 1);
+  color: #272323;
+  font-family: "Montserrat";
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 22px;
+  resize: vertical;
+  transition: all 0.2s ease;
+}
+
+.textarea:focus {
+  outline: none;
+  background-color: #fff;
+  border-color: #21a038;
+  box-shadow: 0 0 0 4px rgba(33, 160, 56, 0.1);
+}
+
+.delivery_note {
+  font-size: 13px;
+  color: rgba(39, 35, 35, 0.5);
+  font-family: "Montserrat";
+  font-style: italic;
+}
+
+.no_points {
+  font-family: "Montserrat";
+  font-size: 14px;
+  color: #8D8D8D;
+  text-align: center;
+  padding: 20px;
+  background-color: #F5F5F5;
+  border-radius: 12px;
 }
 
 .address {

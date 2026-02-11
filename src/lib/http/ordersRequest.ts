@@ -1,8 +1,16 @@
 import axiosInstance from './axiosInstance'
 import {ChangeOrderStatusRequest} from "@/lib/models";
 
-export function createOrderRequest() {
-    return axiosInstance.post('/basket/order/create');
+export function createOrderRequest(request: { 
+    pickupPointId?: number, 
+    deliveryAddress?: string,
+    fullName?: string,
+    phone?: string,
+    email?: string,
+    city?: string,
+    comment?: string
+}) {
+    return axiosInstance.post('/basket/order/create', request);
 }
 
 export function findMeCurrentOrdersRequest() {
