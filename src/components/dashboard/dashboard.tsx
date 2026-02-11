@@ -83,24 +83,27 @@ export default function Dashboard() {
     <header className={styles.header}>
       <div className={styles.dashboar_wrapper}>
         <div className={styles.dashboar}>
-          <Link href="/">
-            <Image
-              className={styles.logo}
-              src={"/images/logo.svg"}
-              alt="Логотип"
-              width={206}
-              height={47}
-              priority={true}
-            />
-            <Image
-              className={styles.logo__small}
-              src={"/images/Logo_small.png"}
-              alt="Логотип"
-              width={94}
-              height={44}
-              priority={true}
-            />
-          </Link>
+          <div className={styles.logo_container}>
+            <Link href="/">
+              <Image
+                className={styles.logo}
+                src={"/images/logo.svg"}
+                alt="Логотип"
+                width={206}
+                height={47}
+                priority={true}
+              />
+              <Image
+                className={styles.logo__small}
+                src={"/images/Logo_small.png"}
+                alt="Логотип"
+                width={94}
+                height={44}
+                priority={true}
+              />
+            </Link>
+            <span className={styles.slogan}>Меняем методы, но не меняем принципы</span>
+          </div>
           <div className={styles.navigator__wrapper}>
             <div className={styles.navigator}>
               <div
