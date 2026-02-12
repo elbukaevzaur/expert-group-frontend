@@ -262,9 +262,11 @@ export default function Buy() {
                   <div key={index} className={styles.total_item}>
                     <div className={styles.total_item_info}>
                       <span className={styles.total_item_name}>{details.name}</span>
-                      <span className={styles.total_item_quantity}>{item.quantity} шт.</span>
                     </div>
-                    <span className={styles.total_item_price}>{(item.quantity * details.price).toLocaleString()} ₽</span>
+                    <div className={styles.total_item_price_wrapper}>
+                      <span className={styles.total_item_price_unit}>{details.price.toLocaleString()} ₽ x {item.quantity} шт.</span>
+                      <span className={styles.total_item_price}>{(item.quantity * details.price).toLocaleString()} ₽</span>
+                    </div>
                   </div>
                 );
               })}

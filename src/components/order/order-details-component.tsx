@@ -13,6 +13,9 @@ import Link from "next/link";
 import {useRouter} from "next/navigation";
 import {getCategoryHierarchyById} from "@/lib/http/categoriesRequest";
 import {AxiosResponse} from "axios";
+import { SearchSvg } from "@/lib/icon-svg";
+import ImageLightbox from "@/components/catalog/image-lightbox";
+import { ProductImages } from "@/lib/models";
 
 interface Props {
     orderId: number,
@@ -25,6 +28,11 @@ export default function OrderDetailsComponent(props: Props) {
     const [order, setOrder] = useState<Orders>({} as Orders);
     const [isLoadingOrder, setIsLoadingOrder] = useState(true);
     const [isLoadingOrderItems, setIsLoadingOrderItems] = useState(true);
+    const [lightboxState, setLightboxState] = useState<{isOpen: boolean, images: ProductImages[], index: number}>({
+        isOpen: false,
+        images: [],
+        index: 0
+    });
 
     useEffect(() => {
         loadData();
@@ -46,6 +54,16 @@ export default function OrderDetailsComponent(props: Props) {
         }).catch(() => {
             router.push(`/catalog/product/product-${product.slug}`);
         });
+    }
+
+    const openLightbox = (product: any) => {
+        if (product.defaultImage) {
+            setLightboxState({
+                isOpen: true,
+                images: [{ imagePath: product.defaultImage } as ProductImages],
+                index: 0
+            });
+        }
     }
 
     function loadData() {
@@ -113,13 +131,16 @@ export default function OrderDetailsComponent(props: Props) {
                     !isLoadingOrderItems ?
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
-                            <div onClick={() => handleToProductDetails(item.product)} className={styles.item_image_link} style={{ cursor: 'pointer' }}>
+                            <div className={styles.item_image_container} onClick={() => openLightbox(item.product)}>
                                 <Image
                                     className={styles.item_image}
                                     src={item.product.defaultImage ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"thumbnail_" + item.product.defaultImage}` : "/images/image.png"}
                                     alt={item.product.name}
                                     width={200}
                                     height={150}/>
+                                <div className={styles.loupe_overlay}>
+                                    <SearchSvg width={32} height={32} color="#fff" />
+                                </div>
                             </div>
                             <div className={styles.item_wrapper}>
                                 <div onClick={() => handleToProductDetails(item.product)} className={styles.item_name_link} style={{ cursor: 'pointer' }}>
@@ -172,5 +193,12 @@ export default function OrderDetailsComponent(props: Props) {
                         <LoadingCard/>
                 }
         </div>
+        <ImageLightbox
+            open={lightboxState.isOpen}
+            close={() => setLightboxState(prev => ({...prev, isOpen: false}))}
+            images={lightboxState.images}
+            currentIndex={lightboxState.index}
+            autoFullscreen={true}
+        />
     </div>
 }

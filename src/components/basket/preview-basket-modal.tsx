@@ -114,7 +114,10 @@ export default function PreviewBasketModal(props: Props) {
                                                     productQuantity={details.currentQuantity} 
                                                     allowOrderWithoutStock={details.allowOrderWithoutStock}
                                                 />
-                                                <h3 className={styles.summ}>{(item.quantity * details.price).toLocaleString()} ₽</h3>
+                                                <div className={styles.price_column}>
+                                                    <span className={styles.price_unit}>{details.price.toLocaleString()} ₽ x {item.quantity} шт.</span>
+                                                    <h3 className={styles.summ}>{(item.quantity * details.price).toLocaleString()} ₽</h3>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

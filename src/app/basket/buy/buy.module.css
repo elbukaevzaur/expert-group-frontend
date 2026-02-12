@@ -514,6 +514,18 @@
   white-space: nowrap;
 }
 
+.total_item_price_wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.total_item_price_unit {
+  font-size: 11px;
+  color: rgba(39, 35, 35, 0.5);
+  margin-bottom: 2px;
+}
+
 .total_contain {
   width: 100%;
   display: flex;

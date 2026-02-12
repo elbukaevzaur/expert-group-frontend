@@ -204,6 +204,15 @@
   font-family: "Montserrat";
 }
 
+.item_price_unit {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #727272;
+  font-family: "Montserrat";
+  margin-bottom: 4px;
+}
+
 .buy {
   display: flex;
   flex-direction: column;

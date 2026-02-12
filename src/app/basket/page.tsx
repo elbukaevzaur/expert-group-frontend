@@ -122,6 +122,7 @@ export default function Basket() {
                                             <h3 className={styles.item_text}>{orderItemsDetails[value.productId]?.name}</h3>
                                         </button>
                                         <div className={styles.item__summ}>
+                                            <h3 className={styles.item_price_unit}>{orderItemsDetails[value.productId]?.price.toLocaleString()} &#8381; x {value.quantity} шт.</h3>
                                             <h3 className={styles.item_price}>{(value.quantity * orderItemsDetails[value.productId]?.price).toLocaleString()} &#8381;</h3>
                                             <div className={styles.item__display_mobile}>
                                                 <CartItemQuantityBasket orderItem={value} productId={value.productId} productQuantity={orderItemsDetails[value.productId]?.currentQuantity} allowOrderWithoutStock={orderItemsDetails[value.productId]?.allowOrderWithoutStock}/>
