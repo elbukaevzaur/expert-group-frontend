@@ -9,9 +9,10 @@ import { Shorts } from "@/lib/models/shorts";
 interface VideoPlayerProps {
     src: string;
     poster?: string; // Добавляем пропс для постера
+    onEnded?: () => void;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster, onEnded }) => {
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -27,8 +28,8 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster }) => {
             poster={poster ? `/api/proxy/images/get/product?name=${poster}` : "/images/image-poster.jpeg"}
             autoPlay={true}
             controls
-            // muted
-            loop
+            onEnded={onEnded}
+            loop={!onEnded}
             className="video-player-element"
         >
             <source src={src} type="video/mp4"/>
@@ -140,6 +141,7 @@ interface VideoShowModalProps {
 
 export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialIndex, isShow, handleOnClose }) => {
     const [currentIndex, setCurrentIndex] = useState(initialIndex);
+    const [direction, setDirection] = useState(0); // 1 for next, -1 for prev
     const modalRef = useRef<HTMLDivElement>(null);
 
     const currentShort = shorts[currentIndex];
@@ -147,6 +149,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
 
     const handleNext = (e?: React.MouseEvent) => {
         e?.stopPropagation();
+        setDirection(1);
         if (currentIndex < shorts.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
@@ -156,11 +159,29 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
 
     const handlePrev = (e?: React.MouseEvent) => {
         e?.stopPropagation();
+        setDirection(-1);
         if (currentIndex > 0) {
             setCurrentIndex(currentIndex - 1);
         } else {
             setCurrentIndex(shorts.length - 1);
         }
+    };
+
+    // Swipe support
+    const [touchStart, setTouchStart] = useState<number | null>(null);
+    const minSwipeDistance = 50;
+
+    const onTouchStart = (e: React.TouchEvent) => {
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const onTouchEnd = (e: React.TouchEvent) => {
+        if (!touchStart) return;
+        const touchEnd = e.changedTouches[0].clientX;
+        const distance = touchStart - touchEnd;
+        if (distance > minSwipeDistance) handleNext();
+        else if (distance < -minSwipeDistance) handlePrev();
+        setTouchStart(null);
     };
 
     // Обработка нажатия Esc, стрелок и клика вне модального окна
@@ -199,6 +220,21 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
 
     if (!currentShort) return null;
 
+    const variants = {
+        enter: (direction: number) => ({
+            x: direction > 0 ? 300 : -300,
+            opacity: 0
+        }),
+        center: {
+            x: 0,
+            opacity: 1
+        },
+        exit: (direction: number) => ({
+            x: direction > 0 ? -300 : 300,
+            opacity: 0
+        })
+    };
+
     return (
         <AnimatePresence>
             {isShow && (
@@ -215,6 +251,8 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                             handleOnClose();
                         }
                     }}
+                    onTouchStart={onTouchStart}
+                    onTouchEnd={onTouchEnd}
                 >
                     <button 
                         className="modal-nav-button prev" 
@@ -241,43 +279,70 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                                 <CloseSvg stroke="white" />
                             </button>
                         </div>
-                        <div className="scroll-container">
-                            <div className="video-container">
-                                <VideoPlayer 
-                                    src={`/api/proxy/shorts/video/${currentShort.fileName}`} 
-                                    poster={currentShort.previewImageName} 
-                                />
-                            </div>
-                            <div className="modal-description-container">
-                                <div className="modal-description-header">
-                                    <div>
-                                        <h3 id="video-modal-title">{currentShort.name}</h3>
-                                        {currentShort.project && (
-                                            <span className="modal-project-badge">{currentShort.project.name}</span>
+                        
+                        <AnimatePresence initial={false} custom={direction} mode="wait">
+                            <motion.div 
+                                key={currentIndex}
+                                custom={direction}
+                                variants={variants}
+                                initial="enter"
+                                animate="center"
+                                exit="exit"
+                                transition={{
+                                    x: { type: "spring", stiffness: 300, damping: 30 },
+                                    opacity: { duration: 0.2 }
+                                }}
+                                className="scroll-container"
+                            >
+                                <div className="video-container">
+                                    <VideoPlayer 
+                                        src={`/api/proxy/shorts/video/${currentShort.fileName}`} 
+                                        poster={currentShort.previewImageName}
+                                        onEnded={() => handleNext()} 
+                                    />
+                                </div>
+                                <div className="modal-description-container">
+                                    <div className="modal-description-header">
+                                        <div>
+                                            <h3 id="video-modal-title">{currentShort.name}</h3>
+                                            {currentShort.project && (
+                                                <div className="modal-project-info">
+                                                    <span className="modal-project-badge">{currentShort.project.name}</span>
+                                                    {/* Можно добавить адрес или категорию если есть */}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <button
+                                            onClick={handleOnClose}
+                                            className="modal-close-button-inner"
+                                            aria-label="Закрыть"
+                                        >
+                                            <CloseSvg stroke="white" />
+                                        </button>
+                                    </div>
+                                    <div className="modal-description-content">
+                                        <div className="description-text">
+                                            <p>{currentShort.description}</p>
+                                        </div>
+
+                                        {projectLink && (
+                                            <div className="project-link-section">
+                                                <p className="project-link-label">Узнать больше о проекте:</p>
+                                                <a href={projectLink} rel="noopener noreferrer" className="project-link">
+                                                    Смотреть проект <ArrowRightSvg style={{ width: 16, height: 16, marginLeft: 8 }} />
+                                                </a>
+                                            </div>
                                         )}
                                     </div>
-                                    <button
-                                        onClick={handleOnClose}
-                                        className="modal-close-button-inner"
-                                        aria-label="Закрыть"
-                                    >
-                                        <CloseSvg stroke="white" />
-                                    </button>
+                                    
+                                    <div className="modal-footer-nav">
+                                        <span className="shorts-counter">
+                                            {currentIndex + 1} / {shorts.length}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="modal-description-content">
-                                    <p>{currentShort.description}</p>
-
-                                    {projectLink && (
-                                        <div className="project-link-section">
-                                            <h4>Ссылка на проект:</h4>
-                                            <a href={projectLink} rel="noopener noreferrer" className="project-link">
-                                                Перейти к проекту
-                                            </a>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                            </motion.div>
+                        </AnimatePresence>
                     </div>
 
                     <button 
