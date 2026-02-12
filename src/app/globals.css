@@ -35,10 +35,12 @@
   }
 }
 
-html,
+html {
+  overflow-x: hidden;
+}
+
 body {
   max-width: 1920px;
-  overflow-x: hidden;
   margin: auto;
   margin-top: 50px;
 }

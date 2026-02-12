@@ -67,6 +67,7 @@
   gap: 15px;
   position: relative;
   justify-content: space-between;
+  align-items: flex-start;
 }
 
 @media (max-width: 1200px) {
@@ -239,9 +240,9 @@
   border-radius: 10px;
   box-sizing: border-box;
   gap: 20px;
-  position: absolute;
-  top: -90px;
-  right: 0;
+  position: sticky;
+  top: 180px;
+  z-index: 10;
 }
 
 @media (max-width: 1200px) {

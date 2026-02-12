@@ -411,7 +411,8 @@
   background-color: #fff;
   border: 1px solid #E8E8E8;
   position: sticky;
-  top: 100px;
+  top: 180px;
+  z-index: 10;
 }
 
 @media (max-width: 1250px) {

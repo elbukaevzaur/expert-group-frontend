@@ -34,12 +34,14 @@
   display: flex;
   justify-content: space-between;
   gap: 20px;
+  align-items: flex-start;
 }
 
 @media (max-width: 1200px) {
   .content {
     flex-direction: column;
     gap: 30px;
+    align-items: stretch;
   }
 }
 
@@ -211,12 +213,16 @@
   border-radius: 10px;
   box-sizing: border-box;
   gap: 20px;
+  position: sticky;
+  top: 180px;
+  z-index: 10;
 }
 
 @media (max-width: 1200px) {
   .buy {
     margin-top: 15px;
     width: 382px;
+    position: static;
   }
 }
 
