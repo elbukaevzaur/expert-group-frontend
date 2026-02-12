@@ -1,9 +1,25 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useCallback} from "react";
 import PlaySvgComponent from "@/lib/icon-svg/media"; // Убедитесь, что пути к SVG-компонентам верны
 import {CloseSvg, ArrowLeftSvg, ArrowRightSvg} from "@/lib/icon-svg";
 import {motion, AnimatePresence} from "framer-motion";
 
 import { Shorts } from "@/lib/models/shorts";
+
+// --- Variants outside to prevent unnecessary re-renders ---
+const modalVariants = {
+    enter: (direction: number) => ({
+        x: direction > 0 ? 300 : -300,
+        opacity: 0
+    }),
+    center: {
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction: number) => ({
+        x: direction > 0 ? -300 : 300,
+        opacity: 0
+    })
+};
 
 // --- VideoPlayer Component ---
 interface VideoPlayerProps {
@@ -18,14 +34,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, poster, onEnded }) => {
     useEffect(() => {
         if (videoRef.current) {
             videoRef.current.load();
-            videoRef.current.play().catch(error => console.log("Video autoplay failed:", error));
+            videoRef.current.play().catch(error => {
+                if (error.name !== 'AbortError') {
+                    console.log("Video autoplay failed:", error);
+                }
+            });
         }
     }, [src]);
 
     return (
         <video
             ref={videoRef}
-            poster={poster ? `/api/proxy/images/get/product?name=${poster}` : "/images/image-poster.jpeg"}
+            poster={poster ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${poster}` : "/images/image-poster.jpeg"}
             autoPlay={true}
             controls
             onEnded={onEnded}
@@ -144,28 +164,28 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
     const [direction, setDirection] = useState(0); // 1 for next, -1 for prev
     const modalRef = useRef<HTMLDivElement>(null);
 
-    const currentShort = shorts[currentIndex];
-    const projectLink = currentShort?.project ? `https://proeg.ru/projects/${currentShort.project.projectCategoryId}/details/${currentShort.projectId}` : undefined;
+    // Sync state when modal opens
+    useEffect(() => {
+        if (isShow) {
+            setCurrentIndex(initialIndex);
+        }
+    }, [isShow, initialIndex]);
 
-    const handleNext = (e?: React.MouseEvent) => {
-        e?.stopPropagation();
+    const handleNext = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+        if (e && e.stopPropagation) e.stopPropagation();
         setDirection(1);
-        if (currentIndex < shorts.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        } else {
-            setCurrentIndex(0);
-        }
-    };
+        setCurrentIndex((prevIndex) => 
+            prevIndex < shorts.length - 1 ? prevIndex + 1 : 0
+        );
+    }, [shorts.length]);
 
-    const handlePrev = (e?: React.MouseEvent) => {
-        e?.stopPropagation();
+    const handlePrev = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+        if (e && e.stopPropagation) e.stopPropagation();
         setDirection(-1);
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        } else {
-            setCurrentIndex(shorts.length - 1);
-        }
-    };
+        setCurrentIndex((prevIndex) => 
+            prevIndex > 0 ? prevIndex - 1 : shorts.length - 1
+        );
+    }, [shorts.length]);
 
     // Swipe support
     const [touchStart, setTouchStart] = useState<number | null>(null);
@@ -186,6 +206,8 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
 
     // Обработка нажатия Esc, стрелок и клика вне модального окна
     useEffect(() => {
+        if (!isShow) return;
+
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.key === 'Escape') {
                 handleOnClose();
@@ -196,44 +218,19 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
             }
         };
 
-        const handleClickOutside = (event: MouseEvent) => {
-            if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-                handleOnClose();
-            }
-        };
-
-        if (isShow) {
-            document.addEventListener('keydown', handleKeyDown);
-            document.addEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.removeEventListener('keydown', handleKeyDown);
-            document.removeEventListener('mousedown', handleClickOutside);
-            document.body.style.overflow = '';
-        }
+        document.addEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = 'hidden';
+        
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
-            document.removeEventListener('mousedown', handleClickOutside);
             document.body.style.overflow = '';
         };
-    }, [isShow, handleOnClose, currentIndex]);
+    }, [isShow, handleOnClose, handleNext, handlePrev]);
 
+    const currentShort = shorts[currentIndex];
     if (!currentShort) return null;
 
-    const variants = {
-        enter: (direction: number) => ({
-            x: direction > 0 ? 300 : -300,
-            opacity: 0
-        }),
-        center: {
-            x: 0,
-            opacity: 1
-        },
-        exit: (direction: number) => ({
-            x: direction > 0 ? -300 : 300,
-            opacity: 0
-        })
-    };
+    const projectLink = currentShort?.project ? `https://proeg.ru/projects/${currentShort.project.projectCategoryId}/details/${currentShort.projectId}` : undefined;
 
     return (
         <AnimatePresence>
@@ -256,10 +253,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                 >
                     <button 
                         className="modal-nav-button prev" 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handlePrev();
-                        }} 
+                        onClick={handlePrev} 
                         aria-label="Предыдущее видео"
                     >
                         <ArrowLeftSvg />
@@ -284,7 +278,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                             <motion.div 
                                 key={currentIndex}
                                 custom={direction}
-                                variants={variants}
+                                variants={modalVariants}
                                 initial="enter"
                                 animate="center"
                                 exit="exit"
@@ -295,6 +289,10 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                                 className="scroll-container"
                             >
                                 <div className="video-container">
+                                    <div className="video-nav-overlay">
+                                        <div className="video-nav-side prev" onClick={handlePrev} />
+                                        <div className="video-nav-side next" onClick={handleNext} />
+                                    </div>
                                     <VideoPlayer 
                                         src={`/api/proxy/shorts/video/${currentShort.fileName}`} 
                                         poster={currentShort.previewImageName}
@@ -347,10 +345,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
 
                     <button 
                         className="modal-nav-button next" 
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            handleNext();
-                        }} 
+                        onClick={handleNext} 
                         aria-label="Следующее видео"
                     >
                         <ArrowRightSvg />

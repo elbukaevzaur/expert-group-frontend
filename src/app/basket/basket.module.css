@@ -176,6 +176,11 @@
   color: black;
   width: 100%;
   text-align: left;
+  transition: color 0.2s ease;
+}
+
+.item_text_link:hover .item_text {
+  color: #21a038;
 }
 
 @media (max-width: 1100px) {

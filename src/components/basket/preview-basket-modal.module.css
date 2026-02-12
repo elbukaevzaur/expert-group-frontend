@@ -139,6 +139,11 @@
     color: rgba(39, 35, 35, 1);
     text-align: left;
     margin-bottom: 8px;
+    transition: color 0.2s ease;
+}
+
+.name:hover .text {
+    color: #21a038;
 }
 
 .summ {
