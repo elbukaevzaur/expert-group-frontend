@@ -102,16 +102,28 @@
   }
 }
 
+.item_image_link {
+  display: block;
+  overflow: hidden;
+}
+
+.item_image_link:hover .item_image {
+  transform: scale(1.05);
+}
+
 .item_image {
   width: 200px;
   height: 150px;
-  object-fit: contain;
+  object-fit: cover;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
 @media (max-width: 600px) {
   .item_image {
     width: 160px;
     height: 120px;
+    object-fit: cover;
   }
 }
 
@@ -144,6 +156,23 @@
   font-size: 24px;
   font-weight: 600;
   line-height: 29px;
+  transition: color 0.2s ease;
+}
+
+.item_name_link {
+  text-decoration: none;
+}
+
+.item_name_link:hover .item_name {
+  color: #21a038;
+}
+
+.item_quantity {
+  color: rgba(141, 141, 141, 1);
+  font-family: "Montserrat";
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 22px;
 }
 
 @media (max-width: 950px) {

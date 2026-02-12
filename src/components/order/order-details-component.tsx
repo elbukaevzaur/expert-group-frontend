@@ -9,6 +9,10 @@ import moment from "moment/moment";
 import {getStatusInfo} from "@/lib/constants/statusConstants";
 import LoadingCard from "@/components/loading/loading-card";
 import LoadingTableRow from "@/components/loading/loading-table-row";
+import Link from "next/link";
+import {useRouter} from "next/navigation";
+import {getCategoryHierarchyById} from "@/lib/http/categoriesRequest";
+import {AxiosResponse} from "axios";
 
 interface Props {
     orderId: number,
@@ -16,6 +20,7 @@ interface Props {
 
 export default function OrderDetailsComponent(props: Props) {
     const { orderId } = props;
+    const router = useRouter();
     const [orderItems, setOrderItems] = useState<OrderItemsProductResponse[]>([]);
     const [order, setOrder] = useState<Orders>({} as Orders);
     const [isLoadingOrder, setIsLoadingOrder] = useState(true);
@@ -32,6 +37,15 @@ export default function OrderDetailsComponent(props: Props) {
         }
 
         changeOrderStatus(request).then((resp) => loadData());
+    }
+
+    const handleToProductDetails = (product: any) => {
+        getCategoryHierarchyById(product.categoryId).then((resp: AxiosResponse<Category[]>) => {
+            const categoryPath = resp.data.reverse().map(m => m.slug).join("/");
+            router.push(`/catalog/${categoryPath}/product-${product.slug}`);
+        }).catch(() => {
+            router.push(`/catalog/product/product-${product.slug}`);
+        });
     }
 
     function loadData() {
@@ -99,13 +113,20 @@ export default function OrderDetailsComponent(props: Props) {
                     !isLoadingOrderItems ?
                     orderItems.map((item, index) => {
                         return <div key={index} className={styles.item}>
-                            <Image
-                                className={styles.item_image} src={"/images/image.png"} alt="Image" width={283}
-                                height={100}/>
+                            <div onClick={() => handleToProductDetails(item.product)} className={styles.item_image_link} style={{ cursor: 'pointer' }}>
+                                <Image
+                                    className={styles.item_image}
+                                    src={item.product.defaultImage ? `${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${"thumbnail_" + item.product.defaultImage}` : "/images/image.png"}
+                                    alt={item.product.name}
+                                    width={200}
+                                    height={150}/>
+                            </div>
                             <div className={styles.item_wrapper}>
-                                <h3 className={styles.item_name}>{item.product.name}</h3>
-                                {/* <h3 className={styles.item_name}>{item.quantity} шт</h3> */}
-                                <h3 className={styles.item_summ}>{item.quantity * item.price} &#8381;</h3>
+                                <div onClick={() => handleToProductDetails(item.product)} className={styles.item_name_link} style={{ cursor: 'pointer' }}>
+                                    <h3 className={styles.item_name}>{item.product.name}</h3>
+                                </div>
+                                <h3 className={styles.item_quantity}>{item.price.toLocaleString()} &#8381; x {item.quantity} шт.</h3>
+                                <h3 className={styles.item_summ}>{(item.quantity * item.price).toLocaleString()} &#8381;</h3>
                             </div>
                         </div>
                     })
