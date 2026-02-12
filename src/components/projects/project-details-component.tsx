@@ -75,7 +75,7 @@ export default function ProjectDetailsComponent(params: Params) {
     <div className={styles.details}>
       <h2 className={styles.title}>{project?.name}</h2>
       <div className={styles.description}>
-        {selectedImageIndex !== null && project?.images != undefined ? (
+        {project?.images && project.images.length > 0 ? (
           <div className={styles.photo}>
             <div className={styles.photo_wrapper}>
               {isLoading && <LoadingImage />}
@@ -123,24 +123,16 @@ export default function ProjectDetailsComponent(params: Params) {
                 </button>
               )}
               <div className={styles.swipe}>
-              {project?.images && project.images.length > 0 && (
-                <PaginationComponent
-                  totalSteps={project.images.length}
-                  currentStep={selectedImageIndex}
-                />
-              )}
+                {project?.images && project.images.length > 0 && (
+                  <PaginationComponent
+                    totalSteps={project.images.length}
+                    currentStep={selectedImageIndex}
+                  />
+                )}
               </div>
             </div>
           </div>
-        ) : project?.defaultImage === null ? (
-          <Image
-            className={styles.description_image}
-            width={720}
-            height={479}
-            src={"/images/Project_details.png"}
-            alt="image"
-          />
-        ) : (
+        ) : project?.defaultImage ? (
           <Image
             className={styles.description_image}
             width={720}
@@ -148,13 +140,13 @@ export default function ProjectDetailsComponent(params: Params) {
             src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${project?.defaultImage}`}
             alt="image"
           />
-        )}
+        ) : null}
         <div className={styles.description_container}>
           <p className={styles.description_paragraph}>{project?.description}</p>
         </div>
       </div>
-      
-      {/* {youtubeVideoId && (
+
+      {youtubeVideoId && (
         <div className={styles.video}>
           <h3 className={styles.video_title}>Видео</h3>
           <div className={styles.video_wrapper}>
@@ -168,7 +160,7 @@ export default function ProjectDetailsComponent(params: Params) {
             ></iframe>
           </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }

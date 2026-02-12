@@ -5,3 +5,4 @@ export * from '@/lib/models/basket';
 export * from '@/lib/models/products';
 export * from '@/lib/models/filters';
 export * from '@/lib/models/favorites';
+export * from '@/lib/models/slider';

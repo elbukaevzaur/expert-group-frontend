@@ -5,14 +5,10 @@ import PaginationComponent from "../pagination/pagination";
 import { useCallback, useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
-
-interface SlideProps {
-  image: string;
-  title: string;
-}
+import { SliderItem } from "@/lib/models";
 
 interface SliderComponentProps {
-  slides: SlideProps[];
+  slides: SliderItem[];
 }
 
 export default function SliderComponent({ slides }: SliderComponentProps) {
@@ -59,7 +55,7 @@ export default function SliderComponent({ slides }: SliderComponentProps) {
 
   if (!slides || slides.length === 0) return null;
 
-  const { image, title } = slides[currentSlide];
+  const slide = slides[currentSlide];
 
   const slideVariants = {
     initial: (direction: number) => ({
@@ -97,8 +93,8 @@ export default function SliderComponent({ slides }: SliderComponentProps) {
               className={styles.slider__image}
               width={1920}
               height={800}
-              src={image}
-              alt={title}
+              src={`${process.env.NEXT_PUBLIC_API_URL}/images/get/product?name=${slide.imageUrl}`}
+              alt="slide"
               priority
             />
           </motion.div>
@@ -123,15 +119,15 @@ export default function SliderComponent({ slides }: SliderComponentProps) {
         </button>
 
         <div className={styles.slider__wrapper}>
-          <h2 className={styles.slider__title}>{title}</h2>
-          <Link href="/catalog" className={styles.slider__button}>
+          <h2 className={styles.slider__title}>{slide.title}</h2>
+          <Link href={slide.link || "/catalog"} className={styles.slider__button}>
             <MenuSvg
               stroke="#fff"
               width={24}
               height={24}
               className={styles.slider__button_icon}
             />{" "}
-            Открыть каталог
+            {slide.type === 'CATEGORY' ? 'Открыть каталог' : slide.type === 'PRODUCT' ? 'Посмотреть товар' : 'Посмотреть проект'}
           </Link>
         </div>
       </div>

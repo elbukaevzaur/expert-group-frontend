@@ -19,6 +19,8 @@ import {ProjectsListResponse} from "@/lib/models/projects";
 import {Shorts} from "@/lib/models/shorts";
 import {useAppSelector} from "@/lib/hooks";
 import SliderComponent from '@/components/slider/slider';
+import { getActiveSliders } from '@/lib/http/sliderRequest';
+import { SliderItem } from '@/lib/models';
 
 export default function Home() {
     const { orderItems } = useAppSelector((state) => state.basket);
@@ -29,6 +31,7 @@ export default function Home() {
     const [popularCategories, setPopularCategories] = useState<PageResponse<Category>>({page: 0} as PageResponse<Category>);
     const [popularProjects, setPopularProjects] = useState<PageResponse<ProjectsListResponse>>({page: 0} as PageResponse<ProjectsListResponse>);
     const [popularShorts, setPopularShorts] = useState<Shorts[]>([]);
+    const [sliders, setSliders] = useState<SliderItem[]>([]);
     const [windowWidth, setWindowWidth] = useState(0);
   
   useEffect(() => {
@@ -58,7 +61,16 @@ export default function Home() {
         loadCategories();
         loadProjects();
         loadShorts();
+        loadSliders();
     }, []);
+
+    const loadSliders = () => {
+        getActiveSliders().then((resp) => {
+            setSliders(resp.data);
+        }).catch(err => {
+            console.error("Failed to load sliders:", err);
+        });
+    }
 
   const loadProducts = () => {
       const pageRequestProducts: PageRequest = {
@@ -114,25 +126,10 @@ export default function Home() {
         })
     }
 
-    const slidesData = [
-  {
-    image: '/images/slider.png',
-    title: 'Воплощение мастерства и надежности в мире архитектуры, дизайна и строительства'
-  },
-  {
-    image: '/images/slider2.png',
-    title: 'Элитная лепнина и декор для дома в одном каталоге'
-  },
-  {
-    image: '/images/slider3.png',
-    title: 'Лепнина, молдинги, декор — подберите идеальный вариант'
-  },
-];
-
   return (
     <div className={styles.home}>
         <div className={styles.slider}>
-            <SliderComponent slides={slidesData}/>
+            <SliderComponent slides={sliders}/>
         </div>
         <div className={styles.wrapper}>
         {popularShorts.length > 0 && (

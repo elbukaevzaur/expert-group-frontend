@@ -252,6 +252,14 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                     onTouchEnd={onTouchEnd}
                 >
                     <button 
+                        className="modal-global-close" 
+                        onClick={handleOnClose}
+                        aria-label="Закрыть"
+                    >
+                        <CloseSvg color="white" width={30} height={30} />
+                    </button>
+
+                    <button 
                         className="modal-nav-button prev" 
                         onClick={handlePrev} 
                         aria-label="Предыдущее видео"
@@ -270,7 +278,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                                 className="modal-close-button"
                                 aria-label="Закрыть видео"
                             >
-                                <CloseSvg stroke="white" />
+                                <CloseSvg color="white" />
                             </button>
                         </div>
                         
@@ -315,7 +323,7 @@ export const VideoShowModal: React.FC<VideoShowModalProps> = ({ shorts, initialI
                                             className="modal-close-button-inner"
                                             aria-label="Закрыть"
                                         >
-                                            <CloseSvg stroke="white" />
+                                            <CloseSvg color="white" />
                                         </button>
                                     </div>
                                     <div className="modal-description-content">

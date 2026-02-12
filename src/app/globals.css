@@ -838,7 +838,17 @@ a {
     width: 100%;
     padding: 0;
   }
-  display: none; /* Only show in desktop side panel if needed */
+  
+  .modal-close-button-inner {
+    display: flex;
+    background: rgba(0, 0, 0, 0.4);
+    border: 0;
+    cursor: pointer;
+    padding: 8px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
 }
 
 .modal-description-content p {
@@ -971,6 +981,39 @@ a {
   border: none;
   background: transparent;
   cursor: pointer;
+}
+
+/* Глобальная кнопка закрытия сториса */
+.modal-global-close {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: white;
+  transition: all 0.2s ease;
+  z-index: 2100;
+}
+
+.modal-global-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.1);
+}
+
+@media (max-width: 900px) {
+  .modal-global-close {
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+  }
 }
 
 /* Lightbox Thumbnails Custom Styles */
