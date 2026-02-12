@@ -232,27 +232,27 @@
   justify-content: space-between;
   padding-inline: 50px;
   padding-top: 20px;
-  margin-top: 98px;
+  margin-top: var(--search-mt-desktop);
 }
 
 @media (max-width: 1250px) {
   .search__wrapper {
     padding-inline: 20px;
     padding-top: 40px;
-    margin-top: 140px;
+    margin-top: var(--search-mt-tablet);
   }
 }
 
 @media (max-width: 950px) {
   .search__wrapper {
     padding-top: 0px;
-    margin-top: 84px;
+    margin-top: var(--search-mt-mobile);
   }
 }
 
 @media (max-width: 820px) {
   .search__wrapper {
-    margin-top: 70px;
+    margin-top: var(--search-mt-small);
   }
 }
 

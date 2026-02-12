@@ -241,7 +241,7 @@
   box-sizing: border-box;
   gap: 20px;
   position: sticky;
-  top: 180px;
+  top: var(--sticky-offset);
   z-index: 10;
 }
 

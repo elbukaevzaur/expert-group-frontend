@@ -411,7 +411,7 @@
   background-color: #fff;
   border: 1px solid #E8E8E8;
   position: sticky;
-  top: 180px;
+  top: var(--sticky-offset);
   z-index: 10;
 }
 

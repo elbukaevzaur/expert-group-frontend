@@ -1,6 +1,11 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --sticky-offset: 160px;
+  --search-mt-desktop: 98px;
+  --search-mt-tablet: 140px;
+  --search-mt-mobile: 100px;
+  --search-mt-small: 100px;
 }
 
 @font-face {
