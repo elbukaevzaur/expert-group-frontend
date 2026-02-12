@@ -4,7 +4,7 @@ import styles from "@/components/order/order-details-component.module.css";
 import Image from "next/image";
 import {changeOrderStatus, findMeOrderItemsByOrderRequest, findMeOrdersGetRequest} from "@/lib/http/ordersRequest";
 import {useEffect, useState} from "react";
-import {ChangeOrderStatusRequest, OrderItemsProductResponse, Orders, OrderStatusEnum} from "@/lib/models";
+import {ChangeOrderStatusRequest, OrderItemsProductResponse, Orders, OrderStatusEnum, Category} from "@/lib/models";
 import moment from "moment/moment";
 import {getStatusInfo} from "@/lib/constants/statusConstants";
 import LoadingCard from "@/components/loading/loading-card";

@@ -12,4 +12,5 @@ export interface SliderItem {
     referenceId: string;
     sortOrder: number;
     isActive: boolean;
+    link?: string;
 }
