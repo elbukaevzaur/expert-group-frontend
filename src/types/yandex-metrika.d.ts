@@ -1,0 +1,8 @@
+declare global {
+  interface Window {
+    ym?: (counterId: number, method: string, ...args: unknown[]) => void;
+    dataLayer?: Record<string, unknown>[];
+  }
+}
+
+export {};

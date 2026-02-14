@@ -14,6 +14,7 @@ import {
 import {signIn, getMeRequest} from "@/lib/http/authRequest";
 import {loadFromLocalStorage, clearFromLocalStorage, saveToLocalStorage} from "@/lib/storage/localStorageCustom";
 import {authStorageKey} from "@/lib/config";
+import {setUserID} from "@/lib/yandex-metrika";
 
 function* signInWorker(action) {
     try {
@@ -29,7 +30,10 @@ function* signInWorker(action) {
 function* getMeWorker() {
     try {
         const response = yield call(getMeRequest);
-        yield put(GET_ME_RESPONSE_SUCCESS(response.data))
+        yield put(GET_ME_RESPONSE_SUCCESS(response.data));
+        if (response?.data?.id != null) {
+            setUserID(response.data.id);
+        }
     } catch (e) {
     }
 }
@@ -51,9 +55,10 @@ function* initialToken() {
 function* signOutWorker() {
     try {
         yield call(clearFromLocalStorage, authStorageKey);
-        yield put(SIGN_OUT_SUCCESS())
-        yield put(BASKET_CLEAR())
-        yield put(ALL_FAVORITES_REQUEST())
+        yield put(SIGN_OUT_SUCCESS());
+        setUserID(null);
+        yield put(BASKET_CLEAR());
+        yield put(ALL_FAVORITES_REQUEST());
     } catch (e) {
     }
 }

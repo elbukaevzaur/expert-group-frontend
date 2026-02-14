@@ -12,6 +12,7 @@ import {
   AddToCartButton,
   CartItemQuantityDetails,
 } from "@/components/basket/basket-actions";
+import { pushEcommerceDetail, pushEcommerceAdd } from "@/lib/yandex-metrika";
 import {
   getModelsForProduct,
   getProductDetailsBySlug,
@@ -98,6 +99,29 @@ export default function ProductDetailsComponent(params: Params) {
     }
   }, [details?.defaultImage]);
 
+  // Просмотр карточки товара (e-commerce)
+  useEffect(() => {
+    if (!details?.id || !details?.name) return;
+    pushEcommerceDetail({
+      id: details.id,
+      name: details.name,
+      price: details.price,
+      list: "Карточка товара",
+    });
+  }, [details?.id, details?.name, details?.price]);
+
+  const handleAddToCartWithMetrika = () => {
+    if (details?.id && details?.name != null) {
+      pushEcommerceAdd({
+        id: details.id,
+        name: details.name,
+        price: details.price,
+        quantity: 1,
+        list: "Карточка товара",
+      });
+    }
+  };
+
   const handleImageChange = (index: number) => {
     if (index !== selectedImageIndex) {
       setIsLoading(true);
@@ -162,6 +186,7 @@ export default function ProductDetailsComponent(params: Params) {
             orderItem={basketItemProp}
             productQuantity={detailsProp.currentQuantity}
             allowOrderWithoutStock={detailsProp.allowOrderWithoutStock}
+            onAddClick={handleAddToCartWithMetrika}
           />
         )}
       </div>
@@ -446,7 +471,8 @@ export default function ProductDetailsComponent(params: Params) {
                                     :
                                     <AddToCartButton productId={details.id} orderItem={basketItem}
                                                      productQuantity={details.currentQuantity}
-                                                     allowOrderWithoutStock={details.allowOrderWithoutStock}/>
+                                                     allowOrderWithoutStock={details.allowOrderWithoutStock}
+                                                     onAddClick={handleAddToCartWithMetrika}/>
                             }
                         </div>
                         <button onClick={handleChangeFavorite} className={`${styles.price_button} ${styles.price_button_color}`}>

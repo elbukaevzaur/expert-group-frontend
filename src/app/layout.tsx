@@ -4,6 +4,7 @@ import "./globals.css";
 import Dashboard from "@/components/dashboard/dashboard";
 import Footer from "@/components/footer";
 import StoreProvider from "./StoreProvider";
+import { YandexMetrika } from "@/components/YandexMetrika";
 
 export default function RootLayout({
   children,
@@ -16,6 +17,7 @@ export default function RootLayout({
         <title>Expert Group</title>
       </head>
       <body>
+        <YandexMetrika />
         <link
           href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
           rel="stylesheet"

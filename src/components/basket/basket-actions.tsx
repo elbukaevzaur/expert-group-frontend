@@ -11,14 +11,21 @@ interface CartProps {
     productId: number | string;
     productQuantity: number;
     allowOrderWithoutStock?: boolean;
+    /** Вызывается перед добавлением в корзину (например, для Яндекс.Метрики e-commerce). */
+    onAddClick?: () => void;
 }
 
 export const AddToCartButton: React.FC<CartProps> = (props: CartProps) => {
     const {handleAddItem} = useCartActions();
 
+    const handleClick = () => {
+        props.onAddClick?.();
+        handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock);
+    };
+
     return <motion.button 
                 className={styles.basket}
-                onClick={() => handleAddItem(props.orderItem, props.productId, props.productQuantity, props.allowOrderWithoutStock)}
+                onClick={handleClick}
                 whileHover={{ scale: 1.02, backgroundColor: '#1a852c' }}
                 whileTap={{ scale: 0.98 }}
             >

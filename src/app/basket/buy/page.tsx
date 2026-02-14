@@ -16,6 +16,7 @@ import { Login } from "@/components/login/login-modal";
 import { BusSVG, LocationSvg } from "@/lib/icon-svg";
 import YandexMap from "@/components/maps/YandexMap";
 import { getActivePickupPointsRequest, PickupPoint } from "@/lib/http/pickupPointsRequest";
+import { pushEcommercePurchase } from "@/lib/yandex-metrika";
 
 export default function Buy() {
   const dispatch = useAppDispatch();
@@ -78,6 +79,20 @@ export default function Buy() {
     if (!isAuth) {
       setIsLoginVisible(true);
       return;
+    }
+    // Отправка покупки в Яндекс.Метрику до перехода (e-commerce)
+    if (orderItems.length > 0) {
+      const products = orderItems.map((item) => {
+        const d = orderItemsDetails[item.productId];
+        return {
+          id: item.productId,
+          name: d?.name ?? "",
+          price: d?.price ?? 0,
+          quantity: item.quantity,
+        };
+      });
+      const total = Number(getTotalPrice());
+      pushEcommercePurchase(`order-${Date.now()}`, products, total);
     }
     // Если авторизован, создаем заказ
     dispatch(CREATE_ORDER_REQUEST({ 
